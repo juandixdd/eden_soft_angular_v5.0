@@ -3,4 +3,9 @@ export interface Client {
     name?: string;
     last_name?: string;
     telephone?: string;
+    height?: number;
+    weight?: number;
+    goal?: string;
+    start_date?: string;
+    finish_date?: string;
 }

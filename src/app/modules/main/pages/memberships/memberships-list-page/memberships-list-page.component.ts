@@ -2,6 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import Swal from "sweetalert2";
 import { MembershipsService } from "app/modules/main/services/memberships/memberships.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Membership } from "app/core/models/membership";
+import { ColumnMode } from "@swimlane/ngx-datatable";
 
 
 @Component({
@@ -10,12 +14,40 @@ import { MembershipsService } from "app/modules/main/services/memberships/member
   styleUrls: ['./memberships-list-page.component.scss']
 })
 export class MembershipsListPageComponent implements OnInit {
+
+  rows: any = [];
+  public selectedOption = 10;
+  public ColumnMode = ColumnMode;
+  data: any = [];
+  cols: any = [];
+  public searchValue = '';
+  public selectedStatus = [];
+  private tempData: any = [];
+
+  membership: Membership = {
+    name: "",
+    price: undefined,
+    description: "",
+    time_lapse: "",
+  }
+
   constructor(
-    public customeService: MembershipsService,
-    private router: Router
+    public membershipsService: MembershipsService,
+    private router: Router,
+    private modalService: NgbModal,
+     private fb: FormBuilder
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getMemberships();
+  }
+
+  getMemberships() {
+    this.membershipsService.getData().subscribe((res) => {
+      this.rows = res;
+      this.tempData = res;
+    });
+  }
 
   createMembership() {
     Swal.fire({
@@ -48,7 +80,7 @@ export class MembershipsListPageComponent implements OnInit {
       },
     }).then((result) => {
       if (result.value) {
-        this.customeService.addMembership(result.value).subscribe((resp) => {
+        this.membershipsService.addMembership(result.value).subscribe((resp) => {
           console.log(resp);
           let data: any = resp;
           this.ngOnInit();
@@ -69,7 +101,7 @@ export class MembershipsListPageComponent implements OnInit {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.customeService.deleteMembership(id).subscribe((data) => {
+        this.membershipsService.deleteMembership(id).subscribe((data) => {
           const resp: any = data;
           if (resp.status) {
             this.ngOnInit();
@@ -83,7 +115,67 @@ export class MembershipsListPageComponent implements OnInit {
     });
   }
 
-  updateMembership(id: number) {
-    this.router.navigate([`/memberships/edit/${id}`]);
+
+  // modal Open Form
+  modalOpenForm(modalForm) {
+    this.modalService.open(modalForm);
+  }
+  
+  modalOpenEdit(modalEdit){
+    this.modalService.open(modalEdit);
+  }
+  
+
+  public membershipForm: FormGroup = this.fb.group({
+    name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    price: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    description: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    time_lapse: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+  });
+
+  validField(field: string) {
+    return this.membershipForm.controls[field].errors &&
+      this.membershipForm.controls[field].touched;
+  }
+
+  saveNewMembership() {
+    this.membershipsService.addMembership(this.membership).subscribe(
+      (res) => {
+        let data: any = res;
+        console.log(res);
+        this.ngOnInit();
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'La membresía ha sido creada',
+          showConfirmButton: false,
+          timer: 1000
+        })
+      },
+      (err) => console.log(err)
+    );
+  }
+
+  
+
+  updateMembership(id) {
+    this.membershipsService.updateMembership(this.membership.id, this.membership).subscribe(
+      (res) => {
+        console.log(res);
+      },
+      (err) => console.log(err)
+    );
   }
 }

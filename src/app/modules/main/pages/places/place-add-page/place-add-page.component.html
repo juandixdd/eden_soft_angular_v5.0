@@ -1,0 +1,110 @@
+<div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Agregar una Sede</h4>
+        <form class="form" [formGroup]="sedeForm">
+  
+          <div class="row">
+  
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="first-name-column">Nombre</label>
+                
+                  <input
+                    [(ngModel)]="place.name"
+                    name="name"
+                    required
+                    formControlName="name"
+                    type="text"
+                    class="form-control"
+                    placeholder="Nombre de la place"
+                  />
+      
+                  <span
+                    *ngIf="
+                      sedeForm.controls.name.errors?.required &&
+                      sedeForm.controls.name.dirty
+                    "
+                    class="error"
+                  >
+                    El nombre es requerido
+                  </span>
+                
+              </div>
+            </div>
+
+            <div class="col-md-6 col-12">
+                <div class="form-group">
+                  <label for="first-name-column">Dirección</label>
+                  
+                    <input
+                      [(ngModel)]="place.adress"
+                      name="adress"
+                      required
+                      formControlName="adress"
+                      type="text"
+                      class="form-control"
+                      placeholder="Nombre de la place"
+                    />
+        
+                    <span
+                      *ngIf="
+                        sedeForm.controls.name.errors?.required &&
+                        sedeForm.controls.name.dirty
+                      "
+                      class="error"
+                    >
+                      La dirección es requerida
+                    </span>
+                  
+                </div>
+              </div>
+
+              <div class="col-md-6 col-12">
+                <div class="form-group">
+                  <label for="first-name-column">Teléfono</label>
+                  
+                    <input
+                      [(ngModel)]="place.telephone"
+                      name="telephone"
+                      required
+                      formControlName="telephone"
+                      type="text"
+                      class="form-control"
+                      placeholder="Teléfono de la place"
+                    />
+        
+                    <span
+                      *ngIf="
+                        sedeForm.controls.name.errors?.required &&
+                        sedeForm.controls.name.dirty
+                      "
+                      class="error"
+                    >
+                      El teléfono es requerido
+                    </span>
+                  
+                </div>
+              </div>
+  
+            
+  
+            
+            
+            <div class="col-12">
+              <button
+                (click)="edit ? confirmUpdateAlert() : savePlace()"
+                class="btn btn-primary"
+                [disabled]="!sedeForm.valid"
+              >
+                Guardar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+
+

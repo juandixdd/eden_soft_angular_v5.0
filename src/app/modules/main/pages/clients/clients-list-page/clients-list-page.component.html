@@ -1,0 +1,15 @@
+<div class="row invoice-list-wrapper">
+    <div class="col-12">
+      <div class="card">
+        <app-table
+        [customeService]=customeService
+        [customeDelete]=confirmDeleteClient
+        [customeCreate]=createClient
+        [customeAddTitle]="'Agregar cliente'"
+        [customeUpdate]=updateClient
+        [tableType]="'clients'"
+        ></app-table>
+      </div>
+    </div>
+  </div>
+

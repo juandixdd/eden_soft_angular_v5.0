@@ -1,0 +1,125 @@
+<div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Agregar una Sede</h4>
+        <form class="form" [formGroup]="membershipForm">
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="first-name-column">Nombre</label>
+  
+                <input
+                  [(ngModel)]="membership.name"
+                  name="name"
+                  required
+                  formControlName="name"
+                  type="text"
+                  class="form-control"
+                  placeholder="Nombre de la membresía"
+                />
+  
+                <span
+                  *ngIf="
+                    membershipForm.controls.name.errors?.required &&
+                    membershipForm.controls.name.dirty
+                  "
+                  class="error"
+                >
+                  El nombre es requerido
+                </span>
+              </div>
+            </div>
+  
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="first-name-column">Precio</label>
+  
+                <input
+                  [(ngModel)]="membership.price"
+                  name="price"
+                  required
+                  formControlName="price"
+                  type="text"
+                  class="form-control"
+                  placeholder="Precio de la membresía"
+                />
+  
+                <span
+                  *ngIf="
+                    membershipForm.controls.name.errors?.required &&
+                    membershipForm.controls.name.dirty
+                  "
+                  class="error"
+                >
+                  El precio es requerido
+                </span>
+              </div>
+            </div>
+  
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="first-name-column">Descripción</label>
+  
+                <input
+                  [(ngModel)]="membership.description"
+                  name="description"
+                  required
+                  formControlName="description"
+                  type="text"
+                  class="form-control"
+                  placeholder="Descripción de la membresía"
+                />
+  
+                <span
+                  *ngIf="
+                    membershipForm.controls.name.errors?.required &&
+                    membershipForm.controls.name.dirty
+                  "
+                  class="error"
+                >
+                  La descripción es requerida
+                </span>
+              </div>
+            </div>
+  
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="first-name-column">Duración</label>
+  
+                <input
+                  [(ngModel)]="membership.time_lapse"
+                  name="time_lapse"
+                  required
+                  formControlName="time_lapse"
+                  type="text"
+                  class="form-control"
+                  placeholder="Duración de la membresía"
+                />
+  
+                <span
+                  *ngIf="
+                    membershipForm.controls.name.errors?.required &&
+                    membershipForm.controls.name.dirty
+                  "
+                  class="error"
+                >
+                  La duración es requerida
+                </span>
+              </div>
+            </div>
+  
+            <div class="col-12">
+              <button
+                (click)="edit ? confirmUpdateAlert() : saveMembership()"
+                class="btn btn-primary"
+                [disabled]="!membershipForm.valid"
+              >
+                Guardar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

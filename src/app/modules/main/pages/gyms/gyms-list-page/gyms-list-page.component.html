@@ -1,0 +1,124 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <section id="sample-page">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <br>
+           
+            <!-- <div class="card-body pb-1"> -->
+            <div class="row">
+             <div class="col-4">
+
+             </div> 
+             <div class="col-4">
+
+             </div>
+              <div class="col-4">
+            <!-- Button trigger modal -->
+           <div style="align-content: center;
+           text-align: right;
+           padding-right: 28px;">
+            <button
+            type="button"
+            (click)="modalOpenForm(modalForm)"
+            class="btn btn-primary"
+            rippleEffect
+          >
+            Agregar Gym
+          </button>
+           </div>
+              </div>
+            </div>
+            <app-table
+              [customeService]="customeService"
+              [customeDelete]="confirmDeleteGym"
+              [customeAddTitle]="'Agregar gimnasio'"
+              [customeUpdate]="updateGym"
+              [tableType]="'gyms'"
+            ></app-table>
+          </div>
+          <!-- </div> -->
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Login Form -->
+<div class="login-form">
+  <!-- Modal -->
+  <ng-template #modalForm let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="myModalLabel1">Agregar</h4>
+      <button
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <form [formGroup]="gymForm">
+        <!-- input -->
+        <label>Nombre </label>
+        <div class="form-group">
+          <input
+            formControlName="name"
+            [(ngModel)]="gym.name"
+            type="text"
+            placeholder="Nombre"
+            class="form-control"
+          />
+          <span *ngIf="validField('name')" class="error">
+            El nombre es requerido
+          </span>
+        </div>
+
+        <!-- input -->
+        <label>Nombre del encargado </label>
+        <div class="form-group">
+          <input
+            formControlName="manager_name"
+            [(ngModel)]="gym.manager_name"
+            type="text"
+            placeholder="Manager"
+            class="form-control"
+          />
+          <span *ngIf="validField('manager_name')" class="error">
+            El nombre del manager es requerido
+          </span>
+        </div>
+
+        <!-- input -->
+        <label>Telefono </label>
+        <div class="form-group">
+          <input
+            formControlName="telephone"
+            [(ngModel)]="gym.telephone"
+            type="number"
+            placeholder="Telefono"
+            class="form-control"
+          />
+          <span *ngIf="validField('telephone')" class="error">
+            El teléfono es requerido
+          </span>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="saveNewGym() || modal.close()"
+        [disabled]="!gymForm.valid"
+        rippleEffect
+      >
+        Agregar
+      </button>
+    </div>
+  </ng-template>
+  <!-- / Modal -->
+</div>

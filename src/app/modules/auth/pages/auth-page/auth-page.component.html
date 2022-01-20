@@ -1,0 +1,103 @@
+<div class="auth-wrapper auth-v1 px-2">
+    <div class="auth-inner py-2">
+      <!-- Login v1 -->
+      <div class="card mb-0">
+        <div class="card-body">
+          <a href="javascript:void(0);" class="brand-logo">
+            <img
+              src="assets/images/pages/dojo.png"
+              alt="brand-logo"
+              height="300"
+            />
+            
+          </a>
+  
+         
+  
+          <form
+            class="auth-login-form mt-2"
+            [formGroup]="loginForm"
+            (ngSubmit)="onSubmit()"
+          >
+            <div class="form-group">
+              <label for="login-email" class="form-label"
+                >Correo electrónico</label
+              >
+              <input
+                type="email"
+                name="email"
+                formControlName="email"
+                class="form-control"
+                placeholder="Email"
+                aria-describedby="login-email"
+                tabindex="1"
+                autofocus
+                [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+              />
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">
+                  Correo electrónico es requerido
+                </div>
+                <div *ngIf="f.email.errors.email">
+                  Debe ser un Correo electrónico válido
+                </div>
+              </div>
+            </div>
+  
+            <div class="form-group">
+              <div class="d-flex justify-content-between">
+                <label for="login-password">Contraseña</label>
+                <a routerLink="/pages/authentication/forgot-password-v1">
+                  <small>¿Olvido de contraseña?</small>
+                </a>
+              </div>
+              <div class="input-group input-group-merge form-password-toggle">
+                <input
+                  [type]="passwordTextType ? 'text' : 'password'"
+                  formControlName="password"
+                  class="form-control form-control-merge"
+                  tabindex="2"
+                  placeholder="Contraseña"
+                  aria-describedby="login-password"
+                  [ngClass]="{
+                    'is-invalid error': submitted && f.password.errors
+                  }"
+                />
+  
+                <div class="input-group-append">
+                  <span class="input-group-text cursor-pointer"
+                    ><i
+                      class="feather font-small-4"
+                      [ngClass]="{
+                        'icon-eye-off': passwordTextType,
+                        'icon-eye': !passwordTextType
+                      }"
+                      (click)="togglePasswordTextType()"
+                    ></i
+                  ></span>
+                </div>
+              </div>
+              <div
+                *ngIf="submitted && f.password.errors"
+                class="invalid-feedback"
+                [ngClass]="{ 'd-block': submitted && f.password.errors }"
+              >
+                <div *ngIf="f.password.errors.required">
+                  Contraseña es requerida
+                </div>
+              </div>
+            </div>
+            
+            <br />
+            <button class="btn btn-primary btn-block" tabindex="4" rippleEffect >
+              Iniciar sesión
+            </button>
+          </form>
+  
+          
+        </div>
+      </div>
+      <!-- /Login v1 -->
+    </div>
+  </div>
+  

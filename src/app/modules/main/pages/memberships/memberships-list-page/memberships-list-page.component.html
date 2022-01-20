@@ -1,0 +1,15 @@
+<div class="row invoice-list-wrapper">
+    <div class="col-12">
+      <div class="card">
+        <!-- No muestra la columna de adress -->
+        <app-table
+        [customeService]=customeService
+        [customeDelete]=confirmDeleteMembership
+        [customeCreate]=createMembership
+        [customeAddTitle]="'Agregar Membresía'"
+        [customeUpdate]=updateMembership
+        [tableType]="'memberships'"
+        ></app-table>
+      </div>
+    </div>
+  </div>

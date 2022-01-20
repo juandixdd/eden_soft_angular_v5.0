@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GymsService } from 'app/modules/main/services/gyms/gyms.service';
 import Swal from 'sweetalert2';
 import { gym } from 'app/core/models/gym';
+import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-gyms-list-page',
@@ -12,6 +13,15 @@ import { gym } from 'app/core/models/gym';
   styleUrls: ['./gyms-list-page.component.scss']
 })
 export class GymsListPageComponent implements OnInit {
+
+  rows: any = [];
+  public selectedOption = 10;
+  public ColumnMode = ColumnMode;
+  data: any = [];
+  cols: any = [];
+  public searchValue = '';
+  public selectedStatus = [];
+  private tempData: any = [];
 
   constructor(
     public customeService: GymsService,
@@ -28,6 +38,7 @@ export class GymsListPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getGyms();
     this.gymService.getData().subscribe((data) => {
       res => {
         this.gym = res;
@@ -36,6 +47,15 @@ export class GymsListPageComponent implements OnInit {
         console.error(err);
       }
     })
+  }
+
+  getGyms(){
+    this.gymService.getData().subscribe((data) => {
+      this.rows = data;
+      this.tempData = data;
+      this.cols = Object.keys(data[0]);
+      console.log(this.cols);
+    });
   }
 
   public gymForm: FormGroup = this.fb.group({
@@ -122,6 +142,7 @@ export class GymsListPageComponent implements OnInit {
       }
     })
   }
+  
   updateGym(id: number) {
     this.router.navigate([`/gyms/edit/${id}`]);
   }
@@ -133,6 +154,7 @@ export class GymsListPageComponent implements OnInit {
         let data: any = res;
         this.router.navigate([`/gyms/edit/${data.id}`]);
         console.log(res);
+        this.ngOnInit();
         Swal.fire({
           position: 'top-end',
           icon: 'success',

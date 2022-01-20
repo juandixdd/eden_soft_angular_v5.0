@@ -1,8 +1,12 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
+import { ColumnMode, DatatableComponent, id } from '@swimlane/ngx-datatable';
 import Swal from 'sweetalert2';
 import { PlacesService } from 'app/modules/main/services/places/places.service';
 import { GymsService } from 'app/modules/main/services/gyms/gyms.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { place } from '../../../../../core/models/place';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -12,7 +16,7 @@ import { GymsService } from 'app/modules/main/services/gyms/gyms.service';
   encapsulation: ViewEncapsulation.None
 })
 export class PlaceListPageComponent implements OnInit {
- 
+
   rows: any = [];
   data: any = [];
   cols: any = [];
@@ -24,27 +28,51 @@ export class PlaceListPageComponent implements OnInit {
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
-  constructor(private placesService: PlacesService, private gymsService: GymsService) { }
+  constructor(private placesService: PlacesService, private gymsService: GymsService, private modalService: NgbModal, private fb: FormBuilder,private activedRoute: ActivatedRoute) { }
+
+  place: place = {
+    name: "",
+    adress: "",
+    manager_name: "",
+    telephone: undefined,
+  }
 
   ngOnInit(): void {
     this.getPlaces();
+
+    const params = this.activedRoute.snapshot.params;
+
+    if (params.id) {
+      this.placesService.getPlace(params.id).subscribe((data) => {
+        res => {
+          console.log(res);
+        }
+        err => console.log(err)
+      });
+    }
+    
+
+    
+
+    
+
   }
 
-  getPlaces(){
+  getPlaces() {
     this.placesService.getData().subscribe((data) => {
       this.rows = data;
-      /* console.log(JSON.stringify(this.rows)); */
+      /* console.log(JSON.stringify(this.rows));  */
 
       this.tempData = data;
       this.cols = Object.keys(data[0]);
-      console.log(this.cols);
+      console.log(this.rows);
     });
   }
 
   deletePlace(id: number) {
     this.placesService.deletePlace(id).subscribe((data) => {
       const resp: any = data;
-      if(resp.status){
+      if (resp.status) {
         Swal.fire(
           'Eliminada!',
           'La place ha sido eliminada.',
@@ -52,13 +80,13 @@ export class PlaceListPageComponent implements OnInit {
         );
         console.log(`place eliminada`);
         this.getPlaces();
-      }else{
+      } else {
         console.log('Error');
       }
     });
   }
 
-  confirmDeletePlace(id: number){
+  confirmDeletePlace(id: number) {
     Swal.fire({
       title: '¿Seguro?',
       text: "Esta acción eliminará el gimnasio",
@@ -73,6 +101,73 @@ export class PlaceListPageComponent implements OnInit {
         this.deletePlace(id);
       }
     })
+  }
+
+  // modal Open Form
+  modalOpenForm(modalForm) {
+    this.modalService.open(modalForm);
+  }
+  
+  modalOpenEdit(modalEdit){
+    this.modalService.open(modalEdit);
+  }
+  
+
+  public placeForm: FormGroup = this.fb.group({
+    name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    manager_name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    telephone: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    adress: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+  });
+
+  validField(field: string) {
+    return this.placeForm.controls[field].errors &&
+      this.placeForm.controls[field].touched;
+  }
+
+  saveNewPlace() {
+    this.placesService.addPlace(this.place).subscribe(
+      (res) => {
+        let data: any = res;
+        console.log(res);
+        this.ngOnInit();
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'La sede ha sido creada',
+          showConfirmButton: false,
+          timer: 1000
+        })
+      },
+      (err) => console.log(err)
+    );
+  }
+
+  
+
+  updatePlace(id) {
+    this.placesService.updatePlace(this.place.id, this.place).subscribe(
+      (res) => {
+        console.log(res);
+      },
+      (err) => console.log(err)
+    );
+  }
+
+  getId(id){
+    console.log(id);
   }
 
 }

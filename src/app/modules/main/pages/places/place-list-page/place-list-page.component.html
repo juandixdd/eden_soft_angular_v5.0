@@ -22,7 +22,7 @@
                   </label>
                   <button
                     class="btn btn-primary ml-2"
-                    [routerLink]="'/addsedes'"
+                    (click)="modalOpenForm(modalForm)"
                     rippleEffect
                   >
                     Agregar una sede
@@ -89,7 +89,7 @@
             </ngx-datatable-column>
   
             <!-- Column -->
-            <ngx-datatable-column name="Gimnasio" prop="gyms_id" [width]="50">
+            <!-- <ngx-datatable-column name="Gimnasio" prop="gyms_id" [width]="50">
               <ng-template let-id="value" ngx-datatable-cell-template>
                 <p
                   routerLink="/apps/invoice/preview/{{ id }}"
@@ -98,7 +98,7 @@
                   {{ id }}
                 </p>
               </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
   
   
             <!-- Accions with icons -->
@@ -107,13 +107,13 @@
                 <div class="d-flex justify-content-start">
                   <button
                     class="btn btn-icon btn-sm mr-1"
-                    [routerLink]="'/sedes/edit/' + row.id"
+                    (click)="modalOpenEdit(modalEdit)"
                   >
                     <i class="feather icon-edit"></i>
                   </button>
                   <button
                     class="btn btn-icon btn-sm"
-                    (click)="confirmDeleteSede(row.id)"
+                    (click)="confirmDeletePlace(row.id)"
                   >
                     <i class="feather icon-trash"></i>
                   </button>
@@ -125,4 +125,202 @@
       </section>
     </div>
   </div>
+
+
+  <!-- *************************************************** MODAL *************************************************** -->
+
+
+
+<!-- Login Form -->
+<div class="login-form">
+<!-- Modal -->
+<ng-template #modalForm let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel1">Agregar</h4>
+    <button
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <form [formGroup]="placeForm">
+      <!-- input -->
+      <label>Nombre </label>
+      <div class="form-group">
+        <input
+          formControlName="name"
+          [(ngModel)]="place.name"
+          type="text"
+          placeholder="Nombre"
+          class="form-control"
+        />
+        <span *ngIf="validField('name')" class="error">
+          El nombre es requerido
+        </span>
+      </div>
+
+      <!-- input -->
+      <label>Nombre del encargado </label>
+      <div class="form-group">
+        <input
+          formControlName="manager_name"
+          [(ngModel)]="place.manager_name"
+          type="text"
+          placeholder="Manager"
+          class="form-control"
+        />
+        <span *ngIf="validField('manager_name')" class="error">
+          El nombre del manager es requerido
+        </span>
+      </div>
+
+      <!-- input -->
+      <label>Dirección </label>
+      <div class="form-group">
+        <input
+          formControlName="adress"
+          [(ngModel)]="place.adress"
+          type="text"
+          placeholder="Dirección"
+          class="form-control"
+        />
+        <span *ngIf="validField('adress')" class="error">
+          El nombre del manager es requerido
+        </span>
+      </div>
+
+      <!-- input -->
+      <label>Teléfono </label>
+      <div class="form-group">
+        <input
+          formControlName="telephone"
+          [(ngModel)]="place.telephone"
+          type="number"
+          placeholder="Teléfono"
+          class="form-control"
+        />
+        <span *ngIf="validField('telephone')" class="error">
+          El nombre del manager es requerido
+        </span>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="saveNewPlace() || modal.close()"
+      [disabled]="!placeForm.valid"
+      rippleEffect
+    >
+      Agregar
+    </button>
+  </div>
+</ng-template>
+<!-- / Modal -->
+</div>
+
+
+
+<!-- Modal edit -->
+<div class="login-form">
+  <!-- Modal -->
+  <ng-template #modalEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="myModalLabel1">Agregar</h4>
+      <button
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <form [formGroup]="placeForm">
+
+        <!-- input -->
+        <label>Nombre </label>
+        <div class="form-group">
+          <input
+            formControlName="name"
+            [(ngModel)]="place.name"
+            type="text"
+            placeholder="Nombre"
+            class="form-control"
+          />
+          <span *ngIf="validField('name')" class="error">
+            El nombre es requerido
+          </span>
+        </div>
+  
+        <!-- input -->
+        <label>Nombre del encargado </label>
+        <div class="form-group">
+          <input
+            formControlName="manager_name"
+            [(ngModel)]="place.manager_name"
+            type="text"
+            placeholder="Manager"
+            class="form-control"
+          />
+          <span *ngIf="validField('manager_name')" class="error">
+            El nombre del manager es requerido
+          </span>
+        </div>
+  
+        <!-- input -->
+        <label>Dirección </label>
+        <div class="form-group">
+          <input
+            formControlName="adress"
+            [(ngModel)]="place.adress"
+            type="text"
+            placeholder="Dirección"
+            class="form-control"
+          />
+          <span *ngIf="validField('adress')" class="error">
+            El nombre del manager es requerido
+          </span>
+        </div>
+  
+        <!-- input -->
+        <label>Teléfono </label>
+        <div class="form-group">
+          <input
+            formControlName="telephone"
+            [(ngModel)]="place.telephone"
+            type="number"
+            placeholder="Teléfono"
+            class="form-control"
+          />
+          <span *ngIf="validField('telephone')" class="error">
+            El nombre del manager es requerido
+          </span>
+        </div>
+  
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="updatePlace() || modal.close()"
+        [disabled]="!placeForm.valid"
+        rippleEffect
+      >
+        Agregar
+      </button>
+      
+    </div>
+  </ng-template>
+  <!-- / Modal -->
+  </div>
+
   

@@ -149,7 +149,7 @@
                 </button>
                 <button
                   class="btn btn-icon btn-sm"
-                  (click)="confirmDeleteClient(row.id)"
+                  (click)="confirmDeleteClient(row.id); getMembershipById(row.id)"
                 >
                   <i class="feather icon-trash"></i>
                 </button>
@@ -439,3 +439,8 @@
   </ng-template>
   <!-- / Modal -->
   </div>
+
+
+  <button class="btn btn-primary" (click)="getMembershipByClientId(12)">
+    Traer
+  </button>

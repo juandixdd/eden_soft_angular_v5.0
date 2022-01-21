@@ -23,6 +23,10 @@ export class MembershipsRecordsService {
     return this.http.get(`${this.API_URI}/clients/memberships/${id}`);
   }
 
+  getMembershipRecordByClientId(id: number) {
+    return this.http.get(`${this.API_URI}/clients/memberships/${id}`);
+  }
+
   addMembershipRecord(membershipRecord) {
     return this.http.post(`${this.API_URI}/memberships-record`, membershipRecord);
   }

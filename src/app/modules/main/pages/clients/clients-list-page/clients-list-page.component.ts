@@ -7,6 +7,7 @@ import { ClientsService } from 'app/modules/main/services/clients/clients.servic
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import { Client } from '../../../../../core/models/client';
+import { MembershipsRecordsService } from 'app/modules/main/services/memberships-records/memberships-records.service';
 
 
 @Component({
@@ -43,7 +44,8 @@ export class ClientsListPageComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private clientsService: ClientsService
+    private clientsService: ClientsService,
+    private membershipsRecordsService: MembershipsRecordsService
   ) { }
 
   client: Client = {
@@ -121,7 +123,7 @@ export class ClientsListPageComponent implements OnInit {
     ],
   });
 
-  
+
 
   ngOnInit(): void {
     this.getClients();
@@ -136,14 +138,13 @@ export class ClientsListPageComponent implements OnInit {
     })
   }
 
-  getClients(){
+  getClients() {
     this.clientsService.getData().subscribe((res) => {
       this.rows = res;
       this.tempData = res;
-      
+
     });
   }
-
 
   confirmDeleteClient(id: number) {
     Swal.fire({
@@ -176,9 +177,6 @@ export class ClientsListPageComponent implements OnInit {
     })
   }
 
-  
-
-
   // modal Open Form
   modalOpenForm(modalForm) {
     this.modalService.open(modalForm);
@@ -194,9 +192,9 @@ export class ClientsListPageComponent implements OnInit {
       this.clientForm.controls[field].touched;
   }
 
-  editValidField(field: string){
+  editValidField(field: string) {
     return this.editForm.controls[field].errors &&
-            this.editForm.controls[field].touched;
+      this.editForm.controls[field].touched;
   }
 
   //TODO: Arreglar la funcionalidad de las fechas
@@ -238,10 +236,9 @@ export class ClientsListPageComponent implements OnInit {
     this.editForm.controls['name'].setValue(client.name);
     this.editForm.controls['manager_name'].setValue(client.manager_name);
     this.editForm.controls['telephone'].setValue(client.telephone);
-  }	
+  }
 
   saveNewClient() {
-
     this.client.name = this.clientForm.controls['name'].value;
     this.client.last_name = this.clientForm.controls['last_name'].value;
     this.client.telephone = this.clientForm.controls['telephone'].value;
@@ -276,13 +273,11 @@ export class ClientsListPageComponent implements OnInit {
     this.editForm.controls['weight'].setValue(membership.weight);
     this.editForm.controls['goal'].setValue(membership.goal);
     this.editForm.controls['start_date'].setValue(membership.start_date);
-  }	
- 
+  }
+
 
 
   updateClient() {
-    
-
     this.clientUpdate.name = this.editForm.controls['name'].value;
     this.clientUpdate.last_name = this.editForm.controls['last_name'].value;
     this.clientUpdate.telephone = this.editForm.controls['telephone'].value;
@@ -305,12 +300,24 @@ export class ClientsListPageComponent implements OnInit {
           timer: 1000
         })
       },
-      (err) =>{
+      (err) => {
         console.log(err)
-      // {mostrar mensaje de error}
-      } 
+        // {mostrar mensaje de error}
+      }
     );
-    
+  }
+
+  getMembershipByClientId(id) {
+    this.membershipsRecordsService.getMembershipRecordByClientId(id).subscribe((data) => {
+      console.log(data);
+    });
+  }
+
+  getMembershipRecords(){
+    this.membershipsRecordsService.getData().subscribe((data) => {
+      console.log(data);
+      
+    });
   }
 
 }

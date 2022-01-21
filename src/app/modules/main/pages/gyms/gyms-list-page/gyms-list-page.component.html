@@ -95,7 +95,7 @@
               <div class="d-flex justify-content-start">
                 <button
                   class="btn btn-icon btn-sm mr-1"
-                  [routerLink]="'/main/gyms/edit/' + row.id"
+                  (click)="getGym(row); modalOpenEdit(modalEdit)"
                 >
                   <i class="feather icon-edit"></i>
                 </button>
@@ -139,7 +139,6 @@
         <div class="form-group">
           <input
             formControlName="name"
-            [(ngModel)]="gym.name"
             type="text"
             placeholder="Nombre"
             class="form-control"
@@ -154,7 +153,6 @@
         <div class="form-group">
           <input
             formControlName="manager_name"
-            [(ngModel)]="gym.manager_name"
             type="text"
             placeholder="Manager"
             class="form-control"
@@ -169,7 +167,6 @@
         <div class="form-group">
           <input
             formControlName="telephone"
-            [(ngModel)]="gym.telephone"
             type="number"
             placeholder="Telefono"
             class="form-control"
@@ -189,6 +186,82 @@
         rippleEffect
       >
         Agregar
+      </button>
+    </div>
+  </ng-template>
+  <!-- / Modal -->
+</div>
+
+
+<!-- Edit Form -->
+<div class="login-form">
+  <!-- Modal -->
+  <ng-template #modalEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="myModalLabel1">Actualizar</h4>
+      <button
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <form [formGroup]="editForm">
+        <!-- input -->
+        <label>Nombre </label>
+        <div class="form-group">
+          <input
+            formControlName="name"
+            type="text"
+            placeholder="Nombre"
+            class="form-control"
+          />
+          <span *ngIf="editValidField('name')" class="error">
+            El nombre es requerido
+          </span>
+        </div>
+
+        <!-- input -->
+        <label>Nombre del encargado </label>
+        <div class="form-group">
+          <input
+            formControlName="manager_name"
+            type="text"
+            placeholder="Manager"
+            class="form-control"
+          />
+          <span *ngIf="editValidField('manager_name')" class="error">
+            El nombre del manager es requerido
+          </span>
+        </div>
+
+        <!-- input -->
+        <label>Telefono </label>
+        <div class="form-group">
+          <input
+            formControlName="telephone"
+            type="number"
+            placeholder="Telefono"
+            class="form-control"
+          />
+          <span *ngIf="editValidField('telephone')" class="error">
+            El teléfono es requerido
+          </span>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="updateGym()"
+        [disabled]="!editForm.valid"
+        rippleEffect
+      >
+      Actualizar
       </button>
     </div>
   </ng-template>

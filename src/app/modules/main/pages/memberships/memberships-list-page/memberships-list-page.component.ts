@@ -16,20 +16,14 @@ import { ColumnMode } from "@swimlane/ngx-datatable";
 export class MembershipsListPageComponent implements OnInit {
 
   rows: any = [];
-  public selectedOption = 10;
-  public ColumnMode = ColumnMode;
   data: any = [];
   cols: any = [];
+  rowId: number;
+  public selectedOption = 10;
+  public ColumnMode = ColumnMode;
   public searchValue = '';
   public selectedStatus = [];
   private tempData: any = [];
-
-  membership: Membership = {
-    name: "",
-    price: undefined,
-    description: "",
-    time_lapse: "",
-  }
 
   constructor(
     public membershipsService: MembershipsService,
@@ -38,93 +32,14 @@ export class MembershipsListPageComponent implements OnInit {
      private fb: FormBuilder
   ) {}
 
-  ngOnInit(): void {
-    this.getMemberships();
+  membership: Membership = {
+    name: "",
+    price: undefined,
+    description: "",
+    time_lapse: "",
   }
 
-  getMemberships() {
-    this.membershipsService.getData().subscribe((res) => {
-      this.rows = res;
-      this.tempData = res;
-    });
-  }
-
-  createMembership() {
-    Swal.fire({
-      title: "Crear Gimnasio",
-      html: `<input type="text" id="name" class="swal2-input" placeholder="Nombre">
-             <input type="text" id="price" class="swal2-input" placeholder="Precio de la membresía">
-             <input type="text" id="description" class="swal2-input" placeholder="Descripción">
-              <input type="text" id="time_lapse" class="swal2-input" placeholder="Duración">,
-             `,
-      confirmButtonText: "Crear",
-      focusConfirm: false,
-      preConfirm: () => {
-        const name = Swal.getPopup().querySelector("#name")["value"];
-        const price = Swal.getPopup().querySelector("#price")["value"];
-        const description =
-          Swal.getPopup().querySelector("#description")["value"];
-        const time_lapse =
-          Swal.getPopup().querySelector("#time_lapse")["value"];
-        if (!name || !price || !description || !time_lapse) {
-          Swal.showValidationMessage(`Por favor validar todos los campos`);
-          return false;
-        } else {
-          return {
-            name: name,
-            price: price,
-            description: description,
-            time_lapse: time_lapse,
-          };
-        }
-      },
-    }).then((result) => {
-      if (result.value) {
-        this.membershipsService.addMembership(result.value).subscribe((resp) => {
-          console.log(resp);
-          let data: any = resp;
-          this.ngOnInit();
-        });
-      }
-    });
-  }
-
-  confirmDeleteMembership(id: number) {
-    Swal.fire({
-      title: "¿Seguro?",
-      text: "Esta acción eliminará el gimnasio",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "¡Eliminar!",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.membershipsService.deleteMembership(id).subscribe((data) => {
-          const resp: any = data;
-          if (resp.status) {
-            this.ngOnInit();
-            Swal.fire("Deleted!", "Your file has been deleted.", "success");
-            console.log(`Gimnasio eliminado`);
-          } else {
-            console.log("Error");
-          }
-        });
-      }
-    });
-  }
-
-
-  // modal Open Form
-  modalOpenForm(modalForm) {
-    this.modalService.open(modalForm);
-  }
-  
-  modalOpenEdit(modalEdit){
-    this.modalService.open(modalEdit);
-  }
-  
+  membershipUpdate: Membership = {};
 
   public membershipForm: FormGroup = this.fb.group({
     name: [
@@ -145,12 +60,117 @@ export class MembershipsListPageComponent implements OnInit {
     ],
   });
 
+  public editForm: FormGroup = this.fb.group({
+    name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    price: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    description: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    time_lapse: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+  });
+
+  ngOnInit(): void {
+    this.getMemberships();
+
+    this.membershipsService.getData().subscribe((data) => {
+      res => {
+        this.membership = res;
+      }
+      err => {
+        console.error(err);
+      }
+    })
+  }
+
+  getMemberships() {
+    this.membershipsService.getData().subscribe((res) => {
+      this.rows = res;
+      this.tempData = res;
+    });
+  }
+
+
+  confirmDeleteMembership(id: number) {
+    Swal.fire({
+      title: "¿Seguro?",
+      text: "Esta acción eliminará el gimnasio",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "¡Eliminar!",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.membershipsService.deleteMembership(id).subscribe((data) => {
+          const resp: any = data;
+          if (resp.status) {
+            this.ngOnInit();
+            Swal.fire("Eliminado!", "El gimnasio ha sido eliminado", "success");
+            console.log(`Gimnasio eliminado`);
+          } else {
+            console.log("Error");
+          }
+        });
+      }
+    });
+  }
+
+
+  // modal Open Form
+  modalOpenForm(modalForm) {
+    this.modalService.open(modalForm);
+  }
+  
+  modalOpenEdit(modalEdit){
+    this.modalService.open(modalEdit);
+  }
+  
+
   validField(field: string) {
     return this.membershipForm.controls[field].errors &&
       this.membershipForm.controls[field].touched;
   }
 
+  editValidField(field: string){
+    return this.editForm.controls[field].errors &&
+            this.editForm.controls[field].touched;
+  }
+
+  
+
+  getOneMembership() {
+    this.membershipsService.getMembership(this.rowId).subscribe((data) => {
+      this.membership = data;
+    });
+  }
+
+  getMembership(membership: any) {
+
+    this.rowId = membership.id;
+    this.editForm.controls['name'].setValue(membership.name);
+    this.editForm.controls['price'].setValue(membership.price);
+    this.editForm.controls['time_lapse'].setValue(membership.time_lapse);
+    this.editForm.controls['description'].setValue(membership.description);
+  }	
+
   saveNewMembership() {
+
+    this.membership.name = this.membershipForm.controls['name'].value;
+    this.membership.price = this.membershipForm.controls['price'].value;
+    this.membership.description = this.membershipForm.controls['description'].value;
+    this.membership.time_lapse = this.membershipForm.controls['time_lapse'].value;
+
     this.membershipsService.addMembership(this.membership).subscribe(
       (res) => {
         let data: any = res;
@@ -159,7 +179,7 @@ export class MembershipsListPageComponent implements OnInit {
         Swal.fire({
           position: 'top-end',
           icon: 'success',
-          title: 'La membresía ha sido creada',
+          title: 'El gimnasio ha sido creado',
           showConfirmButton: false,
           timer: 1000
         })
@@ -167,15 +187,36 @@ export class MembershipsListPageComponent implements OnInit {
       (err) => console.log(err)
     );
   }
+ 
 
-  
 
-  updateMembership(id) {
-    this.membershipsService.updateMembership(this.membership.id, this.membership).subscribe(
+  updateMembership() {
+    
+
+    this.membershipUpdate.name = this.editForm.controls['name'].value;
+    this.membershipUpdate.price = this.editForm.controls['price'].value;
+    this.membershipUpdate.description = this.editForm.controls['description'].value;
+    this.membershipUpdate.time_lapse = this.editForm.controls['time_lapse'].value;
+
+    this.membershipsService.updateMembership(this.rowId, this.membershipUpdate).subscribe(
       (res) => {
-        console.log(res);
+        // if(status==1){mostrar mensaje de exito}else{mostrar mensaje de error}
+        let data: any = res;
+        this.modalService.dismissAll('modalEdit');
+        this.getMemberships();
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'El gimnasio ha sido actualizado',
+          showConfirmButton: false,
+          timer: 1000
+        })
       },
-      (err) => console.log(err)
+      (err) =>{
+        console.log(err)
+      // {mostrar mensaje de error}
+      } 
     );
+    
   }
 }

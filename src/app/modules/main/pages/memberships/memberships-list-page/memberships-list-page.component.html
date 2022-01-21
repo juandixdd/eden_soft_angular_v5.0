@@ -107,7 +107,7 @@
               <div class="d-flex justify-content-start">
                 <button
                   class="btn btn-icon btn-sm mr-1"
-                  (click)="modalOpenEdit(modalEdit)"
+                  (click)="getMembership(row); modalOpenEdit(modalEdit)"
                 >
                   <i class="feather icon-edit"></i>
                 </button>
@@ -153,7 +153,6 @@
     <div class="form-group">
       <input
         formControlName="name"
-        [(ngModel)]="membership.name"
         type="text"
         placeholder="Nombre"
         class="form-control"
@@ -168,7 +167,6 @@
     <div class="form-group">
       <input
         formControlName="price"
-        [(ngModel)]="membership.price"
         type="number"
         placeholder="Precio"
         class="form-control"
@@ -183,7 +181,6 @@
     <div class="form-group">
       <input
         formControlName="time_lapse"
-        [(ngModel)]="membership.time_lapse"
         type="number"
         placeholder="Duración"
         class="form-control"
@@ -198,7 +195,6 @@
     <div class="form-group">
       <input
         formControlName="description"
-        [(ngModel)]="membership.description"
         type="text"
         placeholder="Descripción"
         class="form-control"
@@ -208,7 +204,6 @@
       </span>
     </div>
 
-    
 
   </form>
 </div>
@@ -228,13 +223,12 @@
 </div>
 
 
-
-<!-- Modal edit -->
+<!-- Edit Form -->
 <div class="login-form">
-<!-- Modal -->
-<ng-template #modalEdit let-modal>
+  <!-- Modal -->
+  <ng-template #modalEdit let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="myModalLabel1">Agregar</h4>
+    <h4 class="modal-title" id="myModalLabel1">Actualizar</h4>
     <button
       type="button"
       class="close"
@@ -245,83 +239,78 @@
     </button>
   </div>
   <div class="modal-body" tabindex="0" ngbAutofocus>
-    <form [formGroup]="placeForm">
-
+    <form [formGroup]="editForm">
       <!-- input -->
       <label>Nombre </label>
       <div class="form-group">
         <input
           formControlName="name"
-          [(ngModel)]="place.name"
           type="text"
           placeholder="Nombre"
           class="form-control"
         />
-        <span *ngIf="validField('name')" class="error">
+        <span *ngIf="editValidField('name')" class="error">
           El nombre es requerido
         </span>
       </div>
-
+  
       <!-- input -->
-      <label>Nombre del encargado </label>
+      <label>Precio </label>
       <div class="form-group">
         <input
-          formControlName="manager_name"
-          [(ngModel)]="place.manager_name"
-          type="text"
-          placeholder="Manager"
-          class="form-control"
-        />
-        <span *ngIf="validField('manager_name')" class="error">
-          El nombre del manager es requerido
-        </span>
-      </div>
-
-      <!-- input -->
-      <label>Dirección </label>
-      <div class="form-group">
-        <input
-          formControlName="adress"
-          [(ngModel)]="place.adress"
-          type="text"
-          placeholder="Dirección"
-          class="form-control"
-        />
-        <span *ngIf="validField('adress')" class="error">
-          El nombre del manager es requerido
-        </span>
-      </div>
-
-      <!-- input -->
-      <label>Teléfono </label>
-      <div class="form-group">
-        <input
-          formControlName="telephone"
-          [(ngModel)]="place.telephone"
+          formControlName="price"
           type="number"
-          placeholder="Teléfono"
+          placeholder="Precio"
           class="form-control"
         />
-        <span *ngIf="validField('telephone')" class="error">
-          El nombre del manager es requerido
+        <span *ngIf="editValidField('price')" class="error">
+          El precio es requerido
         </span>
       </div>
-
+  
+      <!-- input -->
+      <label>Duración </label>
+      <div class="form-group">
+        <input
+          formControlName="time_lapse"
+          type="number"
+          placeholder="Duración"
+          class="form-control"
+        />
+        <span *ngIf="editValidField('time_lapse')" class="error">
+          El Duración es requerido
+        </span>
+      </div>
+  
+      <!-- input -->
+      <label>Descripción </label>
+      <div class="form-group">
+        <input
+          formControlName="description"
+          type="text"
+          placeholder="Descripción"
+          class="form-control"
+        />
+        <span *ngIf="editValidField('description')" class="error">
+          El Descripción es requerida
+        </span>
+      </div>
+  
+  
     </form>
   </div>
   <div class="modal-footer">
     <button
       type="button"
       class="btn btn-primary"
-      (click)="updatePlace() || modal.close()"
-      [disabled]="!placeForm.valid"
+      (click)="updateMembership()"
+      [disabled]="!editForm.valid"
       rippleEffect
     >
-      Agregar
+      Actualizar
     </button>
-    
   </div>
-</ng-template>
-<!-- / Modal -->
-</div>
+  </ng-template>
+  <!-- / Modal -->
+  </div>
 

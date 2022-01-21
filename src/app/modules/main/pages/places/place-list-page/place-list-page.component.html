@@ -99,14 +99,18 @@
                 </p>
               </ng-template>
             </ngx-datatable-column> -->
-
+        
           <!-- Accions with icons -->
+
+             <!-- (click)="getPlace(row)"
+                  (click)="modalOpenEdit(modalEdit) ; this.rowId = row.id; getOnePlace()"  -->
           <ngx-datatable-column name="Acciones" [width]="100">
             <ng-template ngx-datatable-cell-template let-row="row">
               <div class="d-flex justify-content-start">
                 <button
                   class="btn btn-icon btn-sm mr-1"
-                  (click)="modalOpenEdit(modalEdit) ; this.rowId = row.id; getOnePlace()"
+                  (click)="getPlace(row); modalOpenEdit(modalEdit)"
+                  
                 >
                   <i class="feather icon-edit"></i>
                 </button>
@@ -149,7 +153,6 @@
         <div class="form-group">
           <input
             formControlName="name"
-            [(ngModel)]="place.name"
             type="text"
             placeholder="Nombre"
             class="form-control"
@@ -164,7 +167,6 @@
         <div class="form-group">
           <input
             formControlName="manager_name"
-            [(ngModel)]="place.manager_name"
             type="text"
             placeholder="Manager"
             class="form-control"
@@ -179,7 +181,6 @@
         <div class="form-group">
           <input
             formControlName="adress"
-            [(ngModel)]="place.adress"
             type="text"
             placeholder="Dirección"
             class="form-control"
@@ -194,7 +195,6 @@
         <div class="form-group">
           <input
             formControlName="telephone"
-            [(ngModel)]="place.telephone"
             type="number"
             placeholder="Teléfono"
             class="form-control"
@@ -244,9 +244,7 @@
         <div class="form-group">
           <input
             formControlName="name"
-            [(ngModel)]="place.name"
             type="text"
-            placeholder="Nombre"
             class="form-control"
           />
           <span *ngIf="EditValidField('name')" class="error">
@@ -259,7 +257,6 @@
         <div class="form-group">
           <input
             formControlName="manager_name"
-            [(ngModel)]="place.manager_name"
             type="text"
             placeholder="Manager"
             class="form-control"
@@ -274,7 +271,6 @@
         <div class="form-group">
           <input
             formControlName="adress"
-            [(ngModel)]="place.adress"
             type="text"
             placeholder="Dirección"
             class="form-control"
@@ -289,7 +285,6 @@
         <div class="form-group">
           <input
             formControlName="telephone"
-            [(ngModel)]="place.telephone"
             type="number"
             placeholder="Teléfono"
             class="form-control"
@@ -304,11 +299,11 @@
       <button
         type="button"
         class="btn btn-primary"
-        (click)="updatePlace() || modal.close()"
+        (click)="updatePlace()"
         [disabled]="!editForm.valid"
         rippleEffect
       >
-        Agregar
+        Actualizar
       </button>
     </div>
   </ng-template>

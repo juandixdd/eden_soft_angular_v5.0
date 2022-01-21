@@ -38,6 +38,49 @@ export class PlaceListPageComponent implements OnInit {
     telephone: undefined,
   }
 
+  placeUpdate: place = {};
+
+   /* Place Form */
+   public placeForm: FormGroup = this.fb.group({
+    name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    manager_name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    telephone: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    adress: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+  });
+
+  /* Edit Form */
+  public editForm: FormGroup = this.fb.group({
+    name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    manager_name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    telephone: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    adress: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+  });
+
+
   ngOnInit(): void {
     this.getPlaces();
   }
@@ -95,51 +138,23 @@ export class PlaceListPageComponent implements OnInit {
   modalOpenEdit(modalEdit){
     this.modalService.open(modalEdit);
   }
+
+  getPlace(place: any) {
+    this.rowId = place.id;
+    this.editForm.controls['name'].setValue(place.name);
+    this.editForm.controls['manager_name'].setValue(place.manager_name);
+    this.editForm.controls['telephone'].setValue(place.telephone);
+    this.editForm.controls['adress'].setValue(place.adress);
+  }	
   
- /* Place Form */
-  public placeForm: FormGroup = this.fb.group({
-    name: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    manager_name: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    telephone: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    adress: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-  });
+
 
   validField(field: string) {
     return this.placeForm.controls[field].errors &&
       this.placeForm.controls[field].touched;
   }
 
-  /* Edit Form */
-  public editForm: FormGroup = this.fb.group({
-    name: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    manager_name: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    telephone: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    adress: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-  });
+  
 
   EditValidField(field: string) {
     return this.editForm.controls[field].errors &&
@@ -147,6 +162,12 @@ export class PlaceListPageComponent implements OnInit {
   }
 
   saveNewPlace() {
+
+    this.place.name = this.placeForm.controls['name'].value;
+    this.place.manager_name = this.placeForm.controls['manager_name'].value;
+    this.place.telephone = this.placeForm.controls['telephone'].value;
+    this.place.adress = this.placeForm.controls['adress'].value;
+
     this.placesService.addPlace(this.place).subscribe(
       (res) => {
         let data: any = res;
@@ -172,11 +193,19 @@ export class PlaceListPageComponent implements OnInit {
   
 
   updatePlace() {
+    
 
-    this.placesService.updatePlace(this.rowId, this.place).subscribe(
+    this.placeUpdate.name = this.editForm.controls['name'].value;
+    this.placeUpdate.manager_name = this.editForm.controls['manager_name'].value;
+    this.placeUpdate.telephone = this.editForm.controls['telephone'].value;
+    this.placeUpdate.adress = this.editForm.controls['adress'].value;
+
+    this.placesService.updatePlace(this.rowId, this.placeUpdate).subscribe(
       (res) => {
+        // if(status==1){mostrar mensaje de exito}else{mostrar mensaje de error}
         let data: any = res;
-        this.ngOnInit();
+        this.modalService.dismissAll('modalEdit');
+        this.getPlaces();
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -185,7 +214,10 @@ export class PlaceListPageComponent implements OnInit {
           timer: 1000
         })
       },
-      (err) => console.log(err)
+      (err) =>{
+        console.log(err)
+      // {mostrar mensaje de error}
+      } 
     );
     
   }

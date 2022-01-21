@@ -15,10 +15,11 @@ import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 export class GymsListPageComponent implements OnInit {
 
   rows: any = [];
-  public selectedOption = 10;
-  public ColumnMode = ColumnMode;
   data: any = [];
   cols: any = [];
+  rowId: number;
+  public selectedOption = 10;
+  public ColumnMode = ColumnMode;
   public searchValue = '';
   public selectedStatus = [];
   private tempData: any = [];
@@ -36,6 +37,38 @@ export class GymsListPageComponent implements OnInit {
     manager_name: "",
     telephone: undefined
   }
+
+  gymUpdate: gym = {};
+
+  public gymForm: FormGroup = this.fb.group({
+    name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    manager_name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    telephone: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+  });
+
+  public editForm: FormGroup = this.fb.group({
+    name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    manager_name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    telephone: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+  });
 
   ngOnInit(): void {
     this.getGyms();
@@ -58,59 +91,16 @@ export class GymsListPageComponent implements OnInit {
     });
   }
 
-  public gymForm: FormGroup = this.fb.group({
-    name: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    manager_name: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    telephone: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-  });
-
   validField(field: string){
     return this.gymForm.controls[field].errors &&
             this.gymForm.controls[field].touched;
   }
-
-
-
-  createGym() {
-    
-    /* Swal.fire({
-      title: 'Crear Gimnasio',
-      html: `<input type="text" id="name" class="swal2-input" placeholder="Nombre">
-             <input type="text" id="manager_name" class="swal2-input" placeholder="Nombre del encargado">
-             <input type/* ="text" id="telephone" class="swal2-input" placeholder="Telefono">`,
-      confirmButtonText: 'Crear',
-      focusConfirm: false,
-      preConfirm: () => {
-        const name = Swal.getPopup().querySelector('#name')['value'];
-        const manager_name = Swal.getPopup().querySelector('#manager_name')['value'];
-        const telephone = Swal.getPopup().querySelector('#telephone')['value'];
-        if (!name || !manager_name || !telephone) {
-          Swal.showValidationMessage(`Por favor validar todos los campos`)
-        }
-        return {
-          name: name,
-          manager_name: manager_name,
-          telephone: telephone,
-        }
-      }
-    }).then((result) => {
-      if (result.value) {
-        this.customeService.addGym(result.value).subscribe((resp) => {
-          let data: any = resp;
-          this.router.navigate([`/gyms/edit/${data.id}`]);
-        })
-      }
-    })  */
+  
+  editValidField(field: string){
+    return this.editForm.controls[field].errors &&
+            this.editForm.controls[field].touched;
   }
+
 
   confirmDeleteGym(id: number) {
     Swal.fire({
@@ -142,17 +132,37 @@ export class GymsListPageComponent implements OnInit {
       }
     })
   }
+
+  modalOpenForm(modalForm) {
+    this.modalService.open(modalForm);
+  }
   
-  updateGym(id: number) {
-    this.router.navigate([`/gyms/edit/${id}`]);
+  modalOpenEdit(modalEdit){
+    this.modalService.open(modalEdit);
   }
 
+  getOneGym() {
+    this.gymService.getGym(this.rowId).subscribe((data) => {
+      this.gym = data;
+    });
+  }
+
+  getGym(gym: any) {
+    this.rowId = gym.id;
+    this.editForm.controls['name'].setValue(gym.name);
+    this.editForm.controls['manager_name'].setValue(gym.manager_name);
+    this.editForm.controls['telephone'].setValue(gym.telephone);
+  }	
 
   saveNewGym() {
+
+    this.gym.name = this.gymForm.controls['name'].value;
+    this.gym.manager_name = this.gymForm.controls['manager_name'].value;
+    this.gym.telephone = this.gymForm.controls['telephone'].value;
+
     this.gymService.addGym(this.gym).subscribe(
       (res) => {
         let data: any = res;
-        this.router.navigate([`/gyms/edit/${data.id}`]);
         console.log(res);
         this.ngOnInit();
         Swal.fire({
@@ -168,11 +178,34 @@ export class GymsListPageComponent implements OnInit {
   }
  
 
-  // modal Open Form
-  modalOpenForm(modalForm) {
-    this.modalService.open(modalForm);
+
+  updateGym() {
+    
+
+    this.gymUpdate.name = this.editForm.controls['name'].value;
+    this.gymUpdate.manager_name = this.editForm.controls['manager_name'].value;
+    this.gymUpdate.telephone = this.editForm.controls['telephone'].value;
+
+    this.gymService.updateGym(this.rowId, this.gymUpdate).subscribe(
+      (res) => {
+        // if(status==1){mostrar mensaje de exito}else{mostrar mensaje de error}
+        let data: any = res;
+        this.modalService.dismissAll('modalEdit');
+        this.getGyms();
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'El gimnasio ha sido actualizado',
+          showConfirmButton: false,
+          timer: 1000
+        })
+      },
+      (err) =>{
+        console.log(err)
+      // {mostrar mensaje de error}
+      } 
+    );
+    
   }
-  
-  /* modal.close('Accept click') */
 
 }

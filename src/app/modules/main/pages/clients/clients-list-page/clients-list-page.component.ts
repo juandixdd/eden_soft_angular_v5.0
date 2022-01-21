@@ -20,10 +20,11 @@ export class ClientsListPageComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   rows: any = [];
-  public selectedOption = 10;
-  public ColumnMode = ColumnMode;
   data: any = [];
   cols: any = [];
+  rowId: number;
+  public selectedOption = 10;
+  public ColumnMode = ColumnMode;
   public searchValue = '';
   public selectedStatus = [];
   private tempData: any = [];
@@ -37,6 +38,14 @@ export class ClientsListPageComponent implements OnInit {
   dateStartSelected: any;
   basicDPdata: any;
 
+  constructor(
+    public customeService: ClientsService,
+    private router: Router,
+    private modalService: NgbModal,
+    private fb: FormBuilder,
+    private clientsService: ClientsService
+  ) { }
+
   client: Client = {
     name: "",
     last_name: "",
@@ -46,64 +55,95 @@ export class ClientsListPageComponent implements OnInit {
     goal: "",
     start_date: "",
     finish_date: ""
-  }
+  };
 
-  constructor(
-    public customeService: ClientsService,
-    private router: Router,
-    private modalService: NgbModal,
-    private fb: FormBuilder,
-    private clientsService: ClientsService
-  ) { }
+  clientUpdate: Client = {};
+
+  public clientForm: FormGroup = this.fb.group({
+    name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    last_name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    telephone: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    height: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    weight: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    goal: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
+    ],
+    start_date: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+  });
+
+  public editForm: FormGroup = this.fb.group({
+    name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    last_name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    telephone: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    height: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    weight: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    goal: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
+    ],
+    start_date: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+  });
+
+  
 
   ngOnInit(): void {
     this.getClients();
+
+    this.clientsService.getData().subscribe((data) => {
+      res => {
+        this.client = res;
+      }
+      err => {
+        console.error(err);
+      }
+    })
   }
 
   getClients(){
     this.clientsService.getData().subscribe((res) => {
       this.rows = res;
       this.tempData = res;
+      
     });
   }
 
-
-
-  createClient() {
-    Swal.fire({
-      title: 'Crear Cliente',
-      html: `<input type="text" id="name" class="swal2-input" placeholder="Nombre">
-             <input type="text" id="last_name" class="swal2-input" placeholder="Apellido">
-             <input type="text" id="telephone" class="swal2-input" placeholder="Telefono">`,
-      confirmButtonText: 'Crear',
-      focusConfirm: false,
-      preConfirm: () => {
-        const name = Swal.getPopup().querySelector('#name')['value'];
-        const last_name = Swal.getPopup().querySelector('#last_name')['value'];
-        const telephone = Swal.getPopup().querySelector('#telephone')['value'];
-        if (!name || !last_name || !telephone) {
-          Swal.showValidationMessage(`Por favor validar todos los campos`)
-          return false;
-        }
-        else {
-          return {
-            name: name,
-            last_name: last_name,
-            telephone: telephone,
-          }
-        }
-      }
-    }).then((result) => {
-      console.log(result.value);
-      if (result.value) {
-        this.customeService.addClient(result.value).subscribe((resp) => {
-          console.log(resp);
-          let data: any = resp;
-          this.router.navigate([`/clients/edit/${data.id}`]);
-        })
-      }
-    })
-  }
 
   confirmDeleteClient(id: number) {
     Swal.fire({
@@ -136,6 +176,8 @@ export class ClientsListPageComponent implements OnInit {
     })
   }
 
+  
+
 
   // modal Open Form
   modalOpenForm(modalForm) {
@@ -147,72 +189,17 @@ export class ClientsListPageComponent implements OnInit {
   }
 
 
-  public clientForm: FormGroup = this.fb.group({
-    name: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    last_name: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    telephone: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    height: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    weight: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    goal: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
-    ],
-    start_date: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-
-  });
-
   validField(field: string) {
     return this.clientForm.controls[field].errors &&
       this.clientForm.controls[field].touched;
   }
 
-  saveNewClient() {
-    this.clientsService.addClient(this.client).subscribe(
-      (res) => {
-        let data: any = res;
-        console.log(res);
-        this.ngOnInit();
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'El cliente ha sido creado',
-          showConfirmButton: false,
-          timer: 1000
-        })
-      },
-      (err) => console.log(err)
-    );
+  editValidField(field: string){
+    return this.editForm.controls[field].errors &&
+            this.editForm.controls[field].touched;
   }
 
-
-
-  updateClient(id) {
-    this.clientsService.updateClient(this.client.id, this.client).subscribe(
-      (res) => {
-        console.log(res);
-      },
-      (err) => console.log(err)
-    );
-  }
-
+  //TODO: Arreglar la funcionalidad de las fechas
 
   addDate() {
     if (!this.hasMembership && this.selectMultiSelected != null && this.selectMultiSelectedEvent != null) {
@@ -238,6 +225,92 @@ export class ClientsListPageComponent implements OnInit {
 
       }
     }
+  }
+
+  getOneClient() {
+    this.clientsService.getClient(this.rowId).subscribe((data) => {
+      this.client = data;
+    });
+  }
+
+  getClient(client: any) {
+    this.rowId = client.id;
+    this.editForm.controls['name'].setValue(client.name);
+    this.editForm.controls['manager_name'].setValue(client.manager_name);
+    this.editForm.controls['telephone'].setValue(client.telephone);
+  }	
+
+  saveNewClient() {
+
+    this.client.name = this.clientForm.controls['name'].value;
+    this.client.last_name = this.clientForm.controls['last_name'].value;
+    this.client.telephone = this.clientForm.controls['telephone'].value;
+    this.client.height = this.clientForm.controls['height'].value;
+    this.client.weight = this.clientForm.controls['weight'].value;
+    this.client.goal = this.clientForm.controls['goal'].value;
+    this.client.start_date = this.clientForm.controls['start_date'].value;
+
+    this.clientsService.addClient(this.client).subscribe(
+      (res) => {
+        let data: any = res;
+        console.log(res);
+        this.getClients();
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'El gimnasio ha sido creado',
+          showConfirmButton: false,
+          timer: 1000
+        })
+      },
+      (err) => console.log(err)
+    );
+  }
+
+  getMembership(membership: any) {
+    this.rowId = membership.id;
+    this.editForm.controls['name'].setValue(membership.name);
+    this.editForm.controls['last_name'].setValue(membership.last_name);
+    this.editForm.controls['telephone'].setValue(membership.telephone);
+    this.editForm.controls['height'].setValue(membership.height);
+    this.editForm.controls['weight'].setValue(membership.weight);
+    this.editForm.controls['goal'].setValue(membership.goal);
+    this.editForm.controls['start_date'].setValue(membership.start_date);
+  }	
+ 
+
+
+  updateClient() {
+    
+
+    this.clientUpdate.name = this.editForm.controls['name'].value;
+    this.clientUpdate.last_name = this.editForm.controls['last_name'].value;
+    this.clientUpdate.telephone = this.editForm.controls['telephone'].value;
+    this.clientUpdate.height = this.editForm.controls['height'].value;
+    this.clientUpdate.weight = this.editForm.controls['weight'].value;
+    this.clientUpdate.goal = this.editForm.controls['goal'].value;
+    this.clientUpdate.start_date = this.editForm.controls['start_date'].value;
+
+    this.clientsService.updateClient(this.rowId, this.clientUpdate).subscribe(
+      (res) => {
+        // if(status==1){mostrar mensaje de exito}else{mostrar mensaje de error}
+        let data: any = res;
+        this.modalService.dismissAll('modalEdit');
+        this.getClients();
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'El gimnasio ha sido actualizado',
+          showConfirmButton: false,
+          timer: 1000
+        })
+      },
+      (err) =>{
+        console.log(err)
+      // {mostrar mensaje de error}
+      } 
+    );
+    
   }
 
 }

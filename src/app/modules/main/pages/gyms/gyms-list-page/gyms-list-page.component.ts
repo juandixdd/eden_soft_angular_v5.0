@@ -36,7 +36,7 @@ export class GymsListPageComponent implements OnInit {
     name: "",
     manager_name: "",
     telephone: undefined
-  }
+  };
 
   gymUpdate: gym = {};
 
@@ -164,7 +164,7 @@ export class GymsListPageComponent implements OnInit {
       (res) => {
         let data: any = res;
         console.log(res);
-        this.ngOnInit();
+        this.getGyms();
         Swal.fire({
           position: 'top-end',
           icon: 'success',

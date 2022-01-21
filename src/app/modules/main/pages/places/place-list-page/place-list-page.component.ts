@@ -20,6 +20,7 @@ export class PlaceListPageComponent implements OnInit {
   rows: any = [];
   data: any = [];
   cols: any = [];
+  rowId: number;
   public selectedOption = 10;
   public searchValue = '';
   public selectedStatus = [];
@@ -39,23 +40,6 @@ export class PlaceListPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPlaces();
-
-    const params = this.activedRoute.snapshot.params;
-
-    if (params.id) {
-      this.placesService.getPlace(params.id).subscribe((data) => {
-        res => {
-          console.log(res);
-        }
-        err => console.log(err)
-      });
-    }
-    
-
-    
-
-    
-
   }
 
   getPlaces() {
@@ -112,7 +96,7 @@ export class PlaceListPageComponent implements OnInit {
     this.modalService.open(modalEdit);
   }
   
-
+ /* Place Form */
   public placeForm: FormGroup = this.fb.group({
     name: [
       "",
@@ -137,6 +121,31 @@ export class PlaceListPageComponent implements OnInit {
       this.placeForm.controls[field].touched;
   }
 
+  /* Edit Form */
+  public editForm: FormGroup = this.fb.group({
+    name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    manager_name: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    telephone: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    adress: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+  });
+
+  EditValidField(field: string) {
+    return this.editForm.controls[field].errors &&
+      this.editForm.controls[field].touched;
+  }
+
   saveNewPlace() {
     this.placesService.addPlace(this.place).subscribe(
       (res) => {
@@ -155,19 +164,30 @@ export class PlaceListPageComponent implements OnInit {
     );
   }
 
+  getOnePlace() {
+    this.placesService.getPlace(this.rowId).subscribe((data) => {
+      this.place = data;
+    });
+  }
   
 
-  updatePlace(id) {
-    this.placesService.updatePlace(this.place.id, this.place).subscribe(
+  updatePlace() {
+
+    this.placesService.updatePlace(this.rowId, this.place).subscribe(
       (res) => {
-        console.log(res);
+        let data: any = res;
+        this.ngOnInit();
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'La sede ha sido actualizada',
+          showConfirmButton: false,
+          timer: 1000
+        })
       },
       (err) => console.log(err)
     );
-  }
-
-  getId(id){
-    console.log(id);
+    
   }
 
 }

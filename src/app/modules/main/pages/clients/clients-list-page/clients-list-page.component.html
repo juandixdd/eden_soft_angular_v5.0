@@ -269,6 +269,31 @@
       </span>
     </div>
 
+    
+      <label>Selecionar membresia</label>
+      <div class="form-group">
+        <!-- Basic Multi select -->
+        <ng-select
+          [items]="selectMulti | async"
+          [closeOnSelect]="false"
+          [searchable]="false"
+          (change)="selectEvent($event)"
+          bindLabel="name"
+          placeholder="Seleccionar membresía"
+          [ngModelOptions]="{
+            standalone: true
+          }"
+          [ngModel]="selectMultiSelected | async"
+        >
+
+          <ng-template ng-label-tmp let-item="item" let-clear="clear">
+            <span class="ng-value-label"> {{ item.name }}</span>
+            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+          </ng-template>
+        </ng-select>
+      </div>
+    
+
     <!-- input -->
     <label>Fecha de inicio </label>
     <div class="form-group">
@@ -420,6 +445,8 @@
           La fecha de inicio es requerida
         </span>
       </div>
+
+      
   
       
   

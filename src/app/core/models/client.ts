@@ -8,4 +8,5 @@ export interface Client {
     goal?: string;
     start_date?: string;
     finish_date?: string;
+    membership_id?: number;
 }

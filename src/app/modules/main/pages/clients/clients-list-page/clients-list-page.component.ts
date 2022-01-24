@@ -8,6 +8,10 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import { Client } from '../../../../../core/models/client';
 import { MembershipsRecordsService } from 'app/modules/main/services/memberships-records/memberships-records.service';
+import { MembershipsService } from 'app/modules/main/services/memberships/memberships.service';
+import { map } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { Membership } from '../../../../../core/models/membership';
 
 
 @Component({
@@ -38,6 +42,7 @@ export class ClientsListPageComponent implements OnInit {
   edit: boolean = false;
   dateStartSelected: any;
   basicDPdata: any;
+  addSede: boolean = false;
 
   constructor(
     public customeService: ClientsService,
@@ -45,7 +50,8 @@ export class ClientsListPageComponent implements OnInit {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private clientsService: ClientsService,
-    private membershipsRecordsService: MembershipsRecordsService
+    private membershipsRecordsService: MembershipsRecordsService,
+    private membershipsService: MembershipsService
   ) { }
 
   client: Client = {
@@ -136,6 +142,40 @@ export class ClientsListPageComponent implements OnInit {
         console.error(err);
       }
     })
+
+    //? Trae las membresías y las mete en selectMultiSelected
+    this.selectMultiSelected = this.membershipsRecordsService.getMembershipRecord(this.client_id).pipe(map(resp => {
+      if (resp) {
+        this.hasMembership = true;
+        return resp['membership'];
+      }
+      return null;
+    }));
+
+    if (this.client_id) {
+      this.clientsService.getClient(this.client_id).subscribe(
+        (res) => {
+          console.log(res);
+          this.client = res;
+          this.edit = true;
+        },
+        (err) => console.log(err)
+      );
+    }
+    this.getMemberships();
+  }
+
+  async getMemberships() {
+    this.membershipsService.getData().subscribe((resp) => {
+      this.selectMulti =   of(resp).pipe();
+    });
+  }
+
+  selectEvent(event) {
+    this.selectMultiSelectedEvent = event;
+    console.log(this.selectMultiSelectedEvent);
+    console.log(this.selectMultiSelectedEvent.id);
+    console.log(this.selectMultiSelectedEvent.time_lapse);
   }
 
   getClients() {
@@ -144,6 +184,20 @@ export class ClientsListPageComponent implements OnInit {
       this.tempData = res;
 
     });
+  }
+
+  getMembershipRecordResp() {
+    this.membershipsRecordsService.getMembershipRecord(this.client_id).subscribe(
+      (res: any) => {
+        console.log("sfdfsdfsdfsdfsd");
+
+        this.selectMultiSelected = res;
+        console.log(res);
+        this.hasMembership = true;
+      },
+      (err) => console.log(err)
+    )
+
   }
 
   confirmDeleteClient(id: number) {
@@ -246,11 +300,13 @@ export class ClientsListPageComponent implements OnInit {
     this.client.weight = this.clientForm.controls['weight'].value;
     this.client.goal = this.clientForm.controls['goal'].value;
     this.client.start_date = this.clientForm.controls['start_date'].value;
+    this.client.membership_id = this.selectMultiSelectedEvent.id;
 
     this.clientsService.addClient(this.client).subscribe(
       (res) => {
         let data: any = res;
         console.log(res);
+        this.addSede = true;
         this.getClients();
         Swal.fire({
           position: 'top-end',

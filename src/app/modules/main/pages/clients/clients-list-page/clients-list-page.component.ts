@@ -28,6 +28,7 @@ export class ClientsListPageComponent implements OnInit {
   data: any = [];
   cols: any = [];
   rowId: number;
+  clientGoal: string;
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
   public searchValue = '';
@@ -238,6 +239,24 @@ export class ClientsListPageComponent implements OnInit {
     this.modalService.open(modalEdit);
   }
 
+  // modal Open Vertically Centered
+  modalOpenVC(modalVC) {
+    this.modalService.open(modalVC, {
+      centered: true
+    });
+    
+  }
+
+  getGoal(id){
+    this.clientsService.getClient(id).subscribe(
+      (res) => {
+        console.log(res);
+        this.client = res;
+        this.clientGoal = this.client.goal;
+      }
+    )
+  }
+
 
   validField(field: string) {
     return this.clientForm.controls[field].errors &&
@@ -373,5 +392,6 @@ export class ClientsListPageComponent implements OnInit {
       
     });
   }
+
 
 }

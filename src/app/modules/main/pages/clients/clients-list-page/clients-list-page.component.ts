@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
+import { ColumnMode, DatatableComponent, id } from '@swimlane/ngx-datatable';
 import { ClientsService } from 'app/modules/main/services/clients/clients.service';
 import moment from 'moment';
 import Swal from 'sweetalert2';
@@ -12,6 +12,7 @@ import { MembershipsService } from 'app/modules/main/services/memberships/member
 import { map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Membership } from '../../../../../core/models/membership';
+import { MembershipRecord } from 'app/core/models/membership-record';
 
 
 @Component({
@@ -29,6 +30,9 @@ export class ClientsListPageComponent implements OnInit {
   cols: any = [];
   rowId: number;
   clientGoal: string;
+  clientDateStart: string;
+  membershipTimeLapse: number;
+  finishDate: string;
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
   public searchValue = '';
@@ -44,6 +48,7 @@ export class ClientsListPageComponent implements OnInit {
   dateStartSelected: any;
   basicDPdata: any;
   addSede: boolean = false;
+  clientMembership: Object;
 
   constructor(
     public customeService: ClientsService,
@@ -71,6 +76,8 @@ export class ClientsListPageComponent implements OnInit {
     }
   };
 
+
+
   clientUpdate: Client = {};
 
   public clientForm: FormGroup = this.fb.group({
@@ -96,7 +103,7 @@ export class ClientsListPageComponent implements OnInit {
     ],
     goal: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
+      [Validators.required, Validators.minLength(3), Validators.maxLength(300)],
     ],
     start_date: [
       "",
@@ -127,7 +134,7 @@ export class ClientsListPageComponent implements OnInit {
     ],
     goal: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
+      [Validators.required, Validators.minLength(3), Validators.maxLength(300)],
     ],
     start_date: [
       "",
@@ -166,7 +173,7 @@ export class ClientsListPageComponent implements OnInit {
 
   async getMemberships() {
     this.membershipsService.getData().subscribe((resp) => {
-      this.selectMulti =   of(resp).pipe();
+      this.selectMulti = of(resp).pipe();
     });
   }
 
@@ -188,7 +195,6 @@ export class ClientsListPageComponent implements OnInit {
   getMembershipRecordResp() {
     this.membershipsRecordsService.getMembershipRecord(this.client_id).subscribe(
       (res: any) => {
-        console.log("sfdfsdfsdfsdfsd");
 
         this.selectMultiSelected = res;
         console.log(res);
@@ -244,10 +250,10 @@ export class ClientsListPageComponent implements OnInit {
     this.modalService.open(modalVC, {
       centered: true
     });
-    
+
   }
 
-  getGoal(id){
+  getGoal(id) {
     this.clientsService.getClient(id).subscribe(
       (res) => {
         console.log(res);
@@ -296,6 +302,45 @@ export class ClientsListPageComponent implements OnInit {
     }
   }
 
+  //TODO: Mover para arriba
+  membershipRecord: MembershipRecord = {
+    id: undefined,
+    membership_id: undefined,
+    client_id: undefined,
+  }
+
+  oneMembershipRecord: any = {
+    id: undefined,
+    membership: {
+      id: undefined,
+      name: undefined,
+      time_lapse: undefined,
+      price: undefined,
+      description: undefined,
+    }
+  }
+
+  getFDate(id) {
+
+    this.clientsService.getClient(id).subscribe(
+      (res) => {
+        this.client = res;
+        this.clientDateStart = this.client.start_date;
+        console.log('Fecha de inicio: ', this.clientDateStart);
+
+        this.membershipsRecordsService.getMembershipRecord(id).subscribe(
+          (res) => {
+            this.oneMembershipRecord = res;
+            this.membershipTimeLapse = this.oneMembershipRecord.membership.time_lapse
+            console.log('Tiempo de membresía: ', this.membershipTimeLapse);
+
+            this.finishDate = moment(this.clientDateStart).add(this.membershipTimeLapse, 'days').format('YYYY-MM-DD');
+            console.log('finishDate: ', this.finishDate);
+          });
+      });
+
+  }
+
   getOneClient() {
     this.clientsService.getClient(this.rowId).subscribe((data) => {
       this.client = data;
@@ -310,6 +355,7 @@ export class ClientsListPageComponent implements OnInit {
   }
 
   saveNewClient() {
+    
     this.client.name = this.clientForm.controls['name'].value;
     this.client.last_name = this.clientForm.controls['last_name'].value;
     this.client.telephone = this.clientForm.controls['telephone'].value;
@@ -318,13 +364,17 @@ export class ClientsListPageComponent implements OnInit {
     this.client.goal = this.clientForm.controls['goal'].value;
     this.client.start_date = this.clientForm.controls['start_date'].value;
     this.client.membership_id = this.selectMultiSelectedEvent.id;
+    this.client.finish_date = this.finishDate;
 
     this.clientsService.addClient(this.client).subscribe(
+      
       (res) => {
         let data: any = res;
+        
         console.log(res);
         this.addSede = true;
         this.getClients();
+        
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -332,9 +382,12 @@ export class ClientsListPageComponent implements OnInit {
           showConfirmButton: false,
           timer: 1000
         })
+        
       },
+      
       (err) => console.log(err)
     );
+
   }
 
   getMembership(membership: any) {
@@ -380,18 +433,11 @@ export class ClientsListPageComponent implements OnInit {
     );
   }
 
-  getMembershipByClientId(id) {
-    this.membershipsRecordsService.getMembershipRecordByClientId(id).subscribe((data) => {
-      console.log(data);
-    });
-  }
-
-  getMembershipRecords(){
+  getMembershipRecords() {
     this.membershipsRecordsService.getData().subscribe((data) => {
       console.log(data);
-      
+
     });
   }
-
 
 }

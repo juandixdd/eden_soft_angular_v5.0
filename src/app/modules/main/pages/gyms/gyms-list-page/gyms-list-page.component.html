@@ -45,10 +45,10 @@
           <!-- Column -->
           <ngx-datatable-column name="#" prop="id" [width]="50">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <a
-                routerLink="/apps/invoice/preview/{{ id }}"
+              <p
+                
                 class="font-weight-bold text-dark"
-                >#{{ id }}</a
+                >#{{ id }}</p
               >
             </ng-template>
           </ngx-datatable-column>
@@ -56,10 +56,10 @@
           <!-- Column -->
           <ngx-datatable-column name="Nombre" prop="name" [width]="50">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <a
-                routerLink="/apps/invoice/preview/{{ id }}"
+              <p
+                
                 class="font-weight-bold text-dark"
-                >{{ id }}</a
+                >{{ id }}</p
               >
             </ng-template>
           </ngx-datatable-column>
@@ -68,7 +68,7 @@
           <ngx-datatable-column name="Nombre del manager" prop="manager_name" [width]="50">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p
-                routerLink="/apps/invoice/preview/{{ id }}"
+                
                 class="font-weight-bold text-dark"
               >
                 {{ id }}
@@ -80,7 +80,7 @@
           <ngx-datatable-column name="Teléfono" prop="telephone" [width]="50">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p
-                routerLink="/apps/invoice/preview/{{ id }}"
+                
                 class="font-weight-bold text-dark"
               >
                 {{ id }}

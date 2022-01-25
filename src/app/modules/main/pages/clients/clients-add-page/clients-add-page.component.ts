@@ -60,8 +60,6 @@ export class ClientsAddPageComponent implements OnInit {
 
   membershipRecord: MembershipRecord = {
     id: undefined,
-    date_start: "",
-    date_finish: "",
     membership_id: undefined,
     client_id: undefined,
   }

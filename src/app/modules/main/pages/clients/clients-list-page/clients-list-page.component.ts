@@ -62,7 +62,12 @@ export class ClientsListPageComponent implements OnInit {
     weight: undefined,
     goal: "",
     start_date: "",
-    finish_date: ""
+    finish_date: "",
+    membershipsRecord: {
+      memberships: {
+        name: "",
+      }
+    }
   };
 
   clientUpdate: Client = {};
@@ -144,13 +149,6 @@ export class ClientsListPageComponent implements OnInit {
     })
 
     //? Trae las membresías y las mete en selectMultiSelected
-    this.selectMultiSelected = this.membershipsRecordsService.getMembershipRecord(this.client_id).pipe(map(resp => {
-      if (resp) {
-        this.hasMembership = true;
-        return resp['membership'];
-      }
-      return null;
-    }));
 
     if (this.client_id) {
       this.clientsService.getClient(this.client_id).subscribe(

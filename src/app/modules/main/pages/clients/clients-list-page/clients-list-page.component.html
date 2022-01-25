@@ -43,7 +43,7 @@
           [scrollbarH]="true"
         >
           <!-- Column -->
-          <ngx-datatable-column name="#" prop="id" [width]="20">
+          <ngx-datatable-column name="#" prop="id" [width]="10">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <a
                 routerLink="/apps/invoice/preview/{{ id }}"
@@ -54,18 +54,18 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Nombre" prop="name" [width]="30">
+          <ngx-datatable-column name="Nombre" prop="name" [width]="100" >
             <ng-template let-id="value" ngx-datatable-cell-template>
               <a
-                routerLink="/apps/invoice/preview/{{ id }}"
+                routerLink="/apps/invoice/preview/{{ name }}"
                 class="font-weight-bold text-dark"
-                >{{ id }}</a
+                >{{ id | uppercase }}</a
               >
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Apellido" prop="last_name" [width]="30">
+         <!--  <ngx-datatable-column name="Apellido" prop="last_name" [width]="30">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p
                 routerLink="/apps/invoice/preview/{{ id }}"
@@ -74,10 +74,10 @@
                 {{ id }}
               </p>
             </ng-template>
-          </ngx-datatable-column>
+          </ngx-datatable-column> -->
 
           <!-- Column -->
-          <ngx-datatable-column name="Teléfono" prop="telephone" [width]="30">
+          <ngx-datatable-column name="Teléfono" prop="telephone" [width]="10">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p
                 routerLink="/apps/invoice/preview/{{ id }}"
@@ -89,7 +89,7 @@
           </ngx-datatable-column>
 
            <!-- Column -->
-           <ngx-datatable-column name="Altura" prop="height" [width]="30">
+           <ngx-datatable-column name="Altura" prop="height" [width]="10">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p
                 routerLink="/apps/invoice/preview/{{ id }}"
@@ -101,7 +101,7 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Peso" prop="weight" [width]="30">
+          <ngx-datatable-column name="Peso" prop="weight" [width]="10">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p
                 routerLink="/apps/invoice/preview/{{ id }}"
@@ -113,7 +113,7 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Objetivo" prop="goal" [width]="70">
+          <ngx-datatable-column name="Objetivo" prop="goal" [width]="100">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p
                 routerLink="/apps/invoice/preview/{{ id }}"
@@ -125,7 +125,19 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="F. Inicio" prop="start_date" [width]="30">
+          <ngx-datatable-column name="Membresía" prop="membershipsRecord.memberships.name" [width]="10">
+            <ng-template let-id="value" ngx-datatable-cell-template>
+              <p
+                routerLink="/apps/invoice/preview/{{ id }}"
+                class="font-weight-bold text-dark"
+              >
+                {{ id }}
+              </p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- Column -->
+          <ngx-datatable-column name="F. Inicio" prop="start_date" [width]="10">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p
                 routerLink="/apps/invoice/preview/{{ id }}"
@@ -466,8 +478,3 @@
   </ng-template>
   <!-- / Modal -->
   </div>
-
-
-  <button class="btn btn-primary" (click)="getMembershipByClientId(12)">
-    Traer
-  </button>

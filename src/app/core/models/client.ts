@@ -9,4 +9,5 @@ export interface Client {
     start_date?: string;
     finish_date?: string;
     membership_id?: number;
+    membershipsRecord?: any
 }

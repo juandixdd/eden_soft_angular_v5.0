@@ -79,13 +79,9 @@ export class ClientsListPageComponent implements OnInit {
     }
   };
 
-  membershipRecord: MembershipRecord = {
-    id: undefined,
-    membership_id: undefined,
-    client_id: undefined,
-    date_start: undefined,
-    date_finish: undefined,
-  }
+  clientView: Client = null;
+
+  membershipRecord: MembershipRecord = null;
 
   oneMembershipRecord: any = {
     id: undefined,
@@ -106,6 +102,7 @@ export class ClientsListPageComponent implements OnInit {
     description: undefined,
 
   }
+
 
 
 
@@ -305,7 +302,7 @@ export class ClientsListPageComponent implements OnInit {
     this.clientsService.getClient(id).subscribe(
       (res) => {
         console.log(res);
-        this.client = res;
+        this.clientView = res;
       }
     )
   }
@@ -327,7 +324,7 @@ export class ClientsListPageComponent implements OnInit {
         console.log(res);
         this.membershipRecord = res;
 
-        
+
 
       }
     )
@@ -350,38 +347,55 @@ export class ClientsListPageComponent implements OnInit {
 
   saveNewClient() {
 
-    this.client.name = this.clientForm.controls['name'].value;
-    this.client.last_name = this.clientForm.controls['last_name'].value;
-    this.client.telephone = this.clientForm.controls['telephone'].value;
-    this.client.height = this.clientForm.controls['height'].value;
-    this.client.weight = this.clientForm.controls['weight'].value;
-    this.client.goal = this.clientForm.controls['goal'].value;
-    this.client.start_date = this.clientForm.controls['start_date'].value;
-    this.client.membership_id = this.selectMultiSelectedEvent.id;
-    this.client.document = this.clientForm.controls['document'].value;
-    this.client.email = this.clientForm.controls['email'].value;
+    try {
+      this.client.name = this.clientForm.controls['name'].value;
+      this.client.last_name = this.clientForm.controls['last_name'].value;
+      this.client.telephone = this.clientForm.controls['telephone'].value;
+      this.client.height = this.clientForm.controls['height'].value;
+      this.client.weight = this.clientForm.controls['weight'].value;
+      this.client.goal = this.clientForm.controls['goal'].value;
+      this.client.start_date = this.clientForm.controls['start_date'].value;
+      this.client.membership_id = this.selectMultiSelectedEvent.id;
+      this.client.document = this.clientForm.controls['document'].value;
+      this.client.email = this.clientForm.controls['email'].value;
 
-    this.clientsService.addClient(this.client).subscribe(
+      this.clientsService.addClient(this.client).subscribe(
+        (res) => {
 
-      (res) => {
-        let data: any = res;
 
-        console.log(res);
-        this.addSede = true;
-        this.getClients();
+          let data: any = res;
 
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'El gimnasio ha sido creado',
-          showConfirmButton: false,
-          timer: 1000
-        })
+          console.log(res);
+          this.addSede = true;
+          this.getClients();
 
-      },
 
-      (err) => console.log(err)
-    );
+          if(data.status == 'error'){
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'El cliente ya se encuentra registrado'
+            })
+          }else{
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'El gimnasio ha sido creado',
+              showConfirmButton: false,
+              timer: 1000
+            })
+            this.clientForm.reset();
+          }
+        }
+      );
+
+
+    } catch (error) {
+
+      console.log(error);
+      
+
+    }
 
   }
 

@@ -172,6 +172,7 @@ export class GymsListPageComponent implements OnInit {
           showConfirmButton: false,
           timer: 1000
         })
+        this.gymForm.reset();
       },
       (err) => console.log(err)
     );

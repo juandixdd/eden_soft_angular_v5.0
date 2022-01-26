@@ -175,14 +175,23 @@ export class MembershipsListPageComponent implements OnInit {
       (res) => {
         let data: any = res;
         console.log(res);
-        this.ngOnInit();
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'El gimnasio ha sido creado',
-          showConfirmButton: false,
-          timer: 1000
-        })
+        this.getMemberships();
+        if(data.status == 'error'){
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El cliente ya se encuentra registrado'
+          })
+        }else{
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'El gimnasio ha sido creado',
+            showConfirmButton: false,
+            timer: 1000
+          })
+          this.membershipForm.reset();
+        }
       },
       (err) => console.log(err)
     );

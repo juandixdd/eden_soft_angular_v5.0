@@ -180,6 +180,7 @@ export class PlaceListPageComponent implements OnInit {
           showConfirmButton: false,
           timer: 1000
         })
+        this.placeForm.reset();
       },
       (err) => console.log(err)
     );

@@ -141,7 +141,7 @@
                 <button
                   class="btn btn-icon btn-sm"
                   (click)="
-                    modalOpenVC(modalVC); getClientInfo(row.id); rowId = row.id; getMembershipRecordByClient(row.id);
+                    modalOpenVC(modalVC); getClientInfo(row.id); getMembershipRecordByClient(row.id);
                   "
                 >
                   <i class="feather icon-eye"></i>
@@ -540,18 +540,18 @@
       </button>
     </div>
 
-    <div class="modal-body" tabindex="0" ngbAutofocus>
-      <p><b>Nombre: </b> {{ this.client.name }}</p>
-      <p><b>Cedula: </b> {{ this.client.document }}</p>
-      <p><b>Teléfono: </b> {{ this.client.telephone }}</p>
-      <p><b>Email: </b> {{ this.client.email }}</p>
-      <p><b>Altura: </b> {{ this.client.height }}</p>
-      <p><b>Peso: </b> {{ this.client.weight }}</p>
-      <p><b>Objetivo: </b> {{ this.client.goal }}</p>
-      <p><b>Fecha de inicio: </b> {{ this.membershipRecord.date_start | date: "dd/MM/yyyy" }}</p>
-      <p><b>Fecha final: </b> {{ this.membershipRecord.date_finish | date: "dd/MM/yyyy" }}</p>
-      <p><b>Membresía: </b> {{ this.membershipRecord.membership.name }}</p>
-      
+    <div *ngIf="clientView && membershipRecord" class="modal-body" tabindex="0" ngbAutofocus >
+      <p><b>Nombre: </b> {{ clientView.name }}</p>
+      <p><b>Cedula: </b> {{ clientView.document }}</p>
+      <p><b>Teléfono: </b> {{ clientView.telephone }}</p>
+      <p><b>Email: </b> {{ clientView.email }}</p>
+      <p><b>Altura: </b> {{ clientView.height }} Cm</p>
+      <p><b>Peso: </b> {{ clientView.weight }} Kg</p>
+      <p><b>Objetivo: </b> {{ clientView.goal }}</p>
+      <p><b>Fecha de inicio: </b> {{ membershipRecord.date_start | date: "dd/MM/yyyy" }}</p>
+      <p><b>Fecha final: </b> {{ membershipRecord.date_finish | date: "dd/MM/yyyy" }}</p>
+      <p><b>Membresía: </b> {{ membershipRecord.membership.name }}</p> 
+
     </div>
 
 

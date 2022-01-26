@@ -32,7 +32,6 @@ export class ClientsListPageComponent implements OnInit {
   clientGoal: string;
   clientDateStart: string;
   membershipTimeLapse: number;
-  finishDate: string;
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
   public searchValue = '';
@@ -67,14 +66,31 @@ export class ClientsListPageComponent implements OnInit {
     height: undefined,
     weight: undefined,
     goal: "",
-    start_date: "",
-    finish_date: "",
     membershipsRecord: {
+      date_start: "",
+      date_finish: "",
       memberships: {
         name: "",
       }
     }
   };
+
+  membershipRecord: MembershipRecord = {
+    id: undefined,
+    membership_id: undefined,
+    client_id: undefined,
+  }
+
+  oneMembershipRecord: any = {
+    id: undefined,
+    membership: {
+      id: undefined,
+      name: undefined,
+      time_lapse: undefined,
+      price: undefined,
+      description: undefined,
+    }
+  }
 
 
 
@@ -220,13 +236,14 @@ export class ClientsListPageComponent implements OnInit {
         this.customeService.deleteClient(id).subscribe((data) => {
           const resp: any = data;
           if (resp.status) {
-            Swal.fire(
-              'Eliminado!',
-              'El cliente ha sido eliminado.',
-              'success'
-            );
-            console.log(`Gimnasio eliminado`);
-            this.ngOnInit();
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'El gimnasio ha sido eliminado',
+              showConfirmButton: false,
+              timer: 1000
+            })
+            this.getClients();
           } else {
             console.log('Error');
           }
@@ -274,72 +291,11 @@ export class ClientsListPageComponent implements OnInit {
       this.editForm.controls[field].touched;
   }
 
-  //TODO: Arreglar la funcionalidad de las fechas
+  
 
-  addDate() {
-    if (!this.hasMembership && this.selectMultiSelected != null && this.selectMultiSelectedEvent != null) {
+  
 
-      let dateFinishSelected = this.dateStartSelected + this.selectMultiSelectedEvent.time_lapse;
-
-      this.selectMultiSelectedEvent.time_lapse
-      this.basicDPdata
-
-      // se suma this.selectMultiSelectedEvent.time_lapse a la fecha de inicio
-      const finishDate = moment("2021-01-15", "YYYY-MM-DD").add(this.selectMultiSelectedEvent.time_lapse, 'days').format('YYYY-MM-DD');
-      console.log(finishDate);
-
-      const record = {
-        date_start: this.basicDPdata.year + "-" + this.basicDPdata.month + "-" + this.basicDPdata.day,
-        date_finish: finishDate,
-        clients: {
-          id: this.client.id,
-        },
-        memberships: {
-          id: this.selectMultiSelectedEvent.id
-        }
-
-      }
-    }
-  }
-
-  //TODO: Mover para arriba
-  membershipRecord: MembershipRecord = {
-    id: undefined,
-    membership_id: undefined,
-    client_id: undefined,
-  }
-
-  oneMembershipRecord: any = {
-    id: undefined,
-    membership: {
-      id: undefined,
-      name: undefined,
-      time_lapse: undefined,
-      price: undefined,
-      description: undefined,
-    }
-  }
-
-  getFDate(id) {
-
-    this.clientsService.getClient(id).subscribe(
-      (res) => {
-        this.client = res;
-        this.clientDateStart = this.client.start_date;
-        console.log('Fecha de inicio: ', this.clientDateStart);
-
-        this.membershipsRecordsService.getMembershipRecord(id).subscribe(
-          (res) => {
-            this.oneMembershipRecord = res;
-            this.membershipTimeLapse = this.oneMembershipRecord.membership.time_lapse
-            console.log('Tiempo de membresía: ', this.membershipTimeLapse);
-
-            this.finishDate = moment(this.clientDateStart).add(this.membershipTimeLapse, 'days').format('YYYY-MM-DD');
-            console.log('finishDate: ', this.finishDate);
-          });
-      });
-
-  }
+ 
 
   getOneClient() {
     this.clientsService.getClient(this.rowId).subscribe((data) => {
@@ -364,7 +320,7 @@ export class ClientsListPageComponent implements OnInit {
     this.client.goal = this.clientForm.controls['goal'].value;
     this.client.start_date = this.clientForm.controls['start_date'].value;
     this.client.membership_id = this.selectMultiSelectedEvent.id;
-    this.client.finish_date = this.finishDate;
+    /* this.client.finish_date = this.getFDate(this.client.id); */
 
     this.clientsService.addClient(this.client).subscribe(
       

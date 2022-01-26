@@ -125,7 +125,19 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="F. Inicio" prop="start_date" [width]="30">
+          <ngx-datatable-column name="F. Inicio" prop="membershipsRecord.date_start" [width]="30">
+            <ng-template let-id="value" ngx-datatable-cell-template>
+              <p
+                
+                class="font-weight-bold text-dark"
+              >
+                {{ id | date:'dd/MM/yyyy' }}
+              </p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- Column -->
+          <ngx-datatable-column name="F. Fin" prop="membershipsRecord.date_finish" [width]="30">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p
                 
@@ -486,9 +498,6 @@
       <p>
         <b>Objetivo del cliente: </b> {{ this.clientGoal }}
       </p>
-      <p>
-        <b>Fecha final de la membresía: </b> {{ this.finishDate | date:'dd/MM/yyyy' }}
-      </p>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
@@ -497,5 +506,3 @@
     </div>
   </ng-template>
   <!-- / Modal -->
-
-  

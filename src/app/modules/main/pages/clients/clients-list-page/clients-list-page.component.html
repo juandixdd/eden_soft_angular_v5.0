@@ -164,7 +164,7 @@
 
                 <button
                   class="btn btn-icon btn-sm"
-                  (click)="modalOpenEdit(modalEdit); getMembership(row)"
+                  (click)="modalOpenEdit(modalEdit); getOneClient(row)"
                 >
                   <i class="feather icon-edit"></i>
                 </button>
@@ -239,6 +239,34 @@
     </div>
 
     <!-- input -->
+    <label>Cedula </label>
+    <div class="form-group">
+      <input
+        formControlName="document"
+        type="number"
+        placeholder="Cedula"
+        class="form-control"
+      />
+      <span *ngIf="validField('document')" class="error">
+        La cedula es requerida
+      </span>
+    </div>
+
+    <!-- input -->
+    <label>Email </label>
+    <div class="form-group">
+      <input
+        formControlName="email"
+        type="email"
+        placeholder="Email"
+        class="form-control"
+      />
+      <span *ngIf="validField('email')" class="error">
+        El email es requerido
+      </span>
+    </div>
+
+    <!-- input -->
     <label>Teléfono </label>
     <div class="form-group">
       <input
@@ -283,12 +311,13 @@
     <!-- input -->
     <label>Objetivo </label>
     <div class="form-group">
-      <input
+      <textarea
         formControlName="goal"
         type="text"
+        rows="3"
         placeholder="Objetivo"
         class="form-control"
-      />
+      ></textarea>
       <span *ngIf="validField('goal')" class="error">
         El objetivo es requerido
       </span>
@@ -398,6 +427,34 @@
           El apellido es requerido
         </span>
       </div>
+
+      <!-- input -->
+    <label>Cedula </label>
+    <div class="form-group">
+      <input
+        formControlName="document"
+        type="number"
+        placeholder="Cedula"
+        class="form-control"
+      />
+      <span *ngIf="validField('document')" class="error">
+        La cedula es requerida
+      </span>
+    </div>
+
+    <!-- input -->
+    <label>Email </label>
+    <div class="form-group">
+      <input
+        formControlName="email"
+        type="email"
+        placeholder="Email"
+        class="form-control"
+      />
+      <span *ngIf="validField('email')" class="error">
+        El email es requerido
+      </span>
+    </div>
   
       <!-- input -->
       <label>Teléfono </label>
@@ -444,12 +501,13 @@
       <!-- input -->
       <label>Objetivo </label>
       <div class="form-group">
-        <input
+        <textarea
           formControlName="goal"
           type="text"
+          rows="3"
           placeholder="Objetivo"
           class="form-control"
-        />
+        ></textarea>
         <span *ngIf="editValidField('goal')" class="error">
           El objetivo es requerido
         </span>

@@ -10,4 +10,6 @@ export interface Client {
     finish_date?: string;
     membership_id?: number;
     membershipsRecord?: any
+    document?: string;
+    email?: string;
 }

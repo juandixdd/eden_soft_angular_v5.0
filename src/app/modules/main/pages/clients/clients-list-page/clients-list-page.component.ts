@@ -66,6 +66,8 @@ export class ClientsListPageComponent implements OnInit {
     height: undefined,
     weight: undefined,
     goal: "",
+    document: "",
+    email: "",
     membershipsRecord: {
       date_start: "",
       date_finish: "",
@@ -125,6 +127,14 @@ export class ClientsListPageComponent implements OnInit {
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
     ],
+    document: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    email: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
   });
 
   public editForm: FormGroup = this.fb.group({
@@ -153,6 +163,14 @@ export class ClientsListPageComponent implements OnInit {
       [Validators.required, Validators.minLength(3), Validators.maxLength(300)],
     ],
     start_date: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    document: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    email: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
     ],
@@ -291,23 +309,17 @@ export class ClientsListPageComponent implements OnInit {
       this.editForm.controls[field].touched;
   }
 
-  
-
-  
-
- 
-
-  getOneClient() {
-    this.clientsService.getClient(this.rowId).subscribe((data) => {
-      this.client = data;
-    });
-  }
-
   getClient(client: any) {
     this.rowId = client.id;
     this.editForm.controls['name'].setValue(client.name);
     this.editForm.controls['manager_name'].setValue(client.manager_name);
     this.editForm.controls['telephone'].setValue(client.telephone);
+    this.editForm.controls['height'].setValue(client.height);
+    this.editForm.controls['weight'].setValue(client.weight);
+    this.editForm.controls['goal'].setValue(client.goal);
+    this.editForm.controls['start_date'].setValue(client.start_date);
+    this.editForm.controls['document'].setValue(client.document);
+    this.editForm.controls['email'].setValue(client.email);
   }
 
   saveNewClient() {
@@ -320,7 +332,8 @@ export class ClientsListPageComponent implements OnInit {
     this.client.goal = this.clientForm.controls['goal'].value;
     this.client.start_date = this.clientForm.controls['start_date'].value;
     this.client.membership_id = this.selectMultiSelectedEvent.id;
-    /* this.client.finish_date = this.getFDate(this.client.id); */
+    this.client.document = this.clientForm.controls['document'].value;
+    this.client.email = this.clientForm.controls['email'].value;
 
     this.clientsService.addClient(this.client).subscribe(
       
@@ -346,15 +359,17 @@ export class ClientsListPageComponent implements OnInit {
 
   }
 
-  getMembership(membership: any) {
-    this.rowId = membership.id;
-    this.editForm.controls['name'].setValue(membership.name);
-    this.editForm.controls['last_name'].setValue(membership.last_name);
-    this.editForm.controls['telephone'].setValue(membership.telephone);
-    this.editForm.controls['height'].setValue(membership.height);
-    this.editForm.controls['weight'].setValue(membership.weight);
-    this.editForm.controls['goal'].setValue(membership.goal);
-    this.editForm.controls['start_date'].setValue(membership.start_date);
+  getOneClient(client: any) {
+    this.rowId = client.id;
+    this.editForm.controls['name'].setValue(client.name);
+    this.editForm.controls['last_name'].setValue(client.last_name);
+    this.editForm.controls['telephone'].setValue(client.telephone);
+    this.editForm.controls['height'].setValue(client.height);
+    this.editForm.controls['weight'].setValue(client.weight);
+    this.editForm.controls['goal'].setValue(client.goal);
+    this.editForm.controls['start_date'].setValue(client.start_date);
+    this.editForm.controls['document'].setValue(client.document);
+    this.editForm.controls['email'].setValue(client.email);
   }
 
 
@@ -367,10 +382,11 @@ export class ClientsListPageComponent implements OnInit {
     this.clientUpdate.weight = this.editForm.controls['weight'].value;
     this.clientUpdate.goal = this.editForm.controls['goal'].value;
     this.clientUpdate.start_date = this.editForm.controls['start_date'].value;
+    this.clientUpdate.document = this.editForm.controls['document'].value;
+    this.clientUpdate.email = this.editForm.controls['email'].value;
 
     this.clientsService.updateClient(this.rowId, this.clientUpdate).subscribe(
       (res) => {
-        // if(status==1){mostrar mensaje de exito}else{mostrar mensaje de error}
         let data: any = res;
         this.modalService.dismissAll('modalEdit');
         this.getClients();
@@ -384,7 +400,6 @@ export class ClientsListPageComponent implements OnInit {
       },
       (err) => {
         console.log(err)
-        // {mostrar mensaje de error}
       }
     );
   }

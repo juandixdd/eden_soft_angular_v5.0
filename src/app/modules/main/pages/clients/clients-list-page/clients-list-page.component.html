@@ -45,27 +45,19 @@
           <!-- Column -->
           <ngx-datatable-column name="#" prop="id" [width]="30">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p
-               
-                class="font-weight-bold text-dark"
-                >#{{ id }}</p
-              >
+              <p class="font-weight-bold text-dark">#{{ id }}</p>
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Nombre" prop="name" [width]="150" >
+          <ngx-datatable-column name="Nombre" prop="name" [width]="150">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p
-                
-                class="font-weight-bold text-dark"
-                >{{ id | uppercase }}</p
-              >
+              <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-         <!--  <ngx-datatable-column name="Apellido" prop="last_name" [width]="30">
+          <!--  <ngx-datatable-column name="Apellido" prop="last_name" [width]="30">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p
                 
@@ -79,22 +71,16 @@
           <!-- Column -->
           <ngx-datatable-column name="Teléfono" prop="telephone" [width]="30">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p
-                
-                class="font-weight-bold text-dark"
-              >
+              <p class="font-weight-bold text-dark">
                 {{ id }}
               </p>
             </ng-template>
           </ngx-datatable-column>
 
-           <!-- Column -->
-           <ngx-datatable-column name="Altura" prop="height" [width]="30">
+          <!-- Column -->
+          <ngx-datatable-column name="Altura" prop="height" [width]="30">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p
-                
-                class="font-weight-bold text-dark"
-              >
+              <p class="font-weight-bold text-dark">
                 {{ id }}
               </p>
             </ng-template>
@@ -103,61 +89,60 @@
           <!-- Column -->
           <ngx-datatable-column name="Peso" prop="weight" [width]="30">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p
-                
-                class="font-weight-bold text-dark"
-              >
+              <p class="font-weight-bold text-dark">
                 {{ id }}
               </p>
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Membresía" prop="membershipsRecord.memberships.name" [width]="30">
+          <ngx-datatable-column
+            name="Membresía"
+            prop="membershipsRecord.memberships.name"
+            [width]="30"
+          >
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p
-                
-                class="font-weight-bold text-dark"
-              >
+              <p class="font-weight-bold text-dark">
                 {{ id }}
               </p>
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="F. Inicio" prop="membershipsRecord.date_start" [width]="30">
+          <ngx-datatable-column
+            name="F. Inicio"
+            prop="membershipsRecord.date_start"
+            [width]="30"
+          >
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p
-                
-                class="font-weight-bold text-dark"
-              >
-                {{ id | date:'dd/MM/yyyy' }}
+              <p class="font-weight-bold text-dark">
+                {{ id | date: "dd/MM/yyyy" }}
               </p>
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="F. Fin" prop="membershipsRecord.date_finish" [width]="30">
+          <ngx-datatable-column
+            name="F. Fin"
+            prop="membershipsRecord.date_finish"
+            [width]="30"
+          >
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p
-                
-                class="font-weight-bold text-dark"
-              >
-                {{ id | date:'dd/MM/yyyy' }}
+              <p class="font-weight-bold text-dark">
+                {{ id | date: "dd/MM/yyyy" }}
               </p>
             </ng-template>
           </ngx-datatable-column>
-
-
 
           <!-- Accions with icons -->
           <ngx-datatable-column name="Acciones" [width]="100">
             <ng-template ngx-datatable-cell-template let-row="row">
               <div class="d-flex justify-content-start">
-
                 <button
                   class="btn btn-icon btn-sm"
-                  (click)="modalOpenVC(modalVC); getGoal(row.id); getFDate(row.id)"
+                  (click)="
+                    modalOpenVC(modalVC); getClientInfo(row.id); rowId = row.id; getMembershipRecordByClient(row.id);
+                  "
                 >
                   <i class="feather icon-eye"></i>
                 </button>
@@ -175,7 +160,6 @@
                 >
                   <i class="feather icon-trash"></i>
                 </button>
-
               </div>
             </ng-template>
           </ngx-datatable-column>
@@ -185,382 +169,402 @@
   </div>
 </div>
 
+<!-- *************************************************** MODALES *************************************************** -->
 
-
-
-<!-- *************************************************** MODAL *************************************************** -->
-
-
-
-<!-- Login Form -->
-<div class="login-form">
-<!-- Modal -->
-<ng-template #modalForm let-modal>
-<div class="modal-header">
-  <h4 class="modal-title" id="myModalLabel1">Agregar</h4>
-  <button
-    type="button"
-    class="close"
-    (click)="modal.dismiss('Cross click')"
-    aria-label="Close"
-  >
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body" tabindex="0" ngbAutofocus>
-  <form [formGroup]="clientForm">
-
-    <!-- input -->
-    <label>Nombre </label>
-    <div class="form-group">
-      <input
-        formControlName="name"
-        type="text"
-        placeholder="Nombre"
-        class="form-control"
-      />
-      <span *ngIf="validField('name')" class="error">
-        El nombre es requerido
-      </span>
-    </div>
-
-    <!-- input -->
-    <label>Apellido </label>
-    <div class="form-group">
-      <input
-        formControlName="last_name"
-        type="text"
-        placeholder="Apellido"
-        class="form-control"
-      />
-      <span *ngIf="validField('last_name')" class="error">
-        El apellido es requerido
-      </span>
-    </div>
-
-    <!-- input -->
-    <label>Cedula </label>
-    <div class="form-group">
-      <input
-        formControlName="document"
-        type="number"
-        placeholder="Cedula"
-        class="form-control"
-      />
-      <span *ngIf="validField('document')" class="error">
-        La cedula es requerida
-      </span>
-    </div>
-
-    <!-- input -->
-    <label>Email </label>
-    <div class="form-group">
-      <input
-        formControlName="email"
-        type="email"
-        placeholder="Email"
-        class="form-control"
-      />
-      <span *ngIf="validField('email')" class="error">
-        El email es requerido
-      </span>
-    </div>
-
-    <!-- input -->
-    <label>Teléfono </label>
-    <div class="form-group">
-      <input
-        formControlName="telephone"
-        type="number"
-        placeholder="Teléfono"
-        class="form-control"
-      />
-      <span *ngIf="validField('telephone')" class="error">
-        El teléfono es requerido
-      </span>
-    </div>
-
-    <!-- input -->
-    <label>Altura </label>
-    <div class="form-group">
-      <input
-        formControlName="height"
-        type="number"
-        placeholder="Altura"
-        class="form-control"
-      />
-      <span *ngIf="validField('height')" class="error">
-        La altura es requerida
-      </span>
-    </div>
-
-    <!-- input -->
-    <label>Peso </label>
-    <div class="form-group">
-      <input
-        formControlName="weight"
-        type="number"
-        placeholder="Peso"
-        class="form-control"
-      />
-      <span *ngIf="validField('weight')" class="error">
-        El peso es requerido
-      </span>
-    </div>
-
-    <!-- input -->
-    <label>Objetivo </label>
-    <div class="form-group">
-      <textarea
-        formControlName="goal"
-        type="text"
-        rows="3"
-        placeholder="Objetivo"
-        class="form-control"
-      ></textarea>
-      <span *ngIf="validField('goal')" class="error">
-        El objetivo es requerido
-      </span>
-    </div>
-
-    
-      <label>Selecionar membresia</label>
-      <div class="form-group">
-        <!-- Basic Multi select -->
-        <ng-select
-          [items]="selectMulti | async"
-          [closeOnSelect]="false"
-          [searchable]="false"
-          (change)="selectEvent($event)"
-          bindLabel="name"
-          placeholder="Seleccionar membresía"
-          [ngModelOptions]="{
-            standalone: true
-          }"
-          [ngModel]="selectMultiSelected | async"
+<!-- ? Modal de agregar cliente -->
+<div>
+  <!-- Login Form -->
+  <div class="login-form">
+    <!-- Modal -->
+    <ng-template #modalForm let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel1">Agregar</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="modal.dismiss('Cross click')"
+          aria-label="Close"
         >
-
-          <ng-template ng-label-tmp let-item="item" let-clear="clear">
-            <span class="ng-value-label"> {{ item.name }}</span>
-            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true"></span>
-          </ng-template>
-        </ng-select>
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <form [formGroup]="clientForm">
+          <!-- input -->
+          <label>Nombre </label>
+          <div class="form-group">
+            <input
+              formControlName="name"
+              type="text"
+              placeholder="Nombre"
+              class="form-control"
+            />
+            <span *ngIf="validField('name')" class="error">
+              El nombre es requerido
+            </span>
+          </div>
 
-    <!-- input -->
-    <label>F. Inicio </label>
-    <div class="form-group">
-      <input
-        formControlName="start_date"
-        type="date"
-        placeholder="Fecha de inicio"
-        class="form-control"
-      />
-      <span *ngIf="validField('start_date')" class="error">
-        La fecha de inicio es requerida
-      </span>
-    </div>  
+          <!-- input -->
+          <label>Apellido </label>
+          <div class="form-group">
+            <input
+              formControlName="last_name"
+              type="text"
+              placeholder="Apellido"
+              class="form-control"
+            />
+            <span *ngIf="validField('last_name')" class="error">
+              El apellido es requerido
+            </span>
+          </div>
 
-  </form>
+          <!-- input -->
+          <label>Cedula </label>
+          <div class="form-group">
+            <input
+              formControlName="document"
+              type="number"
+              placeholder="Cedula"
+              class="form-control"
+            />
+            <span *ngIf="validField('document')" class="error">
+              La cedula es requerida
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Email </label>
+          <div class="form-group">
+            <input
+              formControlName="email"
+              type="email"
+              placeholder="Email"
+              class="form-control"
+            />
+            <span *ngIf="validField('email')" class="error">
+              El email es requerido
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Teléfono </label>
+          <div class="form-group">
+            <input
+              formControlName="telephone"
+              type="number"
+              placeholder="Teléfono"
+              class="form-control"
+            />
+            <span *ngIf="validField('telephone')" class="error">
+              El teléfono es requerido
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Altura </label>
+          <div class="form-group">
+            <input
+              formControlName="height"
+              type="number"
+              placeholder="Altura"
+              class="form-control"
+            />
+            <span *ngIf="validField('height')" class="error">
+              La altura es requerida
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Peso </label>
+          <div class="form-group">
+            <input
+              formControlName="weight"
+              type="number"
+              placeholder="Peso"
+              class="form-control"
+            />
+            <span *ngIf="validField('weight')" class="error">
+              El peso es requerido
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Objetivo </label>
+          <div class="form-group">
+            <textarea
+              formControlName="goal"
+              type="text"
+              rows="3"
+              placeholder="Objetivo"
+              class="form-control"
+            ></textarea>
+            <span *ngIf="validField('goal')" class="error">
+              El objetivo es requerido
+            </span>
+          </div>
+
+          <label>Selecionar membresia</label>
+          <div class="form-group">
+            <!-- Basic Multi select -->
+            <ng-select
+              [items]="selectMulti | async"
+              [closeOnSelect]="false"
+              [searchable]="false"
+              (change)="selectEvent($event)"
+              bindLabel="name"
+              placeholder="Seleccionar membresía"
+              [ngModelOptions]="{
+                standalone: true
+              }"
+              [ngModel]="selectMultiSelected | async"
+            >
+              <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                <span class="ng-value-label"> {{ item.name }}</span>
+                <span
+                  class="ng-value-icon right"
+                  (click)="clear(item)"
+                  aria-hidden="true"
+                ></span>
+              </ng-template>
+            </ng-select>
+          </div>
+
+          <!-- input -->
+          <label>F. Inicio </label>
+          <div class="form-group">
+            <input
+              formControlName="start_date"
+              type="date"
+              placeholder="Fecha de inicio"
+              class="form-control"
+            />
+            <span *ngIf="validField('start_date')" class="error">
+              La fecha de inicio es requerida
+            </span>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="saveNewClient(); modal.close()"
+          [disabled]="!clientForm.valid"
+          rippleEffect
+        >
+          Agregar
+        </button>
+      </div>
+    </ng-template>
+    <!-- / Modal -->
+  </div>
 </div>
-<div class="modal-footer">
-  <button
-    type="button"
-    class="btn btn-primary"
-    (click)="saveNewClient(); modal.close()"
-    [disabled]="!clientForm.valid"
-    rippleEffect
-  >
-    Agregar
-  </button>
-</div>
-</ng-template>
-<!-- / Modal -->
-</div>
-
-
 
 <!--? ----------------------- Modal edit ----------------------------->
-<!-- Login Form -->
-<div class="login-form">
-  <!-- Modal -->
-  <ng-template #modalEdit let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="myModalLabel1">Actualizar</h4>
-    <button
-      type="button"
-      class="close"
-      (click)="modal.dismiss('Cross click')"
-      aria-label="Close"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body" tabindex="0" ngbAutofocus>
-    <form [formGroup]="editForm">
-  
-      <!-- input -->
-      <label>Nombre </label>
-      <div class="form-group">
-        <input
-          formControlName="name"
-          type="text"
-          placeholder="Nombre"
-          class="form-control"
-        />
-        <span *ngIf="editValidField('name')" class="error">
-          El nombre es requerido
-        </span>
+<div>
+  <!-- Login Form -->
+  <div class="login-form">
+    <!-- Modal -->
+    <ng-template #modalEdit let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel1">Actualizar</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="modal.dismiss('Cross click')"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-  
-      <!-- input -->
-      <label>Apellido </label>
-      <div class="form-group">
-        <input
-          formControlName="last_name"
-          type="text"
-          placeholder="Apellido"
-          class="form-control"
-        />
-        <span *ngIf="editValidField('last_name')" class="error">
-          El apellido es requerido
-        </span>
-      </div>
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <form [formGroup]="editForm">
+          <!-- input -->
+          <label>Nombre </label>
+          <div class="form-group">
+            <input
+              formControlName="name"
+              type="text"
+              placeholder="Nombre"
+              class="form-control"
+            />
+            <span *ngIf="editValidField('name')" class="error">
+              El nombre es requerido
+            </span>
+          </div>
 
-      <!-- input -->
-    <label>Cedula </label>
-    <div class="form-group">
-      <input
-        formControlName="document"
-        type="number"
-        placeholder="Cedula"
-        class="form-control"
-      />
-      <span *ngIf="validField('document')" class="error">
-        La cedula es requerida
-      </span>
-    </div>
+          <!-- input -->
+          <label>Apellido </label>
+          <div class="form-group">
+            <input
+              formControlName="last_name"
+              type="text"
+              placeholder="Apellido"
+              class="form-control"
+            />
+            <span *ngIf="editValidField('last_name')" class="error">
+              El apellido es requerido
+            </span>
+          </div>
 
-    <!-- input -->
-    <label>Email </label>
-    <div class="form-group">
-      <input
-        formControlName="email"
-        type="email"
-        placeholder="Email"
-        class="form-control"
-      />
-      <span *ngIf="validField('email')" class="error">
-        El email es requerido
-      </span>
-    </div>
-  
-      <!-- input -->
-      <label>Teléfono </label>
-      <div class="form-group">
-        <input
-          formControlName="telephone"
-          type="number"
-          placeholder="Teléfono"
-          class="form-control"
-        />
-        <span *ngIf="editValidField('telephone')" class="error">
-          El teléfono es requerido
-        </span>
-      </div>
-  
-      <!-- input -->
-      <label>Altura </label>
-      <div class="form-group">
-        <input
-          formControlName="height"
-          type="number"
-          placeholder="Altura"
-          class="form-control"
-        />
-        <span *ngIf="editValidField('height')" class="error">
-          La altura es requerida
-        </span>
-      </div>
-  
-      <!-- input -->
-      <label>Peso </label>
-      <div class="form-group">
-        <input
-          formControlName="weight"
-          type="number"
-          placeholder="Peso"
-          class="form-control"
-        />
-        <span *ngIf="editValidField('weight')" class="error">
-          El peso es requerido
-        </span>
-      </div>
-  
-      <!-- input -->
-      <label>Objetivo </label>
-      <div class="form-group">
-        <textarea
-          formControlName="goal"
-          type="text"
-          rows="3"
-          placeholder="Objetivo"
-          class="form-control"
-        ></textarea>
-        <span *ngIf="editValidField('goal')" class="error">
-          El objetivo es requerido
-        </span>
-      </div>
-  
-      <!-- input -->
-      <label>Fecha de inicio </label>
-      <div class="form-group">
-        <input
-          formControlName="start_date"
-          type="date"
-          placeholder="Fecha de inicio"
-          class="form-control"
-        />
-        <span *ngIf="editValidField('start_date')" class="error">
-          La fecha de inicio es requerida
-        </span>
-      </div>
+          <!-- input -->
+          <label>Cedula </label>
+          <div class="form-group">
+            <input
+              formControlName="document"
+              type="number"
+              placeholder="Cedula"
+              class="form-control"
+            />
+            <span *ngIf="validField('document')" class="error">
+              La cedula es requerida
+            </span>
+          </div>
 
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-primary"
-      (click)="updateClient()"
-      [disabled]="!editForm.valid"
-      rippleEffect
-    >
-      Actualizar
-    </button>
-  </div>
-  </ng-template>
-  <!-- / Modal -->
-  </div>
+          <!-- input -->
+          <label>Email </label>
+          <div class="form-group">
+            <input
+              formControlName="email"
+              type="email"
+              placeholder="Email"
+              class="form-control"
+            />
+            <span *ngIf="validField('email')" class="error">
+              El email es requerido
+            </span>
+          </div>
 
-  <!-- Modal -->
+          <!-- input -->
+          <label>Teléfono </label>
+          <div class="form-group">
+            <input
+              formControlName="telephone"
+              type="number"
+              placeholder="Teléfono"
+              class="form-control"
+            />
+            <span *ngIf="editValidField('telephone')" class="error">
+              El teléfono es requerido
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Altura </label>
+          <div class="form-group">
+            <input
+              formControlName="height"
+              type="number"
+              placeholder="Altura"
+              class="form-control"
+            />
+            <span *ngIf="editValidField('height')" class="error">
+              La altura es requerida
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Peso </label>
+          <div class="form-group">
+            <input
+              formControlName="weight"
+              type="number"
+              placeholder="Peso"
+              class="form-control"
+            />
+            <span *ngIf="editValidField('weight')" class="error">
+              El peso es requerido
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Objetivo </label>
+          <div class="form-group">
+            <textarea
+              formControlName="goal"
+              type="text"
+              rows="3"
+              placeholder="Objetivo"
+              class="form-control"
+            ></textarea>
+            <span *ngIf="editValidField('goal')" class="error">
+              El objetivo es requerido
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Fecha de inicio </label>
+          <div class="form-group">
+            <input
+              formControlName="start_date"
+              type="date"
+              placeholder="Fecha de inicio"
+              class="form-control"
+            />
+            <span *ngIf="editValidField('start_date')" class="error">
+              La fecha de inicio es requerida
+            </span>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="updateClient()"
+          [disabled]="!editForm.valid"
+          rippleEffect
+        >
+          Actualizar
+        </button>
+      </div>
+    </ng-template>
+    <!-- / Modal -->
+  </div>
+</div>
+
+<!-- ? Mdoal de información de clientes -->
+<div>
   <ng-template #modalVC let-modal>
     <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalCenterTitle">Datos adicionales</h5>
-      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <h5 class="modal-title" id="exampleModalCenterTitle">
+        Datos del cliente
+      </h5>
+      <button
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
+
     <div class="modal-body" tabindex="0" ngbAutofocus>
-      <p>
-        <b>Objetivo del cliente: </b> {{ this.clientGoal }}
-      </p>
+      <p><b>Nombre: </b> {{ this.client.name }}</p>
+      <p><b>Cedula: </b> {{ this.client.document }}</p>
+      <p><b>Teléfono: </b> {{ this.client.telephone }}</p>
+      <p><b>Email: </b> {{ this.client.email }}</p>
+      <p><b>Altura: </b> {{ this.client.height }}</p>
+      <p><b>Peso: </b> {{ this.client.weight }}</p>
+      <p><b>Objetivo: </b> {{ this.client.goal }}</p>
+      <p><b>Fecha de inicio: </b> {{ this.membershipRecord.date_start | date: "dd/MM/yyyy" }}</p>
+      <p><b>Fecha final: </b> {{ this.membershipRecord.date_finish | date: "dd/MM/yyyy" }}</p>
+      <p><b>Membresía: </b> {{ this.membershipRecord.membership.name }}</p>
+      
     </div>
+
+
     <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="modal.close('Accept click')"
+        rippleEffect
+      >
         Ok
       </button>
     </div>
   </ng-template>
   <!-- / Modal -->
+</div>

@@ -32,6 +32,7 @@ export class ClientsListPageComponent implements OnInit {
   clientGoal: string;
   clientDateStart: string;
   membershipTimeLapse: number;
+  clientInfo: any;
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
   public searchValue = '';
@@ -48,6 +49,7 @@ export class ClientsListPageComponent implements OnInit {
   basicDPdata: any;
   addSede: boolean = false;
   clientMembership: Object;
+  membershipID: any;
 
   constructor(
     public customeService: ClientsService,
@@ -81,6 +83,8 @@ export class ClientsListPageComponent implements OnInit {
     id: undefined,
     membership_id: undefined,
     client_id: undefined,
+    date_start: undefined,
+    date_finish: undefined,
   }
 
   oneMembershipRecord: any = {
@@ -92,6 +96,15 @@ export class ClientsListPageComponent implements OnInit {
       price: undefined,
       description: undefined,
     }
+  }
+
+  membership: Membership = {
+    id: undefined,
+    name: undefined,
+    time_lapse: undefined,
+    price: undefined,
+    description: undefined,
+
   }
 
 
@@ -288,12 +301,11 @@ export class ClientsListPageComponent implements OnInit {
 
   }
 
-  getGoal(id) {
+  getClientInfo(id) {
     this.clientsService.getClient(id).subscribe(
       (res) => {
         console.log(res);
         this.client = res;
-        this.clientGoal = this.client.goal;
       }
     )
   }
@@ -309,6 +321,20 @@ export class ClientsListPageComponent implements OnInit {
       this.editForm.controls[field].touched;
   }
 
+  getMembershipRecordByClient(id: number) {
+    this.membershipsRecordsService.getMembershipRecordByClientId(id).subscribe(
+      (res) => {
+        console.log(res);
+        this.membershipRecord = res;
+
+        
+
+      }
+    )
+  }
+
+
+
   getClient(client: any) {
     this.rowId = client.id;
     this.editForm.controls['name'].setValue(client.name);
@@ -323,7 +349,7 @@ export class ClientsListPageComponent implements OnInit {
   }
 
   saveNewClient() {
-    
+
     this.client.name = this.clientForm.controls['name'].value;
     this.client.last_name = this.clientForm.controls['last_name'].value;
     this.client.telephone = this.clientForm.controls['telephone'].value;
@@ -336,14 +362,14 @@ export class ClientsListPageComponent implements OnInit {
     this.client.email = this.clientForm.controls['email'].value;
 
     this.clientsService.addClient(this.client).subscribe(
-      
+
       (res) => {
         let data: any = res;
-        
+
         console.log(res);
         this.addSede = true;
         this.getClients();
-        
+
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -351,9 +377,9 @@ export class ClientsListPageComponent implements OnInit {
           showConfirmButton: false,
           timer: 1000
         })
-        
+
       },
-      
+
       (err) => console.log(err)
     );
 
@@ -409,6 +435,11 @@ export class ClientsListPageComponent implements OnInit {
       console.log(data);
 
     });
+  }
+
+  eye(rowId) {
+    console.log('rowId: ', rowId);
+
   }
 
 }

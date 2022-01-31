@@ -8,6 +8,7 @@ import { MembershipsListPageComponent } from './pages/memberships/memberships-li
 import { MembershipsAddPageComponent } from './pages/memberships/memberships-add-page/memberships-add-page.component';
 import { ClientsListPageComponent } from './pages/clients/clients-list-page/clients-list-page.component';
 import { ClientsAddPageComponent } from './pages/clients/clients-add-page/clients-add-page.component';
+import { UsersListPageComponent } from './pages/users/users-list-page/users-list-page.component';
 
 const routes: Routes = [
 
@@ -30,6 +31,9 @@ const routes: Routes = [
   { path: 'clients', component: ClientsListPageComponent },
   { path: "addclients", component: ClientsAddPageComponent },
   { path: "clients/edit/:id", component: ClientsAddPageComponent },
+
+  /* users */
+  { path: 'users', component: UsersListPageComponent },
   
 ];
 

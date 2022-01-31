@@ -16,11 +16,18 @@ export const menu: CoreMenu[] = [
     url: 'main/places'
   },
   {
-    id: 'mmberships',
+    id: 'memberships',
     title: 'Membresias',
     type: 'item',
     icon: 'users',
     url: 'main/memberships'
+  },
+  {
+    id: 'users',
+    title: 'Usuarios',
+    type: 'item',
+    icon: 'users',
+    url: 'main/users'
   },
   {
     id: 'clients',

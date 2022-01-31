@@ -190,29 +190,8 @@ export class ClientsListPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getClients();
-
-    this.clientsService.getData().subscribe((data) => {
-      res => {
-        this.client = res;
-      }
-      err => {
-        console.error(err);
-      }
-    })
-
-    //? Trae las membresías y las mete en selectMultiSelected
-
-    if (this.client_id) {
-      this.clientsService.getClient(this.client_id).subscribe(
-        (res) => {
-          console.log(res);
-          this.client = res;
-          this.edit = true;
-        },
-        (err) => console.log(err)
-      );
-    }
     this.getMemberships();
+    
   }
 
   async getMemberships() {
@@ -232,7 +211,8 @@ export class ClientsListPageComponent implements OnInit {
     this.clientsService.getData().subscribe((res) => {
       this.rows = res;
       this.tempData = res;
-
+      this.client = res;
+      console.log(JSON.stringify(this.rows));
     });
   }
 
@@ -340,7 +320,7 @@ export class ClientsListPageComponent implements OnInit {
     this.editForm.controls['height'].setValue(client.height);
     this.editForm.controls['weight'].setValue(client.weight);
     this.editForm.controls['goal'].setValue(client.goal);
-    this.editForm.controls['start_date'].setValue(client.start_date);
+    this.editForm.controls['start_date'].setValue(client.membershipsRecord.date_start);
     this.editForm.controls['document'].setValue(client.document);
     this.editForm.controls['email'].setValue(client.email);
   }
@@ -370,13 +350,13 @@ export class ClientsListPageComponent implements OnInit {
           this.getClients();
 
 
-          if(data.status == 'error'){
+          if (data.status == 'error') {
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
               text: 'El cliente ya se encuentra registrado'
             })
-          }else{
+          } else {
             Swal.fire({
               position: 'top-end',
               icon: 'success',
@@ -393,21 +373,30 @@ export class ClientsListPageComponent implements OnInit {
     } catch (error) {
 
       console.log(error);
-      
+
 
     }
 
   }
 
   getOneClient(client: any) {
+
+    /* Se toma la fecha y se le da el formato yyyy-mm-dd */
     this.rowId = client.id;
+    let date = new Date(client.membershipsRecord.date_start);
+    let d = date.getDate();
+    let mFormat = date.getMonth() + 1;
+    let m = mFormat < 10 ? '0' + mFormat : mFormat;
+    let y = date.getFullYear();
+    let date_start = (y + '-' + m + '-' + d).toString();
+
     this.editForm.controls['name'].setValue(client.name);
     this.editForm.controls['last_name'].setValue(client.last_name);
     this.editForm.controls['telephone'].setValue(client.telephone);
     this.editForm.controls['height'].setValue(client.height);
     this.editForm.controls['weight'].setValue(client.weight);
     this.editForm.controls['goal'].setValue(client.goal);
-    this.editForm.controls['start_date'].setValue(client.start_date);
+    this.editForm.controls['start_date'].setValue(date_start);
     this.editForm.controls['document'].setValue(client.document);
     this.editForm.controls['email'].setValue(client.email);
   }
@@ -421,7 +410,6 @@ export class ClientsListPageComponent implements OnInit {
     this.clientUpdate.height = this.editForm.controls['height'].value;
     this.clientUpdate.weight = this.editForm.controls['weight'].value;
     this.clientUpdate.goal = this.editForm.controls['goal'].value;
-    this.clientUpdate.start_date = this.editForm.controls['start_date'].value;
     this.clientUpdate.document = this.editForm.controls['document'].value;
     this.clientUpdate.email = this.editForm.controls['email'].value;
 
@@ -429,11 +417,12 @@ export class ClientsListPageComponent implements OnInit {
       (res) => {
         let data: any = res;
         this.modalService.dismissAll('modalEdit');
+        console.log('update',res);
         this.getClients();
         Swal.fire({
           position: 'top-end',
           icon: 'success',
-          title: 'El gimnasio ha sido actualizado',
+          title: 'El cliente ha sido actualizado',
           showConfirmButton: false,
           timer: 1000
         })
@@ -442,6 +431,8 @@ export class ClientsListPageComponent implements OnInit {
         console.log(err)
       }
     );
+
+        
   }
 
   getMembershipRecords() {

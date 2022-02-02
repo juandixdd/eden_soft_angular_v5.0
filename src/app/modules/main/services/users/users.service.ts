@@ -22,6 +22,9 @@ export class UsersService {
   }
 
   addUser(user) {
+    console.log('Usuario crear');
+    
+    console.log(JSON.stringify(user));
     return this.http.post(`${this.API_URI}/users`, user);
   }
 

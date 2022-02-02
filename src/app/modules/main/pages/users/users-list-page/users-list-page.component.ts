@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { UsersService } from 'app/modules/main/services/users/users.service';
 import Swal from 'sweetalert2';
+import { User } from '../../../../../core/models/user';
 
 @Component({
   selector: 'app-users-list-page',
@@ -31,7 +32,7 @@ export class UsersListPageComponent implements OnInit {
     private userService: UsersService
   ) { }
 
-  user: any = null;
+  user: any = {};
   userUpdate: any = null;
 
   public userForm: FormGroup = this.fb.group({
@@ -39,7 +40,7 @@ export class UsersListPageComponent implements OnInit {
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
     ],
-    lastName: [
+    lastname: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
     ],
@@ -66,7 +67,7 @@ export class UsersListPageComponent implements OnInit {
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
     ],
-    lastName: [
+    lastname: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
     ],
@@ -96,33 +97,43 @@ export class UsersListPageComponent implements OnInit {
     this.userService.getData().subscribe((res) => {
       this.rows = res;
       this.tempData = res;
-      this.user = res;
       this.cols = Object.keys(res[0]);
       console.log(this.cols);
     });
   }
 
   validField(field: string) {
-    return  this.userForm.controls[field].errors &&
-            this.userForm.controls[field].touched;
+    return this.userForm.controls[field].errors &&
+      this.userForm.controls[field].touched;
   }
 
-  validFieldEdit(field: string) {
-    return  this.editForm.controls[field].errors &&
-            this.editForm.controls[field].touched;
+  editValidField(field: string) {
+    return this.editForm.controls[field].errors &&
+      this.editForm.controls[field].touched;
   }
 
   modalOpenForm(modalForm) {
     this.modalService.open(modalForm);
   }
-  
-  modalOpenEdit(modalEdit){
+
+  modalOpenEdit(modalEdit) {
     this.modalService.open(modalEdit);
   }
 
-  saveNewUser(){
+  getOneUser(user: any) {
+    this.rowId = user.id;
+    this.userUpdate = user;
+    this.editForm.controls['name'].setValue(user.name);
+    this.editForm.controls['lastname'].setValue(user.lastname);
+    this.editForm.controls['telephone'].setValue(user.telephone);
+    this.editForm.controls['email'].setValue(user.email);
+    this.editForm.controls['password'].setValue(user.password);
+    this.editForm.controls['role'].setValue(user.role);
+  }
+
+  saveNewUser() {
     this.user.name = this.userForm.controls['name'].value;
-    this.user.lastName = this.userForm.controls['lastName'].value;
+    this.user.lastname = this.userForm.controls['lastname'].value;
     this.user.telephone = this.userForm.controls['telephone'].value;
     this.user.email = this.userForm.controls['email'].value;
     this.user.password = this.userForm.controls['password'].value;
@@ -143,7 +154,51 @@ export class UsersListPageComponent implements OnInit {
         this.userForm.reset();
       },
       (err) => console.log(err)
-      
+
+    );
+  }
+
+  updateUser() {
+    this.userUpdate.name = this.editForm.controls['name'].value;
+    this.userUpdate.lastname = this.editForm.controls['lastname'].value;
+    this.userUpdate.telephone = this.editForm.controls['telephone'].value;
+    this.userUpdate.email = this.editForm.controls['email'].value;
+    this.userUpdate.password = this.editForm.controls['password'].value;
+    this.userUpdate.role = this.editForm.controls['role'].value;
+
+    this.userService.updateUser(this.rowId, this.userUpdate).subscribe(
+      (res) => {
+        let data: any = res;
+        this.modalService.dismissAll('modalEdit');
+        this.user = res;
+        this.getUsers();
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Usuario actualizado con exito',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.editForm.reset();
+      },
+      (err) => console.log(err)
+    )
+  }
+
+  confirmDeleteUser(id: number) {
+    this.userService.deleteUser(id).subscribe(
+      (res) => {
+        let data: any = res;
+        this.user = res;
+        this.getUsers();
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Usuario eliminado con exito',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
     );
   }
 

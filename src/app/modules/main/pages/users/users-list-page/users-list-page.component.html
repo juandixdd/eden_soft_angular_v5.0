@@ -98,7 +98,7 @@
               <div class="d-flex justify-content-start">
                 <button
                   class="btn btn-icon btn-sm mr-1"
-                  (click)="getUser(row); modalOpenEdit(modalEdit)"
+                  (click)="getOneUser(row); modalOpenEdit(modalEdit)"
                 >
                   <i class="feather icon-edit"></i>
                 </button>
@@ -231,6 +231,129 @@
           rippleEffect
         >
           Agregar
+        </button>
+      </div>
+    </ng-template>
+    <!-- / Modal -->
+  </div>
+</div>
+
+
+<!--? ----------------------- Modal edit ----------------------------->
+<div>
+  <!-- Login Form -->
+  <div class="login-form">
+    <!-- Modal -->
+    <ng-template #modalEdit let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel1">Actualizar</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="modal.dismiss('Cross click')"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <form [formGroup]="editForm">
+          <!-- input -->
+          <label>Nombre </label>
+          <div class="form-group">
+            <input
+              formControlName="name"
+              type="text"
+              placeholder="Nombre"
+              class="form-control"
+            />
+            <span *ngIf="editValidField('name')" class="error">
+              El nombre es requerido
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Apellido </label>
+          <div class="form-group">
+            <input
+              formControlName="lastname"
+              type="text"
+              placeholder="Apellido"
+              class="form-control"
+            />
+            <span *ngIf="editValidField('lastname')" class="error">
+              El apellido es requerido
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Telefono </label>
+          <div class="form-group">
+            <input
+              formControlName="telephone"
+              type="text"
+              placeholder="Telefono"
+              class="form-control"
+            />
+            <span *ngIf="editValidField('telephone')" class="error">
+              El telefono es requerido
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Rol </label>
+          <div class="form-group">
+            <input
+              formControlName="role"
+              type="text"
+              placeholder="Rol"
+              class="form-control"
+            />
+            <span *ngIf="editValidField('role')" class="error">
+              El rol es requerido
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Email </label>
+          <div class="form-group">
+            <input
+              formControlName="email"
+              type="email"
+              placeholder="Email"
+              class="form-control"
+            />
+            <span *ngIf="editValidField('email')" class="error">
+              El email es requerido
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Contraseña </label>
+          <div class="form-group">
+            <input
+              formControlName="password"
+              type="password"
+              placeholder="Contraseña"
+              class="form-control"
+            />
+            <span *ngIf="editValidField('password')" class="error">
+              La contraseña es requerida
+            </span>
+          </div>
+
+         
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="updateUser()"
+          [disabled]="!editForm.valid"
+          rippleEffect
+        >
+          Actualizar
         </button>
       </div>
     </ng-template>

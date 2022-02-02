@@ -191,7 +191,7 @@ export class ClientsListPageComponent implements OnInit {
   ngOnInit(): void {
     this.getClients();
     this.getMemberships();
-    
+
   }
 
   async getMemberships() {
@@ -383,12 +383,6 @@ export class ClientsListPageComponent implements OnInit {
 
     /* Se toma la fecha y se le da el formato yyyy-mm-dd */
     this.rowId = client.id;
-    let date = new Date(client.membershipsRecord.date_start);
-    let d = date.getDate();
-    let mFormat = date.getMonth() + 1;
-    let m = mFormat < 10 ? '0' + mFormat : mFormat;
-    let y = date.getFullYear();
-    let date_start = (y + '-' + m + '-' + d).toString();
 
     this.editForm.controls['name'].setValue(client.name);
     this.editForm.controls['last_name'].setValue(client.last_name);
@@ -396,14 +390,23 @@ export class ClientsListPageComponent implements OnInit {
     this.editForm.controls['height'].setValue(client.height);
     this.editForm.controls['weight'].setValue(client.weight);
     this.editForm.controls['goal'].setValue(client.goal);
-    this.editForm.controls['start_date'].setValue(date_start);
+    this.editForm.controls['start_date'].setValue(moment(client.membershipsRecord.date_start).format('YYYY-MM-DD'));
     this.editForm.controls['document'].setValue(client.document);
     this.editForm.controls['email'].setValue(client.email);
+    
   }
 
 
 
   updateClient() {
+    /* arregla el formato de start_date */
+    let date = new Date(this.editForm.controls['start_date'].value);
+    let d = date.getDate();
+    let mFormat = date.getMonth() + 1;
+    let m = mFormat < 10 ? '0' + mFormat : mFormat;
+    let y = date.getFullYear();
+    let start_date = (y + '-' + m + '-' + d).toString();
+
     this.clientUpdate.name = this.editForm.controls['name'].value;
     this.clientUpdate.last_name = this.editForm.controls['last_name'].value;
     this.clientUpdate.telephone = this.editForm.controls['telephone'].value;
@@ -412,12 +415,16 @@ export class ClientsListPageComponent implements OnInit {
     this.clientUpdate.goal = this.editForm.controls['goal'].value;
     this.clientUpdate.document = this.editForm.controls['document'].value;
     this.clientUpdate.email = this.editForm.controls['email'].value;
+    this.clientUpdate.start_date = this.editForm.controls['start_date'].value;
+
+    console.log(this.clientUpdate.start_date);
+    
 
     this.clientsService.updateClient(this.rowId, this.clientUpdate).subscribe(
       (res) => {
         let data: any = res;
         this.modalService.dismissAll('modalEdit');
-        console.log('update',res);
+        console.log('update', res);
         this.getClients();
         Swal.fire({
           position: 'top-end',
@@ -432,7 +439,7 @@ export class ClientsListPageComponent implements OnInit {
       }
     );
 
-        
+
   }
 
   getMembershipRecords() {

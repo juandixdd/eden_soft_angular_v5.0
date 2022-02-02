@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,7 +10,8 @@ import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 @Component({
   selector: 'app-gyms-list-page',
   templateUrl: './gyms-list-page.component.html',
-  styleUrls: ['./gyms-list-page.component.scss']
+  styleUrls: ['./gyms-list-page.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class GymsListPageComponent implements OnInit {
 

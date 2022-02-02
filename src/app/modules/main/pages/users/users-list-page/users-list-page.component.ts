@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,7 +10,8 @@ import { User } from '../../../../../core/models/user';
 @Component({
   selector: 'app-users-list-page',
   templateUrl: './users-list-page.component.html',
-  styleUrls: ['./users-list-page.component.scss']
+  styleUrls: ['./users-list-page.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class UsersListPageComponent implements OnInit {
 

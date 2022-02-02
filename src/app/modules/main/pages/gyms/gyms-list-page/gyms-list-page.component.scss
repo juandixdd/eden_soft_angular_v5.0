@@ -1,8 +1,8 @@
-@import '@core/scss/base/pages/app-invoice.scss';
-@import '@core/scss/angular/libs/datatables.component.scss';
-@import '@core/scss/angular/libs/select.component.scss';
+@import "@core/scss/base/pages/app-invoice.scss";
+@import "@core/scss/angular/libs/datatables.component.scss";
+@import "@core/scss/angular/libs/select.component.scss";
 
-@import '@core/scss/base/bootstrap-extended/_include'; // Components includes
+@import "@core/scss/base/bootstrap-extended/_include"; // Components includes
 
 // invoice list
 .invoice-list-wrapper {
@@ -13,4 +13,4 @@
       }
     }
   }
-} 
+}

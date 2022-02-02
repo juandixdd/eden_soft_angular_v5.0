@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from "@angular/router";
 import Swal from "sweetalert2";
 import { MembershipsService } from "app/modules/main/services/memberships/memberships.service";
@@ -11,7 +11,8 @@ import { ColumnMode } from "@swimlane/ngx-datatable";
 @Component({
   selector: 'app-memberships-list-page',
   templateUrl: './memberships-list-page.component.html',
-  styleUrls: ['./memberships-list-page.component.scss']
+  styleUrls: ['./memberships-list-page.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MembershipsListPageComponent implements OnInit {
 

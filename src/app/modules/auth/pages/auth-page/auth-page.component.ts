@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
 import { AuthService } from '../../services/auth/auth.service';
 import Swal from 'sweetalert2';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UsersService } from 'app/modules/main/services/users/users.service';
 
 @Component({
   selector: 'app-auth-page',
@@ -27,6 +29,8 @@ export class AuthPageComponent implements OnInit {
   email: string;
   password: string;
 
+  user: any = null;
+
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -40,7 +44,9 @@ export class AuthPageComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalService: NgbModal,
+    private _usersService: UsersService
   ) {
     this._unsubscribeAll = new Subject();
 
@@ -67,9 +73,6 @@ export class AuthPageComponent implements OnInit {
     return this.loginForm.controls;
   }
 
-
-
-
   togglePasswordTextType() {
     this.passwordTextType = !this.passwordTextType;
   }
@@ -88,8 +91,8 @@ export class AuthPageComponent implements OnInit {
     this.authService.login(this.loginForm.value).subscribe((resp: any) => {
       console.log(resp);
       if (resp.access_token) {
+        
         localStorage.setItem('access_token', resp.access_token);
-        console.log('ole');
         this._router.navigate (['main/gyms']);
       }
     }, error => {
@@ -125,6 +128,18 @@ export class AuthPageComponent implements OnInit {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
+  }
+
+  
+
+   // modal Open Form
+   modalOpenForm(modalForm) {
+    this.modalService.open(modalForm, { centered: true });
+  }
+
+  /* Valida si las contraseñas son iguales */
+  isPasswordEqual(password: string, passwordConfirmation: string) {
+    return password === passwordConfirmation;
   }
 
 }

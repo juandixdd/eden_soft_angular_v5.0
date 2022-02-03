@@ -38,7 +38,6 @@ export class AuthService {
       return this.http.post(`${this.API_URI}/auth/login`, user);
     } catch (error) {
       console.log('error de credenciales');
-      
     }
   }
 }

@@ -80,6 +80,7 @@ export class ClientsListPageComponent implements OnInit {
   };
 
   clientView: Client = null;
+  membershipView = null;
 
   membershipRecord: MembershipRecord = null;
 
@@ -204,7 +205,6 @@ export class ClientsListPageComponent implements OnInit {
     this.selectMultiSelectedEvent = event;
     console.log(this.selectMultiSelectedEvent);
     console.log(this.selectMultiSelectedEvent.id);
-    console.log(this.selectMultiSelectedEvent.time_lapse);
   }
 
   getClients() {
@@ -285,6 +285,13 @@ export class ClientsListPageComponent implements OnInit {
         this.clientView = res;
       }
     )
+
+    /* this.membershipsRecordsService.getMembershipRecordByClientId(this.clientView.id).subscribe(
+      (res) => {
+        console.log(res);
+        this.membershipRecord = res;
+      }
+    ) */
   }
 
 
@@ -301,16 +308,11 @@ export class ClientsListPageComponent implements OnInit {
   getMembershipRecordByClient(id: number) {
     this.membershipsRecordsService.getMembershipRecordByClientId(id).subscribe(
       (res) => {
-        console.log(res);
         this.membershipRecord = res;
-
-
-
+        
       }
     )
   }
-
-
 
   getClient(client: any) {
     this.rowId = client.id;
@@ -328,6 +330,7 @@ export class ClientsListPageComponent implements OnInit {
   saveNewClient() {
 
     try {
+      const membershipID = this.selectMultiSelectedEvent.id;
       const newClient: Client = {
         name: this.clientForm.controls['name'].value,
         last_name: this.clientForm.controls['last_name'].value,
@@ -336,10 +339,10 @@ export class ClientsListPageComponent implements OnInit {
         weight: this.clientForm.controls['weight'].value,
         goal: this.clientForm.controls['goal'].value,
         start_date: this.clientForm.controls['start_date'].value,
-        membership_id: this.selectMultiSelectedEvent.id,
+        membership_id: membershipID,
         document: this.clientForm.controls['document'].value,
         email: this.clientForm.controls['email'].value,
-      }
+      };
 
       this.clientsService.addClient(newClient).subscribe(
         (res) => {

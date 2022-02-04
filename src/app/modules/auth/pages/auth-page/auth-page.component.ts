@@ -91,9 +91,11 @@ export class AuthPageComponent implements OnInit {
     this.authService.login(this.loginForm.value).subscribe((resp: any) => {
       console.log(resp);
       if (resp.access_token) {
-        
-        localStorage.setItem('access_token', resp.access_token);
-        this._router.navigate (['main/gyms']);
+        this.authService.getUserInfo({ email: this.loginForm.value.email }).subscribe((user: any) => {
+          localStorage.setItem('userID', user.id);
+          localStorage.setItem('access_token', resp.access_token);
+          this._router.navigate(user.first_login === 0 ? ['change-password'] : ['main/gyms']);
+        });
       }
     }, error => {
       Swal.fire({
@@ -130,10 +132,10 @@ export class AuthPageComponent implements OnInit {
     this._unsubscribeAll.complete();
   }
 
-  
 
-   // modal Open Form
-   modalOpenForm(modalForm) {
+
+  // modal Open Form
+  modalOpenForm(modalForm) {
     this.modalService.open(modalForm, { centered: true });
   }
 

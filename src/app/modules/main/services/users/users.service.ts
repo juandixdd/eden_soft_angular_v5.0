@@ -28,7 +28,7 @@ export class UsersService {
     return this.http.post(`${this.API_URI}/users`, user);
   }
 
-  updateUser(id: number, updatedUser: User): Observable<User> {
+  updateUser(id: number, updatedUser: User) {
     return this.http.put(`${this.API_URI}/users/${id}`, updatedUser);
   }
 

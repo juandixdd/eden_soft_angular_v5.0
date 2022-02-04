@@ -40,4 +40,10 @@ export class AuthService {
       console.log('error de credenciales');
     }
   }
+
+  getUserInfo(User: User) {
+    return this.http.post(`${this.API_URI}/auth/getUserInfo`, User);
+  }
+
+  
 }

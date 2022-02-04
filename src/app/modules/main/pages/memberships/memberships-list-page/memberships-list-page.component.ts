@@ -118,7 +118,6 @@ export class MembershipsListPageComponent implements OnInit {
           if (resp.status) {
             this.ngOnInit();
             Swal.fire("Eliminado!", "El gimnasio ha sido eliminado", "success");
-            console.log(`Gimnasio eliminado`);
           } else {
             console.log("Error");
           }
@@ -175,7 +174,6 @@ export class MembershipsListPageComponent implements OnInit {
     this.membershipsService.addMembership(this.membership).subscribe(
       (res) => {
         let data: any = res;
-        console.log(res);
         this.getMemberships();
         if(data.status == 'error'){
           Swal.fire({

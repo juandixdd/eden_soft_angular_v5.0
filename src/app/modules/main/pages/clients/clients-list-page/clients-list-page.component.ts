@@ -203,8 +203,6 @@ export class ClientsListPageComponent implements OnInit {
 
   selectEvent(event) {
     this.selectMultiSelectedEvent = event;
-    console.log(this.selectMultiSelectedEvent);
-    console.log(this.selectMultiSelectedEvent.id);
   }
 
   getClients() {
@@ -212,7 +210,6 @@ export class ClientsListPageComponent implements OnInit {
       this.rows = res;
       this.tempData = res;
       this.client = res;
-      console.log(JSON.stringify(this.rows));
     });
   }
 
@@ -221,7 +218,6 @@ export class ClientsListPageComponent implements OnInit {
       (res: any) => {
 
         this.selectMultiSelected = res;
-        console.log(res);
         this.hasMembership = true;
       },
       (err) => console.log(err)
@@ -281,7 +277,6 @@ export class ClientsListPageComponent implements OnInit {
   getClientInfo(id) {
     this.clientsService.getClient(id).subscribe(
       (res) => {
-        console.log(res);
         this.clientView = res;
       }
     )
@@ -330,7 +325,7 @@ export class ClientsListPageComponent implements OnInit {
   saveNewClient() {
 
     try {
-      const membershipID = this.selectMultiSelectedEvent.id;
+      
       const newClient: Client = {
         name: this.clientForm.controls['name'].value,
         last_name: this.clientForm.controls['last_name'].value,
@@ -339,7 +334,7 @@ export class ClientsListPageComponent implements OnInit {
         weight: this.clientForm.controls['weight'].value,
         goal: this.clientForm.controls['goal'].value,
         start_date: this.clientForm.controls['start_date'].value,
-        membership_id: membershipID,
+        membership_id: this.selectMultiSelectedEvent.id,
         document: this.clientForm.controls['document'].value,
         email: this.clientForm.controls['email'].value,
       };
@@ -349,8 +344,6 @@ export class ClientsListPageComponent implements OnInit {
 
 
           let data: any = res;
-
-          console.log(res);
           this.addSede = true;
           this.getClients();
 
@@ -421,15 +414,12 @@ export class ClientsListPageComponent implements OnInit {
     this.clientUpdate.document = this.editForm.controls['document'].value;
     this.clientUpdate.email = this.editForm.controls['email'].value;
     this.clientUpdate.start_date = this.editForm.controls['start_date'].value;
-
-    console.log(this.clientUpdate.start_date);
     
 
     this.clientsService.updateClient(this.rowId, this.clientUpdate).subscribe(
       (res) => {
         let data: any = res;
         this.modalService.dismissAll('modalEdit');
-        console.log('update', res);
         this.getClients();
         Swal.fire({
           position: 'top-end',
@@ -452,11 +442,6 @@ export class ClientsListPageComponent implements OnInit {
       console.log(data);
 
     });
-  }
-
-  eye(rowId) {
-    console.log('rowId: ', rowId);
-
   }
 
 }

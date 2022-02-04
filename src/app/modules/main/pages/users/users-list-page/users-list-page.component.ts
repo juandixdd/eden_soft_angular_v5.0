@@ -99,7 +99,6 @@ export class UsersListPageComponent implements OnInit {
       this.rows = res;
       this.tempData = res;
       this.cols = Object.keys(res[0]);
-      console.log(this.cols);
     });
   }
 

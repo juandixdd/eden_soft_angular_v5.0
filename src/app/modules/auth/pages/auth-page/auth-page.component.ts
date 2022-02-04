@@ -89,7 +89,6 @@ export class AuthPageComponent implements OnInit {
     this.loading = true;
 
     this.authService.login(this.loginForm.value).subscribe((resp: any) => {
-      console.log(resp);
       if (resp.access_token) {
         this.authService.getUserInfo({ email: this.loginForm.value.email }).subscribe((user: any) => {
           localStorage.setItem('userID', user.id);

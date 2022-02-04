@@ -88,11 +88,9 @@ export class PlaceListPageComponent implements OnInit {
   getPlaces() {
     this.placesService.getData().subscribe((data) => {
       this.rows = data;
-      /* console.log(JSON.stringify(this.rows));  */
 
       this.tempData = data;
       this.cols = Object.keys(data[0]);
-      console.log(this.rows);
     });
   }
 
@@ -171,7 +169,6 @@ export class PlaceListPageComponent implements OnInit {
     this.placesService.addPlace(this.place).subscribe(
       (res) => {
         let data: any = res;
-        console.log(res);
         this.ngOnInit();
         Swal.fire({
           position: 'top-end',
@@ -203,7 +200,6 @@ export class PlaceListPageComponent implements OnInit {
 
     this.placesService.updatePlace(this.rowId, this.placeUpdate).subscribe(
       (res) => {
-        // if(status==1){mostrar mensaje de exito}else{mostrar mensaje de error}
         let data: any = res;
         this.modalService.dismissAll('modalEdit');
         this.getPlaces();
@@ -217,7 +213,6 @@ export class PlaceListPageComponent implements OnInit {
       },
       (err) =>{
         console.log(err)
-      // {mostrar mensaje de error}
       } 
     );
     

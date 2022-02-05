@@ -167,7 +167,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   logout() {
 
     localStorage.clear();
-    this._router.navigate(['/login']);
+    this._router.navigate(['']);
   }
 
   // Lifecycle Hooks

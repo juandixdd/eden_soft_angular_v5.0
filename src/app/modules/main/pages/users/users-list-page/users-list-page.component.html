@@ -220,13 +220,34 @@
               La contraseña es requerida
             </span>
           </div>
+
+          <!-- input -->
+          <label>Confirmar contraseña </label>
+          <div class="form-group">
+            <input
+              formControlName="confirmPassword"
+              type="password"
+              placeholder="Confirmar contraseña"
+              class="form-control"
+            />
+
+            <span *ngIf="validField('confirmPassword')" class="error">
+              La confirmación de contraseña es requerida
+              <br>
+            </span>
+
+            <span *ngIf="validPassword()" class="error">
+              Las contraseñas no son iguales
+            </span>
+          </div>
+
         </form>
       </div>
       <div class="modal-footer">
         <button
           type="button"
           class="btn btn-primary"
-          (click)="saveNewUser() || modal.close()"
+          (click)="saveNewUser(); modal.close(); validPassword()"
           [disabled]="!userForm.valid"
           rippleEffect
         >
@@ -339,6 +360,25 @@
             />
             <span *ngIf="editValidField('password')" class="error">
               La contraseña es requerida
+            </span>
+          </div>
+
+          <!-- input -->
+          <label>Confirmar contraseña </label>
+          <div class="form-group">
+            <input
+              formControlName="confirmPassword"
+              type="password"
+              placeholder="Confirmar contraseña"
+              class="form-control"
+            />
+            <span *ngIf="editValidField('confirmPassword')" class="error">
+              La confirmación de contraseña es requerida
+              <br>
+            </span>
+
+            <span *ngIf="validPassword()" class="error">
+              Las contraseñas no son iguales
             </span>
           </div>
 

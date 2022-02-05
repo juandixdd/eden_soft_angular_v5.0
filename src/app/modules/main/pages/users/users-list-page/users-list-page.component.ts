@@ -57,6 +57,10 @@ export class UsersListPageComponent implements OnInit {
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
     ],
+    confirmPassword: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
     role: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
@@ -81,6 +85,10 @@ export class UsersListPageComponent implements OnInit {
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
     ],
     password: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    confirmPassword: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
     ],
@@ -127,7 +135,6 @@ export class UsersListPageComponent implements OnInit {
     this.editForm.controls['lastname'].setValue(user.lastname);
     this.editForm.controls['telephone'].setValue(user.telephone);
     this.editForm.controls['email'].setValue(user.email);
-    this.editForm.controls['password'].setValue(user.password);
     this.editForm.controls['role'].setValue(user.role);
   }
 
@@ -139,23 +146,35 @@ export class UsersListPageComponent implements OnInit {
     this.user.password = this.userForm.controls['password'].value;
     this.user.role = this.userForm.controls['role'].value;
 
+
     this.userService.addUser(this.user).subscribe(
       (res) => {
         let data: any = res;
         this.user = res;
         this.getUsers();
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Usuario creado con exito',
-          showConfirmButton: false,
-          timer: 1500
-        })
+        if (data.status != 'error') {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Usuario creado con exito',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+        else if (data.status == 'error') {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ya se encuentra registrado un usuario con ese correo'
+          })
+        }
         this.userForm.reset();
       },
       (err) => console.log(err)
 
     );
+
+
   }
 
   updateUser() {
@@ -163,7 +182,6 @@ export class UsersListPageComponent implements OnInit {
     this.userUpdate.lastname = this.editForm.controls['lastname'].value;
     this.userUpdate.telephone = this.editForm.controls['telephone'].value;
     this.userUpdate.email = this.editForm.controls['email'].value;
-    this.userUpdate.password = this.editForm.controls['password'].value;
     this.userUpdate.role = this.editForm.controls['role'].value;
 
     this.userService.updateUser(this.rowId, this.userUpdate).subscribe(
@@ -186,20 +204,37 @@ export class UsersListPageComponent implements OnInit {
   }
 
   confirmDeleteUser(id: number) {
-    this.userService.deleteUser(id).subscribe(
-      (res) => {
-        let data: any = res;
-        this.user = res;
-        this.getUsers();
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Usuario eliminado con exito',
-          showConfirmButton: false,
-          timer: 1500
-        })
+    Swal.fire({
+      title: 'Estas seguro?',
+      text: "No podras revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminarlo!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.userService.deleteUser(id).subscribe(
+          (res) => {
+            let data: any = res;
+            this.user = res;
+            this.getUsers();
+          }
+        );
       }
-    );
+    })
   }
+
+  validPassword() {
+    return this.userForm.controls['password'].value !== this.userForm.controls['confirmPassword'].value &&
+      this.userForm.controls['password'].value !== '';
+  }
+
+
+
+
+
+
 
 }

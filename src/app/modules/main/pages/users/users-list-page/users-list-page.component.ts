@@ -24,6 +24,7 @@ export class UsersListPageComponent implements OnInit {
   public searchValue = '';
   public selectedStatus = [];
   private tempData: any = [];
+  emailPattern: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
 
   constructor(
     public customeService: UsersService,
@@ -51,7 +52,7 @@ export class UsersListPageComponent implements OnInit {
     ],
     email: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+      [Validators.required, Validators.pattern(this.emailPattern)],
     ],
     password: [
       "",
@@ -82,7 +83,7 @@ export class UsersListPageComponent implements OnInit {
     ],
     email: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+      [Validators.required, Validators.pattern(this.emailPattern)],
     ],
     password: [
       "",
@@ -220,6 +221,13 @@ export class UsersListPageComponent implements OnInit {
             let data: any = res;
             this.user = res;
             this.getUsers();
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Usuario eliminado con exito',
+              showConfirmButton: false,
+              timer: 1000
+            });
           }
         );
       }

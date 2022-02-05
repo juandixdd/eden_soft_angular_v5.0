@@ -38,6 +38,7 @@ export class ClientsListPageComponent implements OnInit {
   public searchValue = '';
   public selectedStatus = [];
   private tempData: any = [];
+  emailPattern: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
 
   selectMulti: any;
   selectMultiSelected: any;
@@ -144,7 +145,7 @@ export class ClientsListPageComponent implements OnInit {
     ],
     email: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+      [Validators.required, Validators.pattern(this.emailPattern)],
     ],
   });
 
@@ -183,7 +184,7 @@ export class ClientsListPageComponent implements OnInit {
     ],
     email: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+      [Validators.required, Validators.pattern(this.emailPattern)],
     ],
   });
 
@@ -243,7 +244,7 @@ export class ClientsListPageComponent implements OnInit {
             Swal.fire({
               position: 'top-end',
               icon: 'success',
-              title: 'El gimnasio ha sido eliminado',
+              title: 'El cliente ha sido eliminado',
               showConfirmButton: false,
               timer: 1000
             })
@@ -358,7 +359,7 @@ export class ClientsListPageComponent implements OnInit {
             Swal.fire({
               position: 'top-end',
               icon: 'success',
-              title: 'El gimnasio ha sido creado',
+              title: 'El cliente ha sido creado',
               showConfirmButton: false,
               timer: 1000
             })

@@ -104,7 +104,7 @@ export class MembershipsListPageComponent implements OnInit {
   confirmDeleteMembership(id: number) {
     Swal.fire({
       title: "¿Seguro?",
-      text: "Esta acción eliminará el gimnasio",
+      text: "Esta acción eliminará el membresía",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -117,7 +117,7 @@ export class MembershipsListPageComponent implements OnInit {
           const resp: any = data;
           if (resp.status) {
             this.ngOnInit();
-            Swal.fire("Eliminado!", "El gimnasio ha sido eliminado", "success");
+            Swal.fire("Eliminada!", "La membresía ha sido eliminada", "success");
           } else {
             console.log("Error");
           }
@@ -185,7 +185,7 @@ export class MembershipsListPageComponent implements OnInit {
           Swal.fire({
             position: 'top-end',
             icon: 'success',
-            title: 'El gimnasio ha sido creado',
+            title: 'La membresía ha sido creada',
             showConfirmButton: false,
             timer: 1000
           })
@@ -215,7 +215,7 @@ export class MembershipsListPageComponent implements OnInit {
         Swal.fire({
           position: 'top-end',
           icon: 'success',
-          title: 'El gimnasio ha sido actualizado',
+          title: 'La membresía ha sido actualizada',
           showConfirmButton: false,
           timer: 1000
         })

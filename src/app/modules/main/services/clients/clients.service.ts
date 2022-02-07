@@ -23,6 +23,7 @@ export class ClientsService {
   }
 
   addClient(client) {
+    console.log(client);
     return this.http.post(`${this.API_URI}/clients`, client);
   }
 

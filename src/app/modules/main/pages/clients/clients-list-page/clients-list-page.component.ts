@@ -347,6 +347,7 @@ export class ClientsListPageComponent implements OnInit {
           let data: any = res;
           this.addSede = true;
           this.getClients();
+          console.log(data);
 
 
           if (data.status == 'error') {

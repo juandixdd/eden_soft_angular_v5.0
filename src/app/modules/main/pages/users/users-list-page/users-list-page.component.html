@@ -43,21 +43,21 @@
           [scrollbarH]="true"
         >
           <!-- Column -->
-          <ngx-datatable-column name="#" prop="id" [width]="50">
+          <ngx-datatable-column name="#" prop="id" [width]="30">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">#{{ id }}</p>
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Nombre" prop="name" [width]="50">
+          <ngx-datatable-column name="Nombre" prop="name" [width]="30">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Apellido" prop="lastname" [width]="50">
+          <ngx-datatable-column name="Apellido" prop="lastname" [width]="30">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">
                 {{ id | uppercase }}
@@ -66,25 +66,7 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Email" prop="email" [width]="50">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">
-                {{ id }}
-              </p>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <!-- Column -->
-          <ngx-datatable-column name="Telefono" prop="telephone" [width]="50">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">
-                {{ id }}
-              </p>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <!-- Column -->
-          <ngx-datatable-column name="Rol" prop="role" [width]="50">
+          <ngx-datatable-column name="Email" prop="email" [width]="30">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">
                 {{ id }}
@@ -93,9 +75,15 @@
           </ngx-datatable-column>
 
           <!-- Accions with icons -->
-          <ngx-datatable-column name="Acciones" [width]="100">
+          <ngx-datatable-column name="Acciones" [width]="30">
             <ng-template ngx-datatable-cell-template let-row="row">
               <div class="d-flex justify-content-start">
+                <button
+                  class="btn btn-icon btn-sm mr-1"
+                  (click)="modalOpenVC(modalVC); getUserInfo(row.id);"
+                >
+                  <i class="feather icon-eye"></i>
+                </button>
                 <button
                   class="btn btn-icon btn-sm mr-1"
                   (click)="getOneUser(row); modalOpenEdit(modalEdit)"
@@ -399,4 +387,45 @@
     </ng-template>
     <!-- / Modal -->
   </div>
+</div>
+
+<!-- ? Modal info usuarios -->
+<div>
+  <ng-template #modalVC let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalCenterTitle">
+        Datos del usuario
+      </h5>
+      <button
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div *ngIf="userView" class="modal-body" tabindex="0" ngbAutofocus >
+      <p><b>Nombre: </b> {{ userView.name }}</p> 
+      <p><b>Apellido: </b> {{ userView.lastname }}</p>
+      <p><b>Email: </b> {{ userView.email }} </p>
+      <p><b>Telefono: </b> {{ userView.telephone }}</p>
+      <p><b>Rol: </b> {{ userView.role }}</p>
+
+    </div>
+
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="modal.close('Accept click')"
+        rippleEffect
+      >
+        Ok
+      </button>
+    </div>
+  </ng-template>
+  <!-- / Modal -->
 </div>

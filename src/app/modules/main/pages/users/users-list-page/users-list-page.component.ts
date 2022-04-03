@@ -19,6 +19,7 @@ export class UsersListPageComponent implements OnInit {
   data: any = [];
   cols: any = [];
   rowId: number;
+  userView: any;
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
   public searchValue = '';
@@ -129,6 +130,13 @@ export class UsersListPageComponent implements OnInit {
     this.modalService.open(modalEdit);
   }
 
+  modalOpenVC(modalVC) {
+    this.modalService.open(modalVC, {
+      centered: true
+    });
+
+  }
+
   getOneUser(user: any) {
     this.rowId = user.id;
     this.userUpdate = user;
@@ -237,6 +245,14 @@ export class UsersListPageComponent implements OnInit {
   validPassword() {
     return this.userForm.controls['password'].value !== this.userForm.controls['confirmPassword'].value &&
       this.userForm.controls['password'].value !== '';
+  }
+
+  getUserInfo(id){
+    this.userService.getUser(id).subscribe(
+      (res) => {
+        this.userView = res;
+      }
+    )
   }
 
 

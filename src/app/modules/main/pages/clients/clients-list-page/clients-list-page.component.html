@@ -43,21 +43,21 @@
           [scrollbarH]="true"
         >
           <!-- Column -->
-          <ngx-datatable-column name="#" prop="id" [width]="30">
+          <ngx-datatable-column name="#" prop="id" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">#{{ id }}</p>
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Nombre" prop="name" [width]="50">
+          <ngx-datatable-column name="Nombre" prop="name" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-           <ngx-datatable-column name="Apellido" prop="last_name" [width]="50">
+           <ngx-datatable-column name="Apellido" prop="last_name" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p
                 
@@ -69,37 +69,10 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Teléfono" prop="telephone" [width]="30">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">
-                {{ id }}
-              </p>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <!-- Column -->
-          <ngx-datatable-column name="Altura" prop="height" [width]="30">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">
-                {{ id }}
-              </p>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <!-- Column -->
-          <ngx-datatable-column name="Peso" prop="weight" [width]="30">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">
-                {{ id }}
-              </p>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <!-- Column -->
           <ngx-datatable-column
             name="Membresía"
             prop="membershipsRecord.memberships.name"
-            [width]="30"
+            [width]="20"
           >
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">
@@ -108,8 +81,51 @@
             </ng-template>
           </ngx-datatable-column>
 
+          <ngx-datatable-column name="Estado" [width]="20">
+            <ng-template
+              let-id="value"
+              let-row="row"
+              ngx-datatable-cell-template
+            >
+              <!-- Muestra activo o inactivo con color azul y un icono, 0 es activo y 1 inactivo-->
+
+              <div
+                *ngIf="row.status == 0"
+                class="d-flex justify-content-center align-items-center"
+              >
+                <i
+                  class="fa fa-circle text-success font-size-18"
+                  aria-hidden="true"
+                ></i>
+                <p class="font-weight-bold text-dark ml-2 mt-1">Activo</p>
+              </div>
+
+              <div
+                *ngIf="row.status == 1"
+                class="d-flex justify-content-center align-items-center"
+              >
+                <i
+                  class="fa fa-circle text-danger font-size-18"
+                  aria-hidden="true"
+                ></i>
+                <p class="font-weight-bold text-dark ml-2 mt-1">Inactivo</p>
+              </div>
+
+              <div
+                *ngIf="row.status == 2"
+                class="d-flex justify-content-center align-items-center"
+              >
+                <i
+                  class="fa fa-circle text-warning font-size-18"
+                  aria-hidden="true"
+                ></i>
+                <p class="font-weight-bold text-dark ml-2 mt-1">Proximo a vencerse</p>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
           <!-- Accions with icons -->
-          <ngx-datatable-column name="Acciones" [width]="100">
+          <ngx-datatable-column name="Acciones" [width]="200">
             <ng-template ngx-datatable-cell-template let-row="row">
               <div class="d-flex justify-content-start">
                 <button

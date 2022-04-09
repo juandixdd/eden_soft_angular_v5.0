@@ -6,6 +6,7 @@ export interface Client {
     height?: number;
     weight?: number;
     goal?: string;
+    status?: number;
     start_date?: string;
     finish_date?: string;
     membership_id?: number;

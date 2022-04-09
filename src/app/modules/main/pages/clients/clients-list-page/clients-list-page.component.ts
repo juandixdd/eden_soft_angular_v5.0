@@ -30,6 +30,7 @@ export class ClientsListPageComponent implements OnInit {
   cols: any = [];
   rowId: number;
   clientGoal: string;
+  clientUser: any;
   clientDateStart: string;
   membershipTimeLapse: number;
   clientInfo: any;
@@ -71,6 +72,7 @@ export class ClientsListPageComponent implements OnInit {
     goal: "",
     document: "",
     email: "",
+    status: undefined,
     membershipsRecord: {
       date_start: "",
       date_finish: "",
@@ -193,6 +195,7 @@ export class ClientsListPageComponent implements OnInit {
   ngOnInit(): void {
     this.getClients();
     this.getMemberships();
+    
 
   }
 
@@ -211,6 +214,7 @@ export class ClientsListPageComponent implements OnInit {
       this.rows = res;
       this.tempData = res;
       this.client = res;
+      this.validateClientStatus();
     });
   }
 
@@ -224,6 +228,30 @@ export class ClientsListPageComponent implements OnInit {
       (err) => console.log(err)
     )
 
+  }
+
+  clientStatus: number;
+
+  validateClientStatus(){
+   /* Recorre clients e imprime su status */ 
+    this.rows.forEach(element => {
+
+      let actualDate = new Date();
+      let clientFinishDate = new Date(element.membershipsRecord.date_finish);
+
+      /* Cuantos dias faltan para llegar a finishdate */
+      let days = Math.floor((clientFinishDate.getTime() - actualDate.getTime()) / (1000 * 60 * 60 * 24));
+
+      console.log('ClientId: ' + element.id + ' Days: ' + days);
+
+      if(days <= 0){
+        element.status = 1;
+      }else if(days > 5){
+        element.status = 0;
+      }else if(days > 0 && days <= 5){
+        element.status = 2;
+      }
+    });
   }
 
   confirmDeleteClient(id: number) {

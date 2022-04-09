@@ -21,6 +21,7 @@ import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, FormGroup } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @NgModule({
@@ -51,8 +52,10 @@ import { FormsModule, FormGroup } from '@angular/forms';
 
     // App modules
     LayoutModule,
+    RouterModule
   ],
   exports: [RouterModule],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [CookieService]
 })
 export class AppModule { }

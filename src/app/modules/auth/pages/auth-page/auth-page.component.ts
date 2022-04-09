@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import Swal from 'sweetalert2';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UsersService } from 'app/modules/main/services/users/users.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-auth-page',
@@ -46,7 +47,8 @@ export class AuthPageComponent implements OnInit {
     private _router: Router,
     private authService: AuthService,
     private modalService: NgbModal,
-    private _usersService: UsersService
+    private _usersService: UsersService,
+    private _CookieService: CookieService
   ) {
     this._unsubscribeAll = new Subject();
 
@@ -93,6 +95,7 @@ export class AuthPageComponent implements OnInit {
         this.authService.getUserInfo({ email: this.loginForm.value.email }).subscribe((user: any) => {
           localStorage.setItem('userID', user.id);
           localStorage.setItem('access_token', resp.access_token);
+          this._CookieService.set('access_token', resp.access_token, 4, '/');
           this._router.navigate(user.first_login === 0 ? ['change-password'] : ['main/gyms']);
         });
       }

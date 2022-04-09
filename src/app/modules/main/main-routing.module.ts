@@ -9,31 +9,36 @@ import { MembershipsAddPageComponent } from './pages/memberships/memberships-add
 import { ClientsListPageComponent } from './pages/clients/clients-list-page/clients-list-page.component';
 import { ClientsAddPageComponent } from './pages/clients/clients-add-page/clients-add-page.component';
 import { UsersListPageComponent } from './pages/users/users-list-page/users-list-page.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { AuthGuardGuard } from 'app/auth-guard.guard';
 
 const routes: Routes = [
 
     /* Gyms */
-  { path: 'gyms', component: GymsListPageComponent },
-  { path: "addgyms", component: GymsAddPageComponent },
-  { path: "gyms/edit/:id", component: GymsAddPageComponent },
+  { path: 'gyms', component: GymsListPageComponent, canActivate: [AuthGuardGuard] },
+  { path: "addgyms", component: GymsAddPageComponent, canActivate: [AuthGuardGuard] },
+  { path: "gyms/edit/:id", component: GymsAddPageComponent , canActivate: [AuthGuardGuard]},
 
   /* Places */
-  { path: 'places', component: PlaceListPageComponent },
-  { path: "addplaces", component: PlaceAddPageComponent },
-  { path: "places/edit/:id", component: PlaceAddPageComponent },
+  { path: 'places', component: PlaceListPageComponent, canActivate: [AuthGuardGuard] },
+  { path: "addplaces", component: PlaceAddPageComponent, canActivate: [AuthGuardGuard] },
+  { path: "places/edit/:id", component: PlaceAddPageComponent, canActivate: [AuthGuardGuard] },
 
   /* memberships */
-  { path: 'memberships', component: MembershipsListPageComponent },
-  { path: "addmemberships", component: MembershipsAddPageComponent },
-  { path: "memberships/edit/:id", component: MembershipsAddPageComponent },
+  { path: 'memberships', component: MembershipsListPageComponent, canActivate: [AuthGuardGuard] },
+  { path: "addmemberships", component: MembershipsAddPageComponent , canActivate: [AuthGuardGuard]},
+  { path: "memberships/edit/:id", component: MembershipsAddPageComponent, canActivate: [AuthGuardGuard] },
 
    /* clients */
-  { path: 'clients', component: ClientsListPageComponent },
-  { path: "addclients", component: ClientsAddPageComponent },
-  { path: "clients/edit/:id", component: ClientsAddPageComponent },
+  { path: 'clients', component: ClientsListPageComponent , canActivate: [AuthGuardGuard]},
+  { path: "addclients", component: ClientsAddPageComponent , canActivate: [AuthGuardGuard]},
+  { path: "clients/edit/:id", component: ClientsAddPageComponent , canActivate: [AuthGuardGuard]},
 
   /* users */
-  { path: 'users', component: UsersListPageComponent },
+  { path: 'users', component: UsersListPageComponent , canActivate: [AuthGuardGuard]},
+
+  /* Profile */
+  { path: 'profile', component: ProfileComponent , canActivate: [AuthGuardGuard]}
   
 ];
 

@@ -21,6 +21,7 @@ import { PlaceListPageComponent } from './pages/places/place-list-page/place-lis
 import { SharedModule } from '../../shared/shared.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { UsersListPageComponent } from './pages/users/users-list-page/users-list-page.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { UsersListPageComponent } from './pages/users/users-list-page/users-list
     ClientsAddPageComponent,
     PlaceAddPageComponent,
     PlaceListPageComponent,
-    UsersListPageComponent
+    UsersListPageComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,

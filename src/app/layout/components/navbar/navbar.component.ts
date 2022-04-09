@@ -15,6 +15,7 @@ import { CoreMediaService } from '@core/services/media.service';
 
 import { coreConfig } from 'app/app-config';
 import { Router } from '@angular/router';
+import { UsersService } from '../../../modules/main/services/users/users.service';
 
 @Component({
   selector: 'app-navbar',
@@ -41,6 +42,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   @HostBinding('class.navbar-static-style-on-scroll')
   public windowScrolled = false;
+
+  user: any;
+  userID = localStorage.getItem('userID');
 
   // Add .navbar-static-style-on-scroll on scroll using HostListener & HostBinding
   @HostListener('window:scroll', [])
@@ -81,7 +85,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private _coreMediaService: CoreMediaService,
     private _coreSidebarService: CoreSidebarService,
     private _mediaObserver: MediaObserver,
-    public _translateService: TranslateService
+    public _translateService: TranslateService,
+    private _UsersService: UsersService
   ) {
     // this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
 
@@ -161,6 +166,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
+  redirec(){
+    this._router.navigate(['/main/profile']);
+  }
+
   /**
    * Logout method
    */
@@ -170,6 +179,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this._router.navigate(['']);
   }
 
+  getUserById(id){
+    this._UsersService.getUser(id).subscribe(
+      data => {
+        this.user = data;
+      }
+    );
+  }
+
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
@@ -177,6 +194,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
+    
+    this.getUserById(this.userID);
     // get the currentUser details from localStorage
     // this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 

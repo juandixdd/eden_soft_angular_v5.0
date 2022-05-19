@@ -2,39 +2,37 @@ import { CoreMenu } from '@core/types'
 
 export const menu: CoreMenu[] = [
   {
-    id: 'gyms',
-    title: 'Gimnasios',
-    type: 'item',
-    icon: 'home',
-    url: 'main/gyms'
-  },
-  {
-    id: 'sedes',
-    title: 'Sedes',
-    type: 'item',
-    icon: 'home',
-    url: 'main/places'
-  },
-  {
-    id: 'memberships',
-    title: 'Membresias',
-    type: 'item',
-    icon: 'users',
-    url: 'main/memberships'
-  },
-  {
-    id: 'users',
-    title: 'Usuarios',
-    type: 'item',
-    icon: 'users',
-    url: 'main/users'
-  },
-  {
     id: 'clients',
     title: 'Clientes',
     type: 'item',
     icon: 'users',
     url: 'main/clients'
   },
+  {
+    id: 'cotizacion',
+    title: 'Cotización',
+    type: 'item',
+    icon: 'clipboard',
+    url: 'main/cotizacion'
+  },
+
+  {
+    id: 'dashboard',
+    title: 'Dashboard',
+    translate: 'Acceso',
+    type: 'collapsible',
+    icon: 'home',
+    children: [
+      {
+        id: 'login',
+        title: 'Recuperar contraseña',
+        type: 'item',
+        icon: 'meh',
+        url: 'main/login'
+      },
+    ]
+  }
+
+
 ]
 

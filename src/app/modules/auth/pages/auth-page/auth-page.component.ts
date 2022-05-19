@@ -8,7 +8,6 @@ import { CoreConfigService } from '@core/services/config.service';
 import { AuthService } from '../../services/auth/auth.service';
 import Swal from 'sweetalert2';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UsersService } from 'app/modules/main/services/users/users.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -47,7 +46,6 @@ export class AuthPageComponent implements OnInit {
     private _router: Router,
     private authService: AuthService,
     private modalService: NgbModal,
-    private _usersService: UsersService,
     private _CookieService: CookieService
   ) {
     this._unsubscribeAll = new Subject();
@@ -81,13 +79,11 @@ export class AuthPageComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
-    // stop here if form is invalid
+    
     if (this.loginForm.invalid) {
       return;
     }
 
-    // Login
     this.loading = true;
 
     this.authService.login(this.loginForm.value).subscribe((resp: any) => {

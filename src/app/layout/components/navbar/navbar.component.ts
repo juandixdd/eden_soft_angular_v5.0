@@ -15,7 +15,6 @@ import { CoreMediaService } from '@core/services/media.service';
 
 import { coreConfig } from 'app/app-config';
 import { Router } from '@angular/router';
-import { UsersService } from '../../../modules/main/services/users/users.service';
 
 @Component({
   selector: 'app-navbar',
@@ -86,7 +85,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private _coreSidebarService: CoreSidebarService,
     private _mediaObserver: MediaObserver,
     public _translateService: TranslateService,
-    private _UsersService: UsersService
   ) {
     // this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
 
@@ -179,13 +177,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this._router.navigate(['']);
   }
 
-  getUserById(id){
-    this._UsersService.getUser(id).subscribe(
-      data => {
-        this.user = data;
-      }
-    );
-  }
+ 
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -195,7 +187,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     
-    this.getUserById(this.userID);
+   
     // get the currentUser details from localStorage
     // this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 

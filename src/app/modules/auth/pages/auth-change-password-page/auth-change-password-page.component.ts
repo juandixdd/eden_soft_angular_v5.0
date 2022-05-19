@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
-import { UsersService } from 'app/modules/main/services/users/users.service';
 import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 
@@ -18,7 +17,6 @@ export class AuthChangePasswordPageComponent implements OnInit {
   constructor(
     private _coreConfigService: CoreConfigService,
     private _formBuilder: FormBuilder,
-    private _usersService: UsersService,
     private _router: Router
   ) {
     this._unsubscribeAll = new Subject();
@@ -49,36 +47,4 @@ export class AuthChangePasswordPageComponent implements OnInit {
     password: [''],
     password_confirmation: ['']
   });
-
-  changePassword(form) {
-    const password = {
-      password: form,
-    };
-    const id = parseInt(localStorage.getItem('userID'));
-
-    this._usersService.updateUser(id, password).subscribe(
-      (response: any) => {
-        if (response === true) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Contraseña actualizada',
-            showConfirmButton: false,
-            timer: 1500
-          });
-          this._router.navigate(['/main/gyms']);
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'La contraseña no se ha podido actualizar',
-            showConfirmButton: false,
-            timer: 1500
-          });
-        }
-      }
-
-    )
-
-
-  }
-
 }

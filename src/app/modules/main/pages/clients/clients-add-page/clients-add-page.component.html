@@ -89,7 +89,6 @@
                   [items]="selectMulti | async"
                   [closeOnSelect]="false"
                   [searchable]="false"
-                  (change)="selectEvent($event)"
                   bindLabel="name"
                   placeholder="Seleccionar membresía"
                   [ngModelOptions]="{
@@ -130,7 +129,6 @@
   
             <div class="col-12">
               <button
-                (click)="confirmUpdateAlert()"
                 class="btn btn-primary"
                 [disabled]="!clientForm.valid"
               >

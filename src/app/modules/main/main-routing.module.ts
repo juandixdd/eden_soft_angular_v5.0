@@ -5,6 +5,7 @@ import { ClientsAddPageComponent } from './pages/clients/clients-add-page/client
 import { AuthGuardGuard } from 'app/auth-guard.guard';
 import { CotizacionComponent } from './ventas/cotizacion/cotizacion.component';
 import { AccesoComponent } from './usuarios/acceso/acceso.component';
+import { RolesComponent } from './configuracion/roles/roles.component';
 
 const routes: Routes = [
 
@@ -17,7 +18,10 @@ const routes: Routes = [
   { path: 'cotizacion', component: CotizacionComponent},
 
   /*Usuarios*/
-  {path: 'login',component:AccesoComponent}
+  {path: 'login',component:AccesoComponent},
+
+  /* Roles */
+  { path: 'roles', component: RolesComponent },
 
 ];
 

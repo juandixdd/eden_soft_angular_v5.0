@@ -17,6 +17,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CotizacionComponent } from './ventas/cotizacion/cotizacion.component';
 import { AccesoComponent } from './usuarios/acceso/acceso.component';
+import { RolesComponent } from './configuracion/roles/roles.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { AccesoComponent } from './usuarios/acceso/acceso.component';
     ClientsAddPageComponent,
     CotizacionComponent,
     AccesoComponent,
+    RolesComponent,
   ],
   imports: [
     CommonModule,

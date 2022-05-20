@@ -9,6 +9,7 @@
                         <div class="d-flex justify-content-between align-items-center m-1">
                             <div class="d-flex align-items-center">
                                 <label class="d-flex align-items-center">Show
+                                    <!-- ? Selector de filas -->
                                     <select class="form-control mx-25" [(ngModel)]="selectedOption">
                                         <option value="10">10</option>
                                         <option value="25">25</option>
@@ -20,18 +21,21 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6 col-12 d-flex justify-content-md-end">
                         <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
+                            <!-- ?Buscador -->
                             <label class="d-flex align-items-center"><input type="search" placeholder="Buscar"
                                     class="form-control ml-25" (keyup)="filterUpdate($event)" /></label>
 
+                            <!-- ? Botón de crear -->
                             <button class="btn btn-primary ml-2" (click)="modalOpen(modalForm)" rippleEffect>
                                 Crear
                             </button>
                         </div>
                     </div>
                 </div>
-                <!--/ Invoice List table -->
+                <!--? Aquí empieza la tabla -->
                 <ngx-datatable [rows]="kitchenSinkRows" [rowHeight]="50" class="bootstrap core-bootstrap"
                     [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
                     [scrollbarH]="true">

@@ -7,22 +7,24 @@ import Swal from 'sweetalert2';
   selector: 'app-cotizacion',
   templateUrl: './cotizacion.component.html',
   styleUrls: ['./cotizacion.component.scss'],
-  encapsulation: ViewEncapsulation.None /* ? */
+  encapsulation: ViewEncapsulation.None //! Esto es importante para que se muestren bien los estilos, siempre agregar a los componentes.
 })
 export class CotizacionComponent implements OnInit {
 
-  public selectedOption = 10; /* ? */
-  public ColumnMode = ColumnMode; /* ? */
-  private tempData = [];
+  //! Oes, cuando no entiendan para que es una cosa, le dan ctrl + f para buscar en el codigo de html, tal vez ahí tengan una mjeor noción de para que sirve cada cosa.
+
+  public selectedOption = 10; //? Este es el selector de cuantas filas quieres ver en la tabla, en este caso, 10.
+  public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
+  private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
   public kitchenSinkRows: any;
 
-  selectBasic = [
+  selectBasic = [ //? Estos son los datos del select de la modal de crear cotizacion.
     'Buñuelo',
     'Palito de queso',
     'Arepa de huevo',
   ]
 
-  rows: any = [
+  rows: any = [ //? Estos son los datos de la tabla quemados.
     {
       id: 1,
       delivery_date: '2022-12-12',
@@ -34,24 +36,24 @@ export class CotizacionComponent implements OnInit {
       status: 'Pagado',
 
     }
-  ]; //? Estos son los datos de la tabla quemados
+  ]
 
   constructor(
-    private modalService: NgbModal, /* ? */
+    private modalService: NgbModal, //? Aquí se instancia el servicio para abrir la modal.
   ) { }
 
   ngOnInit(): void {
-    this.tempData = this.rows;
+    this.tempData = this.rows; //? Esto también es del buscador (Que no funciona)
     this.kitchenSinkRows = this.rows;
   }
 
-  modalOpen(modal) { /* ? */
+  modalOpen(modal) { //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {
       centered: true,
     });
   }
 
-  confirmAlert() {
+  confirmAlert() { //? Esta es la funcion que abre el sweetAlert de confirmacion.
     Swal.fire({
       title: '¿Estas seguro?',
       text: "No podras revertir esto!",
@@ -72,7 +74,7 @@ export class CotizacionComponent implements OnInit {
     })
   }
 
-  filterUpdate(event) {
+  filterUpdate(event) { //? Buscador, no le pare bolas.
     const val = event.target.value.toLowerCase();
 
     const temp = this.tempData.filter(function (d) {

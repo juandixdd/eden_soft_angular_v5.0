@@ -3,8 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '', //TODO: localhost:4200/
-    loadChildren:() => import(`./modules/auth/auth.module`).then( m => m.AuthModule)
+    loadChildren:() => import(`./modules/main/main.module`).then( m => m.MainModule)
   },
+  /* import(`./modules/auth/auth.module`).then( m => m.AuthModule) */
   {
     path: 'main', //TODO: localhost:4200/
     loadChildren:() => import(`./modules/main/main.module`).then( m => m.MainModule)

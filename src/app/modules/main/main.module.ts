@@ -18,6 +18,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CotizacionComponent } from './ventas/cotizacion/cotizacion.component';
 import { AccesoComponent } from './usuarios/acceso/acceso.component';
 import { RolesComponent } from './configuracion/roles/roles.component';
+import { CoreTouchspinModule } from '@core/components/core-touchspin/core-touchspin.module';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { RolesComponent } from './configuracion/roles/roles.component';
     FormsModule,
     SharedModule,
     NgxDatatableModule,
-    MainRoutingModule
+    MainRoutingModule,
+    CoreTouchspinModule
   ]
 })
 export class MainModule { }

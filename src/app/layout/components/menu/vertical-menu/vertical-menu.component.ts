@@ -20,6 +20,7 @@ export class VerticalMenuComponent implements OnInit, OnDestroy {
   menu: any;
   isCollapsed: boolean;
   isScrolled: boolean = false;
+  appName: string = "Eden.Soft";
 
   // Private
   private _unsubscribeAll: Subject<any>;

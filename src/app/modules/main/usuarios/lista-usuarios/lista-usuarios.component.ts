@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-lista-usuarios',
@@ -129,5 +130,25 @@ export class ListaUsuariosComponent implements OnInit {
 
     // update the rows
     this.kitchenSinkRows = temp;
+  }
+  confirmAlert() { //? Esta es la funcion que abre el sweetAlert de confirmacion.
+    Swal.fire({
+      title: '¿Estas seguro?',
+      text: "No podras revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire(
+          'Eliminado!',
+          'El Usuario ha sido Eliminado.',
+          'success'
+        )
+      }
+    })
   }
 }

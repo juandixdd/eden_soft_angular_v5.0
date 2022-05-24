@@ -28,17 +28,32 @@ export const menu: CoreMenu[] = [
 
   {
     id: 'Acceso',
-    title: 'Acceso',
-    translate: 'Acceso',
+    title: 'Usuarios',
     type: 'collapsible',
     icon: 'user',
     children: [
       {
-        id: 'login',
-        title: 'Recuperar contraseña',
+        id: 'Acceso',
+        title: 'Acceso',
+        type: 'collapsible',
+        icon: 'user',
+        children: [
+          {
+            id: 'Acceso',
+            title: 'Recuperar contraseña',
+            type: 'item',
+            icon: 'meh',
+            url: 'main/recuperar-contraseña'
+          }
+        ]
+
+      },
+      {
+        id: 'userlist',
+        title: 'Lista de Usuarios',
         type: 'item',
         icon: 'meh',
-        url: 'main/login'
+        url: 'main/lista-usuarios'
       },
     ]
   },

@@ -6,6 +6,7 @@ import { AuthGuardGuard } from 'app/auth-guard.guard';
 import { CotizacionComponent } from './ventas/cotizacion/cotizacion.component';
 import { AccesoComponent } from './usuarios/acceso/acceso.component';
 import { RolesComponent } from './configuracion/roles/roles.component';
+import { ListaUsuariosComponent } from './usuarios/lista-usuarios/lista-usuarios.component';
 
 const routes: Routes = [
 
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'cotizacion', component: CotizacionComponent},
 
   /*Usuarios*/
-  {path: 'login',component:AccesoComponent},
+  {path: 'recuperar-contraseña',component:AccesoComponent},
+  {path:'lista-usuarios', component:ListaUsuariosComponent},
 
   /* Roles */
   { path: 'roles', component: RolesComponent },

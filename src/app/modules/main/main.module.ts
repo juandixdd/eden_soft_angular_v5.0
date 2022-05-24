@@ -19,6 +19,7 @@ import { CotizacionComponent } from './ventas/cotizacion/cotizacion.component';
 import { AccesoComponent } from './usuarios/acceso/acceso.component';
 import { RolesComponent } from './configuracion/roles/roles.component';
 import { CoreTouchspinModule } from '@core/components/core-touchspin/core-touchspin.module';
+import { ListaUsuariosComponent } from './usuarios/lista-usuarios/lista-usuarios.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { CoreTouchspinModule } from '@core/components/core-touchspin/core-touchs
     CotizacionComponent,
     AccesoComponent,
     RolesComponent,
+    ListaUsuariosComponent,
   ],
   imports: [
     CommonModule,

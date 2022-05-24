@@ -20,6 +20,9 @@ import { AccesoComponent } from './usuarios/acceso/acceso.component';
 import { RolesComponent } from './configuracion/roles/roles.component';
 import { CoreTouchspinModule } from '@core/components/core-touchspin/core-touchspin.module';
 import { ListaUsuariosComponent } from './usuarios/lista-usuarios/lista-usuarios.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoginComponent } from './usuarios/login/login.component';
+import { RestaurarClaveComponent } from './usuarios/restaurar-clave/restaurar-clave.component';
 
 
 @NgModule({
@@ -30,6 +33,9 @@ import { ListaUsuariosComponent } from './usuarios/lista-usuarios/lista-usuarios
     AccesoComponent,
     RolesComponent,
     ListaUsuariosComponent,
+    DashboardComponent,
+    LoginComponent,
+    RestaurarClaveComponent,
   ],
   imports: [
     CommonModule,

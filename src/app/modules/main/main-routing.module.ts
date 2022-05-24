@@ -7,6 +7,9 @@ import { CotizacionComponent } from './ventas/cotizacion/cotizacion.component';
 import { AccesoComponent } from './usuarios/acceso/acceso.component';
 import { RolesComponent } from './configuracion/roles/roles.component';
 import { ListaUsuariosComponent } from './usuarios/lista-usuarios/lista-usuarios.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoginComponent } from './usuarios/login/login.component';
+import { RestaurarClaveComponent } from './usuarios/restaurar-clave/restaurar-clave.component';
 
 const routes: Routes = [
 
@@ -21,6 +24,11 @@ const routes: Routes = [
   /*Usuarios*/
   {path: 'recuperar-contraseña',component:AccesoComponent},
   {path:'lista-usuarios', component:ListaUsuariosComponent},
+  {path: 'login', component:LoginComponent},
+  {path: 'restaurar-clave',component:RestaurarClaveComponent},
+
+  /*Dashboard*/
+  {path:'dashboard', component:DashboardComponent},
 
   /* Roles */
   { path: 'roles', component: RolesComponent },

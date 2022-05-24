@@ -8,6 +8,13 @@ export const menu: CoreMenu[] = [
     icon: 'users',
     url: 'main/clients'
   },
+  {
+    id: 'dashboard',
+    title: 'dashboard',
+    type: 'item',
+    icon: 'activity',
+    url: 'main/dashboard'
+  },
 
   {
     id: 'Ventas',
@@ -44,6 +51,20 @@ export const menu: CoreMenu[] = [
             type: 'item',
             icon: 'meh',
             url: 'main/recuperar-contraseña'
+          },
+          {
+            id: 'Acceso',
+            title: 'Restaurar contraseña',
+            type: 'item',
+            icon: 'meh',
+            url: 'main/restaurar-clave'
+          },
+          {
+            id: 'Acceso',
+            title: 'Login',
+            type: 'item',
+            icon: 'meh',
+            url: 'main/login'
           }
         ]
 

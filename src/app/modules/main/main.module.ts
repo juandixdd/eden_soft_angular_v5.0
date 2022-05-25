@@ -23,6 +23,7 @@ import { ListaUsuariosComponent } from './usuarios/lista-usuarios/lista-usuarios
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './usuarios/login/login.component';
 import { RestaurarClaveComponent } from './usuarios/restaurar-clave/restaurar-clave.component';
+import { ClienteComponent } from './ventas/cliente/cliente.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { RestaurarClaveComponent } from './usuarios/restaurar-clave/restaurar-cl
     DashboardComponent,
     LoginComponent,
     RestaurarClaveComponent,
+    ClienteComponent,
   ],
   imports: [
     CommonModule,

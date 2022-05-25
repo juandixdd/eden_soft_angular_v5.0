@@ -10,6 +10,7 @@ import { ListaUsuariosComponent } from './usuarios/lista-usuarios/lista-usuarios
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './usuarios/login/login.component';
 import { RestaurarClaveComponent } from './usuarios/restaurar-clave/restaurar-clave.component';
+import { ClienteComponent } from './ventas/cliente/cliente.component';
 
 const routes: Routes = [
 
@@ -18,8 +19,9 @@ const routes: Routes = [
   { path: "addclients", component: ClientsAddPageComponent },
   { path: "clients/edit/:id", component: ClientsAddPageComponent },
 
-  /*Cotizacion*/
+  /*Ventas*/
   { path: 'cotizacion', component: CotizacionComponent},
+  { path: 'cliente', component: ClienteComponent },
 
   /*Usuarios*/
   {path: 'recuperar-contraseña',component:AccesoComponent},

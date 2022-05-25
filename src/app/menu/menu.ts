@@ -30,6 +30,13 @@ export const menu: CoreMenu[] = [
         icon: 'clipboard',
         url: 'main/cotizacion'
       },
+      {
+        id: 'cliente',
+        title: 'Clientes',
+        type: 'item',
+        icon: 'users',
+        url: 'main/cliente'
+      },
     ]
   },
 

@@ -25,6 +25,9 @@ import { LoginComponent } from './usuarios/login/login.component';
 import { RestaurarClaveComponent } from './usuarios/restaurar-clave/restaurar-clave.component';
 import { ClienteComponent } from './ventas/cliente/cliente.component';
 
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { Ng2FlatpickrModule } from 'ng2-flatpickr';
+
 
 @NgModule({
   declarations: [
@@ -50,7 +53,10 @@ import { ClienteComponent } from './ventas/cliente/cliente.component';
     SharedModule,
     NgxDatatableModule,
     MainRoutingModule,
-    CoreTouchspinModule
+    CoreTouchspinModule,
+    NgApexchartsModule,
+    Ng2FlatpickrModule
+
   ]
 })
 export class MainModule { }

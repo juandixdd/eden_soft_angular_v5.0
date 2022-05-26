@@ -1,1 +1,48 @@
-<p>ventas-table works!</p>
+ <!-- Apex Line Charts -->
+ <section id="apex-line-charts">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div
+            class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
+          >
+            <div>
+              <h4 class="card-title mb-25">Balance</h4>
+              <span class="card-subtitle text-muted">Commercial networks & enterprises</span>
+            </div>
+            <div class="d-flex align-items-center flex-wrap mt-sm-0 mt-1">
+              <h5 class="font-weight-bolder mb-0 mr-1">$ 100,000</h5>
+              <div class="badge badge-light-secondary">
+                <i class="text-danger font-small-3" data-feather="arrow-down"></i>
+                <span class="align-middle">20%</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="line-chart" #apexLineChartRef>
+              <apx-chart
+                [series]="apexLineChart.series"
+                [chart]="{
+                  height: 400,
+                  width: isMenuToggled === false ? apexLineChartRef.offsetWidth : apexLineChart.chart.width,
+                  type: 'line',
+                  zoom: {
+                    enabled: false
+                  },
+                  toolbar: {
+                    show: false
+                  }
+                }"
+                [xaxis]="apexLineChart.xaxis"
+                [stroke]="apexLineChart.stroke"
+                [tooltip]="apexLineChart.tooltip"
+                [colors]="apexLineChart.colors"
+                [dataLabels]="apexLineChart.dataLabels"
+                [grid]="apexLineChart.grid"
+              ></apx-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

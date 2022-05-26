@@ -36,11 +36,11 @@
                     </div>
                 </div>
                 <!--? Aquí empieza la tabla -->
-                <ngx-datatable [rows]="kitchenSinkRows" [rowHeight]="50" class="bootstrap core-bootstrap"
+                <ngx-datatable [rows]="kitchenSinkRows" [rowHeight]="70" class="bootstrap core-bootstrap"
                     [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
                     [scrollbarH]="true">
                     <!-- Column -->
-                    <ngx-datatable-column name="#" prop="id" [width]="20">
+                    <ngx-datatable-column name="#" prop="id" [width]="15">
                         <ng-template let-id="value" ngx-datatable-cell-template>
                             <p class="font-weight-bold text-dark">#{{ id }}</p>
                         </ng-template>
@@ -53,20 +53,48 @@
                         </ng-template>
                     </ngx-datatable-column>
                      <!-- Column -->
-                     <ngx-datatable-column name="permisos" prop="" [width]="20">
+                     <ngx-datatable-column name="permisos" prop="permissions" [width]="300">
                         <ng-template let-id="value" ngx-datatable-cell-template>
-                            <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                        <label class="custom-control-label" for="customCheck1">Agregar Productos</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck2" checked />
+                                        <label class="custom-control-label" for="customCheck2">Editar Productos</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck3" checked />
+                                        <label class="custom-control-label" for="customCheck3">Tomar pedidos</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck4" checked />
+                                        <label class="custom-control-label" for="customCheck4">Editar usuarios</label>
+                                    </div>
+                                </div>
+                            </div>
                         </ng-template>
                     </ngx-datatable-column>
-
-                   
-
                     <!-- Column -->
-                    <ngx-datatable-column name="Acciones" prop="Actions" [width]="20">
+                     <ngx-datatable-column name="estado" prop="status" [width]="15">
                         <ng-template let-id="value" ngx-datatable-cell-template>
-                            <!-- Icono x rojo -->
+                            <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
+                            <div class="custom-control custom-switch custom-control-inline" (click)="confirmAlert()">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch1" />
+                                <label class="custom-control-label" for="customSwitch1"></label>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <!-- Column -->
+                    <ngx-datatable-column name="acciones" prop="Actions" [width]="15">
+                        <ng-template let-id="value" ngx-datatable-cell-template>
+                            <!-- Iconos -->
                             <button class="btn btn-icon btn-sm">
-                                <i class="feather icon-x-circle text-danger" (click)="confirmAlert()"></i>
+                                <i class="feather icon-edit text-primary"></i>
                             </button>
                         </ng-template>
                     </ngx-datatable-column>
@@ -92,173 +120,137 @@
                 </button>
             </div>
             <div class="modal-body" tabindex="0" ngbAutofocus>
-                <form [formGroup]="clientForm">
-                    <div class="form-group">
-                        <label>Seleccionar productos</label>
-                        <div class="row">
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <ng-select [items]="selectBasic" bindLabel="name">
-                                    </ng-select>
-                                </div>
+                <form class="form">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="first-name-column">nombre del rol</label>
+                                <input type="text" id="first-name-column" class="form-control" name="fname-column" />
                             </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-primary">
-                                    <i class="feather icon-plus"></i>
-                                </button>
-                            </div>
+                            <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+                                <ngb-panel>
+                                  <ng-template ngbPanelTitle>
+                                    <span class="lead collapse-title"> Configuracion </span>
+                                  </ng-template>
+                                  <ng-template ngbPanelContent>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                        <label class="custom-control-label" for="customCheck1">Crear</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                        <label class="custom-control-label" for="customCheck1">Editar</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                        <label class="custom-control-label" for="customCheck1">Cambiar estado</label>
+                                    </div>
+                                  </ng-template>
+                                </ngb-panel>
+                                <ngb-panel>
+                                  <ng-template ngbPanelTitle>
+                                    <span class="lead collapse-title"> Usuarios </span>
+                                  </ng-template>
+                                  <ng-template ngbPanelContent>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                        <label class="custom-control-label" for="customCheck1">Registrar</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                        <label class="custom-control-label" for="customCheck1">Editar</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                        <label class="custom-control-label" for="customCheck1">Eliminar</label>
+                                    </div>
+                                  </ng-template>
+                                </ngb-panel>
+                                <ngb-panel>
+                                  <ng-template ngbPanelTitle>
+                                    <span class="lead collapse-title"> Producción </span>
+                                  </ng-template>
+                                  <ng-template ngbPanelContent>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                        <label class="custom-control-label" for="customCheck1">Crear categoria</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                        <label class="custom-control-label" for="customCheck1">Editar categoria</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                        <label class="custom-control-label" for="customCheck1">Cambiar estado de la categoria</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                        <label class="custom-control-label" for="customCheck1">Crear Producto</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                        <label class="custom-control-label" for="customCheck1">Eliminar Producto</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                        <label class="custom-control-label" for="customCheck1">Editar Producto</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                        <label class="custom-control-label" for="customCheck1">Cambiar estado del producto</label>
+                                    </div>
+                                  </ng-template>
+                                </ngb-panel>
+                                <ngb-panel>
+                                    <ng-template ngbPanelTitle>
+                                      <span class="lead collapse-title"> Ventas </span>
+                                    </ng-template>
+                                    <ng-template ngbPanelContent>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                            <label class="custom-control-label" for="customCheck1">Crear cliente</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                            <label class="custom-control-label" for="customCheck1">Editar Cliente</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                            <label class="custom-control-label" for="customCheck1">Cambiar estado del cliente</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                            <label class="custom-control-label" for="customCheck1">Crear cotización</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                            <label class="custom-control-label" for="customCheck1">Anular cotización</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                            <label class="custom-control-label" for="customCheck1">Editar Pedido</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
+                                            <label class="custom-control-label" for="customCheck1">Eliminar pedido</label>
+                                        </div>
+                                    </ng-template>
+                                  </ngb-panel>
+                              </ngb-accordion>
                         </div>
-                    </div>
+                    </div>    
                 </form>
-                <hr>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Buñuelo</td>
-                            <td>
-                                <core-touchspin></core-touchspin>
-                            </td>
-                            <td>
-                                <button class="btn btn-icon btn-sm">
-                                    <i class="feather icon-edit"></i>
-                                </button>
-
-                                <button class="btn btn-icon btn-sm text-danger">
-                                    <i class="feather icon-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">
-                    Crear
-                </button>
+                <div class="col-12">
+                    <div class="row justify-content-end">
+                        <button type="reset" rippleEffect class="btn btn-outline-secondary mr-1">Reset</button>
+                        <button type="submit" rippleEffect class="btn btn-primary ">Registrar</button>
+                    </div>
+
+                </div>
             </div>
         </ng-template>
         <!-- / Modal -->
     </div>
-</div>
-
-<!-- ! Modal de info -->
-<div>
-    <ng-template #infoModal let-modal>
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">
-                Detalles
-            </h5>
-            <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-
-        <!-- ?Body de la modal -->
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Producto</th>
-                    <th scope="col">Cantidad</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Buñuelos</td>
-                    <td>600</td>
-                </tr>
-                <tr>
-                    <td>Pastel de pollo</td>
-                    <td>300</td>
-                </tr>
-
-            </tbody>
-        </table>
-
-
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
-                Ok
-            </button>
-        </div>
-    </ng-template>
-    <!-- / Modal -->
-</div>
-
-<!-- ! Modal de pago -->
-<div>
-    <ng-template #paymentModal let-modal>
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">
-                Pagar
-            </h5>
-            <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-
-        <!-- ?Body de la modal -->
-
-        <div class="p-1">
-            <div class="row pl-3 pr-3 pt-3">
-
-                <div class="col">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="radio1" name="customRadio" class="custom-control-input" />
-                        <label class="custom-control-label" for="radio1">Transferencia</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="radio2" name="customRadio" class="custom-control-input" />
-                        <label class="custom-control-label" for="radio2">Efectivo</label>
-                    </div>
-                </div>
-
-
-                <div class="card mb-4">
-                    <div class="card-body text-center">
-                        Si selecciona transferencia, será redireccionado a la pasarela de pago.
-                    </div>
-                </div>
-            </div>
-
-            <hr>
-
-            <p>Total a pagar: <b>$250.000</b></p>
-
-
-        </div>
-
-
-
-        <div class="modal-footer">
-            <!-- cancel button -->
-            <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Close click')" rippleEffect>
-                Cancelar
-            </button>
-            <!-- pay button -->
-            <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
-                Pagar
-            </button>
-
-        </div>
-    </ng-template>
-    <!-- / Modal -->
-</div>
-
-<!-- ? Notas -->
-<hr>
-<p class="text-primary">Comentarios de juandi:</p>
-<div class="pl-2">
-    <p>Oe, pillese las modales, dele en el ojito, en pagar y en la x, quedaron lo más de lindas, yo comenté lo más que
-        pude
-        para que vaya tomando ejemplos.</p>
-    <p>El buscador no funciona y no sé por qué, cuando agreguemos el back-end lo arreglamos</p>
-    <p>El back-end va a ser en python porque yo digo</p>
 </div>

@@ -15,24 +15,17 @@ export class RolesComponent implements OnInit {
   public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
   public kitchenSinkRows: any;
-
-  selectBasic = [ //? Estos son los datos del select de la modal de crear cotizacion.
-    'Buñuelo',
-    'Palito de queso',
-    'Arepa de huevo',
-  ]
-
+  
   rows: any = [ //? Estos son los datos de la tabla quemados.
     {
       id: 1,
-      delivery_date: '2022-12-12',
-      status: 'Pendiente',
-      name: 'holis'
+      name: 'Admin 1',
+      permissions: ''
     },
     {
       id: 2,
-      delivery_date: '2022-09-13',
-      status: 'Pagado',
+      name: 'Admin 2',
+      permissions: ''
 
     }
   ]
@@ -55,18 +48,18 @@ export class RolesComponent implements OnInit {
   confirmAlert() { //? Esta es la funcion que abre el sweetAlert de confirmacion.
     Swal.fire({
       title: '¿Estas seguro?',
-      text: "No podras revertir esto!",
+      text: "Si desactivas este rol, desactivaras a todos los usuarios que pertenecen a este rol!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar!',
+      confirmButtonText: 'Si, desactivar!',
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
         Swal.fire(
-          'Eliminada!',
-          'La cotización ha sido eliminada.',
+          'Desactivado!',
+          'Este rol ha sido desactivado.',
           'success'
         )
       }

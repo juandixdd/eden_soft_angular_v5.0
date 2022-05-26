@@ -27,6 +27,9 @@ import { ClienteComponent } from './ventas/cliente/cliente.component';
 
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { Ng2FlatpickrModule } from 'ng2-flatpickr';
+import { LandingComponent } from './landing/landing.component';
+import { LandingHeaderComponent } from './landing/landing-header/landing-header.component';
+import { BreadcrumbModule } from 'app/layout/components/content-header/breadcrumb/breadcrumb.module';
 
 
 @NgModule({
@@ -41,6 +44,8 @@ import { Ng2FlatpickrModule } from 'ng2-flatpickr';
     LoginComponent,
     RestaurarClaveComponent,
     ClienteComponent,
+    LandingComponent,
+    LandingHeaderComponent,
   ],
   imports: [
     CommonModule,
@@ -55,7 +60,8 @@ import { Ng2FlatpickrModule } from 'ng2-flatpickr';
     MainRoutingModule,
     CoreTouchspinModule,
     NgApexchartsModule,
-    Ng2FlatpickrModule
+    Ng2FlatpickrModule,
+    BreadcrumbModule
 
   ]
 })

@@ -1,0 +1,23 @@
+.main-image {
+  position: relative;
+  background: url(https://cdn.colombia.com/gastronomia/2011/08/05/bunuelos-1628.gif)
+    no-repeat center;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+}
+
+.header-page {
+  background-color: black;
+  color: white;
+  height: 10vh;
+}

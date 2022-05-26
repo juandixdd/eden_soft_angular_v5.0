@@ -30,6 +30,9 @@ import { Ng2FlatpickrModule } from 'ng2-flatpickr';
 import { LandingComponent } from './landing/landing.component';
 import { LandingHeaderComponent } from './landing/landing-header/landing-header.component';
 import { BreadcrumbModule } from 'app/layout/components/content-header/breadcrumb/breadcrumb.module';
+import { ProduccionTableComponent } from './dashboard/produccion-table/produccion-table.component';
+import { TopTableComponent } from './dashboard/top-table/top-table.component';
+import { VentasTableComponent } from './dashboard/ventas-table/ventas-table.component';
 
 
 @NgModule({
@@ -46,6 +49,9 @@ import { BreadcrumbModule } from 'app/layout/components/content-header/breadcrum
     ClienteComponent,
     LandingComponent,
     LandingHeaderComponent,
+    ProduccionTableComponent,
+    TopTableComponent,
+    VentasTableComponent,
   ],
   imports: [
     CommonModule,

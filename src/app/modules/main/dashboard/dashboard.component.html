@@ -1,45 +1,42 @@
- <!-- Apex Column Charts -->
- <section id="apex-column-charts">
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div
-            class="card-header d-flex flex-md-row flex-column justify-content-md-between justify-content-start align-items-md-center align-items-start"
-          >
-            <div>
-              <h4 class="card-title mb-50">Data Science</h4>
-            </div>
-            <div class="d-flex align-items-center mt-md-0 mt-1">
-              <i class="font-medium-2" data-feather="calendar"></i>
-              <ng2-flatpickr [config]="DateRangeOptions" name="DateRange"></ng2-flatpickr>
-            </div>
-          </div>
-          <div class="card-body">
-            <div id="column-chart" #apexColumnChartRef>
-              <apx-chart
-                [series]="apexColumnChart.series"
-                [chart]="{
-                  type: 'bar',
-                  height: 400,
-                  width: isMenuToggled === false ? apexColumnChartRef.offsetWidth : apexColumnChart.chart.width,
-                  stacked: true,
-                  toolbar: {
-                    show: false
-                  }
-                }"
-                [xaxis]="apexColumnChart.xaxis"
-                [stroke]="apexColumnChart.stroke"
-                [tooltip]="apexColumnChart.tooltip"
-                [colors]="apexColumnChart.colors"
-                [legend]="apexColumnChart.legend"
-                [dataLabels]="apexColumnChart.dataLabels"
-                [plotOptions]="apexColumnChart.plotOptions"
-                [grid]="apexColumnChart.grid"
-              ></apx-chart>
+<!-- Apex Column Charts -->
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <!-- Invoice List -->
+    <section class="invoice-list-wrapper" id="apex-column-charts" id="apex-column-charts">
+      <div class="card">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div
+                class="card-header d-flex flex-md-row flex-column justify-content-md-between justify-content-start align-items-md-center align-items-start">
+                <div>
+                  <h4 class="card-title mb-50">Data Science</h4>
+                </div>
+                <div class="d-flex align-items-center mt-md-0 mt-1">
+                  <i class="font-medium-2" data-feather="calendar"></i>
+                  <ng2-flatpickr [config]="DateRangeOptions" name="DateRange"></ng2-flatpickr>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="column-chart" #apexColumnChartRef>
+                  <apx-chart [series]="apexColumnChart.series" [chart]="{
+                        type: 'bar',
+                        height: 400,
+                        width: isMenuToggled === false ? apexColumnChartRef.offsetWidth : apexColumnChart.chart.width,
+                        stacked: true,
+                        toolbar: {
+                          show: false
+                        }
+                      }" [xaxis]="apexColumnChart.xaxis" [stroke]="apexColumnChart.stroke"
+                    [tooltip]="apexColumnChart.tooltip" [colors]="apexColumnChart.colors" [legend]="apexColumnChart.legend"
+                    [dataLabels]="apexColumnChart.dataLabels" [plotOptions]="apexColumnChart.plotOptions"
+                    [grid]="apexColumnChart.grid"></apx-chart>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-  <!--/ Apex Column Charts -->
+    </section>
+  </div>
+</div>

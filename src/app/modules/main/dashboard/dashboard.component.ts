@@ -9,9 +9,6 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  cardData: any ={
-    views: 2300
-  };
 
   constructor() { }
 

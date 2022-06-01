@@ -72,6 +72,13 @@ export const menu: CoreMenu[] = [
             type: 'item',
             icon: 'meh',
             url: 'main/login'
+          },
+          {
+            id: 'Acceso',
+            title: 'Registro Usuarios',
+            type: 'item',
+            icon:'users',
+            url: 'main/registro-usuarios'
           }
         ]
 

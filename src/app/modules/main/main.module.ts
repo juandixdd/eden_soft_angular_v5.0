@@ -33,6 +33,7 @@ import { BreadcrumbModule } from 'app/layout/components/content-header/breadcrum
 import { ProduccionTableComponent } from './dashboard/produccion-table/produccion-table.component';
 import { TopTableComponent } from './dashboard/top-table/top-table.component';
 import { VentasTableComponent } from './dashboard/ventas-table/ventas-table.component';
+import { RegistroUsuariosComponent } from './usuarios/registro-usuarios/registro-usuarios.component';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { VentasTableComponent } from './dashboard/ventas-table/ventas-table.comp
     ProduccionTableComponent,
     TopTableComponent,
     VentasTableComponent,
+    RegistroUsuariosComponent,
   ],
   imports: [
     CommonModule,

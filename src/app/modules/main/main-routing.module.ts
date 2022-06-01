@@ -11,6 +11,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './usuarios/login/login.component';
 import { RestaurarClaveComponent } from './usuarios/restaurar-clave/restaurar-clave.component';
 import { ClienteComponent } from './ventas/cliente/cliente.component';
+import { RegistroUsuariosComponent } from './usuarios/registro-usuarios/registro-usuarios.component';
 
 const routes: Routes = [
 
@@ -28,6 +29,7 @@ const routes: Routes = [
   {path:'lista-usuarios', component:ListaUsuariosComponent},
   {path: 'login', component:LoginComponent},
   {path: 'restaurar-clave',component:RestaurarClaveComponent},
+  {path: 'registro-usuarios',component:RegistroUsuariosComponent},
 
   /*Dashboard*/
   {path:'dashboard', component:DashboardComponent},

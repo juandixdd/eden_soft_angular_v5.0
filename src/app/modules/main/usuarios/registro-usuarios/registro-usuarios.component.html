@@ -137,31 +137,24 @@
                 <div *ngIf="f.password.errors.required">Password is required</div>
               </div>
             </div>
-            <div class="form-group">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input" type="checkbox" id="register-privacy-policy" tabindex="4" />
-                <label class="custom-control-label" for="register-privacy-policy">
-                  Estoy de acuerdo con las <a href="javascript:void(0);">politicas de privacidad</a>
-                </label>
-              </div>
-            </div>
-            <button class="btn btn-primary btn-block" tabindex="5" rippleEffect>Sign up</button>
+            <hr>
+            <button class="btn btn-primary btn-block" tabindex="5" rippleEffect>Registrarse</button>
           </form>
   
           <p class="text-center mt-2">
-            <span>Already have an account? </span>
-            <a routerLink="/pages/authentication/login-v1">
-              <span> Sign in instead</span>
+            <span>¿Ya tienes una cuenta? </span>
+            <a routerLink="/main/login">
+              <span> Ingresa aqui</span>
             </a>
           </p>
   
           <div class="divider my-2">
-            <div class="divider-text">or</div>
+            <div class="divider-text">Registrate con</div>
           </div>
   
           <div class="auth-footer-btn d-flex justify-content-center">
             <a href="javascript:void(0)" class="btn btn-google">
-              <i data-feather="mail"></i>
+              <i class="fa-brands fa-google"></i>
             </a>
           </div>
         </div>

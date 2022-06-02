@@ -13,143 +13,159 @@ License: You must have a valid license purchased only from themeforest(the above
 
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="utf-8" />
 
-<head>
-  <meta charset="utf-8" />
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <base href="/" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
+      rel="stylesheet"
+    />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgjNW0WA93qphgZW-joXVR6VC3IiYFjfo"></script>
 
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
-    rel="stylesheet" />
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgjNW0WA93qphgZW-joXVR6VC3IiYFjfo"></script>
-
-  <title>Eden.Soft</title>
-  <!-- Vuexy loading Screen CSS -->
-  <style type="text/css">
-    #loading-bg {
-      width: 100%;
-      height: 100%;
-      background: #fff;
-      display: block;
-      position: absolute;
-      z-index: 99999;
-      pointer-events: none;
-    }
-
-    .loading-logo {
-      position: absolute;
-      left: calc(50% - 45px);
-      top: 40%;
-    }
-
-    .loading {
-      position: absolute;
-      left: calc(50% - 35px);
-      top: 50%;
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      border: 3px solid transparent;
-    }
-
-    .loading .effect-1,
-    .loading .effect-2 {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border: 3px solid transparent;
-      border-left: 3px solid rgba(121, 97, 249, 1);
-      border-radius: 50%;
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-    }
-
-    .loading .effect-1 {
-      animation: rotate 1s ease infinite;
-    }
-
-    .loading .effect-2 {
-      animation: rotateOpacity 1s ease infinite 0.1s;
-    }
-
-    .loading .effect-3 {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border: 3px solid transparent;
-      border-left: 3px solid rgba(121, 97, 249, 1);
-      -webkit-animation: rotateOpacity 1s ease infinite 0.2s;
-      animation: rotateOpacity 1s ease infinite 0.2s;
-      border-radius: 50%;
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-    }
-
-    .loading .effects {
-      transition: all 0.3s ease;
-    }
-
-    @keyframes rotate {
-      0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
+    <title>Eden.Soft</title>
+    <!-- Vuexy loading Screen CSS -->
+    <style type="text/css">
+      #loading-bg {
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        display: block;
+        position: absolute;
+        z-index: 99999;
+        pointer-events: none;
       }
 
-      100% {
-        -webkit-transform: rotate(1turn);
-        transform: rotate(1turn);
-      }
-    }
-
-    @keyframes rotateOpacity {
-      0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-        opacity: 0.1;
+      .loading-logo {
+        position: absolute;
+        left: calc(50% - 45px);
+        top: 40%;
       }
 
-      100% {
-        -webkit-transform: rotate(1turn);
-        transform: rotate(1turn);
-        opacity: 1;
+      .loading {
+        position: absolute;
+        left: calc(50% - 35px);
+        top: 50%;
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        border: 3px solid transparent;
       }
-    }
-  </style>
-  <!-- / Vuexy loading Screen CSS -->
-</head>
 
-<body>
-  <!-- Vuexy loading Screen -->
-  <core-loading-screen id="loading-bg">
-    <div class="loading-logo">
-      <img src="assets/images/logo/logo.png" alt="Logo" />
-    </div>
-    <div class="loading">
-      <div class="effect-1 effects"></div>
-      <div class="effect-2 effects"></div>
-      <div class="effect-3 effects"></div>
-    </div>
-  </core-loading-screen>
-  <!-- / Vuexy loading Screen -->
+      .loading .effect-1,
+      .loading .effect-2 {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 3px solid transparent;
+        border-left: 3px solid rgba(121, 97, 249, 1);
+        border-radius: 50%;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+      }
 
-  <!-- Vuexy root component -->
-  <app-root> </app-root>
-  <!-- / Vuexy root component -->
+      .loading .effect-1 {
+        animation: rotate 1s ease infinite;
+      }
 
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-    crossorigin="anonymous"></script>
-  <!-- / Fontaweson -->
-  <script src="https://kit.fontawesome.com/53a7b5c861.js" crossorigin="anonymous"></script>
-</body>
+      .loading .effect-2 {
+        animation: rotateOpacity 1s ease infinite 0.1s;
+      }
 
+      .loading .effect-3 {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 3px solid transparent;
+        border-left: 3px solid rgba(121, 97, 249, 1);
+        -webkit-animation: rotateOpacity 1s ease infinite 0.2s;
+        animation: rotateOpacity 1s ease infinite 0.2s;
+        border-radius: 50%;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+
+      .loading .effects {
+        transition: all 0.3s ease;
+      }
+
+      @keyframes rotate {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+
+        100% {
+          -webkit-transform: rotate(1turn);
+          transform: rotate(1turn);
+        }
+      }
+
+      @keyframes rotateOpacity {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+          opacity: 0.1;
+        }
+
+        100% {
+          -webkit-transform: rotate(1turn);
+          transform: rotate(1turn);
+          opacity: 1;
+        }
+      }
+    </style>
+    <!-- / Vuexy loading Screen CSS -->
+  </head>
+
+  <body>
+    <!-- Vuexy loading Screen -->
+    <core-loading-screen id="loading-bg">
+      <div class="row justify-content-center text-center">
+        <div class="col-md-4" style="margin-top: 14%; margin-right: 25px;">
+          <img
+          src="assets/images/logo/logo.png"
+          alt="Logo"
+          style="width: 300px; height: auto"
+        />
+        </div>
+      </div>
+      <div class="loading">
+        <div class="effect-1 effects"></div>
+        <div class="effect-2 effects"></div>
+        <div class="effect-3 effects"></div>
+      </div>
+    </core-loading-screen>
+    <!-- / Vuexy loading Screen -->
+
+    <!-- Vuexy root component -->
+    <!--<app-root> </app-root>-->
+    <!-- / Vuexy root component -->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
+    <!-- / Fontaweson -->
+    <script
+      src="https://kit.fontawesome.com/53a7b5c861.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

@@ -34,6 +34,11 @@ import { ProduccionTableComponent } from './dashboard/produccion-table/produccio
 import { TopTableComponent } from './dashboard/top-table/top-table.component';
 import { VentasTableComponent } from './dashboard/ventas-table/ventas-table.component';
 import { RegistroUsuariosComponent } from './usuarios/registro-usuarios/registro-usuarios.component';
+import { LanginFooterComponent } from './landing/langin-footer/langin-footer.component';
+import { ProduccionComponent } from './produccion/produccion.component';
+import { CategoriasComponent } from './produccion/categorias/categorias.component';
+import { ProductosComponent } from './produccion/productos/productos.component';
+import { OrdenDeProduccionComponent } from './produccion/orden-de-produccion/orden-de-produccion.component';
 
 
 @NgModule({
@@ -54,6 +59,11 @@ import { RegistroUsuariosComponent } from './usuarios/registro-usuarios/registro
     TopTableComponent,
     VentasTableComponent,
     RegistroUsuariosComponent,
+    LanginFooterComponent,
+    ProduccionComponent,
+    CategoriasComponent,
+    ProductosComponent,
+    OrdenDeProduccionComponent,
   ],
   imports: [
     CommonModule,

@@ -12,6 +12,9 @@ import { LoginComponent } from './usuarios/login/login.component';
 import { RestaurarClaveComponent } from './usuarios/restaurar-clave/restaurar-clave.component';
 import { ClienteComponent } from './ventas/cliente/cliente.component';
 import { RegistroUsuariosComponent } from './usuarios/registro-usuarios/registro-usuarios.component';
+import { CategoriasComponent } from './produccion/categorias/categorias.component';
+import { ProductosComponent } from './produccion/productos/productos.component';
+import { OrdenDeProduccionComponent } from './produccion/orden-de-produccion/orden-de-produccion.component';
 
 const routes: Routes = [
 
@@ -30,6 +33,11 @@ const routes: Routes = [
   {path: 'login', component:LoginComponent},
   {path: 'restaurar-clave',component:RestaurarClaveComponent},
   {path: 'registro-usuarios',component:RegistroUsuariosComponent},
+
+  /*Produccion*/
+  {path: 'categorias',component:CategoriasComponent},
+  {path:'orden-de-produccion', component:OrdenDeProduccionComponent},
+  {path:'productos', component:ProductosComponent},
 
   /*Dashboard*/
   {path:'dashboard', component:DashboardComponent},

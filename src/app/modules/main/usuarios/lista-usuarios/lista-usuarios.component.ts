@@ -115,6 +115,7 @@ export class ListaUsuariosComponent implements OnInit {
   ngOnInit(): void {
     this.tempData = this.rows; //? Esto también es del buscador (Que no funciona)
     this.kitchenSinkRows = this.rows;
+    
   }
   modalOpen(modal) { //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {
@@ -151,4 +152,15 @@ export class ListaUsuariosComponent implements OnInit {
       }
     })
   }
+  //funcion que le da value a los imputs del modal
+  setValue(id, nombre, apellidos, email, direccion, phone) {
+     
+    id = 1;
+    nombre = 'jesus';
+    apellidos = 'perez';
+    email = 'juan@gmail.com';
+    direccion = 'Calle 39B sur';
+    phone = 3006483858;
+  }
+  
 }

@@ -108,6 +108,36 @@ export const menu: CoreMenu[] = [
         url: 'main/roles'
       },
     ]
+  },
+  {
+    id:'Produccion',
+    title:'Produccion',
+    translate:'Produccion',
+    type:'collapsible',
+    icon: 'coffee',
+    children:[
+      {
+        id: 'categorias',
+        title: 'Categorias',
+        type: 'item',
+        icon: 'heart',
+        url: 'main/categorias'
+      },
+      {
+        id: 'orden-de-produccion',
+        title: 'Orden de Produccion',
+        type: 'item',
+        icon: 'heart',
+        url: 'main/orden-de-produccion'
+      },
+      {
+        id: 'productos',
+        title: 'Productos',
+        type: 'item',
+        icon: 'heart',
+        url: 'main/productos'
+      },
+    ]
   }
 
 

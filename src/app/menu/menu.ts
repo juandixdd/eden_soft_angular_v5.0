@@ -120,21 +120,21 @@ export const menu: CoreMenu[] = [
         id: 'categorias',
         title: 'Categorias',
         type: 'item',
-        icon: 'heart',
+        icon: 'list',
         url: 'main/categorias'
       },
       {
         id: 'orden-de-produccion',
         title: 'Orden de Produccion',
         type: 'item',
-        icon: 'heart',
+        icon: 'clipboard',
         url: 'main/orden-de-produccion'
       },
       {
         id: 'productos',
         title: 'Productos',
         type: 'item',
-        icon: 'heart',
+        icon: 'coffee',
         url: 'main/productos'
       },
     ]

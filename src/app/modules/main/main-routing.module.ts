@@ -15,6 +15,8 @@ import { RegistroUsuariosComponent } from './usuarios/registro-usuarios/registro
 import { CategoriasComponent } from './produccion/categorias/categorias.component';
 import { ProductosComponent } from './produccion/productos/productos.component';
 import { OrdenDeProduccionComponent } from './produccion/orden-de-produccion/orden-de-produccion.component';
+import { VentasComponent } from './ventas/ventas/ventas.component';
+import { PedidosComponent } from './ventas/pedidos/pedidos.component';
 
 const routes: Routes = [
 
@@ -26,6 +28,9 @@ const routes: Routes = [
   /*Ventas*/
   { path: 'cotizacion', component: CotizacionComponent},
   { path: 'cliente', component: ClienteComponent },
+  { path: 'ventas', component: VentasComponent },
+  { path: 'pedidos', component: PedidosComponent },
+
 
   /*Usuarios*/
   {path: 'recuperar-contraseña',component:AccesoComponent},

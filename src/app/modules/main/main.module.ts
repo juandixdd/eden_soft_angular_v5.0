@@ -39,6 +39,8 @@ import { ProduccionComponent } from './produccion/produccion.component';
 import { CategoriasComponent } from './produccion/categorias/categorias.component';
 import { ProductosComponent } from './produccion/productos/productos.component';
 import { OrdenDeProduccionComponent } from './produccion/orden-de-produccion/orden-de-produccion.component';
+import { VentasComponent } from './ventas/ventas/ventas.component';
+import { PedidosComponent } from './ventas/pedidos/pedidos.component';
 
 
 @NgModule({
@@ -64,6 +66,8 @@ import { OrdenDeProduccionComponent } from './produccion/orden-de-produccion/ord
     CategoriasComponent,
     ProductosComponent,
     OrdenDeProduccionComponent,
+    VentasComponent,
+    PedidosComponent,
   ],
   imports: [
     CommonModule,

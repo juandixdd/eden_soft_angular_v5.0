@@ -37,6 +37,20 @@ export const menu: CoreMenu[] = [
         icon: 'users',
         url: 'main/cliente'
       },
+      {
+        id: 'pedidos',
+        title: 'Pedidos',
+        type: 'item',
+        icon: 'shopping-cart',
+        url: 'main/pedidos'
+      },
+      {
+        id: 'ventas',
+        title: 'Ventas',
+        type: 'item',
+        icon: 'shopping-cart',
+        url: 'main/ventas'
+      }
     ]
   },
 

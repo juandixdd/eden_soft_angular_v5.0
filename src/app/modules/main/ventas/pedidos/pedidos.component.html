@@ -51,12 +51,6 @@
           [footerHeight]="50"
           [scrollbarH]="true"
         >
-          <!-- Column -->
-          <ngx-datatable-column name="#" prop="id" [width]="20">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">#{{ id }}</p>
-            </ng-template>
-          </ngx-datatable-column>
 
           <ngx-datatable-column name="N° Del pedido" prop="num" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>

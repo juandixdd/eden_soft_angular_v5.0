@@ -1,30 +1,52 @@
-<div class="container-fluid container-header bg-dark">
-  <header class="p-5">
-    <div class="row align-items-center justify-content-between">
-      <div class="col-md-4 bg-primary">xd1</div>
-      <div class="col-md-4 bg-danger">xd2</div>
-      <div class="col-md-4 bg-warning">xd3</div>
+<div class="container-fluid container-header">
+  <header>
+    <div class="row align-items-center justify-content-center">
+      <div class="col-md-4 bg">
+        <ul class="nav justify-content-end">
+          <li class="nav-item nav-item-hover">
+            <a class="nav-link selected" routerLink="">Inicio</a>
+          </li>
+          <div class="vertical-hr"></div>
+          <li class="nav-item nav-item-hover">
+            <a class="nav-link custom-nav-item" routerLink="main/productos"
+              >Productos</a
+            >
+          </li>
+          <div class="vertical-hr"></div>
+          <li class="nav-item nav-item-hover">
+            <a class="nav-link custom-nav-item" href="#">Contáctenos</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-2">
+        <div class="row justify-content-center">
+          <img
+            src="../../../../../assets/images/bunuelin-removebg.png"
+            alt="img-principal"
+            class="img-principal"
+          />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <ul class="nav justify-content-start">
+          <li class="nav-item nav-item-hover">
+            <a class="nav-link custom-nav-item" routerLink="main/registro-usuarios"
+              >Registrarse</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="btn btn-primary ml-2"
+              href="#"
+              [routerLink]="'/main/dashboard'"
+              >Iniciar sesión</a
+            >
+          </li>
+        </ul>
+      </div>
     </div>
   </header>
 </div>
-
-<ul class="nav justify-content-end">
-  <li class="nav-item nav-item-hover">
-    <a class="nav-link" routerLink="main/productos">Productos</a>
-  </li>
-  <li class="nav-item nav-item-hover">
-    <a class="nav-link" href="#">Contáctenos</a>
-  </li>
-  <li class="nav-item">
-    <a
-      class="btn btn-primary ml-2"
-      href="#"
-      [routerLink]="'/main/dashboard'"
-      >Iniciar sesión</a
-    >
-  </li>
-</ul>
-
 
 
 

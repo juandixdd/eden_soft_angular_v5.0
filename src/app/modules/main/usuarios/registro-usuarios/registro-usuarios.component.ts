@@ -16,11 +16,12 @@ export class RegistroUsuariosComponent implements OnInit {
   // Public
   public coreConfig: any;
   public passwordTextType: boolean;
-  public registerForm: FormGroup;
   public submitted = false;
 
   // Private
   private _unsubscribeAll: Subject<any>;
+
+
 
   /**
    * Constructor
@@ -28,7 +29,7 @@ export class RegistroUsuariosComponent implements OnInit {
    * @param {CoreConfigService} _coreConfigService
    * @param {FormBuilder} _formBuilder
    */
-  constructor(private _coreConfigService: CoreConfigService, private _formBuilder: FormBuilder) {
+  constructor(private _coreConfigService: CoreConfigService, private _formBuilder: FormBuilder, private fb: FormBuilder,) {
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
@@ -48,6 +49,41 @@ export class RegistroUsuariosComponent implements OnInit {
       }
     };
   }
+
+  public registerForm: FormGroup = this.fb.group({
+    names: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    last_names: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    document:[
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    email: [
+      "",
+      [Validators.required, Validators.email],
+    ],
+    password: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    confirmPassword: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    phone: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    direction: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ]
+  })
 
 
   get f() {
@@ -73,18 +109,8 @@ export class RegistroUsuariosComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    this.registerForm = this._formBuilder.group({
-      nombres: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
-
-    // Subscribe to config changes
-    this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
-      this.coreConfig = config;
-    });
   }
+
   ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();

@@ -1,166 +1,154 @@
 <div class="m-0 vh-100 row justify-content-center align-items-center">
-    <div class="col-md-6 p-5 text-center">
-      <!-- Register v1 -->
-      <div class="card mb-0">
-        <div class="card-body">
-          <a href="javascript:void(0);" class="brand-logo">
-            <img src="src\favicon.ico" alt="brand-logo" height="28" />
-            <h2 class="brand-text text-primary ml-1">Eden.Soft</h2>
-          </a>
-  
-          <h4 class="card-title mb-1">La Comelona Comienza aqui 🚀</h4>
-          <p class="card-text mb-2">Completa los siguientes datos para registrarte</p>
+  <div class="col-md-6 p-5 text-center">
+    <!-- Register v1 -->
+    <div class="card mb-0">
+      <div class="card-body">
+        <a href="javascript:void(0);" class="brand-logo">
+          <img src="src\favicon.ico" alt="brand-logo" height="28" />
+          <h2 class="brand-text text-primary ml-1">Eden.Soft</h2>
+        </a>
 
+        <h4 class="card-title mb-1">La Comelona Comienza aqui 🚀</h4>
+        <p class="card-text mb-2">
+          Completa los siguientes datos para registrarte
+        </p>
 
-
-          <form class="auth-register-form mt-2" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-           <div class="row">
+        <form
+          class="auth-register-form mt-2"
+          [formGroup]="registerForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <div class="row">
             <div class="col-md-6 col-12">
-                <div class="form-group">
-                    <label for="first-name-column">Nombres</label>
-                    <input type="text" 
-                    id="nombres" 
-                    class="form-control" 
-                    formControlName="nombres"
-                    autofocus
-                    [ngClass]="{ 'is-invalid': submitted && f.nombres.errors }" />
-                </div>
-            </div>
-            <div class="col-md-6 col-12">
-                <div class="form-group">
-                    <label for="last-name-column">Apellidos</label>
-                    <input type="text" 
-                    id="apellidos" 
-                    class="form-control" 
-                    formControlName="apellidos"
-                    [ngClass]="{ 'is-invalid': submitted && f.apellidos.errors }" />
-                    
-                </div>
-            </div>
-            <div class="col-md-6 col-12">
-                <div class="form-group">
-                    <label for="city-column">Documento</label>
-                    <input type="number" id="Telefono" class="form-control"
-                        placeholder="minimo 10 caracteres" name="city-column" />
-                </div>
-            </div>
-            <div class="col-md-6 col-12">
-                <div class="form-group">
-                    <label for="country-floating">E-mail</label>
-                    <input type="email" id="country-floating" class="form-control" name="country-floating"
-                        placeholder="ejemplo@gmail.com" />
-                </div>
-            </div>
-
-            <div class="col-md-6 col-12">
-                <div class="form-group">
-                    <label for="company-column">Contraseña</label>
-                    <input type="password" id="company-column" class="form-control" name="company-column"
-                        placeholder="minimo 5 caracteres" />
-                </div>
-            </div>
-            <div class="col-md-6 col-12">
-                <div class="form-group">
-                    <label for="email-id-column">Confirmar Contraseña</label>
-                    <input type="password" id="email-id-column" class="form-control" name="contraseña"
-                        placeholder="minimo 5 caracteres" />
-                </div>
-            </div>
-
-            <div class="col-md-6 col-12">
-                <div class="form-group">
-                    <label for="city-column">Telefono</label>
-                    <input type="number" id="Telefono" class="form-control" name="telefono" />
-                </div>
-            </div>
-            <div class="col-md-6 col-12">
-                <div class="form-group">
-                    <label for="city-column">Direccion</label>
-                    <input type="text" id="direccion" class="form-control" name="direccion" />
-                </div>
-            </div>
-
-
-
-
-
-           </div>
-            <div class="form-group">
-              <label for="register-username" class="form-label">Username</label>
-              <input
-                type="text"
-                formControlName="username"
-                class="form-control"
-                placeholder="johndoe"
-                aria-describedby="register-username"
-                tabindex="1"
-                autofocus
-                [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
-              />
-              <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                <div *ngIf="f.username.errors.required">Username is required</div>
-              </div>
-            </div>
-            
-  
-            <div class="form-group">
-              <label for="register-password" class="form-label">Password</label>
-  
-              <div class="input-group input-group-merge form-password-toggle">
+              <div class="form-group">
+                <label for="first-name-column">Nombres</label>
                 <input
-                  [type]="passwordTextType ? 'text' : 'password'"
-                  formControlName="password"
-                  class="form-control form-control-merge"
-                  placeholder="············"
-                  aria-describedby="register-password"
-                  tabindex="3"
-                  [ngClass]="{ 'is-invalid error': submitted && f.password.errors }"
+                  type="text"
+                  id="nombres"
+                  class="form-control"
+                  formControlName="names"
+                  autofocus
+                  [ngClass]="{ 'is-invalid': submitted && f.nombres.errors }"
                 />
-                <div class="input-group-append">
-                  <span class="input-group-text cursor-pointer"
-                    ><i
-                      class="feather font-small-4"
-                      [ngClass]="{
-                        'icon-eye-off': passwordTextType,
-                        'icon-eye': !passwordTextType
-                      }"
-                      (click)="togglePasswordTextType()"
-                    ></i
-                  ></span>
-                </div>
-              </div>
-              <div
-                *ngIf="submitted && f.password.errors"
-                class="invalid-feedback"
-                [ngClass]="{ 'd-block': submitted && f.password.errors }"
-              >
-                <div *ngIf="f.password.errors.required">Password is required</div>
               </div>
             </div>
-            <hr>
-            <button class="btn btn-primary btn-block" tabindex="5" rippleEffect>Registrarse</button>
-          </form>
-  
-          <p class="text-center mt-2">
-            <span>¿Ya tienes una cuenta? </span>
-            <a routerLink="/main/login">
-              <span> Ingresa aqui</span>
-            </a>
-          </p>
-  
-          <div class="divider my-2">
-            <div class="divider-text">Registrate con</div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="last-name-column">Apellidos</label>
+                <input
+                  type="text"
+                  id="apellidos"
+                  class="form-control"
+                  formControlName="last_names"
+                  [ngClass]="{ 'is-invalid': submitted && f.apellidos.errors }"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="city-column">Documento</label>
+                <input
+                  type="number"
+                  id="Telefono"
+                  class="form-control"
+                  placeholder="minimo 10 caracteres"
+                  formControlName="document"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="country-floating">E-mail</label>
+                <input
+                  type="email"
+                  id="country-floating"
+                  class="form-control"
+                  formControlName="email"
+                  placeholder="ejemplo@gmail.com"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="company-column">Contraseña</label>
+                <input
+                  type="password"
+                  id="company-column"
+                  class="form-control"
+                  formControlName="password"
+                  placeholder="minimo 5 caracteres"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="email-id-column">Confirmar Contraseña</label>
+                <input
+                  type="password"
+                  id="email-id-column"
+                  class="form-control"
+                  formControlName="confirmPassword"
+                  placeholder="minimo 5 caracteres"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="city-column">Telefono</label>
+                <input
+                  type="number"
+                  id="Telefono"
+                  class="form-control"
+                  formControlName="phone"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="city-column">Direccion</label>
+                <input
+                  type="text"
+                  id="direccion"
+                  class="form-control"
+                  formControlName="direction"
+                />
+              </div>
+            </div>
           </div>
-  
-          <div class="auth-footer-btn d-flex justify-content-center">
-            <a href="javascript:void(0)" class="btn btn-google">
-              <i class="fa-brands fa-google"></i>
-            </a>
-          </div>
+
+        
+          <hr />
+          <button
+            class="btn btn-primary btn-block"
+            tabindex="5"
+            rippleEffect
+            [disabled]="!registerForm.valid"
+            routerLink="/main/dashboard"
+          >
+            Registrarse
+          </button>
+        </form>
+
+        <p class="text-center mt-2">
+          <span>¿Ya tienes una cuenta? </span>
+          <a routerLink="/main/login">
+            <span> Ingresa aqui</span>
+          </a>
+        </p>
+
+        <div class="divider my-2">
+          <div class="divider-text">Registrate con</div>
+        </div>
+
+        <div class="auth-footer-btn d-flex justify-content-center">
+          <a href="javascript:void(0)" class="btn btn-google">
+            <i class="fa-brands fa-google"></i>
+          </a>
         </div>
       </div>
-      <!-- /Register v1 -->
     </div>
+    <!-- /Register v1 -->
   </div>
-  
- 
+</div>

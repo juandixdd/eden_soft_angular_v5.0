@@ -145,11 +145,11 @@ export const menu: CoreMenu[] = [
         url: 'main/orden-de-produccion'
       },
       {
-        id: 'productos',
+        id: 'productos-admin',
         title: 'Productos',
         type: 'item',
         icon: 'coffee',
-        url: 'main/productos'
+        url: 'main/productos-admin'
       },
     ]
   }

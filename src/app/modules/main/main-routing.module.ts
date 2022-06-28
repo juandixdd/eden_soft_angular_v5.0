@@ -17,6 +17,7 @@ import { ProductosComponent } from './produccion/productos/productos.component';
 import { OrdenDeProduccionComponent } from './produccion/orden-de-produccion/orden-de-produccion.component';
 import { VentasComponent } from './ventas/ventas/ventas.component';
 import { PedidosComponent } from './ventas/pedidos/pedidos.component';
+import { ProductosAdminComponent } from './produccion/productos-admin/productos-admin.component';
 
 const routes: Routes = [
 
@@ -43,7 +44,7 @@ const routes: Routes = [
   {path: 'categorias',component:CategoriasComponent},
   {path:'orden-de-produccion', component:OrdenDeProduccionComponent},
   {path:'productos', component:ProductosComponent},
-
+  {path:'productos-admin', component:ProductosAdminComponent},
   /*Dashboard*/
   {path:'dashboard', component:DashboardComponent},
 

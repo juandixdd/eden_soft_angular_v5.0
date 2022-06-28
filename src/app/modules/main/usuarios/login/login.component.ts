@@ -15,7 +15,6 @@ import { CoreConfigService } from '@core/services/config.service';
 export class LoginComponent implements OnInit {
   //  Public
   public coreConfig: any;
-  public loginForm: FormGroup;
   public loading = false;
   public submitted = false;
   public returnUrl: string;
@@ -35,6 +34,7 @@ export class LoginComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
+    private fb: FormBuilder
     
   ) {
     
@@ -58,10 +58,18 @@ export class LoginComponent implements OnInit {
       }
     };
   }
-  // convenience getter for easy access to form fields
-  get f() {
-    return this.loginForm.controls;
-  }
+
+
+  public loginForm: FormGroup = this.fb.group({
+    email: [
+      "",
+      [Validators.required, Validators.email],
+    ],
+    password: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+  })
 
   /**
    * Toggle password
@@ -71,15 +79,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submitted = true;
-
-    // stop here if form is invalid
-    if (this.loginForm.invalid) {
-      return;
-    }
-
-    // Login
-    this.loading = true;
+    
     
   }
 

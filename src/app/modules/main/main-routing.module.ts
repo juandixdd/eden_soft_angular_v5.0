@@ -18,6 +18,7 @@ import { OrdenDeProduccionComponent } from './produccion/orden-de-produccion/ord
 import { VentasComponent } from './ventas/ventas/ventas.component';
 import { PedidosComponent } from './ventas/pedidos/pedidos.component';
 import { ProductosAdminComponent } from './produccion/productos-admin/productos-admin.component';
+import { PerfilUsuarioComponent } from './usuarios/perfil-usuario/perfil-usuario.component';
 
 const routes: Routes = [
 
@@ -39,6 +40,7 @@ const routes: Routes = [
   {path: 'login', component:LoginComponent},
   {path: 'restaurar-clave',component:RestaurarClaveComponent},
   {path: 'registro-usuarios',component:RegistroUsuariosComponent},
+  {path: 'perfil-usuario',component:PerfilUsuarioComponent},
 
   /*Produccion*/
   {path: 'categorias',component:CategoriasComponent},

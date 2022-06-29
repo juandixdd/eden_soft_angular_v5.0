@@ -42,6 +42,7 @@ import { OrdenDeProduccionComponent } from './produccion/orden-de-produccion/ord
 import { VentasComponent } from './ventas/ventas/ventas.component';
 import { PedidosComponent } from './ventas/pedidos/pedidos.component';
 import { ProductosAdminComponent } from './produccion/productos-admin/productos-admin.component';
+import { PerfilUsuarioComponent } from './usuarios/perfil-usuario/perfil-usuario.component';
 
 
 @NgModule({
@@ -70,6 +71,7 @@ import { ProductosAdminComponent } from './produccion/productos-admin/productos-
     VentasComponent,
     PedidosComponent,
     ProductosAdminComponent,
+    PerfilUsuarioComponent,
   ],
   imports: [
     CommonModule,

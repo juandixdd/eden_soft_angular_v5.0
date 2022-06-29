@@ -43,6 +43,7 @@ import { VentasComponent } from './ventas/ventas/ventas.component';
 import { PedidosComponent } from './ventas/pedidos/pedidos.component';
 import { ProductosAdminComponent } from './produccion/productos-admin/productos-admin.component';
 import { PerfilUsuarioComponent } from './usuarios/perfil-usuario/perfil-usuario.component';
+import { ContactenosComponent } from './contactenos/contactenos.component';
 
 
 @NgModule({
@@ -72,6 +73,7 @@ import { PerfilUsuarioComponent } from './usuarios/perfil-usuario/perfil-usuario
     PedidosComponent,
     ProductosAdminComponent,
     PerfilUsuarioComponent,
+    ContactenosComponent,
   ],
   imports: [
     CommonModule,

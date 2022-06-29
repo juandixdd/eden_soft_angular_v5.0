@@ -19,23 +19,47 @@ export class ProductosAdminComponent implements OnInit {
  public kitchenSinkRows: any;
 
  selectBasic = [ //? Estos son los datos del select de la modal de crear cotizacion.
-   'Buñuelo',
-   'Palito de queso',
-   'Arepa de huevo',
+   'Bebidas',
+   'Fritos',
+   'Panaderia',
  ]
 
  rows: any = [ //? Estos son los datos de la tabla quemados.
    {
      id: 1,
-     delivery_date: '2022-12-12',
-     status: 'Pendiente',
+     name: 'buñuelo',
+     price: '1000',
+     stock: '34',
+     category: 'fritos',
    },
    {
-     id: 2,
-     delivery_date: '2022-09-13',
-     status: 'Pagado',
-
-   }
+    id: 1,
+    name: 'buñuelo',
+    price: '1000',
+    stock: '34',
+    category: 'fritos',
+  },
+  {
+    id: 1,
+    name: 'buñuelo',
+    price: '1000',
+    stock: '34',
+    category: 'fritos',
+  },
+  {
+    id: 1,
+    name: 'buñuelo',
+    price: '1000',
+    stock: '34',
+    category: 'fritos',
+  },
+  {
+    id: 1,
+    name: 'buñuelo',
+    price: '1000',
+    stock: '34',
+    category: 'fritos',
+  }
  ]
 
  constructor(
@@ -66,8 +90,8 @@ export class ProductosAdminComponent implements OnInit {
    }).then((result) => {
      if (result.value) {
        Swal.fire(
-         'Eliminada!',
-         'La cotización ha sido eliminada.',
+         'Eliminado!',
+         'El producto ha sido eliminada.',
          'success'
        )
      }

@@ -47,14 +47,21 @@
                     </ngx-datatable-column>
 
                     <!-- Column -->
-                    <ngx-datatable-column name="Fecha de entrega" prop="delivery_date" [width]="20">
+                    <ngx-datatable-column name="Nombre Producto" prop="name" [width]="20">
                         <ng-template let-id="value" ngx-datatable-cell-template>
                             <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
                         </ng-template>
                     </ngx-datatable-column>
 
                     <!-- Column -->
-                    <ngx-datatable-column name="Productos" prop="products" [width]="20">
+                    <ngx-datatable-column name="Precio" prop="price" [width]="20">
+                        <ng-template let-id="value" ngx-datatable-cell-template>
+                            <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <!-- Column -->
+                    <ngx-datatable-column name="Imagen" prop="img" [width]="20">
                         <ng-template let-id="value" ngx-datatable-cell-template>
                             <button class="btn btn-icon btn-sm" (click)="modalOpen(infoModal);">
                                 <i class="feather icon-eye text-primary"></i>
@@ -63,25 +70,39 @@
                     </ngx-datatable-column>
 
                     <!-- Column -->
-                    <ngx-datatable-column name="Estado" prop="status" [width]="20">
+                    <ngx-datatable-column name="Stock" prop="stock" [width]="20">
                         <ng-template let-id="value" ngx-datatable-cell-template>
                             <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
                         </ng-template>
                     </ngx-datatable-column>
 
                     <!-- Column -->
-                    <ngx-datatable-column name="Pago" prop="payment" [width]="20">
+                    <ngx-datatable-column name="Categoria" prop="category" [width]="20">
                         <ng-template let-id="value" ngx-datatable-cell-template>
-                            <button class="btn btn-primary" (click)="modalOpen(paymentModal)">Pagar</button>
+                            <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
                         </ng-template>
                     </ngx-datatable-column>
 
                     <!-- Column -->
-                    <ngx-datatable-column name="Anular" prop="cancel" [width]="20">
+                    <ngx-datatable-column name="estado" prop="status" [width]="15">
+                        <ng-template let-id="value" ngx-datatable-cell-template>
+                            <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
+                            <div class="custom-control custom-switch custom-control-inline" (click)="statusAlert()">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch1" />
+                                <label class="custom-control-label" for="customSwitch1"></label>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <!-- Column -->
+                    <ngx-datatable-column name="Funciones" prop="cancel" [width]="20">
                         <ng-template let-id="value" ngx-datatable-cell-template>
                             <!-- Icono x rojo -->
                             <button class="btn btn-icon btn-sm">
-                                <i class="feather icon-x-circle text-danger" (click)="confirmAlert()"></i>
+                                <i class="feather icon-trash-2 text-danger" (click)="confirmAlert()"></i>
+                            </button>
+                            <button class="btn btn-icon btn-sm">
+                                <i class="feather icon-edit text-primary" (click)="modalOpen(modalEdit)"></i>
                             </button>
                         </ng-template>
                     </ngx-datatable-column>
@@ -107,52 +128,39 @@
                 </button>
             </div>
             <div class="modal-body" tabindex="0" ngbAutofocus>
-                <form [formGroup]="clientForm">
+                <form [formGroup]="productForm">
                     <div class="form-group">
-                        <label>Seleccionar productos</label>
-                        <div class="row">
+                        <div class="col-md-10">
+                            <label for="first-name-column">Nombre producto</label>
+                            <input type="text" id="first-name-column" class="form-control" name="fname-column" />
+
+                            <label for="first-name-column">Precio</label>
+                            <input type="text" id="first-name-column" class="form-control" name="fname-column" />
+                        </div>
+
+                        <div class="">
                             <div class="col-md-10">
+                                <label>Seleccionar categoria</label>
                                 <div class="form-group">
                                     <ng-select [items]="selectBasic" bindLabel="name">
                                     </ng-select>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                        </div>
+                        <div class="">
+                            <div class="col-md-5">
+                                <label for="first-name-column">Ingrese stock</label>
+                                <input type="text" id="first-name-column" class="form-control" name="fname-column" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="first-name-column">Cargar imagen</label>
                                 <button class="btn btn-primary">
-                                    <i class="feather icon-plus"></i>
+                                    <i class="feather icon-share"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </form>
-                <hr>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Buñuelo</td>
-                            <td>
-                                <core-touchspin></core-touchspin>
-                            </td>
-                            <td>
-                                <button class="btn btn-icon btn-sm">
-                                    <i class="feather icon-edit"></i>
-                                </button>
-
-                                <button class="btn btn-icon btn-sm text-danger">
-                                    <i class="feather icon-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary">
@@ -177,26 +185,7 @@
         </div>
 
         <!-- ?Body de la modal -->
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Producto</th>
-                    <th scope="col">Cantidad</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Buñuelos</td>
-                    <td>600</td>
-                </tr>
-                <tr>
-                    <td>Pastel de pollo</td>
-                    <td>300</td>
-                </tr>
-
-            </tbody>
-        </table>
-
+        <img src="../../../../assets/images/products/buñuelo.png" class="card-img-top" alt="Producto" />
 
         <div class="modal-footer">
             <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
@@ -207,61 +196,59 @@
     <!-- / Modal -->
 </div>
 
-<!-- ! Modal de pago -->
-<div>
-    <ng-template #paymentModal let-modal>
+<!-- ! Modal de editar -->
+
+<div class="login-form">
+    <!-- Modal -->
+    <ng-template #modalEdit let-modal>
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">
-                Pagar
-            </h5>
+            <h4 class="modal-title" id="myModalLabel1">Editar</h4>
             <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
+        <div class="modal-body" tabindex="0" ngbAutofocus>
+            <form [formGroup]="productForm">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label for="first-name-column">Nombre producto</label>
+                        <input type="text" id="first-name-column" class="form-control" name="fname-column" />
 
-        <!-- ?Body de la modal -->
-
-        <div class="p-1">
-            <div class="row pl-3 pr-3 pt-3">
-
-                <div class="col">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="radio1" name="customRadio" class="custom-control-input" />
-                        <label class="custom-control-label" for="radio1">Transferencia</label>
+                        <label for="first-name-column">Precio</label>
+                        <input type="text" id="first-name-column" class="form-control" name="fname-column" />
                     </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="radio2" name="customRadio" class="custom-control-input" />
-                        <label class="custom-control-label" for="radio2">Efectivo</label>
+
+                    <div class="">
+                        <div class="col-md-10">
+                            <label>Seleccionar categoria</label>
+                            <div class="form-group">
+                                <ng-select [items]="selectBasic" bindLabel="name">
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="col-md-5">
+                            <label for="first-name-column">Ingrese stock</label>
+                            <input type="text" id="first-name-column" class="form-control" name="fname-column" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="first-name-column">Cargar imagen</label>
+                            <button class="btn btn-primary">
+                                <i class="feather icon-share"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-
-
-                <div class="card mb-4">
-                    <div class="card-body text-center">
-                        Si selecciona transferencia, será redireccionado a la pasarela de pago.
-                    </div>
-                </div>
-            </div>
-
-            <hr>
-
-            <p>Total a pagar: <b>$250.000</b></p>
-
-
+            </form>
         </div>
-
-
-
         <div class="modal-footer">
-            <!-- cancel button -->
-            <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Close click')" rippleEffect>
-                Cancelar
-            </button>
-            <!-- pay button -->
-            <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
-                Pagar
-            </button>
+            <div class="col-12">
+                <div class="row justify-content-end">
+                    <button type="submit" rippleEffect class="btn btn-primary ">Editar</button>
+                </div>
 
+            </div>
         </div>
     </ng-template>
     <!-- / Modal -->

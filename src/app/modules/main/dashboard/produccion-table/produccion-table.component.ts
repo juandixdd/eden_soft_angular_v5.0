@@ -71,9 +71,12 @@ export class ProduccionTableComponent implements OnInit {
 
   mes= 'Abril';
   @ViewChild('apexColumnChartRef') apexColumnChartRef: any;
+  @ViewChild('apexBarChartRef') apexBarChartRef: any;
+
 
   // public
   public contentHeader: object;
+  public apexBarChart: Partial<ChartOptions>;
   public apexColumnChart: Partial<ChartOptions>;
   public isMenuToggled = false;
 
@@ -140,10 +143,7 @@ export class ProduccionTableComponent implements OnInit {
     // Apex Column Chart
     this.apexColumnChart = {
       series: [
-        {
-          name: 'Ventas',
-          data: [90, 120, 55, 100,]
-        },
+        
         {
           name: 'Producción',
           data: [85, 100, 30, 40,]
@@ -212,6 +212,43 @@ export class ProduccionTableComponent implements OnInit {
         }
       }
     };
+
+    this.apexBarChart = {
+      series: [
+        {
+          data: [700, 350, 480, 600]
+        }
+      ],
+      chart: {
+        height: 400,
+        type: 'bar',
+        toolbar: {
+          show: false
+        }
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+          barHeight: '30%',
+          endingShape: 'rounded'
+        }
+      },
+      grid: {
+        xaxis: {
+          lines: {
+            show: false
+          }
+        }
+      },
+      colors: [colors.solid.info],
+      dataLabels: {
+        enabled: false
+      },
+      xaxis: {
+        categories: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4']
+      }
+    };
+
     
   }
 
@@ -260,7 +297,7 @@ export class ProduccionTableComponent implements OnInit {
           // Get Dynamic Width for Charts
           this.isMenuToggled = true;
           
-         
+          this.apexBarChart.chart.width = this.apexBarChartRef?.nativeElement.offsetWidth;
           this.apexColumnChart.chart.width = this.apexColumnChartRef?.nativeElement.offsetWidth;
         }, 900);
       }

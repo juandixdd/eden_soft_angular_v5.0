@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CoreConfigService } from '@core/services/config.service';
 
 @Component({
   selector: 'app-productos',
@@ -7,7 +8,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductosComponent implements OnInit {
 
-  constructor() { }
+  constructor(    
+    private _coreConfigService: CoreConfigService,
+    ) { 
+    // Configure the layout
+    this._coreConfigService.config = {
+      layout: {
+        navbar: {
+          hidden: false
+        },
+        menu: {
+          hidden: false
+        },
+        footer: {
+          hidden: false
+        },
+        customizer: false,
+        enableLocalStorage: false
+      }
+    };
+  }
 
   ngOnInit(): void {
   }

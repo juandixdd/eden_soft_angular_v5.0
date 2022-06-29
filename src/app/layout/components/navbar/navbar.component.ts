@@ -15,6 +15,7 @@ import { CoreMediaService } from '@core/services/media.service';
 
 import { coreConfig } from 'app/app-config';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-navbar',
@@ -85,6 +86,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private _coreSidebarService: CoreSidebarService,
     private _mediaObserver: MediaObserver,
     public _translateService: TranslateService,
+    private modalService: NgbModal
   ) {
     // this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
 
@@ -224,6 +226,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
     // Set the selected language from default languageOptions
     this.selectedLanguage = _.find(this.languageOptions, {
       id: this._translateService.currentLang
+    });
+  }
+
+  modalOpen(modal) { //? Esta es la funcion que abre las modales.
+    this.modalService.open(modal, {
+      centered: true,
     });
   }
 

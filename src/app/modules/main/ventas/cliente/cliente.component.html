@@ -82,7 +82,7 @@
                                 <i class="feather icon-trash-2 text-danger" (click)="confirmAlert()"></i>
                             </button>
                             <button class="btn btn-icon btn-sm">
-                                <i class="feather icon-edit text-primary"></i>
+                                <i class="feather icon-edit text-primary"(click)="modalOpen(modalEdit)"></i>
                             </button>
                         </ng-template>
                     </ngx-datatable-column>
@@ -177,4 +177,64 @@
         </ng-template>
         <!-- / Modal -->
     </div>
+</div>
+
+<!-- ! Modal de editar -->
+
+<div class="login-form">
+    <!-- Modal -->
+    <ng-template #modalEdit let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel1">Editar</h4>
+            <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" tabindex="0" ngbAutofocus>
+            <form class="form" >
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="first-name-column">Nombres</label>
+                            <input type="text" id="first-name-column" class="form-control" name="fname-column" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="last-name-column">Apellidos</label>
+                            <input type="text" id="last-name-column" class="form-control" name="lname-column" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="city-column">Documento</label>
+                            <input type="number" id="Telefono" class="form-control"
+                                placeholder="minimo 10 caracteres" name="city-column" />
+                        </div>
+                    </div>               
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="city-column">Telefono</label>
+                            <input type="number" id="Telefono" class="form-control" name="telefono" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="city-column">Direccion</label>
+                            <input type="text" id="direccion" class="form-control" name="direccion" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <div class="col-12">
+                <div class="row justify-content-end">
+                    <button type="submit" rippleEffect class="btn btn-primary ">Editar</button>
+                </div>
+
+            </div>
+        </div>
+    </ng-template>
+    <!-- / Modal -->
 </div>

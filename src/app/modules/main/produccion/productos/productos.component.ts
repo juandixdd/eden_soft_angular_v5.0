@@ -15,10 +15,10 @@ export class ProductosComponent implements OnInit {
     this._coreConfigService.config = {
       layout: {
         navbar: {
-          hidden: false
+          hidden: true
         },
         menu: {
-          hidden: false
+          hidden: true
         },
         footer: {
           hidden: false

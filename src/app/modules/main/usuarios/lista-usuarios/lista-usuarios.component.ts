@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import Swal from 'sweetalert2';
@@ -16,27 +17,80 @@ export class ListaUsuariosComponent implements OnInit {
   public selectedOption = 10; //? Este es el selector de cuantas filas quieres ver en la tabla, en este caso, 10.
   constructor(
     private modalService: NgbModal, //? Aquí se instancia el servicio para abrir la modal.
-    private usersService:UsersService  ) { }
+    private usersService: UsersService,
+    private fb: FormBuilder
+    ) { }
+
+    public userform:FormGroup=this.fb.group({
+      id: [
+        '',
+        [Validators.required]
+      ],
+      name:[
+        '',
+        [Validators.required]
+      ],
+      lastname:[
+        '',
+        [Validators.required]
+      ],
+      email:[
+        '',
+        [Validators.required]
+      ],
+      address:[
+        '',
+        [Validators.required]
+      ],
+      phone:[
+        '',
+        [Validators.required]
+      ],
+      password:[
+        '',
+        [Validators.required]
+      ]
+      
+    })
 
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
   public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
   rows: any = [];
-  cols:any=[];
+  cols: any = [];
+  user: any = {};
 
 
   ngOnInit(): void {
     this.getUsers();
   }
 
-  getUsers(){
+  getUsers() {
     this.usersService.getData().subscribe(
-      (res)=>{
+      (res) => {
         this.rows = res;
-        console.log("rows: ", this.rows); 
-        
+        console.log("rows: ", this.rows);
+
       }
     )
   }
+  createUser() {
+    this.user.id = this.userform['id'].value;
+    this.user.name = this.userform['name'].value;
+    this.user.lastname = this.userform['lastname'].value;
+    this.user.email = this.userform['email'].value;
+    this.user.address = this.userform['address'].value;
+    this.user.phone = this.userform['phone'].value;
+    this.user.password = this.userform['password'].value;
+/*
+    this.usersService.createUser(this.user).subscribe(
+      (res) => {
+        this.user=res;
+        this.getUsers();
+      }
+    );*/
+   
+  }
+
 
   modalOpen(modal) { //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {
@@ -75,7 +129,7 @@ export class ListaUsuariosComponent implements OnInit {
   }
   //funcion que le da value a los imputs del modal
   setValue(id, nombre, apellidos, email, direccion, phone) {
-     
+
     id = 1;
     nombre = 'jesus';
     apellidos = 'perez';
@@ -83,5 +137,5 @@ export class ListaUsuariosComponent implements OnInit {
     direccion = 'Calle 39B sur';
     phone = 3006483858;
   }
-  
+
 }

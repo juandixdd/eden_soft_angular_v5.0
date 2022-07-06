@@ -14,5 +14,8 @@ export class UsersService {
   getData() {
     return this.http.get(`${this.api_url}/users`);
   }
+  createUser(users){
+    return this.http.post(`${this.api_url}/users`, users);
+  }
 }
 

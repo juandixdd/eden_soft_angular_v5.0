@@ -40,42 +40,42 @@
                     [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
                     [scrollbarH]="true">
                     <!-- Column -->
-                    <ngx-datatable-column name="id" prop="id" [width]="20">
+                    <ngx-datatable-column name="Cedula" prop="id" [width]="20">
                         <ng-template let-id="value" ngx-datatable-cell-template>
-                            <p class="font-weight-bold text-dark">#{{ id }}</p>
+                            <p class="font-weight-bold text-dark">{{ id }}</p>
                         </ng-template>
                     </ngx-datatable-column>
 
                     <!-- Column -->
-                    <ngx-datatable-column name="name" prop="name" [width]="20">
-                        <ng-template let-id="value" ngx-datatable-cell-template>
-                            <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
-                        </ng-template>
-                    </ngx-datatable-column>
-
-                    <!-- Column -->
-                    <ngx-datatable-column name="last_name" prop="apellidos" [width]="20">
+                    <ngx-datatable-column name="Nombre" prop="name" [width]="20">
                         <ng-template let-id="value" ngx-datatable-cell-template>
                             <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
                         </ng-template>
                     </ngx-datatable-column>
 
                     <!-- Column -->
-                    <ngx-datatable-column name="email" prop="email" [width]="20">
+                    <ngx-datatable-column name="Apellido" prop="last_name" [width]="20">
+                        <ng-template let-id="value" ngx-datatable-cell-template>
+                            <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <!-- Column -->
+                    <ngx-datatable-column name="E-mail" prop="email" [width]="20">
                         <ng-template let-id="value" ngx-datatable-cell-template>
                             <p class="font-weight-bold text-dark">{{ id | lowercase }}</p>
                         </ng-template>
                     </ngx-datatable-column>
 
                     <!-- Column -->
-                    <ngx-datatable-column name="adress" prop="direccion" [width]="20">
+                    <ngx-datatable-column name="Direccion" prop="adress" [width]="20">
                         <ng-template let-id="value" ngx-datatable-cell-template>
                             <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
                         </ng-template>
                     </ngx-datatable-column>
 
                     <!-- Column -->
-                    <ngx-datatable-column name="phone" prop="phone" [width]="20">
+                    <ngx-datatable-column name="Telefono" prop="phone" [width]="20">
                         <ng-template let-id="value" ngx-datatable-cell-template>
                             <p class="font-weight-bold text-dark">{{ id }}</p>
                         </ng-template>
@@ -113,58 +113,58 @@
                 </button>
             </div>
             <div class="modal-body" tabindex="0" ngbAutofocus>
-                <form class="form">
+                <form class="form" [formGroup]="userForm">
                     <div class="row">
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="first-name-column">Nombres</label>
-                                <input type="text" id="first-name-column" class="form-control" name="fname-column" />
+                                <input type="text" id="first-name-column" class="form-control" formControlName="name" />
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="last-name-column">Apellidos</label>
-                                <input type="text" id="last-name-column" class="form-control" name="lname-column" />
+                                <input type="text" id="last-name-column" class="form-control" formControlName="last_name" />
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="city-column">Documento</label>
                                 <input type="number" id="Telefono" class="form-control"
-                                    placeholder="minimo 10 caracteres" name="city-column" />
+                                    placeholder="minimo 10 caracteres" formControlName="id" />
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="country-floating">E-mail</label>
-                                <input type="email" id="country-floating" class="form-control" name="country-floating"
+                                <input type="email" id="country-floating" class="form-control" formControlName="email"
                                     placeholder="ejemplo@gmail.com" />
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="company-column">Contraseña</label>
-                                <input type="password" id="company-column" class="form-control" name="company-column"
+                                <input type="password" id="company-column" class="form-control" formControlName="password"
                                     placeholder="minimo 5 caracteres" />
                             </div>
                         </div>
-                        <div class="col-md-6 col-12">
+                       <!-- <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="email-id-column">Confirmar Contraseña</label>
-                                <input type="password" id="email-id-column" class="form-control" name="contraseña"
+                                <input type="password" id="email-id-column" class="form-control" formControlName="name"
                                     placeholder="minimo 5 caracteres" />
-                            </div>
-                        </div>
+                            </div> 
+                        </div>-->
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="city-column">Telefono</label>
-                                <input type="number" id="Telefono" class="form-control" name="telefono" />
+                                <input type="number" id="Telefono" class="form-control" formControlName="phone" />
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="city-column">Direccion</label>
-                                <input type="text" id="direccion" class="form-control" name="direccion" />
+                                <input type="text" id="direccion" class="form-control" formControlName="adress" />
                             </div>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                 <div class="col-12">
                     <div class="row justify-content-end">
                         <button type="reset" rippleEffect class="btn btn-outline-secondary mr-1">Reset</button>
-                        <button type="submit" rippleEffect class="btn btn-primary ">Registrar</button>
+                        <button rippleEffect class="btn btn-primary " (click)="createUser()">Registrar</button>
                     </div>
 
                 </div>

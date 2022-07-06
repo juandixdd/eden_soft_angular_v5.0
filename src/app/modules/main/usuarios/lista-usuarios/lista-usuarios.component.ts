@@ -32,7 +32,7 @@ export class ListaUsuariosComponent implements OnInit {
     this.usersService.getData().subscribe(
       (res)=>{
         this.rows = res;
-        this.cols=Object.keys(res[0]);
+        console.log("rows: ", this.rows); 
         
       }
     )

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import Swal from 'sweetalert2';
+import { UsersService } from '../../services/users/users.service';
 
 @Component({
   selector: 'app-lista-usuarios',
@@ -15,108 +16,28 @@ export class ListaUsuariosComponent implements OnInit {
   public selectedOption = 10; //? Este es el selector de cuantas filas quieres ver en la tabla, en este caso, 10.
   constructor(
     private modalService: NgbModal, //? Aquí se instancia el servicio para abrir la modal.
-  ) { }
+    private usersService:UsersService  ) { }
 
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
   public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
-  rows: any = [ //? Estos son los datos de la tabla quemados.
-  {
-    id:1037632160,
-    nombre:'jesus',
-    apellidos:'perez',
-    email:'juan@gmail.com',
-    direccion:'Calle 39B sur',
-    phone: 3006483858,
-  },
-  {
-    id:1037632160,
-    nombre:'jesus',
-    apellidos:'perez',
-    email:'juan@gmail.com',
-    direccion:'Calle 39B sur',
-    phone: 3006483858,
-  },
-  {
-    id:1037632160,
-    nombre:'jesus',
-    apellidos:'perez',
-    email:'juan@gmail.com',
-    direccion:'Calle 39B sur',
-    phone: 3006483858,
-  },
-  {
-    id:1037632160,
-    nombre:'jesus',
-    apellidos:'perez',
-    email:'juan@gmail.com',
-    direccion:'Calle 39B sur',
-    phone: 3006483858,
-  },
-  {
-    id:1037632160,
-    nombre:'jesus',
-    apellidos:'perez',
-    email:'juan@gmail.com',
-    direccion:'Calle 39B sur',
-    phone: 3006483858,
-  },
-  {
-    id:1037632160,
-    nombre:'jesus',
-    apellidos:'perez',
-    email:'juan@gmail.com',
-    direccion:'Calle 39B sur',
-    phone: 3006483858,
-  },
-  {
-    id:1037632160,
-    nombre:'jesus',
-    apellidos:'perez',
-    email:'juan@gmail.com',
-    direccion:'Calle 39B sur',
-    phone: 3006483858,
-  },
-  {
-    id:1037632160,
-    nombre:'jesus',
-    apellidos:'perez',
-    email:'juan@gmail.com',
-    direccion:'Calle 39B sur',
-    phone: 3006483858,
-  },
-  {
-    id:1037632160,
-    nombre:'jesus',
-    apellidos:'perez',
-    email:'juan@gmail.com',
-    direccion:'Calle 39B sur',
-    phone: 3006483858,
-  },
-  {
-    id:1037632160,
-    nombre:'jesus',
-    apellidos:'perez',
-    email:'juan@gmail.com',
-    direccion:'Calle 39B sur',
-    phone: 3006483858,
-  },
-  {
-    id:1037632160,
-    nombre:'jesus',
-    apellidos:'perez',
-    email:'juan@gmail.com',
-    direccion:'Calle 39B sur',
-    phone: 3006483858,
-  },
-
-]
+  rows: any = [];
+  cols:any=[];
 
 
   ngOnInit(): void {
-    this.tempData = this.rows; //? Esto también es del buscador (Que no funciona)
-    this.kitchenSinkRows = this.rows;
-    
+    this.getUsers();
   }
+
+  getUsers(){
+    this.usersService.getData().subscribe(
+      (res)=>{
+        this.rows = res;
+        this.cols=Object.keys(res[0]);
+        
+      }
+    )
+  }
+
   modalOpen(modal) { //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {
       centered: true,

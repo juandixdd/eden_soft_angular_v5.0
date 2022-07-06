@@ -19,39 +19,39 @@ export class ListaUsuariosComponent implements OnInit {
     private modalService: NgbModal, //? Aquí se instancia el servicio para abrir la modal.
     private usersService: UsersService,
     private fb: FormBuilder
-    ) { }
+  ) { }
 
-    public userform:FormGroup=this.fb.group({
-      id: [
-        '',
-        [Validators.required]
-      ],
-      name:[
-        '',
-        [Validators.required]
-      ],
-      lastname:[
-        '',
-        [Validators.required]
-      ],
-      email:[
-        '',
-        [Validators.required]
-      ],
-      address:[
-        '',
-        [Validators.required]
-      ],
-      phone:[
-        '',
-        [Validators.required]
-      ],
-      password:[
-        '',
-        [Validators.required]
-      ]
-      
-    })
+  public userForm: FormGroup = this.fb.group({
+    id: [
+      '',
+      [Validators.required]
+    ],
+    name: [
+      '',
+      [Validators.required]
+    ],
+    last_name: [
+      '',
+      [Validators.required]
+    ],
+    email: [
+      '',
+      [Validators.required]
+    ],
+    adress: [
+      '',
+      [Validators.required]
+    ],
+    phone: [
+      '',
+      [Validators.required]
+    ],
+    password: [
+      '',
+      [Validators.required]
+    ]
+
+  })
 
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
   public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
@@ -74,21 +74,18 @@ export class ListaUsuariosComponent implements OnInit {
     )
   }
   createUser() {
-    this.user.id = this.userform['id'].value;
-    this.user.name = this.userform['name'].value;
-    this.user.lastname = this.userform['lastname'].value;
-    this.user.email = this.userform['email'].value;
-    this.user.address = this.userform['address'].value;
-    this.user.phone = this.userform['phone'].value;
-    this.user.password = this.userform['password'].value;
-/*
-    this.usersService.createUser(this.user).subscribe(
-      (res) => {
-        this.user=res;
-        this.getUsers();
-      }
-    );*/
-   
+    this.user.id = this.userForm.controls['id'].value;
+    this.user.name = this.userForm.controls['name'].value;
+
+    /*  this.usersService.createUser(this.user).subscribe(
+       (res) => {
+         this.user = res;
+         this.getUsers();
+       }
+     ); */
+
+     console.log(this.user)
+    
   }
 
 

@@ -103,20 +103,21 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Funciones" prop="cancel" [width]="20">
-            <ng-template let-id="value" ngx-datatable-cell-template>
+          <ngx-datatable-column name="Funciones" prop="cancel" [width]="30">
+            <ng-template let-id="value" ngx-datatable-cell-template let-row="row">
               <!-- Icono x rojo -->
+
+              <button
+                class="btn btn-icon btn-sm"
+                (click)="modalOpen(modalEdit); getUserData(row)"
+              >
+                <i class="feather icon-edit text-primary"></i>
+              </button>
               <button class="btn btn-icon btn-sm">
                 <i
                   class="feather icon-trash-2 text-danger"
-                  (click)="confirmAlert()"
+                  (click)="deleteUser(row.id)"
                 ></i>
-              </button>
-              <button
-                class="btn btn-icon btn-sm"
-                (click)="modalOpen(modalEdit)"
-              >
-                <i class="feather icon-edit text-primary"></i>
               </button>
             </ng-template>
           </ngx-datatable-column>
@@ -126,10 +127,9 @@
   </div>
 </div>
 
-<!-- *************************************************** MODALES *************************************************** -->
+<!-- *************************************************** MODALS *************************************************** -->
 
 <!-- ! Modal de agregar -->
-<!-- Login Form -->
 <div class="login-form">
   <!-- Modal -->
   <ng-template #modalForm let-modal>
@@ -156,6 +156,10 @@
                 class="form-control"
                 formControlName="name"
               />
+              <span *ngIf="validField('name')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
             </div>
           </div>
           <div class="col-md-6 col-12">
@@ -167,6 +171,10 @@
                 class="form-control"
                 formControlName="last_name"
               />
+              <span *ngIf="validField('last_name')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
             </div>
           </div>
           <div class="col-md-6 col-12">
@@ -179,6 +187,10 @@
                 placeholder="minimo 10 caracteres"
                 formControlName="id"
               />
+              <span *ngIf="validField('id')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
             </div>
           </div>
           <div class="col-md-6 col-12">
@@ -191,6 +203,10 @@
                 formControlName="email"
                 placeholder="ejemplo@gmail.com"
               />
+              <span *ngIf="validField('email')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
             </div>
           </div>
           <div class="col-md-6 col-12">
@@ -203,15 +219,32 @@
                 formControlName="password"
                 placeholder="minimo 5 caracteres"
               />
+              <span *ngIf="validField('password')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
             </div>
           </div>
-          <!-- <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label for="email-id-column">Confirmar Contraseña</label>
-                                <input type="password" id="email-id-column" class="form-control" formControlName="name"
-                                    placeholder="minimo 5 caracteres" />
-                            </div> 
-                        </div>-->
+          <div class="col-md-6 col-12">
+            <div class="form-group">
+              <label for="email-id-column">Confirmar Contraseña</label>
+              <input
+                type="password"
+                id="email-id-column"
+                class="form-control"
+                placeholder="minimo 5 caracteres"
+                formControlName="confirmPassword"
+              />
+              <span *ngIf="validPassword()" class="text-danger">
+                Las contraseñas no son iguales
+                <br />
+              </span>
+              <span *ngIf="validField('confirmPassword')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
+            </div>
+          </div>
           <div class="col-md-6 col-12">
             <div class="form-group">
               <label for="city-column">Telefono</label>
@@ -221,6 +254,10 @@
                 class="form-control"
                 formControlName="phone"
               />
+              <span *ngIf="validField('phone')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
             </div>
           </div>
           <div class="col-md-6 col-12">
@@ -232,6 +269,10 @@
                 class="form-control"
                 formControlName="adress"
               />
+              <span *ngIf="validField('adress')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
             </div>
           </div>
         </div>
@@ -244,13 +285,15 @@
             type="reset"
             rippleEffect
             class="btn btn-outline-secondary mr-1"
+            (click)="resetForm()"
           >
-            Reset
+            Limpiar campos
           </button>
           <button
             rippleEffect
             class="btn btn-primary"
             (click)="createUser()"
+            [disabled]="!userForm.valid"
           >
             Registrar
           </button>
@@ -267,7 +310,7 @@
   <!-- Modal -->
   <ng-template #modalEdit let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="myModalLabel1">Editar</h4>
+      <h4 class="modal-title" id="myModalLabel1">Agregar</h4>
       <button
         type="button"
         class="close"
@@ -278,7 +321,7 @@
       </button>
     </div>
     <div class="modal-body" tabindex="0" ngbAutofocus>
-      <form class="form">
+      <form class="form" [formGroup]="editUserForm">
         <div class="row">
           <div class="col-md-6 col-12">
             <div class="form-group">
@@ -287,8 +330,12 @@
                 type="text"
                 id="first-name-column"
                 class="form-control"
-                name="fname-column"
+                formControlName="name"
               />
+              <span *ngIf="editValidField('name')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
             </div>
           </div>
           <div class="col-md-6 col-12">
@@ -298,8 +345,12 @@
                 type="text"
                 id="last-name-column"
                 class="form-control"
-                name="lname-column"
+                formControlName="last_name"
               />
+              <span *ngIf="editValidField('last_name')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
             </div>
           </div>
           <div class="col-md-6 col-12">
@@ -310,8 +361,12 @@
                 id="Telefono"
                 class="form-control"
                 placeholder="minimo 10 caracteres"
-                name="city-column"
+                formControlName="id"
               />
+              <span *ngIf="editValidField('id')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
             </div>
           </div>
           <div class="col-md-6 col-12">
@@ -321,35 +376,16 @@
                 type="email"
                 id="country-floating"
                 class="form-control"
-                name="country-floating"
+                formControlName="email"
                 placeholder="ejemplo@gmail.com"
               />
+              <span *ngIf="editValidField('email')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
             </div>
           </div>
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="company-column">Contraseña</label>
-              <input
-                type="password"
-                id="company-column"
-                class="form-control"
-                name="company-column"
-                placeholder="minimo 5 caracteres"
-              />
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="email-id-column">Confirmar Contraseña</label>
-              <input
-                type="password"
-                id="email-id-column"
-                class="form-control"
-                name="contraseña"
-                placeholder="minimo 5 caracteres"
-              />
-            </div>
-          </div>
+         
           <div class="col-md-6 col-12">
             <div class="form-group">
               <label for="city-column">Telefono</label>
@@ -357,9 +393,12 @@
                 type="number"
                 id="Telefono"
                 class="form-control"
-                name="telefono"
-                value="3006483858"
+                formControlName="phone"
               />
+              <span *ngIf="editValidField('phone')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
             </div>
           </div>
           <div class="col-md-6 col-12">
@@ -369,8 +408,12 @@
                 type="text"
                 id="direccion"
                 class="form-control"
-                name="direccion"
+                formControlName="adress"
               />
+              <span *ngIf="editValidField('adress')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
             </div>
           </div>
         </div>
@@ -379,8 +422,21 @@
     <div class="modal-footer">
       <div class="col-12">
         <div class="row justify-content-end">
-          <button type="submit" rippleEffect class="btn btn-primary">
-            Editar
+          <button
+            type="reset"
+            rippleEffect
+            class="btn btn-outline-secondary mr-1"
+            (click)="resetForm()"
+          >
+            Limpiar campos
+          </button>
+          <button
+            rippleEffect
+            class="btn btn-primary"
+            (click)="updateUser()"
+            [disabled]="!editUserForm.valid"
+          >
+            Actualizar
           </button>
         </div>
       </div>

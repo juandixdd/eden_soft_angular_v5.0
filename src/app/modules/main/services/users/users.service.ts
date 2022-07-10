@@ -7,16 +7,27 @@ import { environment } from 'environments/environment';
 })
 
 export class UsersService {
-  
+
   API_URL = environment.API_URL;
 
   constructor(private http: HttpClient) { }
 
+  //* Funciones
+
   getData() {
     return this.http.get(`${this.API_URL}/users`);
   }
-  createUser(users){
+
+  createUser(users) {
     return this.http.post(`${this.API_URL}/users`, users);
+  }
+
+  updateUser(id: number, user) {
+    return this.http.put(`${this.API_URL}/users/${id}`, user);
+  }
+
+  deleteUser(id: number) {
+    return this.http.delete(`${this.API_URL}/users/${id}`);
   }
 }
 

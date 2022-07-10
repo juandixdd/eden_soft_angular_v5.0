@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -7,15 +8,15 @@ import { Injectable } from '@angular/core';
 
 export class UsersService {
   
-  api_url = 'http://localhost:3000';
+  API_URL = environment.API_URL;
 
   constructor(private http: HttpClient) { }
 
   getData() {
-    return this.http.get(`${this.api_url}/users`);
+    return this.http.get(`${this.API_URL}/users`);
   }
   createUser(users){
-    return this.http.post(`${this.api_url}/users`, users);
+    return this.http.post(`${this.API_URL}/users`, users);
   }
 }
 

@@ -96,7 +96,33 @@ export class ListaUsuariosComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getUsers();
+    /* this.getUsers(); */ //!Cuando vayamos a conectar con base de datos se descomenta esta línea y se borra el resto
+    this.rows = [
+      {
+        id: 123456789,
+        name: "Juanito",
+        last_name: "Alimaña",
+        email: "Juanitoalimaña@gmail.com",
+        adress: "Calle 1 #1 - 1",
+        phone: 5555555
+      },
+      {
+        id: 123456789,
+        name: "Pedro",
+        last_name: "Navaja",
+        email: "pedronavaja@gmail.com",
+        adress: "Calle 1 #1 - 1",
+        phone: 5555555
+      },
+      {
+        id: 123456789,
+        name: "El gran",
+        last_name: "Varón",
+        email: "Varón@gmail.com",
+        adress: "Calle 1 #1 - 1",
+        phone: 5555555
+      }
+    ]
   }
 
   validField(field: string) {

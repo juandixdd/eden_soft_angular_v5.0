@@ -140,7 +140,7 @@ export class RegistroUsuariosComponent implements OnInit {
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Ya se encuentra registrado un usuario con este número de cédula'
+            text: res.status
           })
         } else {
           this.modalService.dismissAll();

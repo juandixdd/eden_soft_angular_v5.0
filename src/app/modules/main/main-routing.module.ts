@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuardGuard } from 'app/auth-guard.guard';
 import { CotizacionComponent } from './ventas/cotizacion/cotizacion.component';
 import { AccesoComponent } from './usuarios/acceso/acceso.component';
 import { RolesComponent } from './configuracion/roles/roles.component';
@@ -18,34 +17,35 @@ import { PedidosComponent } from './ventas/pedidos/pedidos.component';
 import { ProductosAdminComponent } from './produccion/productos-admin/productos-admin.component';
 import { PerfilUsuarioComponent } from './usuarios/perfil-usuario/perfil-usuario.component';
 import { ContactenosComponent } from './contactenos/contactenos.component';
+import { AuthGuardGuard } from './guards/auth-guard.guard';
 
 const routes: Routes = [
 
   /*Ventas*/
-  { path: 'cotizacion', component: CotizacionComponent},
-  { path: 'cliente', component: ClienteComponent },
-  { path: 'ventas', component: VentasComponent },
-  { path: 'pedidos', component: PedidosComponent },
+  { path: 'cotizacion', component: CotizacionComponent, canActivate: [AuthGuardGuard] },
+  { path: 'cliente', component: ClienteComponent, canActivate: [AuthGuardGuard] },
+  { path: 'ventas', component: VentasComponent, canActivate: [AuthGuardGuard] },
+  { path: 'pedidos', component: PedidosComponent, canActivate: [AuthGuardGuard] },
 
 
   /*Usuarios*/
-  {path: 'recuperar-contraseña',component:AccesoComponent},
-  {path:'lista-usuarios', component:ListaUsuariosComponent},
-  {path: 'login', component:LoginComponent},
-  {path: 'restaurar-clave',component:RestaurarClaveComponent},
-  {path: 'registro-usuarios',component:RegistroUsuariosComponent},
-  {path: 'perfil-usuario',component:PerfilUsuarioComponent},
+  { path: 'recuperar-contraseña', component: AccesoComponent },
+  { path: 'lista-usuarios', component: ListaUsuariosComponent, canActivate: [AuthGuardGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'restaurar-clave', component: RestaurarClaveComponent },
+  { path: 'registro-usuarios', component: RegistroUsuariosComponent },
+  { path: 'perfil-usuario', component: PerfilUsuarioComponent, canActivate: [AuthGuardGuard] },
 
   /*Produccion*/
-  {path: 'categorias',component:CategoriasComponent},
-  {path:'orden-de-produccion', component:OrdenDeProduccionComponent},
-  {path:'productos', component:ProductosComponent},
-  {path:'productos-admin', component:ProductosAdminComponent},
+  { path: 'categorias', component: CategoriasComponent, canActivate: [AuthGuardGuard] },
+  { path: 'orden-de-produccion', component: OrdenDeProduccionComponent, canActivate: [AuthGuardGuard] },
+  { path: 'productos', component: ProductosComponent },
+  { path: 'productos-admin', component: ProductosAdminComponent, canActivate: [AuthGuardGuard] },
   /*Dashboard*/
-  {path:'dashboard', component:DashboardComponent},
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardGuard] },
 
   /* Roles */
-  { path: 'roles', component: RolesComponent },
+  { path: 'roles', component: RolesComponent, canActivate: [AuthGuardGuard] },
 
   /* Contactenos */
   { path: 'contactenos', component: ContactenosComponent },

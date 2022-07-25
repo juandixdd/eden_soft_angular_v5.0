@@ -18,6 +18,10 @@ export class UsersService {
     return this.http.get(`${this.API_URL}/users`);
   }
 
+  getDataById(id: string) {
+    return this.http.get(`${this.API_URL}/users/${id}`);
+  }
+
   createUser(users) {
     return this.http.post(`${this.API_URL}/users`, users);
   }

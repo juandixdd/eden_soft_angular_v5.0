@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from '../../services/users/users.service';
 
 @Component({
   selector: 'app-perfil-usuario',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PerfilUsuarioComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private usersService: UsersService
+  ) { }
+
+  userData: any = {};
+
 
   ngOnInit(): void {
+    this.getUserData(localStorage.getItem("userId"))
+  }
+
+  getUserData(id) {
+    this.usersService.getDataById(id).subscribe(data => {
+      this.userData = data[0];
+    })
   }
 
 }

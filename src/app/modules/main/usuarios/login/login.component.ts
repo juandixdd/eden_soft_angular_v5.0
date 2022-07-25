@@ -107,11 +107,11 @@ export class LoginComponent implements OnInit {
             showConfirmButton: false,
             timer: 1500
           })
-          console.log(res.token)
-          localStorage.setItem('token', res.token)
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('userId', res.userId);
           this.router.navigate(['main/dashboard']);
         } else {
-          
+
           Swal.fire({
             icon: 'error',
             title: 'Oops...',

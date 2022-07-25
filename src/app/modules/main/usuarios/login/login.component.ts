@@ -6,6 +6,8 @@ import { Subject } from 'rxjs';
 
 
 import { CoreConfigService } from '@core/services/config.service';
+import { LoginService } from '../../services/login/login.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -20,6 +22,7 @@ export class LoginComponent implements OnInit {
   public returnUrl: string;
   public error = '';
   public passwordTextType: boolean;
+  user: any = {};
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -34,10 +37,12 @@ export class LoginComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
-    private fb: FormBuilder
-    
+    private fb: FormBuilder,
+    private loginService: LoginService,
+    private router: Router
+
   ) {
-    
+
 
     this._unsubscribeAll = new Subject();
 
@@ -79,13 +84,43 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    
-    
+
+
   }
 
   ngOnInit(): void {
-   
+
   }
+
+  loginUser() {
+    this.user.email = this.loginForm.controls['email'].value;
+    this.user.password = this.loginForm.controls['password'].value;
+
+    this.loginService.login(this.user).subscribe(
+      (res: any) => {
+        if (res.statusCode == 200) {
+          console.log("Login exitoso")
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Login exitoso',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.router.navigate(['main/dashboard']);
+        } else {
+          
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El usuario o la contraseña son incorrectos'
+          })
+        }
+      }
+    )
+
+  }
+
   /**
      * On destroy
      */

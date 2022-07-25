@@ -96,8 +96,8 @@ export class ListaUsuariosComponent implements OnInit {
 
 
   ngOnInit(): void {
-    /* this.getUsers(); */ //!Cuando vayamos a conectar con base de datos se descomenta esta línea y se borra el resto
-    this.rows = [
+     this.getUsers();  //!Cuando vayamos a conectar con base de datos se descomenta esta línea y se borra el resto
+    /* this.rows = [
       {
         id: 123456789,
         name: "Juanito",
@@ -122,8 +122,8 @@ export class ListaUsuariosComponent implements OnInit {
         adress: "Calle 1 #1 - 1",
         phone: 5555555
       }
-    ]
-  }
+    ]*/
+  } 
 
   validField(field: string) {
     return this.userForm.controls[field].errors &&

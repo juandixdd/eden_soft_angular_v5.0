@@ -60,7 +60,7 @@
             tabindex="5"
             rippleEffect
             [disabled]="!loginForm.valid"
-            routerLink="/main/dashboard"
+            (click)="loginUser()"
           >
             Iniciar sesión
           </button>

@@ -26,9 +26,8 @@
                   type="text"
                   id="nombres"
                   class="form-control"
-                  formControlName="names"
+                  formControlName="name"
                   autofocus
-                  [ngClass]="{ 'is-invalid': submitted && f.nombres.errors }"
                 />
               </div>
             </div>
@@ -39,8 +38,7 @@
                   type="text"
                   id="apellidos"
                   class="form-control"
-                  formControlName="last_names"
-                  [ngClass]="{ 'is-invalid': submitted && f.apellidos.errors }"
+                  formControlName="last_name"
                 />
               </div>
             </div>
@@ -52,7 +50,7 @@
                   id="Telefono"
                   class="form-control"
                   placeholder="minimo 10 caracteres"
-                  formControlName="document"
+                  formControlName="id"
                 />
               </div>
             </div>
@@ -112,20 +110,19 @@
                   type="text"
                   id="direccion"
                   class="form-control"
-                  formControlName="direction"
+                  formControlName="adress"
                 />
               </div>
             </div>
           </div>
 
-        
           <hr />
           <button
             class="btn btn-primary btn-block"
             tabindex="5"
             rippleEffect
             [disabled]="!registerForm.valid"
-            routerLink="/main/dashboard"
+            (click)="createUser()"
           >
             Registrarse
           </button>

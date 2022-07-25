@@ -5,6 +5,10 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { CoreConfigService } from '@core/services/config.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RegisterService } from '../../services/register/register.service';
+import Swal from 'sweetalert2';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-registro-usuarios',
@@ -17,6 +21,7 @@ export class RegistroUsuariosComponent implements OnInit {
   public coreConfig: any;
   public passwordTextType: boolean;
   public submitted = false;
+  user: any = {};
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -29,7 +34,14 @@ export class RegistroUsuariosComponent implements OnInit {
    * @param {CoreConfigService} _coreConfigService
    * @param {FormBuilder} _formBuilder
    */
-  constructor(private _coreConfigService: CoreConfigService, private _formBuilder: FormBuilder, private fb: FormBuilder,) {
+  constructor(
+    private _coreConfigService: CoreConfigService,
+    private _formBuilder: FormBuilder,
+    private fb: FormBuilder,
+    private modalService: NgbModal,
+    private registerService: RegisterService,
+    private router: Router
+  ) {
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
@@ -51,38 +63,39 @@ export class RegistroUsuariosComponent implements OnInit {
   }
 
   public registerForm: FormGroup = this.fb.group({
-    names: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    name: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
-    last_names: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    document:[
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    last_name: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
     email: [
-      "",
-      [Validators.required, Validators.email],
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.email]
     ],
-    password: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    id: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
-    confirmPassword: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    adress: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
     phone: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
-    direction: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    password: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+    ],
+    confirmPassword: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ]
+
   })
 
 
@@ -109,6 +122,40 @@ export class RegistroUsuariosComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+  }
+
+  createUser() {
+    this.user.name = this.registerForm.controls['name'].value;
+    this.user.id = this.registerForm.controls['id'].value;
+    this.user.last_name = this.registerForm.controls['last_name'].value;
+    this.user.email = this.registerForm.controls['email'].value;
+    this.user.password = this.registerForm.controls['password'].value;
+    this.user.adress = this.registerForm.controls['adress'].value;
+    this.user.phone = this.registerForm.controls['phone'].value;
+
+    this.registerService.registerUser(this.user).subscribe(
+      (res: any) => {
+        if (res.statusCode == 403) {
+          this.modalService.dismissAll();
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ya se encuentra registrado un usuario con este número de cédula'
+          })
+        } else {
+          this.modalService.dismissAll();
+          this.registerForm.reset();
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Usuario creado con exito',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.router.navigate(['main/login']);
+        }
+      }
+    );
   }
 
   ngOnDestroy(): void {

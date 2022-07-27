@@ -2,6 +2,13 @@ import { CoreMenu } from '@core/types'
 
 export const menu: CoreMenu[] = [
   {
+    id: 'home-page',
+    title: 'Home',
+    type: 'item',
+    icon: 'home',
+    url: 'main/home-page'
+  },
+  {
     id: 'dashboard',
     title: 'dashboard',
     type: 'item',
@@ -73,20 +80,7 @@ export const menu: CoreMenu[] = [
             icon: 'meh',
             url: 'main/restaurar-clave'
           },
-          {
-            id: 'Acceso',
-            title: 'Login',
-            type: 'item',
-            icon: 'meh',
-            url: 'main/login'
-          },
-          {
-            id: 'Acceso',
-            title: 'Registro Usuarios',
-            type: 'item',
-            icon:'users',
-            url: 'main/registro-usuarios'
-          }
+                   
         ]
 
       },

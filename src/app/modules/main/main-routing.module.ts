@@ -18,6 +18,7 @@ import { ProductosAdminComponent } from './produccion/productos-admin/productos-
 import { PerfilUsuarioComponent } from './usuarios/perfil-usuario/perfil-usuario.component';
 import { ContactenosComponent } from './contactenos/contactenos.component';
 import { AuthGuardGuard } from './guards/auth-guard.guard';
+import { HomePageComponent } from './home-page/home-page.component';
 
 const routes: Routes = [
 
@@ -49,6 +50,9 @@ const routes: Routes = [
 
   /* Contactenos */
   { path: 'contactenos', component: ContactenosComponent },
+
+  /*Home Page */
+  { path: 'home-page',component:HomePageComponent},
 
 ];
 

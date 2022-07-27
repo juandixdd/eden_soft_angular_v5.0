@@ -41,6 +41,7 @@ import { PedidosComponent } from './ventas/pedidos/pedidos.component';
 import { ProductosAdminComponent } from './produccion/productos-admin/productos-admin.component';
 import { PerfilUsuarioComponent } from './usuarios/perfil-usuario/perfil-usuario.component';
 import { ContactenosComponent } from './contactenos/contactenos.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
 
 @NgModule({
@@ -69,6 +70,7 @@ import { ContactenosComponent } from './contactenos/contactenos.component';
     ProductosAdminComponent,
     PerfilUsuarioComponent,
     ContactenosComponent,
+    HomePageComponent,
   ],
   imports: [
     CommonModule,

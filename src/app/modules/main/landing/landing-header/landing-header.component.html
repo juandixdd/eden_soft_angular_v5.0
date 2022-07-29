@@ -1,4 +1,33 @@
 <div class="container-fluid container-header">
+  <header class="p-3 row justify-content-between align-items-center">
+    <img
+      class="img-principal-logo"
+      src="../../../../assets/images/bunuelin-removebg.png"
+      alt="Logo"
+    />
+
+    <ul class="nav justify-content-end align-items-center col-md-4">
+      <li class="nav-item">
+        <a class="nav-link-cutom active-custom" routerLink=""><b>Inicio</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link-cutom" [routerLink]="'/main/productos'">Productos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link-cutom" [routerLink]="'/main/registro-usuarios'"
+          >Registrarse</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="btn btn-custom" [routerLink]="'/main/login'"
+          >Iniciar sesión</a
+        >
+      </li>
+    </ul>
+  </header>
+</div>
+
+<!-- <div class="container-fluid container-header">
   <header>
     <div class="row align-items-center justify-content-center">
       <div class="col-md-4 bg">
@@ -37,7 +66,7 @@
           <li class="nav-item">
             <a
               class="btn btn-primary ml-2"
-              href="#"
+            
               [routerLink]="'/main/login'"
               >Iniciar sesión</a
             >
@@ -46,46 +75,4 @@
       </div>
     </div>
   </header>
-</div>
-
-
-
-<!--
-<div
-  class="row justify-content-between p-2 nav-bar-color align-items-center fixed-top"
->
-  <div class="col-auto">
-    <div class="row">
-      <a href="#">
-        <img
-          src="../../../../../favicon.ico"
-          alt="Logo"
-          class="logo-navbar"
-        />
-      </a>
-      <h1 class="text-primary mt-1"><a href="#">Eden.Soft</a></h1>
-    </div>
-  </div>
-  <div class="col-auto">
-    <ul class="nav justify-content-end">
-      <li class="nav-item nav-item-hover">
-        <a class="nav-link" routerLink="main/productos">Productos</a>
-      </li>
-      <li class="nav-item nav-item-hover">
-        <a class="nav-link" href="#">Contáctenos</a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="btn btn-primary ml-2"
-          href="#"
-          [routerLink]="'/main/dashboard'"
-          >Iniciar sesión</a
-        >
-      </li>
-    </ul>
-  </div>
-</div>
-
-
-  src="../../../../../favicon.ico"
--->
+</div> -->

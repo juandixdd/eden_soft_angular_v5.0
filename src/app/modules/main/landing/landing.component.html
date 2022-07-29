@@ -1,39 +1,73 @@
 <app-landing-header></app-landing-header>
 
-<div
-  id="carouselExampleControls"
-  class="carousel slide"
-  data-bs-ride="carousel"
->
+<div>
+  <div class="header">
+
+    <!--Content before waves-->
+    <div class="inner-header flex">
+      <!--Just the logo.. Don't mind this-->
+      
+      <div class="row justify-content-center">
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-8">
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reprehenderit, officia! Deserunt eos
+                laudantium illo sequi maiores ipsa dolorem provident velit quo, blanditiis sed, molestiae cumque
+                voluptatem, omnis quia fuga voluptates?</p>
+
+            </div>
+            <div class="col-md-4">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque adipisci, error sint aut, dolor
+                obcaecati sapiente non reprehenderit, quibusdam tempora sed quae quaerat pariatur ea corrupti ullam a
+                rem corporis?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Waves Container-->
+    <div>
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+        </g>
+      </svg>
+    </div>
+    <!--Waves end-->
+
+  </div>
+  <!--Header ends-->
+
+  <!--Content starts-->
+  <div class="content flex">
+    <p>By. <a href="https://toolslite.com/"> Toolslite.com </a></p>
+  </div>
+  <!--Content ends-->
+</div>
+
+
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner" style="height: 60vh; margin-top: 10px">
     <div class="carousel-item active xd">
-      <img
-        src="../../../../assets/images/products/buñuelo.png"
-        class="d-block w-100"
-      />
+      <img src="../../../../assets/images/products/buñuelo.png" class="d-block w-100" />
     </div>
     <div class="carousel-item">
-      <img
-        src="../../../../assets/images/products/arepa.jpeg"
-        class="d-block w-100"
-      />
+      <img src="../../../../assets/images/products/arepa.jpeg" class="d-block w-100" />
     </div>
   </div>
-  <button
-    class="carousel-control-prev"
-    type="button"
-    data-bs-target="#carouselExampleControls"
-    data-bs-slide="prev"
-  >
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden"></span>
   </button>
-  <button
-    class="carousel-control-next"
-    type="button"
-    data-bs-target="#carouselExampleControls"
-    data-bs-slide="next"
-  >
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden"></span>
   </button>
@@ -42,11 +76,7 @@
 <div class="section p-5 section-separe">
   <div class="row justify-content-center">
     <div class="col-md-2 text-center p-1 mr-1">
-      <img
-        src="../../../../assets/images/landing/bunuelo-icon.png"
-        alt="icon"
-        class="img-icon-landing"
-      />
+      <img src="../../../../assets/images/landing/bunuelo-icon.png" alt="icon" class="img-icon-landing" />
       <hr />
       <h3>Misión</h3>
       <p>
@@ -56,11 +86,7 @@
       </p>
     </div>
     <div class="col-md-2 text-center p-1">
-      <img
-        src="../../../../assets/images/landing/empanada-icon.png"
-        alt="icon"
-        class="img-icon-landing"
-      />
+      <img src="../../../../assets/images/landing/empanada-icon.png" alt="icon" class="img-icon-landing" />
       <hr />
       <h3>Visión</h3>
       <p>
@@ -71,11 +97,7 @@
       </p>
     </div>
     <div class="col-md-2 text-center p-1 mr-1">
-      <img
-        src="../../../../assets/images/landing/arepa-icon.png"
-        alt="icon"
-        class="img-icon-landing"
-      />
+      <img src="../../../../assets/images/landing/arepa-icon.png" alt="icon" class="img-icon-landing" />
       <hr />
       <h3>¿Qué nos diferencia?</h3>
       <p>

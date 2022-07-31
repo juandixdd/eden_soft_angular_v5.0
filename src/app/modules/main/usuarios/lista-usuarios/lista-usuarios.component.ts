@@ -15,6 +15,8 @@ import { UsersService } from '../../services/users/users.service';
 export class ListaUsuariosComponent implements OnInit {
   public kitchenSinkRows: any;
   public selectedOption = 10; //? Este es el selector de cuantas filas quieres ver en la tabla, en este caso, 10.
+
+
   constructor(
     private modalService: NgbModal, //? Aquí se instancia el servicio para abrir la modal.
     private usersService: UsersService,
@@ -24,10 +26,20 @@ export class ListaUsuariosComponent implements OnInit {
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
   public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
   rows: any = [];
+  _filterRows: any = [];
   cols: any = [];
   user: any = {};
   editUser: any = {};
   userUpdate: any = null;
+
+  //? Get y Set para el buscador
+  get filterRows(): any {
+    return this._filterRows;
+  }
+
+  set filterRows(value) {
+    this._filterRows = value;
+  }
 
   public userForm: FormGroup = this.fb.group({
     id: [
@@ -96,7 +108,7 @@ export class ListaUsuariosComponent implements OnInit {
 
 
   ngOnInit(): void {
-     this.getUsers();  //!Cuando vayamos a conectar con base de datos se descomenta esta línea y se borra el resto
+    this.getUsers();  //!Cuando vayamos a conectar con base de datos se descomenta esta línea y se borra el resto
     /* this.rows = [
       {
         id: 123456789,
@@ -123,7 +135,7 @@ export class ListaUsuariosComponent implements OnInit {
         phone: 5555555
       }
     ]*/
-  } 
+  }
 
   validField(field: string) {
     return this.userForm.controls[field].errors &&
@@ -139,6 +151,7 @@ export class ListaUsuariosComponent implements OnInit {
     this.usersService.getData().subscribe(
       (res) => {
         this.rows = res;
+        this._filterRows = res;
       }
     )
   }
@@ -253,15 +266,15 @@ export class ListaUsuariosComponent implements OnInit {
     });
   }
 
-  filterUpdate(event) { //? Buscador, no le pare bolas.
+  filterUpdate(event) {
     const val = event.target.value.toLowerCase();
 
-    const temp = this.tempData.filter(function (d) {
+    const temp = this.rows.filter(function (d) {
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     // update the rows
-    this.kitchenSinkRows = temp;
+    this.filterRows = temp;
   }
 
   confirmAlert() { //? Esta es la funcion que abre el sweetAlert de confirmacion.

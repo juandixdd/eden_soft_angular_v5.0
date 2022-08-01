@@ -225,12 +225,31 @@
   color: #fff;
 }
 
-.social-media-img{
+.social-media-img {
   width: 80px;
 }
 
-.social-media-img:hover{
+.social-media-img:hover {
   -webkit-transform: scale(1.2);
   transform: scale(1.2);
   transition: 0.5s;
+  cursor: pointer;
+}
+
+.container-flex {
+  display: none;
+}
+
+.container-phone {
+  display: block;
+}
+
+/* ? For desktop */
+@media only screen and (min-width: 768px) {
+  .container-flex {
+    display: block;
+  }
+  .container-phone {
+    display: none;
+  }
 }

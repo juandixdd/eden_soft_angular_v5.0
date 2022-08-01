@@ -1,4 +1,4 @@
-<div class="container-fluid container-header">
+<div class="container-fluid container-header container-res">
   <header class="p-3 row justify-content-between align-items-center">
     <img
       class="img-principal-logo"
@@ -6,7 +6,7 @@
       alt="Logo"
     />
 
-    <ul class="nav justify-content-end align-items-center col-md-4">
+    <ul class="nav justify-content-end align-items-center col-md-9">
       <li class="nav-item">
         <a class="nav-link-cutom active-custom" routerLink=""><b>Inicio</b></a>
       </li>
@@ -27,52 +27,30 @@
   </header>
 </div>
 
-<!-- <div class="container-fluid container-header">
-  <header>
-    <div class="row align-items-center justify-content-center">
-      <div class="col-md-4 bg">
-        <ul class="nav justify-content-end">
-          <li class="nav-item nav-item-hover">
-            <a class="nav-link selected" routerLink="">Inicio</a>
-          </li>
-          <div class="vertical-hr"></div>
-          <li class="nav-item nav-item-hover">
-            <a class="nav-link custom-nav-item" routerLink="main/productos"
-              >Productos</a
-            >
-          </li>
-          <div class="vertical-hr"></div>
-          <li class="nav-item nav-item-hover">
-            <a class="nav-link custom-nav-item" routerLink="/main/contactenos">Contáctenos</a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-md-2">
-        <div class="row justify-content-center">
-          <img
-            src="../../../../../assets/images/bunuelin-removebg.png"
-            alt="img-principal"
-            class="img-principal"
-          />
-        </div>
-      </div>
-      <div class="col-md-4">
-        <ul class="nav justify-content-start">
-          <li class="nav-item nav-item-hover">
-            <a class="nav-link custom-nav-item" routerLink="main/registro-usuarios"
-              >Registrarse</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="btn btn-primary ml-2"
-            
-              [routerLink]="'/main/login'"
-              >Iniciar sesión</a
-            >
-          </li>
-        </ul>
-      </div>
-    </div>
-  </header>
-</div> -->
+<!-- For phones -->
+<header class="row justify-content-center cell-res container-header">
+  <div class="flex-center">
+    <img
+      class="img-principal-logo"
+      src="../../../../assets/images/bunuelin-removebg.png"
+      alt="Logo"
+    />
+  </div>
+
+  <ul class="nav justify-content-center align-items-center col-auto">
+    <li class="nav-item">
+      <a class="nav-link-cutom active-custom" routerLink=""><b>Inicio</b></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link-cutom" [routerLink]="'/main/productos'">Productos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link-cutom" [routerLink]="'/main/registro-usuarios'"
+        >Registrarse</a
+      >
+    </li>
+    <li class="nav-item">
+      <a class="btn btn-custom" [routerLink]="'/main/login'">Iniciar sesión</a>
+    </li>
+  </ul>
+</header>

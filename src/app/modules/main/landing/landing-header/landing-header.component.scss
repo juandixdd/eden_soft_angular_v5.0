@@ -1,23 +1,26 @@
-.img-principal {
-  width: 300px;
-  height: auto;
-  margin-bottom: 50px;
-  margin-right: 50px;
+/* For phones */
+.img-principal-logo {
+  width: 120px;
+  margin: 25px;
 }
 
 .container-header {
   background-color: rgb(65, 144, 209);
-  height: 20vh;
 }
 
-/* .custom-nav-item {
-  color: #0e0e0e;
+.container-res {
+  display: none;
 }
 
-.custom-nav-item:hover {
-  color: #1187ab;
-  transition: 0.5s;
-} */
+.cell-res {
+  display: block;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .vertical-hr {
   border: none;
@@ -30,8 +33,8 @@
 
 .nav-link-cutom {
   color: #fff;
-  margin-right: 20px;
-  margin-left: 20px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .nav-link-cutom:hover {
@@ -55,4 +58,65 @@
 
 .img-principal-logo {
   height: 100px;
+}
+
+/* ? For desktop */
+@media only screen and (min-width: 768px) {
+  .img-principal {
+    width: 300px;
+    height: auto;
+    margin-bottom: 50px;
+    margin-right: 50px;
+  }
+
+  .container-header {
+    background-color: rgb(65, 144, 209);
+    height: 20vh;
+  }
+
+  .container-res {
+    display: block;
+  }
+
+  .cell-res {
+    display: none;
+  }
+
+  .vertical-hr {
+    border: none;
+    border-left: 2px solid #0e0e0e;
+    height: 30px;
+    width: 1px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .nav-link-cutom {
+    color: #fff;
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+
+  .nav-link-cutom:hover {
+    color: #f7a14a;
+    transition: 0.2s;
+  }
+
+  .btn-custom {
+    background-color: #f7a14a;
+    color: #fff;
+  }
+
+  .btn-custom:hover {
+    background-color: #e08020;
+    transition: 0.2s;
+  }
+
+  .active-custom {
+    color: #e08020;
+  }
+
+  .img-principal-logo {
+    height: 100px;
+  }
 }

@@ -4,7 +4,6 @@
 
 @import "@core/scss/base/bootstrap-extended/_include"; // Components includes
 
-
 // invoice list
 .invoice-list-wrapper {
   .col-actions {
@@ -85,7 +84,7 @@ body {
   width: 360px;
   padding: 15px;
   margin: 15px auto;
-  background-color: #fff;
+  background-color: rgb(252, 8, 8);
 }
 
 @media (max-width: 991px) {
@@ -154,19 +153,7 @@ body {
   text-align: center;
 }
 
-.el-wrapper .img {
-  padding: 20px 0;
-  -webkit-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  -o-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-}
+
 
 .h-bg {
   -webkit-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
@@ -317,7 +304,4 @@ body {
   text-transform: uppercase;
   white-space: nowrap;
 }
-
-
-
 

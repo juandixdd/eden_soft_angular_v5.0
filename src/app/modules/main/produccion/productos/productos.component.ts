@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CoreConfigService } from '@core/services/config.service';
+import { ProductosService } from '../../services/productos/productos.service';
 
 @Component({
   selector: 'app-productos',
@@ -8,8 +9,11 @@ import { CoreConfigService } from '@core/services/config.service';
 })
 export class ProductosComponent implements OnInit {
 
+  products: any;
+
   constructor(    
     private _coreConfigService: CoreConfigService,
+    private productosService: ProductosService
     ) { 
     // Configure the layout
     this._coreConfigService.config = {
@@ -30,6 +34,16 @@ export class ProductosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getProducts();
+  }
+
+  getProducts(){
+    this.productosService.getData().subscribe(
+      (res)=>{
+        this.products = res;
+        console.log(this.products);
+      }
+    )
   }
 
 }

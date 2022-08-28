@@ -2,8 +2,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
+import { UsersService } from 'app/modules/services/users/users.service';
 import Swal from 'sweetalert2';
-import { UsersService } from '../../../services/users/users.service';
 
 @Component({
   selector: 'app-lista-usuarios',

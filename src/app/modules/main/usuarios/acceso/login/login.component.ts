@@ -6,8 +6,8 @@ import { Subject } from 'rxjs';
 
 
 import { CoreConfigService } from '@core/services/config.service';
-import { LoginService } from '../../../services/login/login.service';
 import Swal from 'sweetalert2';
+import { LoginService } from 'app/modules/services/login/login.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

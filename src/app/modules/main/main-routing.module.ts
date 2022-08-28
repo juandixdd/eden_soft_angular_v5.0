@@ -8,12 +8,11 @@ import { LoginComponent } from './usuarios/acceso/login/login.component';
 import { RestaurarClaveComponent } from './usuarios/acceso/restaurar-clave/restaurar-clave.component';
 import { ClienteComponent } from './ventas/cliente/cliente.component';
 import { RegistroUsuariosComponent } from './usuarios/usuarios/registro-usuarios/registro-usuarios.component';
-import { CategoriasComponent } from './produccion/categorias/categorias.component';
-import { ProductosComponent } from './produccion/productos/productos.component';
-import { OrdenDeProduccionComponent } from './produccion/orden-de-produccion/orden-de-produccion.component';
+import { CategoriasComponent } from './productos/categorias/categorias.component';
+import { ProductosComponent } from './productos/productos/productos.component';
 import { VentasComponent } from './ventas/ventas/ventas.component';
 import { PedidosComponent } from './ventas/pedidos/pedidos.component';
-import { ProductosAdminComponent } from './produccion/productos-admin/productos-admin.component';
+import { ProductosAdminComponent } from './productos/productos-admin/productos-admin.component';
 import { PerfilUsuarioComponent } from './usuarios/usuarios/perfil-usuario/perfil-usuario.component';
 import { ContactenosComponent } from './contactenos/contactenos.component';
 import { AuthGuardGuard } from '../guards/auth-guard.guard';
@@ -37,7 +36,6 @@ const routes: Routes = [
 
   /*Produccion*/
   { path: 'categorias', component: CategoriasComponent, canActivate: [AuthGuardGuard] },
-  { path: 'orden-de-produccion', component: OrdenDeProduccionComponent, canActivate: [AuthGuardGuard] },
   { path: 'productos', component: ProductosComponent },
   { path: 'productos-admin', component: ProductosAdminComponent, canActivate: [AuthGuardGuard] },
   /*Dashboard*/

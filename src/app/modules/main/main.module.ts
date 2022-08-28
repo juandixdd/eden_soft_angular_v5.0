@@ -31,13 +31,11 @@ import { TopTableComponent } from './dashboard/top-table/top-table.component';
 import { VentasTableComponent } from './dashboard/ventas-table/ventas-table.component';
 import { RegistroUsuariosComponent } from './usuarios/usuarios/registro-usuarios/registro-usuarios.component';
 import { LanginFooterComponent } from './landing/langin-footer/langin-footer.component';
-import { ProduccionComponent } from './produccion/produccion.component';
-import { CategoriasComponent } from './produccion/categorias/categorias.component';
-import { ProductosComponent } from './produccion/productos/productos.component';
-import { OrdenDeProduccionComponent } from './produccion/orden-de-produccion/orden-de-produccion.component';
+import { CategoriasComponent } from './productos/categorias/categorias.component';
+import { ProductosComponent } from './productos/productos/productos.component';
 import { VentasComponent } from './ventas/ventas/ventas.component';
 import { PedidosComponent } from './ventas/pedidos/pedidos.component';
-import { ProductosAdminComponent } from './produccion/productos-admin/productos-admin.component';
+import { ProductosAdminComponent } from './productos/productos-admin/productos-admin.component';
 import { PerfilUsuarioComponent } from './usuarios/usuarios/perfil-usuario/perfil-usuario.component';
 import { ContactenosComponent } from './contactenos/contactenos.component';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -61,10 +59,8 @@ import { TitleComponent } from './home-page/title/title.component';
     VentasTableComponent,
     RegistroUsuariosComponent,
     LanginFooterComponent,
-    ProduccionComponent,
     CategoriasComponent,
     ProductosComponent,
-    OrdenDeProduccionComponent,
     VentasComponent,
     PedidosComponent,
     ProductosAdminComponent,

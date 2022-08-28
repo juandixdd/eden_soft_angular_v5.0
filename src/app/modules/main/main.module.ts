@@ -12,7 +12,6 @@ import { ContentHeaderModule } from 'app/layout/components/content-header/conten
 import { MainRoutingModule } from './main-routing.module';
 
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { CotizacionComponent } from './ventas/cotizacion/cotizacion.component';
 import { RolesComponent } from './configuracion/roles/roles.component';
 import { CoreTouchspinModule } from '@core/components/core-touchspin/core-touchspin.module';
 import { ListaUsuariosComponent } from './usuarios/usuarios/lista-usuarios/lista-usuarios.component';
@@ -34,7 +33,6 @@ import { LanginFooterComponent } from './landing/langin-footer/langin-footer.com
 import { CategoriasComponent } from './productos/categorias/categorias.component';
 import { ProductosComponent } from './productos/productos/productos.component';
 import { VentasComponent } from './ventas/ventas/ventas.component';
-import { PedidosComponent } from './ventas/pedidos/pedidos.component';
 import { ProductosAdminComponent } from './productos/productos-admin/productos-admin.component';
 import { PerfilUsuarioComponent } from './usuarios/usuarios/perfil-usuario/perfil-usuario.component';
 import { ContactenosComponent } from './contactenos/contactenos.component';
@@ -45,7 +43,6 @@ import { TitleComponent } from './home-page/title/title.component';
 
 @NgModule({
   declarations: [
-    CotizacionComponent,
     RolesComponent,
     ListaUsuariosComponent,
     DashboardComponent,
@@ -62,7 +59,6 @@ import { TitleComponent } from './home-page/title/title.component';
     CategoriasComponent,
     ProductosComponent,
     VentasComponent,
-    PedidosComponent,
     ProductosAdminComponent,
     PerfilUsuarioComponent,
     ContactenosComponent,

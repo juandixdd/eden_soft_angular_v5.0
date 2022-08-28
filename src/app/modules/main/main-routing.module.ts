@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CotizacionComponent } from './ventas/cotizacion/cotizacion.component';
 import { RolesComponent } from './configuracion/roles/roles.component';
 import { ListaUsuariosComponent } from './usuarios/usuarios/lista-usuarios/lista-usuarios.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -11,7 +10,6 @@ import { RegistroUsuariosComponent } from './usuarios/usuarios/registro-usuarios
 import { CategoriasComponent } from './productos/categorias/categorias.component';
 import { ProductosComponent } from './productos/productos/productos.component';
 import { VentasComponent } from './ventas/ventas/ventas.component';
-import { PedidosComponent } from './ventas/pedidos/pedidos.component';
 import { ProductosAdminComponent } from './productos/productos-admin/productos-admin.component';
 import { PerfilUsuarioComponent } from './usuarios/usuarios/perfil-usuario/perfil-usuario.component';
 import { ContactenosComponent } from './contactenos/contactenos.component';
@@ -21,10 +19,8 @@ import { HomePageComponent } from './home-page/home-page.component';
 const routes: Routes = [
 
   /*Ventas*/
-  { path: 'cotizacion', component: CotizacionComponent, canActivate: [AuthGuardGuard] },
   { path: 'cliente', component: ClienteComponent, canActivate: [AuthGuardGuard] },
   { path: 'ventas', component: VentasComponent, canActivate: [AuthGuardGuard] },
-  { path: 'pedidos', component: PedidosComponent, canActivate: [AuthGuardGuard] },
 
 
   /*Usuarios*/

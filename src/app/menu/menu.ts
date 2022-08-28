@@ -24,25 +24,11 @@ export const menu: CoreMenu[] = [
     icon: 'shopping-cart',
     children: [
       {
-        id: 'cotizacion',
-        title: 'Cotización',
-        type: 'item',
-        icon: 'clipboard',
-        url: 'main/cotizacion'
-      },
-      {
         id: 'cliente',
-        title: 'Clientes',
+        title: 'Clientes-informativos',
         type: 'item',
         icon: 'users',
         url: 'main/cliente'
-      },
-      {
-        id: 'pedidos',
-        title: 'Pedidos',
-        type: 'item',
-        icon: 'shopping-cart',
-        url: 'main/pedidos'
       },
       {
         id: 'ventas',
@@ -68,19 +54,12 @@ export const menu: CoreMenu[] = [
         children: [
           {
             id: 'Acceso',
-            title: 'Recuperar contraseña',
-            type: 'item',
-            icon: 'meh',
-            url: 'main/recuperar-contraseña'
-          },
-          {
-            id: 'Acceso',
             title: 'Restaurar contraseña',
             type: 'item',
             icon: 'meh',
             url: 'main/restaurar-clave'
           },
-                   
+
         ]
 
       },
@@ -111,25 +90,18 @@ export const menu: CoreMenu[] = [
     ]
   },
   {
-    id:'Produccion',
-    title:'Produccion',
-    translate:'Produccion',
-    type:'collapsible',
+    id: 'Productos',
+    title: 'Productos',
+    translate: 'Productos',
+    type: 'collapsible',
     icon: 'coffee',
-    children:[
+    children: [
       {
         id: 'categorias',
         title: 'Categorias',
         type: 'item',
         icon: 'list',
         url: 'main/categorias'
-      },
-      {
-        id: 'orden-de-produccion',
-        title: 'Orden de Produccion',
-        type: 'item',
-        icon: 'clipboard',
-        url: 'main/orden-de-produccion'
       },
       {
         id: 'productos-admin',

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './modules/main/dashboard/dashboard.component';
-import { LandingComponent } from './modules/main/landing/landing.component';
+import { LandingComponent } from './modules/main/extras/landing/landing.component';
 const routes: Routes = [
   {
     path: '', //TODO: localhost:4200/

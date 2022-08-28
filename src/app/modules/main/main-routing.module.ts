@@ -12,9 +12,9 @@ import { ProductosComponent } from './productos/productos/productos.component';
 import { VentasComponent } from './ventas/ventas/ventas.component';
 import { ProductosAdminComponent } from './productos/productos-admin/productos-admin.component';
 import { PerfilUsuarioComponent } from './usuarios/usuarios/perfil-usuario/perfil-usuario.component';
-import { ContactenosComponent } from './contactenos/contactenos.component';
+import { ContactenosComponent } from './extras/contactenos/contactenos.component';
 import { AuthGuardGuard } from '../guards/auth-guard.guard';
-import { HomePageComponent } from './home-page/home-page.component';
+import { HomePageComponent } from './extras/home-page/home-page.component';
 
 const routes: Routes = [
 

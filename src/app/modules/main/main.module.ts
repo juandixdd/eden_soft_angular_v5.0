@@ -22,23 +22,22 @@ import { ClienteComponent } from './ventas/cliente/cliente.component';
 
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { Ng2FlatpickrModule } from 'ng2-flatpickr';
-import { LandingComponent } from './landing/landing.component';
-import { LandingHeaderComponent } from './landing/landing-header/landing-header.component';
+import { LandingComponent } from './extras/landing/landing.component';
+import { LandingHeaderComponent } from './extras/landing/landing-header/landing-header.component';
 import { BreadcrumbModule } from 'app/layout/components/content-header/breadcrumb/breadcrumb.module';
 import { ProduccionTableComponent } from './dashboard/produccion-table/produccion-table.component';
 import { TopTableComponent } from './dashboard/top-table/top-table.component';
 import { VentasTableComponent } from './dashboard/ventas-table/ventas-table.component';
 import { RegistroUsuariosComponent } from './usuarios/usuarios/registro-usuarios/registro-usuarios.component';
-import { LanginFooterComponent } from './landing/langin-footer/langin-footer.component';
+import { LanginFooterComponent } from './extras/landing/langin-footer/langin-footer.component';
 import { CategoriasComponent } from './productos/categorias/categorias.component';
 import { ProductosComponent } from './productos/productos/productos.component';
 import { VentasComponent } from './ventas/ventas/ventas.component';
 import { ProductosAdminComponent } from './productos/productos-admin/productos-admin.component';
 import { PerfilUsuarioComponent } from './usuarios/usuarios/perfil-usuario/perfil-usuario.component';
-import { ContactenosComponent } from './contactenos/contactenos.component';
-import { HomePageComponent } from './home-page/home-page.component';
-import { LandingProductsComponent } from './landing/landing-products/landing-products.component';
-import { TitleComponent } from './home-page/title/title.component';
+import { ContactenosComponent } from './extras/contactenos/contactenos.component';
+import { HomePageComponent } from './extras/home-page/home-page.component';
+import { LandingProductsComponent } from './extras/landing/landing-products/landing-products.component';
 
 
 @NgModule({
@@ -63,8 +62,7 @@ import { TitleComponent } from './home-page/title/title.component';
     PerfilUsuarioComponent,
     ContactenosComponent,
     HomePageComponent,
-    LandingProductsComponent,
-    TitleComponent,
+    LandingProductsComponent
   ],
   imports: [
     CommonModule,

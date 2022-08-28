@@ -13,13 +13,12 @@ import { MainRoutingModule } from './main-routing.module';
 
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CotizacionComponent } from './ventas/cotizacion/cotizacion.component';
-import { AccesoComponent } from './usuarios/acceso/acceso.component';
 import { RolesComponent } from './configuracion/roles/roles.component';
 import { CoreTouchspinModule } from '@core/components/core-touchspin/core-touchspin.module';
-import { ListaUsuariosComponent } from './usuarios/lista-usuarios/lista-usuarios.component';
+import { ListaUsuariosComponent } from './usuarios/usuarios/lista-usuarios/lista-usuarios.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { LoginComponent } from './usuarios/login/login.component';
-import { RestaurarClaveComponent } from './usuarios/restaurar-clave/restaurar-clave.component';
+import { LoginComponent } from './usuarios/acceso/login/login.component';
+import { RestaurarClaveComponent } from './usuarios/acceso/restaurar-clave/restaurar-clave.component';
 import { ClienteComponent } from './ventas/cliente/cliente.component';
 
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -30,7 +29,7 @@ import { BreadcrumbModule } from 'app/layout/components/content-header/breadcrum
 import { ProduccionTableComponent } from './dashboard/produccion-table/produccion-table.component';
 import { TopTableComponent } from './dashboard/top-table/top-table.component';
 import { VentasTableComponent } from './dashboard/ventas-table/ventas-table.component';
-import { RegistroUsuariosComponent } from './usuarios/registro-usuarios/registro-usuarios.component';
+import { RegistroUsuariosComponent } from './usuarios/usuarios/registro-usuarios/registro-usuarios.component';
 import { LanginFooterComponent } from './landing/langin-footer/langin-footer.component';
 import { ProduccionComponent } from './produccion/produccion.component';
 import { CategoriasComponent } from './produccion/categorias/categorias.component';
@@ -39,7 +38,7 @@ import { OrdenDeProduccionComponent } from './produccion/orden-de-produccion/ord
 import { VentasComponent } from './ventas/ventas/ventas.component';
 import { PedidosComponent } from './ventas/pedidos/pedidos.component';
 import { ProductosAdminComponent } from './produccion/productos-admin/productos-admin.component';
-import { PerfilUsuarioComponent } from './usuarios/perfil-usuario/perfil-usuario.component';
+import { PerfilUsuarioComponent } from './usuarios/usuarios/perfil-usuario/perfil-usuario.component';
 import { ContactenosComponent } from './contactenos/contactenos.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { LandingProductsComponent } from './landing/landing-products/landing-products.component';
@@ -49,7 +48,6 @@ import { TitleComponent } from './home-page/title/title.component';
 @NgModule({
   declarations: [
     CotizacionComponent,
-    AccesoComponent,
     RolesComponent,
     ListaUsuariosComponent,
     DashboardComponent,

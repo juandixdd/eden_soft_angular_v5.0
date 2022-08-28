@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 
 import { CoreConfigService } from '@core/services/config.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { RegisterService } from '../../services/register/register.service';
+import { RegisterService } from '../../../services/register/register.service';
 import Swal from 'sweetalert2';
 import { Router, RouterLink } from '@angular/router';
 

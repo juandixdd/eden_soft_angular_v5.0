@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import Swal from 'sweetalert2';
-import { UsersService } from '../../services/users/users.service';
+import { UsersService } from '../../../services/users/users.service';
 
 @Component({
   selector: 'app-lista-usuarios',

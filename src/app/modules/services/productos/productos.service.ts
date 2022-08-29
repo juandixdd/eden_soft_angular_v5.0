@@ -14,4 +14,8 @@ export class ProductosService {
   getData(){
     return this.http.get(`${this.API_URL}/productos`)
   }
+
+  createProduct(product:any){
+    return this.http.post(`${this.API_URL}/productos`, product)
+  }
 }

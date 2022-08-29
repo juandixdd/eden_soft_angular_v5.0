@@ -77,7 +77,7 @@ import { LandingProductsComponent } from './extras/landing/landing-products/land
     CoreTouchspinModule,
     NgApexchartsModule,
     Ng2FlatpickrModule,
-    BreadcrumbModule
+    BreadcrumbModule,
 
   ]
 })

@@ -80,20 +80,21 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <!-- Column -->
-          <ngx-datatable-column name="Imagen" prop="imagen" [width]="20">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <button
+          <ngx-datatable-column name="Acciones" [width]="100">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div class="d-flex justify-content-start">
+                <button
                 class="btn btn-icon btn-sm"
-                (click)="modalOpen(infoModal)"
+                (click)="modalOpen(infoModal); defineImg(row.id)"
               >
                 <i class="feather icon-eye text-primary"></i>
               </button>
+              </div>
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="categoria" prop="categoria" [width]="20">
+          <ngx-datatable-column name="categoria" prop="nombre_categoria" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id }}</p>
             </ng-template>
@@ -102,18 +103,9 @@
           <!-- Column -->
           <ngx-datatable-column name="estado" prop="estado" [width]="15">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">{{ id }}</p>
-              <div
-                class="custom-control custom-switch custom-control-inline"
-                (click)="statusAlert()"
-              >
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="customSwitch1"
-                />
-                <label class="custom-control-label" for="customSwitch1"></label>
-              </div>
+              <p class="font-weight-bold text-dark">
+                {{ id == 1 ? "Activo" : "Inactivo" }}
+              </p>
             </ng-template>
           </ngx-datatable-column>
 
@@ -180,24 +172,18 @@
               class="form-control"
             />
 
-            <label>Selecionar membresia</label>
-
-            <ng-select
-              [items]="categorias"
-              [ngModel]="categorias"
-              formControlName="categoria"
-              (change)="selectEvent($event)"
-            >
-              <ng-template ng-label-tmp let-item="item" let-clear="clear">
-                <span class="ng-value-label"> {{ item.name }}</span>
-                <span
-                  class="ng-value-icon right"
-                  (click)="clear(item)"
-                  aria-hidden="true"
-                  >×</span
-                >
-              </ng-template>
-            </ng-select>
+            <label>Categoría </label>
+            <div class="form-group">
+              <ng-select
+                [items]="selectBasic | async"
+                bindLabel="nombre"
+                formControlName="categoria"
+                [ngModel]="selectBasic | async"
+                placeholder="Seleccione una agencia"
+                (change)="onChange($event)"
+              >
+              </ng-select>
+            </div>
 
             <label for="first-name-column">Imagen</label>
             <input
@@ -236,9 +222,9 @@
 
     <!-- ?Body de la modal -->
     <img
-      src="../../../../assets/images/products/buñuelo.png"
+      [src]="imgUrl"
       class="card-img-top"
-      alt="Producto"
+      [alt]="imgName"
     />
 
     <div class="modal-footer">

@@ -5,21 +5,22 @@ import { environment } from 'environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductosService {
+export class CategoriaService {
 
   API_URL = environment.API_URL;
 
   constructor(private http: HttpClient) { }
 
+
   getData(){
-    return this.http.get(`${this.API_URL}/productos`)
+    return this.http.get(`${this.API_URL}/categoria`)
   }
 
   getDataById(id){
-    return this.http.get(`${this.API_URL}/productos/${id}`);
+    return this.http.get(`${this.API_URL}/categoria/${id}`);
   }
 
-  createProduct(product:any){
-    return this.http.post(`${this.API_URL}/productos`, product)
+  createData(body){
+    return this.http.post(`${this.API_URL}/categoria`, body)
   }
 }

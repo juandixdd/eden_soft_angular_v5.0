@@ -2,7 +2,10 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
+import { CategoriaService } from 'app/modules/services/categoria/categoria.service';
 import { ProductosService } from 'app/modules/services/productos/productos.service';
+import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -19,19 +22,25 @@ export class ProductosAdminComponent implements OnInit {
   public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
   public kitchenSinkRows: any;
-  product:any = {}
 
-  categorias = [ //? Estos son los datos del select de la modal de crear cotizacion.
-    'Bebidas',
-    'Fritos',
-    'Panaderia',
-  ]
 
+
+  categorias: any;
   rows: any = []
+  product: any = {}
+  selectMultiSelectedEvent: any;
+  selectMultiSelected: any;
+  selectBasic: any;
+  categoryId: any;
+  imgUrl: any;
+  imgName:any;
+  row:any;
+
 
   constructor(
     private modalService: NgbModal,
     private productosService: ProductosService,
+    private categoriasService: CategoriaService,
     private fb: FormBuilder
   ) { }
 
@@ -60,6 +69,8 @@ export class ProductosAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProducts();
+
+    this.getCategorias();
   }
 
   modalOpen(modal) { //? Esta es la funcion que abre las modales.
@@ -77,18 +88,50 @@ export class ProductosAdminComponent implements OnInit {
     )
   }
 
-  selectEvent(event){
-    console.log(event)
+  onChange(event) {
+    this.categoryId = event.id;
+    console.log(this.categoryId)
+  }
+
+  options: any = [];
+
+  async getCategorias() {
+    this.categoriasService.getData().subscribe(
+      (res: any) => {
+        this.selectBasic = of(res).pipe();
+        console.log(this.selectBasic);
+
+        /*
+
+        for (let i in this.selectBasic) {
+          console.log(this.selectBasic[i].nombre);
+          this.options.push(this.selectBasic[i].nombre);
+        }
+
+        console.log(this.options)
+        */
+
+      }
+    )
+  }
+
+  defineImg(id){
+    this.productosService.getDataById(id).subscribe(
+      (res:any)=>{
+        this.imgUrl = res[0].imagen
+        this.imgName = res[0].nombre + "Img"
+      }
+    )
   }
 
   createProduct() {
 
-     this.product = {
+    this.product = {
       nombre: this.productForm.value.nombre,
       precio: this.productForm.value.precio,
-      categoria: 1,
+      categoria: this.categoryId,
       imagen: this.productForm.value.imagen,
-      estado: 111
+      estado: 0
     }
 
 
@@ -112,12 +155,12 @@ export class ProductosAdminComponent implements OnInit {
       (err: any) => {
         console.log("No se pudo guardar")
         console.log(err);
-         Swal.fire({
-           icon: 'error',
-           title: 'Oops...',
-           text: 'Ha ocurrido un error, por favor intente nuevamente',
-           confirmButtonText: 'Ok'
-         })
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Ha ocurrido un error, por favor intente nuevamente',
+          confirmButtonText: 'Ok'
+        })
       }
     )
 

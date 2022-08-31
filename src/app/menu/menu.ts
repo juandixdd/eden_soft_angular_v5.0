@@ -87,6 +87,13 @@ export const menu: CoreMenu[] = [
         icon: 'users',
         url: 'main/roles'
       },
+      {
+        id: 'permisos',
+        title: 'Permisos',
+        type: 'item',
+        icon: 'grid',
+        url: 'main/permisos'
+      },
     ]
   },
   {

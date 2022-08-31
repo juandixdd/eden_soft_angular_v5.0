@@ -38,6 +38,7 @@ import { PerfilUsuarioComponent } from './usuarios/usuarios/perfil-usuario/perfi
 import { ContactenosComponent } from './extras/contactenos/contactenos.component';
 import { HomePageComponent } from './extras/home-page/home-page.component';
 import { LandingProductsComponent } from './extras/landing/landing-products/landing-products.component';
+import { PermisosComponent } from './configuracion/permisos/permisos.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { LandingProductsComponent } from './extras/landing/landing-products/land
     PerfilUsuarioComponent,
     ContactenosComponent,
     HomePageComponent,
-    LandingProductsComponent
+    LandingProductsComponent,
+    PermisosComponent
   ],
   imports: [
     CommonModule,

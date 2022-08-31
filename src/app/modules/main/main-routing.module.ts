@@ -15,6 +15,7 @@ import { PerfilUsuarioComponent } from './usuarios/usuarios/perfil-usuario/perfi
 import { ContactenosComponent } from './extras/contactenos/contactenos.component';
 import { AuthGuardGuard } from '../guards/auth-guard.guard';
 import { HomePageComponent } from './extras/home-page/home-page.component';
+import { PermisosComponent } from './configuracion/permisos/permisos.component';
 
 const routes: Routes = [
 
@@ -37,8 +38,10 @@ const routes: Routes = [
   /*Dashboard*/
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardGuard] },
 
-  /* Roles */
+  /* Configuracion */
   { path: 'roles', component: RolesComponent, canActivate: [AuthGuardGuard] },
+  { path: 'permisos', component: PermisosComponent, canActivate: [AuthGuardGuard] },
+  
 
   /* Contactenos */
   { path: 'contactenos', component: ContactenosComponent },

@@ -80,21 +80,12 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Acciones" [width]="100">
-            <ng-template ngx-datatable-cell-template let-row="row">
-              <div class="d-flex justify-content-start">
-                <button
-                class="btn btn-icon btn-sm"
-                (click)="modalOpen(infoModal); defineImg(row.id)"
-              >
-                <i class="feather icon-eye text-primary"></i>
-              </button>
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
-
           <!-- Column -->
-          <ngx-datatable-column name="categoria" prop="nombre_categoria" [width]="20">
+          <ngx-datatable-column
+            name="categoria"
+            prop="nombre_categoria"
+            [width]="20"
+          >
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id }}</p>
             </ng-template>
@@ -109,23 +100,28 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <!-- Column -->
-          <ngx-datatable-column name="Funciones" prop="cancel" [width]="20">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <!-- Icono x rojo -->
-
-              <button class="btn btn-icon btn-sm">
-                <i
-                  class="feather icon-edit text-primary"
-                  (click)="modalOpen(modalEdit)"
-                ></i>
-              </button>
-              <button class="btn btn-icon btn-sm">
-                <i
-                  class="feather icon-trash-2 text-danger"
-                  (click)="confirmAlert()"
-                ></i>
-              </button>
+          <ngx-datatable-column name="Acciones" [width]="100">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div class="d-flex justify-content-start">
+                <button
+                  class="btn btn-icon btn-sm"
+                  (click)="modalOpen(infoModal); defineProductInfo(row.id)"
+                >
+                  <i class="feather icon-eye text-primary"></i>
+                </button>
+                <button class="btn btn-icon btn-sm">
+                  <i
+                    class="feather icon-edit text-primary"
+                    (click)="modalOpen(modalEdit)"
+                  ></i>
+                </button>
+                <button class="btn btn-icon btn-sm">
+                  <i
+                    class="feather icon-trash-2 text-danger"
+                    (click)="confirmAlert()"
+                  ></i>
+                </button>
+              </div>
             </ng-template>
           </ngx-datatable-column>
         </ngx-datatable>
@@ -209,7 +205,6 @@
 <div>
   <ng-template #infoModal let-modal>
     <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalCenterTitle">Detalles</h5>
       <button
         type="button"
         class="close"
@@ -221,11 +216,21 @@
     </div>
 
     <!-- ?Body de la modal -->
-    <img
-      [src]="imgUrl"
+   
+    <div *ngIf="productInfo">
+      <img
+      [src]="productInfo.imagen"
       class="card-img-top"
-      [alt]="imgName"
+      [alt]="productInfo.nombre"
+      style="max-height: 400px;"
     />
+    <div class="p-2 ">
+      <h3 class="mb-1 text-primary">{{ productInfo.nombre }}</h3>
+      <p class="ml-1"><b>Precio: </b>${{ productInfo.precio }} </p>
+      <p class="ml-1"><b>Categoría: </b>{{ productInfo.nombre_categoria }} </p>
+      <p class="ml-1"><b>Estado: </b>{{ productInfo.estado == 1 ? "Activo" : "Inactivo" }} </p>
+    </div> 
+    </div>
 
     <div class="modal-footer">
       <button

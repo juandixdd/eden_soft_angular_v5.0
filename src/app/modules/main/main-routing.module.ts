@@ -16,6 +16,7 @@ import { ContactenosComponent } from './extras/contactenos/contactenos.component
 import { AuthGuardGuard } from '../guards/auth-guard.guard';
 import { HomePageComponent } from './extras/home-page/home-page.component';
 import { PermisosComponent } from './configuracion/permisos/permisos.component';
+import { CotizacionComponent } from './pedidos/cotizacion/cotizacion.component';
 
 const routes: Routes = [
 
@@ -48,6 +49,9 @@ const routes: Routes = [
 
   /*Home Page */
   { path: 'home-page',component:HomePageComponent},
+
+  /**pedidos */
+  {path: 'cotizacion', component: CotizacionComponent, canActivate:[AuthGuardGuard]}
 
 ];
 

@@ -118,7 +118,24 @@ export const menu: CoreMenu[] = [
         url: 'main/productos-admin'
       },
     ]
-  }
+  },
+
+  {
+    id: 'Pedidos',
+    title: 'Pedidos',
+    translate: 'Pedidos',
+    type: 'collapsible',
+    icon: 'shopping-cart',
+    children: [
+      {
+        id: 'Cotizacion',
+        title: 'Cotizacion',
+        type: 'item',
+        icon: 'shopping-cart',
+        url: 'main/cotizacion'
+      }
+    ]
+  },
 
 
 ]

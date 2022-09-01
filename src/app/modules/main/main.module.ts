@@ -39,6 +39,7 @@ import { ContactenosComponent } from './extras/contactenos/contactenos.component
 import { HomePageComponent } from './extras/home-page/home-page.component';
 import { LandingProductsComponent } from './extras/landing/landing-products/landing-products.component';
 import { PermisosComponent } from './configuracion/permisos/permisos.component';
+import { CotizacionComponent } from './pedidos/cotizacion/cotizacion.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { PermisosComponent } from './configuracion/permisos/permisos.component';
     ContactenosComponent,
     HomePageComponent,
     LandingProductsComponent,
-    PermisosComponent
+    PermisosComponent,
+    CotizacionComponent
   ],
   imports: [
     CommonModule,

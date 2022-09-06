@@ -25,8 +25,9 @@ export class PermisosService {
   updateData(id:number,body:any){
     return this.http.put(`${this.API_URL}/permisos/${id}`,body)
   }
-deleteData(id:number){
-  return this.http.delete(`${this.API_URL}/permisos/${id}`)
+
+  deleteData(id:number){
+    return this.http.delete(`${this.API_URL}/permisos/${id}`)
 }
 
 

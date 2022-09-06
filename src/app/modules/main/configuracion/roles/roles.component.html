@@ -35,7 +35,6 @@
                   type="search"
                   placeholder="Buscar"
                   class="form-control ml-25"
-                  (keyup)="filterUpdate($event)"
               /></label>
 
               <!-- ? Botón de crear -->
@@ -51,7 +50,7 @@
         </div>
         <!--? Aquí empieza la tabla -->
         <ngx-datatable
-          [rows]="kitchenSinkRows"
+          [rows]="rows"
           [rowHeight]="70"
           class="bootstrap core-bootstrap"
           [limit]="selectedOption"
@@ -68,87 +67,19 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="nombre" prop="name" [width]="20">
+          <ngx-datatable-column name="Nombre" prop="nombre" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
             </ng-template>
           </ngx-datatable-column>
-          <!-- Column -->
-          <ngx-datatable-column
-            name="permisos"
-            prop="permissions"
-            [width]="300"
-          >
+
+          <ngx-datatable-column name="Estado" prop="estado" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <div class="row">
-                <div class="col">
-                  <div class="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="customCheck1"
-                      checked
-                    />
-                    <label class="custom-control-label" for="customCheck1"
-                      >Agregar Productos</label
-                    >
-                  </div>
-                  <div class="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="customCheck2"
-                      checked
-                    />
-                    <label class="custom-control-label" for="customCheck2"
-                      >Editar Productos</label
-                    >
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="customCheck3"
-                      checked
-                    />
-                    <label class="custom-control-label" for="customCheck3"
-                      >Tomar pedidos</label
-                    >
-                  </div>
-                  <div class="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="customCheck4"
-                      checked
-                    />
-                    <label class="custom-control-label" for="customCheck4"
-                      >Editar usuarios</label
-                    >
-                  </div>
-                </div>
-              </div>
+              <p class="font-weight-bold text-dark">{{ id }}</p>
             </ng-template>
           </ngx-datatable-column>
-          <!-- Column -->
-          <ngx-datatable-column name="estado" prop="status" [width]="15">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
-              <div
-                class="custom-control custom-switch custom-control-inline"
-                (click)="confirmAlert()"
-              >
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="customSwitch1"
-                />
-                <label class="custom-control-label" for="customSwitch1"></label>
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
+         
+          
           <!-- Column -->
           <ngx-datatable-column name="acciones" prop="Actions" [width]="15">
             <ng-template let-id="value" ngx-datatable-cell-template>
@@ -199,256 +130,25 @@
                   name="fname-column"
                 />
               </div>
-              <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-                <ngb-panel>
-                  <ng-template ngbPanelTitle>
-                    <span class="lead collapse-title"> Configuracion </span>
-                  </ng-template>
-                  <ng-template ngbPanelContent>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Crear</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Editar</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Cambiar estado</label
-                      >
-                    </div>
-                  </ng-template>
-                </ngb-panel>
-                <ngb-panel>
-                  <ng-template ngbPanelTitle>
-                    <span class="lead collapse-title"> Usuarios </span>
-                  </ng-template>
-                  <ng-template ngbPanelContent>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Registrar</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Editar</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Eliminar</label
-                      >
-                    </div>
-                  </ng-template>
-                </ngb-panel>
-                <ngb-panel>
-                  <ng-template ngbPanelTitle>
-                    <span class="lead collapse-title"> Producción </span>
-                  </ng-template>
-                  <ng-template ngbPanelContent>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Crear categoria</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Editar categoria</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Cambiar estado de la categoria</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Crear Producto</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Eliminar Producto</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Editar Producto</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Cambiar estado del producto</label
-                      >
-                    </div>
-                  </ng-template>
-                </ngb-panel>
-                <ngb-panel>
-                  <ng-template ngbPanelTitle>
-                    <span class="lead collapse-title"> Ventas </span>
-                  </ng-template>
-                  <ng-template ngbPanelContent>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Crear cliente</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Editar Cliente</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Cambiar estado del cliente</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Crear cotización</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Anular cotización</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Editar Pedido</label
-                      >
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="customCheck1"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customCheck1"
-                        >Eliminar pedido</label
-                      >
-                    </div>
-                  </ng-template>
-                </ngb-panel>
-              </ngb-accordion>
+
+
+              <label>Categoría </label>
+            <div class="form-group">
+              <ng-select
+                [items]="selectBasic | async"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                bindLabel="nombre"
+                formControlName="categoria"
+                groupBy="modulo"
+                [ngModel]="selectBasic | async"
+                [(ngModel)]="selectMultiSelected"
+                placeholder="Seleccione una categoría"
+                (change)="onChange($event)"
+              >
+              </ng-select>
+            </div>
+              
             </div>
           </div>
         </form>

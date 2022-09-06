@@ -19,13 +19,13 @@ export class RolesComponent implements OnInit {
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
   public kitchenSinkRows: any;
   selectBasic: any;
-  
+
   rows: any = [ //? Estos son los datos de la tabla quemados.
-    
+
   ]
 
   constructor(
-    private modalService: NgbModal, 
+    private modalService: NgbModal,
     private permisosService: PermisosService,
     private rolesService: RolesService
   ) { }
@@ -43,10 +43,10 @@ export class RolesComponent implements OnInit {
     });
   }
 
-  getRoles(){
+  getRoles() {
 
     this.rolesService.getData().subscribe(
-      (res: any)=>{
+      (res: any) => {
         this.rows = res;
       }
     )
@@ -54,7 +54,7 @@ export class RolesComponent implements OnInit {
   }
 
 
-  getPermisos(){
+  getPermisos() {
     this.permisosService.getData().subscribe(
       (res: any) => {
         this.selectBasic = of(res).pipe();
@@ -63,3 +63,17 @@ export class RolesComponent implements OnInit {
   }
 
 }
+
+
+/*
+Así se muestran los permisos organizador en una fila descendente en consola, habría que adaptarlo para que se muestre en la modal
+
+permisos = "Crear, Editar, Eliminar";
+separatedPermisos = permisos.replace(/ /g, "").split(",");
+
+separatedPermisos.forEach((item) => {
+  console.log(item);
+});
+
+
+*/

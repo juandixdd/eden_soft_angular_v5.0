@@ -67,13 +67,19 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Nombre" prop="nombre" [width]="20">
+          <ngx-datatable-column name="Nombre" prop="rol" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
             </ng-template>
           </ngx-datatable-column>
 
           <ngx-datatable-column name="Estado" prop="estado" [width]="20">
+            <ng-template let-id="value" ngx-datatable-cell-template>
+              <p class="font-weight-bold text-dark">{{ id }}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Permisos" prop="permiso" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id }}</p>
             </ng-template>

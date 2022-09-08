@@ -5,16 +5,15 @@ import { environment } from 'environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class RolesService {
+export class RolPermisoService {
 
   API_URL = environment.API_URL;
-  constructor(private http: HttpClient) { }
 
-  getData() {
-    return this.http.get(`${this.API_URL}/roles`);
-  }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   createData(body) {
-    return this.http.post(`${this.API_URL}/roles`,body);
+    return this.http.post(`${this.API_URL}/rol-permisos`,body);
   }
 }

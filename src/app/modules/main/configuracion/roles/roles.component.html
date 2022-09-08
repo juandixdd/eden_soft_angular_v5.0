@@ -51,7 +51,7 @@
         <!--? Aquí empieza la tabla -->
         <ngx-datatable
           [rows]="rows"
-          [rowHeight]="70"
+          [rowHeight]="50"
           class="bootstrap core-bootstrap"
           [limit]="selectedOption"
           [columnMode]="ColumnMode.force"
@@ -126,7 +126,7 @@
         </button>
       </div>
       <div class="modal-body" tabindex="0" ngbAutofocus>
-        <form class="form">
+        <form class="form" [formGroup]="rolForm">
           <div class="row">
             <div class="col-12">
               <div class="form-group">
@@ -135,7 +135,7 @@
                   type="text"
                   id="first-name-column"
                   class="form-control"
-                  name="fname-column"
+                  formControlName="nombre"
                 />
               </div>
 
@@ -171,8 +171,8 @@
             >
               Reset
             </button>
-            <button type="submit" rippleEffect class="btn btn-primary">
-              Registrar
+            <button rippleEffect class="btn btn-primary" (click)="addRol();">
+              Guardar
             </button>
           </div>
         </div>

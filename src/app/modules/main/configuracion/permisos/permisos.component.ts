@@ -27,7 +27,7 @@ export class PermisosComponent implements OnInit {
   _filterRows: any = [];
   permisos: any;
   editPermiso: any;
-  newEdit:any;
+  newEdit: any;
 
   //? Get y Set para el buscador
   get filterRows(): any {
@@ -53,10 +53,18 @@ export class PermisosComponent implements OnInit {
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(150)],
     ],
+    modulo: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(150)],
+    ],
   });
 
   public permisosFormEdit: FormGroup = this.fb.group({
     nombre: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(150)],
+    ],
+    modulo: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(150)],
     ],
@@ -68,6 +76,7 @@ export class PermisosComponent implements OnInit {
   createPermisos() {
     this.permisos = {
       nombre: this.permisosForm.value.nombre,
+      modulo: this.permisosForm.value.modulo,
     };
     this.permisosService.createData(this.permisos).subscribe(
       (res: any) => {
@@ -97,13 +106,15 @@ export class PermisosComponent implements OnInit {
   }
 
   getPermisoData(permiso: any) {
-    this.editPermiso=permiso
+    this.editPermiso = permiso;
     this.permisosForm.controls["nombre"].setValue(permiso.nombre);
+    this.permisosForm.controls["modulo"].setValue(permiso.modulo);
   }
 
   updatePermisos() {
-    this.newEdit.nombre=this.permisosFormEdit.controls['nombre'].value;
-    console.log(this.newEdit)
+    this.newEdit.nombre = this.permisosFormEdit.controls["nombre"].value;
+    this.newEdit.modulo = this.permisosFormEdit.controls["modulo"].value;
+    console.log(this.newEdit);
   }
 
   validField(field: string) {
@@ -136,6 +147,4 @@ export class PermisosComponent implements OnInit {
     // update the rows
     this.filterRows = temp;
   }
-
-
 }

@@ -75,7 +75,9 @@
 
           <ngx-datatable-column name="Estado" prop="estado" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">{{ id }}</p>
+              <p class="font-weight-bold text-dark">
+                {{ id == 1 ? "Activo" : "Inactivo" }}
+              </p>
             </ng-template>
           </ngx-datatable-column>
 

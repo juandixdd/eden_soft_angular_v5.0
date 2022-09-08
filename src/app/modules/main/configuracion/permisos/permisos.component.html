@@ -74,8 +74,8 @@
             </ng-template>
           </ngx-datatable-column>
 
-           <!-- Column -->
-           <ngx-datatable-column name="Módulo" prop="modulo" [width]="20">
+          <!-- Column -->
+          <ngx-datatable-column name="Módulo" prop="modulo" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
             </ng-template>
@@ -129,22 +129,22 @@
     </div>
     <div class="modal-body" tabindex="0" ngbAutofocus>
       <form class="form" [formGroup]="permisosForm">
-        
-          
-            <div class="form-group">
-              <label for="first-name-column">Nombres</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="nombre"
-              />
-              <span *ngIf="validField('nombre')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            
-          </div>
-        
+        <div class="form-group">
+          <label for="first-name-column">Nombres</label>
+          <input type="text" class="form-control" formControlName="nombre" />
+          <span *ngIf="validField('nombre')" class="text-danger">
+            Este campo es requerido
+            <br />
+          </span>
+
+          <label for="first-name-column">Modulo</label><br />
+          <select class="form-control mx-25" formControlName="modulo">
+            <option value="Usuarios">Usuarios</option>
+            <option value="Productos">Productos</option>
+            <option value="Ventas">Ventas</option>
+            <option value="Configuracion">Configuracion</option>
+          </select>
+        </div>
       </form>
     </div>
     <div class="modal-footer">
@@ -191,20 +191,25 @@
     </div>
     <div class="modal-body" tabindex="0" ngbAutofocus>
       <form class="form" [formGroup]="permisosFormEdit">
-        
-            <div class="form-group">
-              <label for="first-name-column">Nombres</label>
-              <input
-                type="text"
-                id="first-name-column"
-                class="form-control"
-                formControlName="nombre"
-              />
-              <span *ngIf="validFieldEdit('nombre')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-          
+        <div class="form-group">
+          <label for="first-name-column">Nombres</label>
+          <input
+            type="text"
+            id="first-name-column"
+            class="form-control"
+            formControlName="nombre"
+          />
+          <span *ngIf="validFieldEdit('nombre')" class="text-danger">
+            Este campo es requerido
+            <br />
+          </span>
+          <label for="first-name-column">Modulo</label><br />
+          <select class="form-control mx-25" formControlName="modulo">
+            <option value="Usuarios">Usuarios</option>
+            <option value="Productos">Productos</option>
+            <option value="Ventas">Ventas</option>
+            <option value="Configuracion">Configuracion</option>
+          </select>
         </div>
       </form>
     </div>

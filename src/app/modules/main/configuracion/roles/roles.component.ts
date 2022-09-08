@@ -106,6 +106,7 @@ export class RolesComponent implements OnInit {
         this.addRolePermissionRelation(res.idRol);
 
         this.modalService.dismissAll();
+        this.rolForm.reset();
       },
       (err: any) => {
         console.log("No se pudo guardar");

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CoreConfigService } from '@core/services/config.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductosService } from 'app/modules/services/productos/productos.service';
+import { parse } from 'path';
 
 @Component({
   selector: 'app-productos',
@@ -10,11 +12,17 @@ import { ProductosService } from 'app/modules/services/productos/productos.servi
 export class ProductosComponent implements OnInit {
 
   products: any;
+  carritoProductsIds: any = [];
+  arrayProducts: any;
+  getLocalStorageWishList: any;
+  carritoProductItems: any;
 
-  constructor(    
+
+  constructor(
     private _coreConfigService: CoreConfigService,
-    private productosService: ProductosService
-    ) { 
+    private productosService: ProductosService,
+    private modalService: NgbModal,
+  ) {
     // Configure the layout
     this._coreConfigService.config = {
       layout: {
@@ -33,17 +41,59 @@ export class ProductosComponent implements OnInit {
     };
   }
 
-  ngOnInit(): void {
-    this.getProducts();
+  modalOpen(modal) {
+    //? Esta es la funcion que abre las modales.
+    this.modalService.open(modal, {
+      centered: true,
+    });
   }
 
-  getProducts(){
+  ngOnInit(): void {
+    this.getProducts();
+    this.saveWishlist()
+  }
+
+
+
+  saveWishlist() {
+    this.getLocalStorageWishList = JSON.parse(localStorage.getItem("wishList")) || [];
+    console.log("That's the wishlist of localstorage: ", this.getLocalStorageWishList)
+  }
+
+  getProducts() {
     this.productosService.getData().subscribe(
-      (res)=>{
+      (res) => {
         this.products = res;
         console.log(this.products);
       }
     )
   }
+
+
+
+  addCarrito(event) {
+    /* this.carritoProductsIds.push(event); */
+    this.productosService.getProductInObject(event).subscribe(
+      (res: any) => {
+        this.getLocalStorageWishList.push(res)
+        localStorage.setItem("wishList", JSON.stringify(this.getLocalStorageWishList))
+      }
+    )
+
+    //? Para convertir json a array
+    /* array = JSON.parse(array); */
+
+    /* this.carritoProductsIds.forEach((item: any) => {
+      console.log(item);
+      this.productosService.getProductInObject(item).subscribe(
+        (res: any) => {
+          this.wishList.push(res);
+          console.log(this.wishList)
+        }
+      )
+    }) */
+  }
+
+
 
 }

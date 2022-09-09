@@ -11,15 +11,19 @@ export class ProductosService {
 
   constructor(private http: HttpClient) { }
 
-  getData(){
+  getData() {
     return this.http.get(`${this.API_URL}/productos`)
   }
 
-  getDataById(id){
+  getDataById(id) {
     return this.http.get(`${this.API_URL}/productos/${id}`);
   }
 
-  createProduct(product:any){
+  createProduct(product: any) {
     return this.http.post(`${this.API_URL}/productos`, product)
+  }
+
+  getProductInObject(id) {
+    return this.http.get(`${this.API_URL}/productos/object/${id}`)
   }
 }

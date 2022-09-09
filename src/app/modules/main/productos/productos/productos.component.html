@@ -11,8 +11,28 @@
       </div>
     </div>
     <div class="row">
-      <!-- Single Product -->
-      <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let product of products">
+      <div class="card col-md-3 m-1" *ngFor="let product of products">
+        <img
+          class="card-img-top"
+          [src]="product.imagen"
+          alt="Card image cap"
+          style="width: auto; height: 400px"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ product.nombre }}</h5>
+          <p class="card-text">${{ product.precio }}</p>
+          <a class="btn btn-primary" (click)="addCarrito(product.id)"
+            >Agregar al carrito</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ! Esta es la card que había hecho carlos, puse otra para hacer el ejemplo del carrito de compras, ya despues se arregla y se le da el diseño que carlos quiera :D -->
+
+<!-- <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let product of products">
         <div id="product-8" class="single-product">
           <div class="part-1">
             <span class="new">new</span>
@@ -36,7 +56,44 @@
             <h4 class="product-price">$ {{ product.precio }}</h4>
           </div>
         </div>
-      </div>
+      </div> -->
+
+<button class="btn btn-primary" (click)="modalOpen(infoModal)">
+  Ver carrito
+</button>
+
+<!-- ! Modal de info -->
+<div>
+  <ng-template #infoModal let-modal>
+    <div class="modal-header">
+      <button
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-  </div>
-</section>
+
+    <!-- ?Body de la modal -->
+
+    <div *ngFor="let item of getLocalStorageWishList">
+      <ul>
+        <li>{{ item.nombre }}</li>
+      </ul>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="modal.close('Accept click')"
+        rippleEffect
+      >
+        Ok
+      </button>
+    </div>
+  </ng-template>
+  <!-- / Modal -->
+</div>

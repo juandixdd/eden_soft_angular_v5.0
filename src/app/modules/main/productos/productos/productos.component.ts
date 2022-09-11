@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CoreConfigService } from '@core/services/config.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductosService } from 'app/modules/services/productos/productos.service';
+import { count } from 'console';
 import { parse } from 'path';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-productos',
@@ -14,9 +16,9 @@ export class ProductosComponent implements OnInit {
   products: any;
   carritoProductsIds: any = [];
   arrayProducts: any;
-  getLocalStorageWishList: any;
-  carritoProductItems: any;
-
+  wishListIds: any = [];
+  productxd = [];
+  public items = JSON.parse(localStorage.getItem("wishList")) || [];
 
   constructor(
     private _coreConfigService: CoreConfigService,
@@ -50,15 +52,8 @@ export class ProductosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProducts();
-    this.saveWishlist()
   }
 
-
-
-  saveWishlist() {
-    this.getLocalStorageWishList = JSON.parse(localStorage.getItem("wishList")) || [];
-    console.log("That's the wishlist of localstorage: ", this.getLocalStorageWishList)
-  }
 
   getProducts() {
     this.productosService.getData().subscribe(
@@ -69,29 +64,77 @@ export class ProductosComponent implements OnInit {
     )
   }
 
+  /*  public item = {
+     itemName: '',
+     itemQuantity: ''
+   }; */
+
+  saveProducts() {
+    localStorage.setItem("wishList", JSON.stringify(this.items))
+  }
+
+  saveProductsEvent({ target }) {
+    const value = target.value;
+    const name = target.id;
+    let altArray = JSON.parse(localStorage.getItem("wishList"));
+    let modItem = altArray.find((item) => item.itemName === name)
+    modItem.itemQuantity = value;
+    let index = altArray.findIndex((item) => item.itemName === name);
+    altArray[index] = modItem;
+    localStorage.setItem("wishList", JSON.stringify(altArray));
+  }
+
+  // public
 
 
-  addCarrito(event) {
-    /* this.carritoProductsIds.push(event); */
-    this.productosService.getProductInObject(event).subscribe(
-      (res: any) => {
-        this.getLocalStorageWishList.push(res)
-        localStorage.setItem("wishList", JSON.stringify(this.getLocalStorageWishList))
+  // Public Methods
+  // -----------------------------------------------------------------------------------------------------
+
+  /**
+   * Add Item
+   */
+  addItem(id, name) {
+    let wishList = JSON.parse(localStorage.getItem("wishList"))
+    let item = wishList.filter((item) => item.itemName === name)
+    if (item.length === 0) {
+      this.items.push({
+        itemId: id,
+        itemName: name,
+        itemQuantity: 1
+      });
+      this.saveProducts();
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Hecho!",
+        text: "Se agregó el producto al carrito",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    } else {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Oops...",
+        text: "Ya agregaste este producto al carrito",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    }
+  }
+
+  /**
+   * DeleteItem
+   *
+   * @param id
+   */
+  deleteItem(id) {
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items.indexOf(this.items[i]) === id) {
+        this.items.splice(i, 1);
+        break;
       }
-    )
-
-    //? Para convertir json a array
-    /* array = JSON.parse(array); */
-
-    /* this.carritoProductsIds.forEach((item: any) => {
-      console.log(item);
-      this.productosService.getProductInObject(item).subscribe(
-        (res: any) => {
-          this.wishList.push(res);
-          console.log(this.wishList)
-        }
-      )
-    }) */
+    }
   }
 
 

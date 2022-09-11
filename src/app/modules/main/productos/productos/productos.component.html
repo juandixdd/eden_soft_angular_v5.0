@@ -2,12 +2,11 @@
 
 <section class="section-products">
   <div class="container">
-    <div class="row justify-content-center text-center">
-      <div class="col-md-8 col-lg-6">
-        <div class="header">
-          <h3>Featured Product</h3>
-          <h2>Popular Products</h2>
-        </div>
+    <div class="row justify-content-end">
+      <div class="col-auto">
+        <button class="btn btn-primary" (click)="modalOpen(infoModal)">
+          Ver carrito
+        </button>
       </div>
     </div>
     <div class="row">
@@ -21,14 +20,112 @@
         <div class="card-body">
           <h5 class="card-title">{{ product.nombre }}</h5>
           <p class="card-text">${{ product.precio }}</p>
-          <a class="btn btn-primary" (click)="addCarrito(product.id)"
-            >Agregar al carrito</a
+
+          <button
+            class="btn btn-icon btn-primary"
+            type="button"
+            (click)="addItem(product.id, product.nombre)"
+            rippleEffect
           >
+            <i data-feather="shopping-cart" class="mr-25"></i>
+            <span>Agregar al carrito</span>
+          </button>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- *************************************************** MODALES *************************************************** -->
+
+<!-- ! Modal de info -->
+<div>
+  <ng-template #infoModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title text-primary" id="myModalLabel1">
+        Carrito de compras
+      </h4>
+      <button
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <!-- ?Body de la modal -->
+
+    <div class="divider divider-primary">
+      <div class="divider-text">Productos</div>
+    </div>
+
+    <div class="m-1" *ngIf="items.length === 0">
+      <p>Aún no se agregan productos al carrito...</p>
+    </div>
+
+    <form action="#" class="invoice-repeater m-1">
+      <div *ngFor="let item of items; let i = index">
+        <div class="row d-flex align-items-end">
+          <div class="col-md-5 col-12">
+            <div class="form-group">
+              <label for="itemName{{ i }}">Producto</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="item.itemName"
+                name="itemName{{ i }}"
+                id="itemName{{ i }}"
+                placeholder="Vuexy Admin Template"
+                disabled
+              />
+            </div>
+          </div>
+
+          <div class="col-md-3 col-12">
+            <div class="form-group">
+              <label for="{{ item.itemName }}">Cantidad</label>
+              <input
+                type="number"
+                class="form-control"
+                id="{{ item.itemName }}"
+                name="itemQuantity{{ i }}"
+                [(ngModel)]="item.itemQuantity"
+                placeholder="1"
+                (change)="saveProductsEvent($event)"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-2 col-12 mb-50">
+            <div class="form-group">
+              <button
+                class="btn btn-outline-danger text-nowrap px-1"
+                (click)="deleteItem(i); saveProducts()"
+                rippleEffect
+              >
+                <i data-feather="x" class="mr-25"></i>
+                <span>Eliminar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
+    </form>
+
+    <div class="modal-footer" *ngIf="items.length != 0">
+      <button type="button" class="btn btn-outline-primary" rippleEffect>
+        Generar cotización
+      </button>
+      <button type="button" class="btn btn-primary" rippleEffect>
+        Hacer pedido
+      </button>
+    </div>
+  </ng-template>
+  <!-- / Modal -->
+</div>
 
 <!-- ! Esta es la card que había hecho carlos, puse otra para hacer el ejemplo del carrito de compras, ya despues se arregla y se le da el diseño que carlos quiera :D -->
 
@@ -57,43 +154,3 @@
           </div>
         </div>
       </div> -->
-
-<button class="btn btn-primary" (click)="modalOpen(infoModal)">
-  Ver carrito
-</button>
-
-<!-- ! Modal de info -->
-<div>
-  <ng-template #infoModal let-modal>
-    <div class="modal-header">
-      <button
-        type="button"
-        class="close"
-        (click)="modal.dismiss('Cross click')"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <!-- ?Body de la modal -->
-
-    <div *ngFor="let item of getLocalStorageWishList">
-      <ul>
-        <li>{{ item.nombre }}</li>
-      </ul>
-    </div>
-
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-primary"
-        (click)="modal.close('Accept click')"
-        rippleEffect
-      >
-        Ok
-      </button>
-    </div>
-  </ng-template>
-  <!-- / Modal -->
-</div>

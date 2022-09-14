@@ -94,7 +94,7 @@ export class ProductosComponent implements OnInit {
    * Add Item
    */
   addItem(id, name) {
-    let wishList = JSON.parse(localStorage.getItem("wishList"))
+    let wishList = JSON.parse(localStorage.getItem("wishList")) || []
     let item = wishList.filter((item) => item.itemName === name)
     if (item.length === 0) {
       this.items.push({

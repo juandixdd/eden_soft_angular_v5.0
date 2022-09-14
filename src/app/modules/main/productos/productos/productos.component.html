@@ -116,13 +116,86 @@
     </form>
 
     <div class="modal-footer" *ngIf="items.length != 0">
-      <button type="button" class="btn btn-outline-primary" rippleEffect>
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        rippleEffect
+        (click)="modalOpen(loginModal)"
+      >
         Generar cotización
       </button>
       <button type="button" class="btn btn-primary" rippleEffect>
         Hacer pedido
       </button>
     </div>
+  </ng-template>
+  <!-- / Modal -->
+</div>
+
+<!-- ! Modal de iniciar sesion -->
+<div>
+  <ng-template #loginModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title text-primary" id="myModalLabel1">
+        Debes inciar sesion para generar la cotizacion
+      </h4>
+      <button
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <!-- ?Body de la modal -->
+    <div class="m-1">
+      <form
+          class="auth-register-form mt-2"
+          [formGroup]="loginForm"
+        >
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="country-floating">E-mail</label>
+                <input
+                  type="email"
+                  id="country-floating"
+                  class="form-control"
+                  formControlName="email"
+                  placeholder="ejemplo@gmail.com"
+                />
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="form-group">
+                <label for="company-column">Contraseña</label>
+                <input
+                  type="password"
+                  id="company-column"
+                  class="form-control"
+                  formControlName="password"
+                  placeholder="minimo 5 caracteres"
+                />
+              </div>
+            </div>
+          </div>
+
+          <hr />
+          <button
+            class="btn btn-primary btn-block"
+            tabindex="5"
+            rippleEffect
+            [disabled]="!loginForm.valid"
+            (click)="loginUser()"
+          >
+            Iniciar sesión
+          </button>
+        </form>
+    </div>
+
   </ng-template>
   <!-- / Modal -->
 </div>

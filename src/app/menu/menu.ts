@@ -32,7 +32,7 @@ export const menu: CoreMenu[] = [
       },
       {
         id: 'ventas',
-        title: 'Ventas',
+        title: 'Ventas locales',
         type: 'item',
         icon: 'shopping-cart',
         url: 'main/ventas'

@@ -1,183 +1,27 @@
-@import "@core/scss/base/pages/app-invoice.scss";
-@import "@core/scss/angular/libs/datatables.component.scss";
-@import "@core/scss/angular/libs/select.component.scss";
-
-@import "@core/scss/base/bootstrap-extended/_include"; // Components includes
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
-
-body {
-    font-family: "Poppins", sans-serif;
-    color: #444444;
+svg {
+  width: 20px;
+  height: 20px;
 }
 
-a,
-a:hover {
-    text-decoration: none;
-    color: inherit;
+/*Button*/
+.card-button {
+  border: 1px solid #252525;
+  display: flex;
+  padding: 0.3em;
+  cursor: pointer;
+  border-radius: 50px;
+  transition: 0.3s ease-in-out;
 }
 
-.section-products {
-    padding: 80px 0 54px;
+/*Hover*/
+
+.card-button:hover {
+  border: 1px solid #ffcaa6;
+  background-color: #ffcaa6;
 }
 
-.section-products .header {
-    margin-bottom: 50px;
-}
-
-.section-products .header h3 {
-    font-size: 1rem;
-    color: #fe302f;
-    font-weight: 500;
-}
-
-.section-products .header h2 {
-    font-size: 2.2rem;
-    font-weight: 400;
-    color: #444444; 
-}
-
-.section-products .single-product {
-    margin-bottom: 26px;
-}
-
-.section-products .single-product .part-1 {
-    position: relative;
-    height: 290px;
-    max-height: 290px;
-    margin-bottom: 20px;
-    overflow: hidden;
-}
-
-.section-products .single-product .part-1::before {
-		position: absolute;
-		content: "";
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: -1;
-		transition: all 0.3s;
-}
-
-.section-products .single-product:hover .part-1::before {
-		transform: scale(1.2,1.2) rotate(5deg);
-}
-
-.section-products #product-1 .part-1::before {
-    background: url("https://www.196flavors.com/wp-content/uploads/2021/07/bunuelos-colombianos-4fp.jpg") no-repeat center;
-    background-size: cover;
-		transition: all 0.3s;
-}
-
-.section-products #product-2 .part-1::before {
-    background: url("https://cdn.shopify.com/s/files/1/0548/9888/4843/products/Empanadas_El_Machetico_Empanada_de_papa_y_carne_x_10_unidades_2.jpg?v=1633958068") no-repeat center;
-    background-size: cover;
-}
-
-.section-products #product-3 .part-1::before {
-    background: url("https://www.elespectador.com/resizer/DFVfm_br1jhF1bI7GmOEFiR-Bdc=/525x350/filters:format(jpeg)/cloudfront-us-east-1.images.arcpublishing.com/elespectador/G4GBQIUG6VHDFAOPOYQ2KVGMYA.jpg") no-repeat center;
-    background-size: cover;
-}
-
-.section-products #product-4 .part-1::before {
-  background: url("https://www.vvsupremo.com/wp-content/uploads/2015/11/900X570_Pandebono-Columbian-Cheese-Bread.jpg") no-repeat center;
-  background-size: cover;
-}
-.section-products #product-5 .part-1::before {
-  background: url("https://empanadas.com.co/wp-content/uploads/2020/05/Arepa-de-Huevo-1.jpg") no-repeat center;
-  background-size: cover;
-}
-.section-products #product-6 .part-1::before {
-  background: url("https://uploads.candelaestereo.com/1/2021/09/como-hacer-palitos-de-queso-destacada.jpg") no-repeat center;
-  background-size: cover;
-}
-.section-products #product-7 .part-1::before {
-  background: url("http://tucarnetdemanipuladordealimentos.com/wp-content/uploads/Croissant-cruasan.jpeg") no-repeat center;
-  background-size: cover;
-}
-.section-products #product-8 .part-1::before {
-  background: url("https://camilejapanaderia.files.wordpress.com/2014/01/pan-hawaiano.jpg") no-repeat center;
-  background-size: cover;
-}
-
-.section-products .single-product .part-1 .discount,
-.section-products .single-product .part-1 .new {
-    position: absolute;
-    top: 15px;
-    left: 20px;
-    color: #ffffff;
-    background-color: #fe302f;
-    padding: 2px 8px;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-}
-
-.section-products .single-product .part-1 .new {
-    left: 0;
-    background-color: #444444;
-}
-
-.section-products .single-product .part-1 ul {
-    position: absolute;
-    bottom: -41px;
-    left: 20px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    opacity: 0;
-    transition: bottom 0.5s, opacity 0.5s;
-}
-
-.section-products .single-product:hover .part-1 ul {
-    bottom: 30px;
-    opacity: 1;
-}
-
-.section-products .single-product .part-1 ul li {
-    display: inline-block;
-    margin-right: 4px;
-}
-
-.section-products .single-product .part-1 ul li a {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    background-color: #ffffff;
-    color: #444444;
-    text-align: center;
-    box-shadow: 0 2px 20px rgb(50 50 50 / 10%);
-    transition: color 0.2s;
-}
-
-.section-products .single-product .part-1 ul li a:hover {
-    color: #fe302f;
-}
-
-.section-products .single-product .part-2 .product-title {
-    font-size: 1rem;
-}
-
-.section-products .single-product .part-2 h4 {
-    display: inline-block;
-    font-size: 1rem;
-}
-
-.section-products .single-product .part-2 .product-old-price {
-    position: relative;
-    padding: 0 7px;
-    margin-right: 2px;
-    opacity: 0.6;
-}
-
-.section-products .single-product .part-2 .product-old-price::after {
-    position: absolute;
-    content: "";
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #444444;
-    transform: translateY(-50%);
+.card-img:hover {
+  transform: translateY(-25%);
+  box-shadow: rgba(226, 196, 63, 0.25) 0px 13px 47px -5px,
+    rgba(180, 71, 71, 0.3) 0px 8px 16px -8px;
 }

@@ -40,6 +40,7 @@ import { HomePageComponent } from './extras/home-page/home-page.component';
 import { LandingProductsComponent } from './extras/landing/landing-products/landing-products.component';
 import { PermisosComponent } from './configuracion/permisos/permisos.component';
 import { CotizacionComponent } from './pedidos/cotizacion/cotizacion.component';
+import { HeaderProductosComponent } from './productos/productos/header-productos/header-productos.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { CotizacionComponent } from './pedidos/cotizacion/cotizacion.component';
     HomePageComponent,
     LandingProductsComponent,
     PermisosComponent,
-    CotizacionComponent
+    CotizacionComponent,
+    HeaderProductosComponent
   ],
   imports: [
     CommonModule,

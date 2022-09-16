@@ -1,6 +1,13 @@
-<app-landing-header></app-landing-header>
+<app-header-productos></app-header-productos>
 
-<div *ngIf="timer" class="m-5 fixed-bottom">
+<!-- ? Fixed buttons -->
+<div class="row fixed-bottom justify-content-end m-3">
+  <button class="btn btn-primary col-auto" (click)="modalOpen(infoModal)">
+    <i class="fa fa-cart-shopping"></i> Ver carrito
+  </button>
+</div>
+
+<div *ngIf="timer" class="m-3 fixed-bottom">
   <div class="row justify-content-end">
     <button class="btn btn-primary" type="button" style="cursor: default">
       <span
@@ -13,226 +20,293 @@
   </div>
 </div>
 
-<section class="section-products">
-  <div class="container">
-    <div class="row justify-content-end">
-      <div class="col-auto">
-        <button class="btn btn-primary" (click)="modalOpen(infoModal)">
-          Ver carrito
-        </button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="card col-md-3 m-1" *ngFor="let product of products">
-        <img
-          class="card-img-top"
-          [src]="product.imagen"
-          alt="Card image cap"
-          style="width: auto; height: 400px"
-        />
-        <div class="card-body">
-          <h5 class="card-title">{{ product.nombre }}</h5>
-          <p class="card-text">${{ product.precio }}</p>
+<!-- ?Productos -->
 
-          <button
-            class="btn btn-icon btn-primary"
-            type="button"
-            (click)="addItem(product.id, product.nombre)"
-            rippleEffect
-          >
-            <i data-feather="shopping-cart" class="mr-25"></i>
-            <span>Agregar al carrito</span>
-          </button>
+<div style="margin-top: 10rem">
+  <div class="row justify-content-center">
+    <div class="col-md-3" *ngFor="let product of products">
+      <div class="card" style="border-radius: 15px">
+        <img [src]="product.imagen" class="card-img-top" alt="product-img" />
+        <div class="card-body">
+          <h3 class="text-primary">{{ product.nombre }}</h3>
+          <hr />
+          <div class="row justify-content-between align-items-center">
+            <div class="col-auto">
+              <h4>{{ product.precio | currency: "USD":"symbol":"3.0" }}</h4>
+            </div>
+            <div class="col-auto">
+              <a
+                (click)="addItem(product.id, product.nombre)"
+                class="btn btn-outline-primary"
+                ><i class="fa fa-cart-shopping text-primary"></i
+              ></a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- *************************************************** MODALES *************************************************** -->
+  <!-- *************************************************** MODALES *************************************************** -->
 
-<!-- ! Modal de info -->
-<div>
-  <ng-template #infoModal let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title text-primary" id="myModalLabel1">
-        Carrito de compras
-      </h4>
-      <button
-        type="button"
-        class="close"
-        (click)="modal.dismiss('Cross click')"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <!-- ?Body de la modal -->
-
-    <div class="divider divider-primary">
-      <div class="divider-text">Productos</div>
-    </div>
-
-    <div class="m-1" *ngIf="items.length === 0">
-      <p>Aún no se agregan productos al carrito...</p>
-    </div>
-
-    <form action="#" class="invoice-repeater m-1">
-      <div *ngFor="let item of items; let i = index">
-        <div class="row d-flex align-items-end">
-          <div class="col-md-5 col-12">
-            <div class="form-group">
-              <label for="itemName{{ i }}">Producto</label>
-              <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="item.itemName"
-                name="itemName{{ i }}"
-                id="itemName{{ i }}"
-                placeholder="Vuexy Admin Template"
-                disabled
-              />
-            </div>
-          </div>
-
-          <div class="col-md-3 col-12">
-            <div class="form-group">
-              <label for="{{ item.itemName }}">Cantidad</label>
-              <input
-                type="number"
-                class="form-control"
-                id="{{ item.itemName }}"
-                name="itemQuantity{{ i }}"
-                [(ngModel)]="item.itemQuantity"
-                placeholder="1"
-                (change)="saveProductsEvent($event)"
-              />
-            </div>
-          </div>
-
-          <div class="col-md-2 col-12 mb-50">
-            <div class="form-group">
-              <button
-                class="btn btn-outline-danger text-nowrap px-1"
-                (click)="deleteItem(i); saveProducts()"
-                rippleEffect
-              >
-                <i data-feather="x" class="mr-25"></i>
-                <span>Eliminar</span>
-              </button>
-            </div>
-          </div>
-        </div>
-        <hr />
-      </div>
-    </form>
-
-    <div class="modal-footer" *ngIf="items.length != 0">
-      <button
-        type="button"
-        class="btn btn-outline-primary"
-        rippleEffect
-        (click)="modalOpen(loginModal)"
-      >
-        Generar cotización
-      </button>
-      <button type="button" class="btn btn-primary" rippleEffect>
-        Hacer pedido
-      </button>
-    </div>
-  </ng-template>
-  <!-- / Modal -->
-</div>
-
-<!-- ! Modal de iniciar sesion -->
-<div>
-  <ng-template #loginModal let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title text-primary" id="myModalLabel1">
-        Debes inciar sesion para generar la cotizacion
-      </h4>
-      <button
-        type="button"
-        class="close"
-        (click)="modal.dismiss('Cross click')"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <!-- ?Body de la modal -->
-    <div class="m-1">
-      <form class="auth-register-form mt-2" [formGroup]="loginForm">
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group">
-              <label for="country-floating">E-mail</label>
-              <input
-                type="email"
-                id="country-floating"
-                class="form-control"
-                formControlName="email"
-                placeholder="ejemplo@gmail.com"
-              />
-            </div>
-          </div>
-
-          <div class="col-12">
-            <div class="form-group">
-              <label for="company-column">Contraseña</label>
-              <input
-                type="password"
-                id="company-column"
-                class="form-control"
-                formControlName="password"
-                placeholder="minimo 5 caracteres"
-              />
-            </div>
-          </div>
-        </div>
-
-        <hr />
+  <!-- ! Modal de info -->
+  <div>
+    <ng-template #infoModal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title text-primary" id="myModalLabel1">
+          Carrito de compras
+        </h4>
         <button
-          class="btn btn-primary btn-block"
-          tabindex="5"
-          rippleEffect
-          [disabled]="!loginForm.valid"
-          (click)="loginUser()"
+          type="button"
+          class="close"
+          (click)="modal.dismiss('Cross click')"
+          aria-label="Close"
         >
-          Iniciar sesión
+          <span aria-hidden="true">&times;</span>
         </button>
+      </div>
+
+      <!-- ?Body de la modal -->
+
+      <div class="divider divider-primary">
+        <div class="divider-text">Productos</div>
+      </div>
+
+      <div class="m-1" *ngIf="items.length === 0">
+        <p>Aún no se agregan productos al carrito...</p>
+      </div>
+
+      <form action="#" class="invoice-repeater m-1">
+        <div *ngFor="let item of items; let i = index">
+          <div class="row d-flex align-items-end">
+            <div class="col-md-5 col-12">
+              <div class="form-group">
+                <label for="itemName{{ i }}">Producto</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="item.itemName"
+                  name="itemName{{ i }}"
+                  id="itemName{{ i }}"
+                  placeholder="Vuexy Admin Template"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div class="col-md-3 col-12">
+              <div class="form-group">
+                <label for="{{ item.itemName }}">Cantidad</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="{{ item.itemName }}"
+                  name="itemQuantity{{ i }}"
+                  [(ngModel)]="item.itemQuantity"
+                  placeholder="1"
+                  (change)="saveProductsEvent($event)"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-2 col-12 mb-50">
+              <div class="form-group">
+                <button
+                  class="btn btn-outline-danger text-nowrap px-1"
+                  (click)="deleteItem(i); saveProducts()"
+                  rippleEffect
+                >
+                  <i data-feather="x" class="mr-25"></i>
+                  <span>Eliminar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <hr />
+        </div>
       </form>
-    </div>
-  </ng-template>
-  <!-- / Modal -->
+
+      <div class="modal-footer" *ngIf="items.length != 0">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          rippleEffect
+          (click)="modalOpen(loginModal)"
+        >
+          Generar cotización
+        </button>
+        <button type="button" class="btn btn-primary" rippleEffect>
+          Hacer pedido
+        </button>
+      </div>
+    </ng-template>
+    <!-- / Modal -->
+  </div>
+
+  <!-- ! Modal de iniciar sesion -->
+  <div>
+    <ng-template #loginModal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title text-primary" id="myModalLabel1">
+          Debes inciar sesion para generar la cotizacion
+        </h4>
+        <button
+          type="button"
+          class="close"
+          (click)="modal.dismiss('Cross click')"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <!-- ?Body de la modal -->
+      <div class="m-1">
+        <form class="auth-register-form mt-2" [formGroup]="loginForm">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="country-floating">E-mail</label>
+                <input
+                  type="email"
+                  id="country-floating"
+                  class="form-control"
+                  formControlName="email"
+                  placeholder="ejemplo@gmail.com"
+                />
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="form-group">
+                <label for="company-column">Contraseña</label>
+                <input
+                  type="password"
+                  id="company-column"
+                  class="form-control"
+                  formControlName="password"
+                  placeholder="minimo 5 caracteres"
+                />
+              </div>
+            </div>
+          </div>
+
+          <hr />
+          <button
+            class="btn btn-primary btn-block"
+            tabindex="5"
+            rippleEffect
+            [disabled]="!loginForm.valid"
+            (click)="loginUser()"
+          >
+            Iniciar sesión
+          </button>
+        </form>
+      </div>
+    </ng-template>
+    <!-- / Modal -->
+  </div>
 </div>
 
-<!-- ! Esta es la card que había hecho carlos, puse otra para hacer el ejemplo del carrito de compras, ya despues se arregla y se le da el diseño que carlos quiera :D -->
-
-<!-- <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let product of products">
-        <div id="product-8" class="single-product">
-          <div class="part-1">
-            <span class="new">new</span>
-            <ul>
-              <li>
-                <a href="#"><i class="fas fa-shopping-cart"></i></a>
-              </li>
-              <li>
-                <a href="#"><i class="fas fa-heart"></i></a>
-              </li>
-              <li>
-                <a href="#"><i class="fas fa-plus"></i></a>
-              </li>
-              <li>
-                <a href="#"><i class="fas fa-expand"></i></a>
-              </li>
-            </ul>
-          </div>
-          <div class="part-2">
-            <h3 class="product-title">{{ product.nombre }}</h3>
-            <h4 class="product-price">$ {{ product.precio }}</h4>
-          </div>
-        </div>
-      </div> -->
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>
+<p>Esto es para ver como se ve el header al bajar xd</p>

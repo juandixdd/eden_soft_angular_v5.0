@@ -166,7 +166,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  redirec(){
+  redirec() {
     this._router.navigate(['/main/profile']);
   }
 
@@ -175,11 +175,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
    */
   logout() {
 
-    localStorage.clear();
+    localStorage.removeItem("token");
     this._router.navigate(['']);
   }
 
- 
+
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -188,8 +188,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
-    
-   
+
+
     // get the currentUser details from localStorage
     // this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 

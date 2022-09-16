@@ -156,7 +156,7 @@ export class ProductosComponent implements OnInit {
       }
     }
   }
-
+  newCotizacionId;
   generarCotizacion(item) {
     let usuario;
     let itemQuantity = [];
@@ -185,14 +185,32 @@ export class ProductosComponent implements OnInit {
           precio_total: itemQuantitySum,
           fecha_entrega: "2022-09-17",
         };
-        this.pedidosService.createPedido(newItem).subscribe(
-          (res:any) =>{
-            console.log(res)
-          }
-        )
-        console.log(this.items)
+
+        this.pedidosService.createPedido(newItem).subscribe((res: any) => {
+          console.log(res);
+          this.newCotizacionId = res.pedidoId;
+        });
+        console.log(this.items);
+        let producto: any = {};
+        this.items.forEach((item) => {
+          this.productosService
+            .getDataById(item.itemId)
+            .subscribe((res: any) => {
+              producto = res;
+              let detalle_producto = {
+                id_producto: item.itemId,
+                cantidad: item.itemQuantity,
+                precio_unitario: producto[0].precio,
+                id_pedido: this.newCotizacionId,
+              };
+              this.pedidosService
+                .createDetalle(detalle_producto)
+                .subscribe((res: any) => {
+                  console.log(res);
+                });
+            });
+        });
       }, 1500);
-      
     });
   }
 

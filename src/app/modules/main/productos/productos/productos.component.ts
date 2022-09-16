@@ -1,25 +1,25 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { CoreConfigService } from '@core/services/config.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LoginService } from 'app/modules/services/login/login.service';
-import { ProductosService } from 'app/modules/services/productos/productos.service';
-import { UsersService } from 'app/modules/services/users/users.service';
-import { count } from 'console';
-import moment, { parseTwoDigitYear } from 'moment';
-import { parse } from 'path';
-import { Subject } from 'rxjs';
-import Swal from 'sweetalert2';
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { CoreConfigService } from "@core/services/config.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { LoginService } from "app/modules/services/login/login.service";
+import { PedidosService } from "app/modules/services/pedidos/pedidos.service";
+import { ProductosService } from "app/modules/services/productos/productos.service";
+import { UsersService } from "app/modules/services/users/users.service";
+import { count } from "console";
+import moment, { parseTwoDigitYear } from "moment";
+import { parse } from "path";
+import { Subject } from "rxjs";
+import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-productos',
-  templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  selector: "app-productos",
+  templateUrl: "./productos.component.html",
+  styleUrls: ["./productos.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ProductosComponent implements OnInit {
-
   products: any;
   carritoProductsIds: any = [];
   arrayProducts: any;
@@ -34,27 +34,28 @@ export class ProductosComponent implements OnInit {
   constructor(
     private _coreConfigService: CoreConfigService,
     private productosService: ProductosService,
+    private pedidosService: PedidosService,
     private usersService: UsersService,
+    private loginService: LoginService,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private loginService: LoginService,
     private router: Router
   ) {
     // Configure the layout
     this._coreConfigService.config = {
       layout: {
         navbar: {
-          hidden: true
+          hidden: true,
         },
         menu: {
-          hidden: true
+          hidden: true,
         },
         footer: {
-          hidden: false
+          hidden: false,
         },
         customizer: false,
-        enableLocalStorage: false
-      }
+        enableLocalStorage: false,
+      },
     };
   }
 
@@ -66,28 +67,22 @@ export class ProductosComponent implements OnInit {
   }
 
   public loginForm: FormGroup = this.fb.group({
-    email: [
-      "",
-      [Validators.required, Validators.email],
-    ],
+    email: ["", [Validators.required, Validators.email]],
     password: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
     ],
-  })
+  });
 
   ngOnInit(): void {
     this.getProducts();
   }
 
-
   getProducts() {
-    this.productosService.getData().subscribe(
-      (res) => {
-        this.products = res;
-        console.log(this.products);
-      }
-    )
+    this.productosService.getData().subscribe((res) => {
+      this.products = res;
+      console.log(this.products);
+    });
   }
 
   /*  public item = {
@@ -96,14 +91,14 @@ export class ProductosComponent implements OnInit {
    }; */
 
   saveProducts() {
-    localStorage.setItem("wishList", JSON.stringify(this.items))
+    localStorage.setItem("wishList", JSON.stringify(this.items));
   }
 
   saveProductsEvent({ target }) {
     const value = target.value;
     const name = target.id;
     let altArray = JSON.parse(localStorage.getItem("wishList"));
-    let modItem = altArray.find((item) => item.itemName === name)
+    let modItem = altArray.find((item) => item.itemName === name);
     modItem.itemQuantity = value;
     let index = altArray.findIndex((item) => item.itemName === name);
     altArray[index] = modItem;
@@ -112,7 +107,6 @@ export class ProductosComponent implements OnInit {
 
   // public
 
-
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
 
@@ -120,13 +114,13 @@ export class ProductosComponent implements OnInit {
    * Add Item
    */
   addItem(id, name) {
-    let wishList = JSON.parse(localStorage.getItem("wishList")) || []
-    let item = wishList.filter((item) => item.itemName === name)
+    let wishList = JSON.parse(localStorage.getItem("wishList")) || [];
+    let item = wishList.filter((item) => item.itemName === name);
     if (item.length === 0) {
       this.items.push({
         itemId: id,
         itemName: name,
-        itemQuantity: 1
+        itemQuantity: 1,
       });
       this.saveProducts();
       Swal.fire({
@@ -149,7 +143,6 @@ export class ProductosComponent implements OnInit {
     }
   }
 
-
   /**
    * DeleteItem
    *
@@ -164,24 +157,43 @@ export class ProductosComponent implements OnInit {
     }
   }
 
-  generarCotizacion(item){
+  generarCotizacion(item) {
     let usuario;
-    this.usersService.getDataById(item.userId).subscribe(
-      (res:any)=>{
-        usuario = res[0];
-        console.log(usuario)
-        
+    let itemQuantity = [];
+    let itemQuantitySum;
+    let cont: number = 0;
+    this.usersService.getDataById(item.userId).subscribe((res: any) => {
+      usuario = res[0];
+      console.log(usuario);
+
+      //? Aqui se calcula el total del precio de los productos
+      this.items.forEach((item) => {
+        this.productosService.getDataById(item.itemId).subscribe((res: any) => {
+          cont = res[0].precio * item.itemQuantity;
+          itemQuantity.push(cont);
+          itemQuantitySum = itemQuantity.reduce((a, b) => a + b, 0);
+          console.log(itemQuantitySum, "xd");
+        });
+      });
+
+      setTimeout(() => {
         let newItem = {
           id_usuario_documento: usuario.id,
-          fecha_registro: moment().format('YYYY-MM-D'),
-          estado: '',
-          pago: 0
-        }
-
-        console.log(newItem)
-      }
-    )
- 
+          fecha_registro: moment().format("YYYY-MM-D"),
+          estado: 1,
+          tipo: "cotizacion",
+          precio_total: itemQuantitySum,
+          fecha_entrega: "2022-09-17",
+        };
+        this.pedidosService.createPedido(newItem).subscribe(
+          (res:any) =>{
+            console.log(res)
+          }
+        )
+        console.log(this.items)
+      }, 1500);
+      
+    });
   }
 
   togglePasswordTextType() {
@@ -191,29 +203,23 @@ export class ProductosComponent implements OnInit {
   //!************************** funcion de login *********************************
   userData: any;
   loginUser() {
+    this.user.email = this.loginForm.controls["email"].value;
+    this.user.password = this.loginForm.controls["password"].value;
 
-    this.user.email = this.loginForm.controls['email'].value;
-    this.user.password = this.loginForm.controls['password'].value;
-
-    this.loginService.login(this.user).subscribe(
-      (res: any) => {
-        if (res.statusCode == 200) {
-          console.log("Login exitoso")
-          this.generarCotizacion(res)
-          this.modalService.dismissAll();
-          localStorage.setItem('token', res.token);
-          localStorage.setItem('userId', res.userId);
-        } else {
-
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'El usuario o la contraseña son incorrectos'
-          })
-        }
+    this.loginService.login(this.user).subscribe((res: any) => {
+      if (res.statusCode == 200) {
+        console.log("Login exitoso");
+        this.generarCotizacion(res);
+        this.modalService.dismissAll();
+        localStorage.setItem("token", res.token);
+        localStorage.setItem("userId", res.userId);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "El usuario o la contraseña son incorrectos",
+        });
       }
-    )
-
+    });
   }
-
 }

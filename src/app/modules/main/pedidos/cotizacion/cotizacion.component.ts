@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { CategoriaService } from 'app/modules/services/categoria/categoria.service';
-import { CotizacionService } from 'app/modules/services/cotizacion/cotizacion.service';
+import { PedidosService } from 'app/modules/services/pedidos/pedidos.service';
 import { ProductosService } from 'app/modules/services/productos/productos.service';
 import { of } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -37,7 +37,7 @@ export class CotizacionComponent implements OnInit {
     private modalService: NgbModal,
     private productosService: ProductosService,
     private categoriasService: CategoriaService,
-    private cotizacionService: CotizacionService,
+    
     private fb: FormBuilder
   ) {}
 
@@ -65,9 +65,6 @@ export class CotizacionComponent implements OnInit {
   });
 
   ngOnInit(): void {
-
-    this.getCotizacion();
-
     this.getCategorias();
 
   }
@@ -84,15 +81,6 @@ export class CotizacionComponent implements OnInit {
       this.rows = res;
       console.log(this.rows);
     });
-  }
-
-  getCotizacion() {
-    this.cotizacionService.getData().subscribe(
-      (res:any) => {
-        console.log(res)
-        this.rows = res;
-      } 
-    )
   }
 
 

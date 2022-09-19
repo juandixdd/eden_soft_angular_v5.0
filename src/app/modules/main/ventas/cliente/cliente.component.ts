@@ -46,37 +46,5 @@ export class ClienteComponent implements OnInit {
     )
   }
 
-  confirmAlert() {
-    Swal.fire({
-      title: '¿Estas seguro?',
-      text: "No podras revertir esto!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar!',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-        Swal.fire(
-          'Eliminada!',
-          'El cliente ha sido eliminada.',
-          'success'
-        )
-      }
-    })
-  }
-
-  filterUpdate(event) {
-    const val = event.target.value.toLowerCase();
-
-    const temp = this.tempData.filter(function (d) {
-      return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-
-    // update the rows
-    this.kitchenSinkRows = temp;
-  }
-
 
 }

@@ -18,7 +18,7 @@ export class UsersService {
     return this.http.get(`${this.API_URL}/users`);
   }
 
-  getDataById(id: string) {
+  getDataById(id: number) {
     return this.http.get(`${this.API_URL}/users/${id}`);
   }
 

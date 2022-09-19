@@ -37,7 +37,7 @@
               </div>
               <div class="col-auto">
                 <a
-                  (click)="addItem(product.id, product.nombre)"
+                  (click)="addItem(product.id, product.nombre, product.precio)"
                   class="btn btn-outline-primary"
                   ><i class="fa fa-cart-shopping text-primary"></i
                 ></a>
@@ -46,7 +46,7 @@
           </div>
         </div>
       </div>
-  </div>
+    </div>
   </div>
 
   <!-- *************************************************** MODALES *************************************************** -->
@@ -81,7 +81,7 @@
       <form action="#" class="invoice-repeater m-1">
         <div *ngFor="let item of items; let i = index">
           <div class="row d-flex align-items-end">
-            <div class="col-md-5 col-12">
+            <div class="col-md-4 col-12">
               <div class="form-group">
                 <label for="itemName{{ i }}">Producto</label>
                 <input
@@ -91,6 +91,22 @@
                   name="itemName{{ i }}"
                   id="itemName{{ i }}"
                   placeholder="Vuexy Admin Template"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div class="col-md-3 col-12">
+              <div class="form-group">
+                <label for="{{ item.itemPrice }}">Precio unitario</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="{{ item.itemPrice }}"
+                  name="itemPrice{{ i }}"
+                  [(ngModel)]="item.itemPrice"
+                  placeholder="1"
+                  (change)="saveProductsEvent($event)"
                   disabled
                 />
               </div>
@@ -119,7 +135,6 @@
                   rippleEffect
                 >
                   <i data-feather="x" class="mr-25"></i>
-                  <span>Eliminar</span>
                 </button>
               </div>
             </div>

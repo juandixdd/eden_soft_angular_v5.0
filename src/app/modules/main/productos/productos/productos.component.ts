@@ -31,8 +31,11 @@ export class ProductosComponent implements OnInit {
 
   // Private
   private _unsubscribeAll: Subject<any>;
-  user: any = {};
+
   public passwordTextType: boolean;
+
+  user: any = {};
+  newCotizacionId;
 
   constructor(
     private _coreConfigService: CoreConfigService,
@@ -79,6 +82,8 @@ export class ProductosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProducts();
+    console.log(this.items);
+    
   }
 
   getProducts() {
@@ -116,7 +121,7 @@ export class ProductosComponent implements OnInit {
   /**
    * Add Item
    */
-  addItem(id, name) {
+  addItem(id, name, price) {
     let wishList = JSON.parse(localStorage.getItem("wishList")) || [];
     let item = wishList.filter((item) => item.itemName === name);
     if (item.length === 0) {
@@ -124,6 +129,7 @@ export class ProductosComponent implements OnInit {
         itemId: id,
         itemName: name,
         itemQuantity: 1,
+        itemPrice: price
       });
       this.saveProducts();
       Swal.fire({
@@ -159,7 +165,7 @@ export class ProductosComponent implements OnInit {
       }
     }
   }
-  newCotizacionId;
+
   generarCotizacion(item) {
     try {
       this.timer = true;

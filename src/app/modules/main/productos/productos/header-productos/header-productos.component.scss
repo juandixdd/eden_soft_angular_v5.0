@@ -20,7 +20,6 @@
 }
 
 .nav-link-cutom {
-  color: rgb(0, 0, 0);
   margin-right: 20px;
   margin-left: 20px;
 }
@@ -31,17 +30,17 @@
 }
 
 .btn-custom {
-  background-color: #f7a14a;
+  background-color: #1187ab;
   color: #fff;
 }
 
 .btn-custom:hover {
-  background-color: #e08020;
+  background-color: #1187ab;
   transition: 0.2s;
 }
 
 .active-custom {
-  color: #e08020;
+  color: #1187ab;
 }
 
 /* ? For desktop */
@@ -68,27 +67,26 @@
   }
 
   .nav-link-cutom {
-    color: rgb(0, 0, 0);
     margin-right: 20px;
     margin-left: 20px;
   }
 
   .nav-link-cutom:hover {
-    color: #f7a14a;
+    color: #1187ab;
     transition: 0.2s;
   }
 
   .btn-custom {
-    background-color: #f7a14a;
+    background-color: #1187ab;
     color: #fff;
   }
 
   .btn-custom:hover {
-    background-color: #e08020;
+    background-color: #1187ab;
     transition: 0.2s;
   }
 
   .active-custom {
-    color: #e08020;
+    color: #1187ab;
   }
 }

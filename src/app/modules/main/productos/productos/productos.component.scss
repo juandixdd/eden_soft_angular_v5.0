@@ -31,10 +31,30 @@ svg {
     rgba(180, 71, 71, 0.3) 0px 8px 16px -8px;
 }
 
+.btn-custom {
+  background-color: #f7a14a;
+  color: #fff;
+}
+
+.btn-custom:hover {
+  background-color: #e08020;
+  transition: 0.2s;
+}
+
 //? For container responsive
 @media (max-width: 1500px) {
   .container-custom {
     padding-right: 0px;
     padding-left: 0px;
+  }
+
+  .btn-custom {
+    background-color: #f7a14a;
+    color: #fff;
+  }
+  
+  .btn-custom:hover {
+    background-color: #e08020;
+    transition: 0.2s;
   }
 }

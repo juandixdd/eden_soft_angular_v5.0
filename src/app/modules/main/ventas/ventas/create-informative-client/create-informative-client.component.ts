@@ -59,5 +59,43 @@ export class CreateInformativeClientComponent implements OnInit {
 
   }
 
+    // public
+    public items = [{ itemId: '', itemName: '', itemQuantity: '', itemCost: '' }];
+
+    public item = {
+      itemName: '',
+      itemQuantity: '',
+      itemCost: ''
+    };
+  
+    // Public Methods
+    // -----------------------------------------------------------------------------------------------------
+  
+    /**
+     * Add Item
+     */
+    addItem() {
+      this.items.push({
+        itemId: '',
+        itemName: '',
+        itemQuantity: '',
+        itemCost: ''
+      });
+    }
+  
+    /**
+     * DeleteItem
+     *
+     * @param id
+     */
+    deleteItem(id) {
+      for (let i = 0; i < this.items.length; i++) {
+        if (this.items.indexOf(this.items[i]) === id) {
+          this.items.splice(i, 1);
+          break;
+        }
+      }
+    }
+
 
 }

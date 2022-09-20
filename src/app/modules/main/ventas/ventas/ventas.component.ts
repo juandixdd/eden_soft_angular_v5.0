@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { UsersService } from 'app/modules/services/users/users.service';
@@ -24,6 +25,7 @@ export class VentasComponent implements OnInit {
   clientExist: boolean = false
   validateButton: boolean = true
   loader: boolean = false
+  clientCedulaInfo: any;
 
   rows: any = []
 
@@ -31,7 +33,8 @@ export class VentasComponent implements OnInit {
     private modalService: NgbModal,
     private ventaLocalService: VentaLocalService,
     private usersService: UsersService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) { }
 
   public cedulaForm: FormGroup = this.fb.group({
@@ -65,11 +68,11 @@ export class VentasComponent implements OnInit {
 
   validateClient() {
     this.loader = true;
-    let clientInfo = { cedula: this.cedulaForm.value.cedula }
-    console.log(clientInfo);
+    this.clientCedulaInfo = { cedula: this.cedulaForm.value.cedula }
+    console.log(this.clientCedulaInfo);
 
     setTimeout(() => {
-      this.usersService.getDataById(clientInfo.cedula).subscribe(
+      this.usersService.getDataById(this.clientCedulaInfo.cedula).subscribe(
         (res: any) => {
           if (res.status === 400) {
             this.clientDontExist = true;
@@ -92,6 +95,10 @@ export class VentasComponent implements OnInit {
     }, 1000)
   }
 
-
+  createInformativeClient() {
+    console.log("Crear cliente informativo con cc: ", this.clientCedulaInfo);
+    this.modalService.dismissAll();
+    this.router.navigate(['main/ventas/create-client', this.clientCedulaInfo.cedula]);
+  }
 }
 

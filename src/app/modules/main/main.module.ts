@@ -41,6 +41,7 @@ import { LandingProductsComponent } from './extras/landing/landing-products/land
 import { PermisosComponent } from './configuracion/permisos/permisos.component';
 import { CotizacionComponent } from './pedidos/cotizacion/cotizacion.component';
 import { HeaderProductosComponent } from './productos/productos/header-productos/header-productos.component';
+import { CreateInformativeClientComponent } from './ventas/ventas/create-informative-client/create-informative-client.component';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { HeaderProductosComponent } from './productos/productos/header-productos
     LandingProductsComponent,
     PermisosComponent,
     CotizacionComponent,
-    HeaderProductosComponent
+    HeaderProductosComponent,
+    CreateInformativeClientComponent
   ],
   imports: [
     CommonModule,

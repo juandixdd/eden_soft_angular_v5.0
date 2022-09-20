@@ -76,7 +76,9 @@
           <!-- Column -->
           <ngx-datatable-column name="precio" prop="precio_total" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">{{ id }}</p>
+              <p class="font-weight-bold text-dark">
+                {{ id | currency: "USD":"symbol":"3.0" }}
+              </p>
             </ng-template>
           </ngx-datatable-column>
 
@@ -190,6 +192,7 @@
           tabindex="5"
           rippleEffect
           class="btn btn-success btn-block"
+          (click)="createInformativeClient()"
         >
           Crear cliente informativo
         </button>
@@ -210,56 +213,6 @@
           class="btn btn-success btn-block"
         >
           Asociar cliente
-        </button>
-      </form>
-    </div>
-  </ng-template>
-  <!-- / Modal -->
-</div>
-
-<!-- ! Modal de info del usuario -->
-<div>
-  <ng-template #clientDataModal let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title text-primary" id="myModalLabel1">
-        Datos del cliente
-      </h4>
-      <button
-        type="button"
-        class="close"
-        (click)="modal.dismiss('Cross click')"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <!-- ?Body de la modal -->
-    <div class="m-1">
-      <form class="auth-register-form mt-2" [formGroup]="cedulaForm">
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group">
-              <label for="country-floating">Cedula</label>
-              <input
-                type="number"
-                id="country-floating"
-                class="form-control"
-                formControlName="cedula"
-                placeholder="Cédula"
-              />
-            </div>
-          </div>
-        </div>
-
-        <hr />
-        <button
-          class="btn btn-primary btn-block"
-          tabindex="5"
-          rippleEffect
-          (click)="validateClient()"
-        >
-          Siguiente
         </button>
       </form>
     </div>

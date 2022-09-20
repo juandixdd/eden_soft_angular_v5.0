@@ -17,13 +17,14 @@ import { AuthGuardGuard } from '../guards/auth-guard.guard';
 import { HomePageComponent } from './extras/home-page/home-page.component';
 import { PermisosComponent } from './configuracion/permisos/permisos.component';
 import { CotizacionComponent } from './pedidos/cotizacion/cotizacion.component';
+import { CreateInformativeClientComponent } from './ventas/ventas/create-informative-client/create-informative-client.component';
 
 const routes: Routes = [
 
   /*Ventas*/
   { path: 'cliente', component: ClienteComponent, canActivate: [AuthGuardGuard] },
   { path: 'ventas', component: VentasComponent, canActivate: [AuthGuardGuard] },
-
+  { path: 'ventas/create-client/:cedula', component: CreateInformativeClientComponent, canActivate: [AuthGuardGuard] },
 
   /*Usuarios*/
   { path: 'lista-usuarios', component: ListaUsuariosComponent, canActivate: [AuthGuardGuard] },
@@ -42,16 +43,16 @@ const routes: Routes = [
   /* Configuracion */
   { path: 'roles', component: RolesComponent, canActivate: [AuthGuardGuard] },
   { path: 'permisos', component: PermisosComponent, canActivate: [AuthGuardGuard] },
-  
+
 
   /* Contactenos */
   { path: 'contactenos', component: ContactenosComponent },
 
   /*Home Page */
-  { path: 'home-page',component:HomePageComponent},
+  { path: 'home-page', component: HomePageComponent },
 
   /**pedidos */
-  {path: 'cotizacion', component: CotizacionComponent, canActivate:[AuthGuardGuard]}
+  { path: 'cotizacion', component: CotizacionComponent, canActivate: [AuthGuardGuard] }
 
 ];
 

@@ -1,0 +1,101 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <h1 class="text-primary text-center">Crear venta</h1>
+    <section class="invoice-list-wrapper">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title text-primary">Datos del cliente</h5>
+          <form class="form" [formGroup]="userForm">
+            <div class="row">
+              <div class="col-md-6 col-12">
+                <div class="form-group">
+                  <label for="first-name-column">Nombres</label>
+                  <input
+                    type="text"
+                    id="first-name-column"
+                    class="form-control"
+                    formControlName="nombre"
+                  />
+                  <span *ngIf="validField('nombre')" class="text-danger">
+                    Este campo es requerido
+                    <br />
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <div class="form-group">
+                  <label for="last-name-column">Apellidos</label>
+                  <input
+                    type="text"
+                    id="last-name-column"
+                    class="form-control"
+                    formControlName="apellido"
+                  />
+                  <span *ngIf="validField('apellido')" class="text-danger">
+                    Este campo es requerido
+                    <br />
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <div class="form-group">
+                  <label for="city-column">Documento</label>
+                  <input
+                    type="number"
+                    id="id"
+                    class="form-control"
+                    formControlName="id_cliente_documento"
+                    [ngClass]="cedula"
+                  />
+                  <span
+                    *ngIf="validField('id_cliente_documento')"
+                    class="text-danger"
+                  >
+                    Este campo es requerido
+                    <br />
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <div class="form-group">
+                  <label for="city-column">Telefono</label>
+                  <input
+                    type="number"
+                    id="Telefono"
+                    class="form-control"
+                    formControlName="telefono"
+                  />
+                  <span *ngIf="validField('telefono')" class="text-danger">
+                    Este campo es requerido
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <section class="invoice-list-wrapper">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title text-primary">Productos</h5>
+          <p>Aquí irá la lista de productos comprados</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<button
+  class="btn btn-primary"
+  (click)="createVenta()"
+  [disabled]="!userForm.valid"
+>
+  Prueba
+</button>

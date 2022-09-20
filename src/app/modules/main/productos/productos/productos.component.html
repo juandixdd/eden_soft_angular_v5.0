@@ -49,8 +49,6 @@
     </div>
   </div>
 
-
-
   <!-- MODELO DE CARD DOS   CARLOS -->
 
   <section class="section-products">
@@ -60,28 +58,43 @@
           <div class="header">
             <h2>Nuestros Productos</h2>
           </div>
-        </div>  
+        </div>
       </div>
-      <div class="row">     
+      <div class="row">
         <div class="col-md-3 col-sm-6" *ngFor="let product of products">
           <div class="product-grid">
             <div class="product-image">
               <a href="#" class="image">
-                <img [src]="product.imagen" style="width: auto; height: 225px">
+                <img
+                  [src]="product.imagen"
+                  style="width: auto; height: 225px"
+                />
               </a>
               <ul class="product-links">
-                <li><a href="#"><i class="fa fa-search"></i></a></li>
-                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                <li><a href="#"><i class="fa fa-random"></i></a></li>
+                <li>
+                  <a href="#"><i class="fa fa-search"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-heart"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-random"></i></a>
+                </li>
               </ul>
-              <a class="add-to-cart" (click)="addItem(product.id, product.nombre)"
-              rippleEffect >
-              <i data-feather="shopping-cart" class="mr-25"></i>
-              Agregar al carrito</a>
+              <a
+                class="add-to-cart"
+                (click)="addItem(product.id, product.nombre)"
+                rippleEffect
+              >
+                <i data-feather="shopping-cart" class="mr-25"></i>
+                Agregar al carrito</a
+              >
             </div>
-            <div class="product-content"> 
+            <div class="product-content">
               <h3 class="product-title">{{ product.nombre }}</h3>
-              <div h4 class="product-price">$ {{ product.precio }}</div>
+              <div h4 class="product-price">
+                {{ product.precio | currency: "USD":"symbol":"3.0" }}
+              </div>
             </div>
           </div>
         </div>

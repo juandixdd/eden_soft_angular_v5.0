@@ -31,13 +31,14 @@ export class CotizacionComponent implements OnInit {
   imgUrl: any;
   imgName: any;
   row: any;
+  detallesData: any = [];
   cotizaciones: any;
 
   constructor(
     private modalService: NgbModal,
     private productosService: ProductosService,
     private categoriasService: CategoriaService,
-    
+    private pedidosService: PedidosService,
     private fb: FormBuilder
   ) {}
 
@@ -66,7 +67,7 @@ export class CotizacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategorias();
-
+    this.getCotizaciones();
   }
 
   modalOpen(modal) {
@@ -156,23 +157,24 @@ export class CotizacionComponent implements OnInit {
     );
   }
 
-  confirmAlert() {
-    //? Esta es la funcion que abre el sweetAlert de confirmacion.
-    Swal.fire({
-      title: "¿Estas seguro?",
-      text: "No podras revertir esto!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, eliminar!",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.value) {
-        Swal.fire("Eliminado!", "El producto ha sido eliminada.", "success");
+  getCotizaciones(){
+    this.pedidosService.getCotizaciones().subscribe(
+      (res: any) =>{
+        this.rows = res
       }
-    });
+    )
   }
-
-
+  contPrecioTotal: any = 0;
+  getCotizacionesById(id){
+    console.log(id)
+    this.pedidosService.getCotizacionesById(id).subscribe(
+      (res:any) =>{
+        this.detallesData = res
+        console.log(this.detallesData)
+        if (this.detallesData.length > 0){
+          this.contPrecioTotal = this.detallesData[0].precio_total
+        }
+      }
+    )
+  }
 }

@@ -37,4 +37,14 @@ export class PedidosService {
   createDetalle(product: any) {
     return this.http.post(`${this.API_URL}/detalle-pedido`, product)
   }
+
+  //? cotizaciones 
+  getCotizaciones(){
+    return this.http.get(`${this.API_URL}/cotizaciones`)
+  }
+
+  getCotizacionesById(id){
+    return this.http.get(`${this.API_URL}/cotizaciones/${id}`);
+  }
 }
+

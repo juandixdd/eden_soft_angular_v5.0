@@ -18,6 +18,7 @@ import { HomePageComponent } from './extras/home-page/home-page.component';
 import { PermisosComponent } from './configuracion/permisos/permisos.component';
 import { CotizacionComponent } from './pedidos/cotizacion/cotizacion.component';
 import { CreateInformativeClientComponent } from './ventas/ventas/create-informative-client/create-informative-client.component';
+import { PedidosComponent } from './pedidos/pedidos/pedidos.component';
 
 const routes: Routes = [
 
@@ -33,7 +34,7 @@ const routes: Routes = [
   { path: 'registro-usuarios', component: RegistroUsuariosComponent },
   { path: 'perfil-usuario', component: PerfilUsuarioComponent, canActivate: [AuthGuardGuard] },
 
-  /*Produccion*/
+  /*Productos*/
   { path: 'categorias', component: CategoriasComponent, canActivate: [AuthGuardGuard] },
   { path: 'productos', component: ProductosComponent },
   { path: 'productos-admin', component: ProductosAdminComponent, canActivate: [AuthGuardGuard] },
@@ -52,7 +53,9 @@ const routes: Routes = [
   { path: 'home-page', component: HomePageComponent },
 
   /**pedidos */
-  { path: 'cotizacion', component: CotizacionComponent, canActivate: [AuthGuardGuard] }
+  { path: 'cotizacion', component: CotizacionComponent, canActivate: [AuthGuardGuard] },
+
+  { path: 'pedidos', component: PedidosComponent, canActivate: [AuthGuardGuard]}
 
 ];
 

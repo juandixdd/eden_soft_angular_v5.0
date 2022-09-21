@@ -131,8 +131,15 @@ export const menu: CoreMenu[] = [
         id: 'Cotizacion',
         title: 'Cotizacion',
         type: 'item',
-        icon: 'shopping-cart',
+        icon: 'clipboard',
         url: 'main/cotizacion'
+      },
+      {
+        id: 'Pedidos',
+        title: 'Pedidos',
+        type: 'item',
+        icon: 'package',
+        url: 'main/pedidos'
       }
     ]
   },

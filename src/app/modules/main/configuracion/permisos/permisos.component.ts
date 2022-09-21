@@ -126,8 +126,41 @@ export class PermisosComponent implements OnInit {
       (res:any)=>{
         console.log(res)
         this.getPermisos();
+        this.modalService.dismissAll();
+        
       }
     )
+  }
+
+  deletePermiso(id) {
+    Swal.fire({
+      title: '¿Estas seguro?',
+      text: "No podras revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Si, eliminarlo!',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.permisosService.deleteData(id).subscribe(
+          (res) => {
+            let data: any = res;
+            this.permisos = res;
+            this.getPermisos();
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Permiso eliminado con exito',
+              showConfirmButton: false,
+              timer: 1000
+            });
+          }
+        );
+      }
+    })
   }
 
 

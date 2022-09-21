@@ -92,7 +92,7 @@
 
               <button
                 class="btn btn-icon btn-sm"
-                (click)="modalOpen(modalEdit); getPermisoData(row)"
+                (click)="modalOpen(modalEdit); getRowData(row) "
               >
                 <i class="feather icon-edit text-primary"></i>
               </button>
@@ -141,6 +141,7 @@
           <select class="form-control mx-25" formControlName="modulo">
             <option value="Usuarios">Usuarios</option>
             <option value="Productos">Productos</option>
+            <option value="Pedidos">Pedidos</option>
             <option value="Ventas">Ventas</option>
             <option value="Configuracion">Configuracion</option>
           </select>
@@ -207,6 +208,7 @@
           <select class="form-control mx-25" formControlName="modulo">
             <option value="Usuarios">Usuarios</option>
             <option value="Productos">Productos</option>
+            <option value="Pedidos">Pedidos</option>
             <option value="Ventas">Ventas</option>
             <option value="Configuracion">Configuracion</option>
           </select>
@@ -227,7 +229,7 @@
           <button
             rippleEffect
             class="btn btn-primary"
-            (click)="updatePermisos()"
+            (click)="updatePermiso()"
             [disabled]="!permisosFormEdit.valid"
           >
             Actualizar

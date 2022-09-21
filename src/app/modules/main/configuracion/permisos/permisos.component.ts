@@ -19,7 +19,7 @@ export class PermisosComponent implements OnInit {
     private modalService: NgbModal, //? Aquí se instancia el servicio para abrir la modal.
     private permisosService: PermisosService,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
   public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
@@ -28,6 +28,7 @@ export class PermisosComponent implements OnInit {
   permisos: any;
   editPermiso: any;
   newEdit: any;
+  idEdit: any;
 
   //? Get y Set para el buscador
   get filterRows(): any {
@@ -70,6 +71,7 @@ export class PermisosComponent implements OnInit {
     ],
   });
 
+
   resetForm() {
     this.permisosForm.reset();
   }
@@ -105,17 +107,29 @@ export class PermisosComponent implements OnInit {
     );
   }
 
-  getPermisoData(permiso: any) {
-    this.editPermiso = permiso;
-    this.permisosForm.controls["nombre"].setValue(permiso.nombre);
-    this.permisosForm.controls["modulo"].setValue(permiso.modulo);
+  getRowData(row) {
+    console.log(row, "Este es el evento")
+    this.permisosFormEdit.controls['nombre'].setValue(row.nombre)
+    this.permisosFormEdit.controls['modulo'].setValue(row.modulo)
+    this.idEdit = row.id
   }
 
-  updatePermisos() {
-    this.newEdit.nombre = this.permisosFormEdit.controls["nombre"].value;
-    this.newEdit.modulo = this.permisosFormEdit.controls["modulo"].value;
-    console.log(this.newEdit);
+  updatePermiso() {
+   
+    let newPermiso = {
+      nombre: this.permisosFormEdit.value.nombre,
+      modulo: this.permisosFormEdit.value.modulo,
+      id: this.idEdit
+    }
+    console.log(newPermiso)
+    this.permisosService.updateData(this.idEdit,newPermiso).subscribe(
+      (res:any)=>{
+        console.log(res)
+        this.getPermisos();
+      }
+    )
   }
+
 
   validField(field: string) {
     return (

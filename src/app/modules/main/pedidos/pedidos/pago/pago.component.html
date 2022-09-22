@@ -1,1 +1,162 @@
-<p>pago works!</p>
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <!-- Invoice List -->
+    <section class="invoice-list-wrapper">
+      <div class="row justify-content-around">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title text-primary">Productos</h5>
+              <form action="#" class="invoice-repeater">
+                <div class="row">
+                  <div class="col-md-4 text-primary">
+                    <p>Producto</p>
+                  </div>
+                  <div class="col-md-2 text-primary">
+                    <p>Precio unitario</p>
+                  </div>
+                  <div class="col-md-2 text-primary">
+                    <p>Cantidad</p>
+                  </div>
+                  <div class="col-md-2 text-primary">
+                    <p>Subtotal</p>
+                  </div>
+                </div>
+                <hr />
+                <div *ngFor="let item of items; let i = index">
+                  <div class="row d-flex align-items-end">
+                    <div class="col-md-4 col-12">
+                      <div class="form-group">
+                        <p>{{ item.itemName }}</p>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2 col-12">
+                      <div class="form-group">
+                        <p>{{ item.itemPrice | currency: "USD" }}</p>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2 col-12">
+                      <div class="form-group">
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="itemQuantity{{ i }}"
+                          name="itemQuantity{{ i }}"
+                          [(ngModel)]="item.itemQuantity"
+                          placeholder="1"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-2 col-12">
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          readonly
+                          class="form-control-plaintext"
+                          id="staticPrice"
+                          value="$32"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-2 col-12 mb-50">
+                      <div class="form-group">
+                        <button
+                          class="btn btn-outline-danger text-nowrap px-1"
+                          (click)="deleteItem(i)"
+                          rippleEffect
+                        >
+                          <i data-feather="x" class="mr-25"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title text-primary">Concretar Compra</h4>
+              
+              <form>
+                <div class="form-group">
+
+                    <label class="text-primary">Metodos de pago</label>
+                    <div class="input-group mb-1">
+                        <input class="form-control" placeholder="yyyy-mm-dd" name="Basic Date Picker" [(ngModel)]="basicDPdata"
+                          ngbDatepicker #basicDP="ngbDatepicker">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicDP.toggle()"
+                            type="button" rippleEffect></button>
+                        </div>
+                      </div>
+
+                  <label class="text-primary">Metodos de pago</label>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault1"
+                    />
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        <i  class="fa fa-mobile-screen-button"></i>
+                        Nequi
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault2"
+                      checked
+                    />
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        <i  class="fa fa-money-bill-transfer"></i>
+                        Transferencia PSE
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault3"
+                      checked
+                    />
+                    <label class="form-check-label" for="flexRadioDefault3">
+                        <i  class="fa fa-credit-card"></i>
+                        Tarjeta de Credito
+                    </label>
+                  </div>
+                </div>
+              </form>
+              <hr />
+              <div class="row justify-content-end">
+                <div class="col-auto">
+                  <h3>
+                    <span class="text-primary"> Precio Total: </span>
+                    $100.000
+                  </h3>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-block mt-2"
+              (click)="generarPedido">
+              Pagar
+            
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

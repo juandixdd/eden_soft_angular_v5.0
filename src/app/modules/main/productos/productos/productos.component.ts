@@ -26,6 +26,7 @@ export class ProductosComponent implements OnInit {
   wishListIds: any = [];
   productxd = [];
   timer: boolean = false;
+  type: string = "";
 
   public items = JSON.parse(localStorage.getItem("wishList")) || [];
 
@@ -65,11 +66,12 @@ export class ProductosComponent implements OnInit {
     };
   }
 
-  modalOpen(modal) {
+  modalOpen(modal, tipo) {
     //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {
       centered: true,
     });
+    this.type = tipo;
   }
 
   public loginForm: FormGroup = this.fb.group({
@@ -83,7 +85,6 @@ export class ProductosComponent implements OnInit {
   ngOnInit(): void {
     this.getProducts();
     console.log(this.items);
-    
   }
 
   getProducts() {
@@ -129,7 +130,7 @@ export class ProductosComponent implements OnInit {
         itemId: id,
         itemName: name,
         itemQuantity: 1,
-        itemPrice: price
+        itemPrice: price,
       });
       this.saveProducts();
       Swal.fire({
@@ -179,12 +180,14 @@ export class ProductosComponent implements OnInit {
 
         //? Aqui se calcula el total del precio de los productos
         this.items.forEach((item) => {
-          this.productosService.getDataById(item.itemId).subscribe((res: any) => {
-            cont = res[0].precio * item.itemQuantity;
-            itemQuantity.push(cont);
-            itemQuantitySum = itemQuantity.reduce((a, b) => a + b, 0);
-            console.log(itemQuantitySum, "xd");
-          });
+          this.productosService
+            .getDataById(item.itemId)
+            .subscribe((res: any) => {
+              cont = res[0].precio * item.itemQuantity;
+              itemQuantity.push(cont);
+              itemQuantitySum = itemQuantity.reduce((a, b) => a + b, 0);
+              console.log(itemQuantitySum, "xd");
+            });
         });
 
         //? Se guarda el nuevo pedido como cotización
@@ -223,9 +226,8 @@ export class ProductosComponent implements OnInit {
                     .subscribe((res: any) => {
                       console.log(res);
                     });
-
                 });
-            }, 1000)
+            }, 1000);
           });
           this.timer = false;
 
@@ -240,11 +242,9 @@ export class ProductosComponent implements OnInit {
           });
 
           //? se manda al usuario para las cotizaciones
-          this.router.navigate(['main/cotizacion']);
-
+          this.router.navigate(["main/cotizacion"]);
         }, 1500);
       });
-
     } catch (error) {
       Swal.fire({
         position: "top-end",
@@ -255,10 +255,7 @@ export class ProductosComponent implements OnInit {
         timer: 1000,
       });
     }
-
   }
-
-
 
   togglePasswordTextType() {
     this.passwordTextType = !this.passwordTextType;
@@ -267,23 +264,45 @@ export class ProductosComponent implements OnInit {
   //!************************** funcion de login *********************************
   userData: any;
   loginUser() {
-    this.user.email = this.loginForm.controls["email"].value;
-    this.user.password = this.loginForm.controls["password"].value;
+    if (this.type === "cotizacion") {
+      this.user.email = this.loginForm.controls["email"].value;
+      this.user.password = this.loginForm.controls["password"].value;
 
-    this.loginService.login(this.user).subscribe((res: any) => {
-      if (res.statusCode == 200) {
-        console.log("Login exitoso");
-        this.generarCotizacion(res);
-        this.modalService.dismissAll();
-        localStorage.setItem("token", res.token);
-        localStorage.setItem("userId", res.userId);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "El usuario o la contraseña son incorrectos",
-        });
-      }
-    });
+      this.loginService.login(this.user).subscribe((res: any) => {
+        if (res.statusCode == 200) {
+          console.log("Login exitoso");
+          this.generarCotizacion(res);
+          this.modalService.dismissAll();
+          localStorage.setItem("token", res.token);
+          localStorage.setItem("userId", res.userId);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "El usuario o la contraseña son incorrectos",
+          });
+        }
+      });
+    } else if (this.type === "pedido") {
+      this.user.email = this.loginForm.controls["email"].value;
+      this.user.password = this.loginForm.controls["password"].value;
+
+      this.loginService.login(this.user).subscribe((res: any) => {
+        if (res.statusCode == 200) {
+          console.log("Login exitoso");
+          this.router.navigate(["main/pedidos/pago"]);
+          this.modalService.dismissAll();
+          localStorage.setItem("token", res.token);
+          localStorage.setItem("userId", res.userId);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "El usuario o la contraseña son incorrectos",
+          });
+        }
+      });
+      
+    }
   }
 }

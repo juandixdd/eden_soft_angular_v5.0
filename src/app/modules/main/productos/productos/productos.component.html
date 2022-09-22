@@ -2,7 +2,7 @@
 
 <!-- ? Fixed buttons -->
 <div class="row fixed-bottom justify-content-end m-3">
-  <button class="btn btn-primary col-auto" (click)="modalOpen(infoModal)">
+  <button class="btn btn-primary col-auto" (click)="modalOpen(infoModal, 'info')">
     <i class="fa fa-cart-shopping"></i> Ver carrito
   </button>
 </div>
@@ -201,11 +201,15 @@
           type="button"
           class="btn btn-outline-primary"
           rippleEffect
-          (click)="modalOpen(loginModal)"
+          (click)="modalOpen(loginModal, 'cotizacion')"
         >
           Generar cotización
         </button>
-        <button type="button" class="btn btn-primary" rippleEffect>
+        <button type="button" 
+          class="btn btn-primary" 
+          rippleEffect
+          (click)="modalOpen(loginModal, 'pedido')"
+          >
           Hacer pedido
         </button>
       </div>

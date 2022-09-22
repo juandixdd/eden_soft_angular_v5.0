@@ -163,8 +163,11 @@ export class CotizacionComponent implements OnInit {
         this.rows = res
       }
     )
+  
   }
+  
   contPrecioTotal: any = 0;
+
   getCotizacionesById(id){
     console.log(id)
     this.pedidosService.getCotizacionesById(id).subscribe(

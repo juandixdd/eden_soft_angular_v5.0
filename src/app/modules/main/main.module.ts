@@ -43,6 +43,7 @@ import { CotizacionComponent } from './pedidos/cotizacion/cotizacion.component';
 import { HeaderProductosComponent } from './productos/productos/header-productos/header-productos.component';
 import { CreateInformativeClientComponent } from './ventas/ventas/create-informative-client/create-informative-client.component';
 import { PedidosComponent } from './pedidos/pedidos/pedidos.component';
+import { PagoComponent } from './pedidos/pedidos/pago/pago.component';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import { PedidosComponent } from './pedidos/pedidos/pedidos.component';
     CotizacionComponent,
     HeaderProductosComponent,
     CreateInformativeClientComponent,
-    PedidosComponent
+    PedidosComponent,
+    PagoComponent
   ],
   imports: [
     CommonModule,

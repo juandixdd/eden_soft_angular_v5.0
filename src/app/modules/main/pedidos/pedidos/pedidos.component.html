@@ -6,7 +6,7 @@
           <!-- Invoice List Header -->
           <div class="row">
             <div class="col-md-6 col-12">
-              <h1 class="text-primary mt-1 ml-1">Mis cotizaciones</h1>
+              <h1 class="text-primary mt-1 ml-1">Pedidos</h1>
               <div class="d-flex justify-content-between align-items-center m-1">
                 <div class="d-flex align-items-center">
                   <label class="d-flex align-items-center"
@@ -115,7 +115,7 @@
                   <button
                     class="btn btn-icon btn-sm"
                     (click)="
-                      modalOpen(infoModal); getCotizacionesById(row.id_pedido)
+                      modalOpen(infoModal); getPedidosById(row.id_pedido)
                     "
                   >
                     <i class="feather icon-eye text-primary"></i>
@@ -216,7 +216,7 @@
   <div>
     <ng-template #infoModal let-modal>
       <div class="modal-header">
-        <h5 class="modal-title text-primary">Detalles de la cotizacion</h5>
+        <h5 class="modal-title text-primary">Detalle del pedido</h5>
         <button
           type="button"
           class="close"
@@ -242,7 +242,7 @@
             <tr *ngFor="let detalle of detallesData">
               <td>{{ detalle.nombre }}</td>
               <td>{{ detalle.cantidad }}</td>
-              <td>{{ detalle.precio_unitario }}</td>
+              <td>{{ detalle.precio_unitario |currency: 'USD'}}</td>
             </tr>
           </tbody>
         </table>

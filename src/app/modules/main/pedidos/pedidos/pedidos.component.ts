@@ -1,22 +1,20 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ColumnMode } from '@swimlane/ngx-datatable';
-import { CategoriaService } from 'app/modules/services/categoria/categoria.service';
-import { PedidosService } from 'app/modules/services/pedidos/pedidos.service';
-import { ProductosService } from 'app/modules/services/productos/productos.service';
-import { of } from 'rxjs';
-import Swal from 'sweetalert2';
-
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ColumnMode } from "@swimlane/ngx-datatable";
+import { CategoriaService } from "app/modules/services/categoria/categoria.service";
+import { PedidosService } from "app/modules/services/pedidos/pedidos.service";
+import { ProductosService } from "app/modules/services/productos/productos.service";
+import { of } from "rxjs";
+import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-pedidos',
-  templateUrl: './pedidos.component.html',
-  styleUrls: ['./pedidos.component.scss'],
+  selector: "app-pedidos",
+  templateUrl: "./pedidos.component.html",
+  styleUrls: ["./pedidos.component.scss"],
   encapsulation: ViewEncapsulation.None,
 })
 export class PedidosComponent implements OnInit {
-
   public selectedOption = 10; //? Este es el selector de cuantas filas quieres ver en la tabla, en este caso, 10.
   public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
@@ -38,7 +36,6 @@ export class PedidosComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private productosService: ProductosService,
-    private categoriasService: CategoriaService,
     private pedidosService: PedidosService,
     private fb: FormBuilder
   ) {}
@@ -67,8 +64,27 @@ export class PedidosComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.getCategorias();
-    this.getCotizaciones();
+    this.getPedidos();
+    console.log('holis');
+  }
+
+  getPedidos() {
+    this.pedidosService.getData().subscribe((res: any) => {
+      this.rows = res;
+      console.log(this.rows);
+    });
+  }
+  
+  getPedidosById(id: number){
+    this.pedidosService.getDataById(id).subscribe(
+      (res: any)=>{
+        this.detallesData = res
+        console.log(this.detallesData)
+        if (this.detallesData.length > 0){
+          this.contPrecioTotal = this.detallesData[0].precio_total
+        }
+      }
+    )
   }
 
   modalOpen(modal) {
@@ -85,39 +101,18 @@ export class PedidosComponent implements OnInit {
     });
   }
 
-
   onChange(event) {
     this.categoryId = event.id;
     console.log(this.categoryId);
   }
 
   options: any = [];
-
-  async getCategorias() {
-    this.categoriasService.getData().subscribe((res: any) => {
-      this.selectBasic = of(res).pipe();
-      console.log(this.selectBasic);
-
-      /*
-
-        for (let i in this.selectBasic) {
-          console.log(this.selectBasic[i].nombre);
-          this.options.push(this.selectBasic[i].nombre);
-        }
-
-        console.log(this.options)
-        */
-    });
-  }
-
   productInfo = {};
 
   defineProductInfo(id) {
-    this.productosService.getDataById(id).subscribe(
-      (res:any)=>{
-        this.productInfo=res[0]
-      }
-    )
+    this.productosService.getDataById(id).subscribe((res: any) => {
+      this.productInfo = res[0];
+    });
   }
 
   createProduct() {
@@ -158,25 +153,15 @@ export class PedidosComponent implements OnInit {
     );
   }
 
-  getCotizaciones(){
-    this.pedidosService.getCotizaciones().subscribe(
-      (res: any) =>{
-        this.rows = res
-      }
-    )
-  }
   contPrecioTotal: any = 0;
-  getCotizacionesById(id){
-    console.log(id)
-    this.pedidosService.getCotizacionesById(id).subscribe(
-      (res:any) =>{
-        this.detallesData = res
-        console.log(this.detallesData)
-        if (this.detallesData.length > 0){
-          this.contPrecioTotal = this.detallesData[0].precio_total
-        }
+  getCotizacionesById(id) {
+    console.log(id);
+    this.pedidosService.getCotizacionesById(id).subscribe((res: any) => {
+      this.detallesData = res;
+      console.log(this.detallesData);
+      if (this.detallesData.length > 0) {
+        this.contPrecioTotal = this.detallesData[0].precio_total;
       }
-    )
+    });
   }
-
 }

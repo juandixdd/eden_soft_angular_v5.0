@@ -23,6 +23,7 @@ export class CategoriasComponent implements OnInit {
 
   rows: any = []
   category: any = {};
+  idEdit: any;
 
   constructor(
     private modalService: NgbModal,
@@ -36,6 +37,15 @@ export class CategoriasComponent implements OnInit {
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)]
     ]
   })
+
+  public categoriasFormEdit: FormGroup = this.fb.group({
+    nombre: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(100)]
+    ]
+  })
+
+  
 
   ngOnInit(): void {
     this.tempData = this.rows; //? Esto también es del buscador (Que no funciona)
@@ -89,6 +99,66 @@ export class CategoriasComponent implements OnInit {
   }
 
 
+  getRowData(row) {
+    console.log(row, "Este es el evento") 
+    this.categoriasFormEdit.controls['nombre'].setValue(row.nombre)
+    this.idEdit = row.id
+  }
+
+  updateCategoria() {
+   
+    let newCategoria = {
+      nombre: this.categoriasFormEdit.value.nombre,
+      id: this.idEdit
+    }
+    console.log(newCategoria)    
+    this.categoriasService.updateData(this.idEdit,newCategoria).subscribe(
+      (res:any)=>{
+        console.log(res)
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Modificado con exito",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        this.getCategorias();
+        this.modalService.dismissAll();
+        
+      }
+    )
+  }
+
+  deleteCategoria(id) {
+    Swal.fire({
+      title: '¿Estas seguro?',
+      text: "No podras revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Si, eliminarlo!',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.categoriasService.deleteData(id).subscribe(
+          (res) => {
+            let data: any = res;
+            this.category = res;
+            this.getCategorias();
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Permiso eliminado con exito',
+              showConfirmButton: false,
+              timer: 1000
+            });
+          }
+        );
+      }
+    })
+  }
 
   modalOpen(modal) { //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {

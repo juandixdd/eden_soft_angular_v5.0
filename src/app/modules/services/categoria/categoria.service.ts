@@ -23,4 +23,13 @@ export class CategoriaService {
   createData(body){
     return this.http.post(`${this.API_URL}/categoria`, body)
   }
+
+  updateData(id:number,body:any){
+    return this.http.put(`${this.API_URL}/categoria/${id}`,body)
+  }
+
+  deleteData(id:number){
+    return this.http.delete(`${this.API_URL}/categoria/${id}`)
+
+}
 }

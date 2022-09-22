@@ -32,6 +32,7 @@ export class ProductosAdminComponent implements OnInit {
   imgUrl: any;
   imgName: any;
   row: any;
+  idEdit: any;
 
   constructor(
     private modalService: NgbModal,
@@ -41,6 +42,29 @@ export class ProductosAdminComponent implements OnInit {
   ) {}
 
   public productForm: FormGroup = this.fb.group({
+    nombre: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
+    ],
+    precio: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
+    ],
+    categoria: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
+    ],
+    imagen: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
+    ],
+    estado: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
+    ],
+  });
+
+  public productFormEdit: FormGroup = this.fb.group({
     nombre: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
@@ -154,6 +178,69 @@ export class ProductosAdminComponent implements OnInit {
       }
     );
   }
+
+  getRowData(row) {
+    console.log(row, "Este es el evento")
+    this.productFormEdit.controls['nombre'].setValue(row.nombre)
+    this.productFormEdit.controls['precio'].setValue(row.precio)
+    this.productFormEdit.controls['categoria'].setValue(row.categoria)
+    this.productFormEdit.controls['imagen'].setValue(row.imagen)
+    this.productFormEdit.controls['estado'].setValue(row.estado)
+    this.idEdit = row.id
+  }
+
+  updatePermiso() {
+   
+    let newPermiso = {
+      nombre: this.productFormEdit.value.nombre,
+      precio: this.productFormEdit.value.modulo,
+      categoria: this.productFormEdit.value.nombre,
+      imagen: this.productFormEdit.value.modulo,
+      estado: this.productFormEdit.value.nombre,
+      id: this.idEdit
+    }
+    console.log(newPermiso)
+    this.productosService.updateData(this.idEdit,newPermiso).subscribe(
+      (res:any)=>{
+        console.log(res)
+        this.getProducts();
+        this.modalService.dismissAll();
+        
+      }
+    )
+  }
+
+  deleteProducto(id) {
+    Swal.fire({
+      title: '¿Estas seguro?',
+      text: "No podras revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Si, eliminarlo!',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.productosService.deleteData(id).subscribe(
+          (res) => {
+            let data: any = res;
+            this.productInfo = res;
+            this.getProducts();
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Permiso eliminado con exito',
+              showConfirmButton: false,
+              timer: 1000
+            });
+          }
+        );
+      }
+    })
+  }
+
 
   confirmAlert() {
     //? Esta es la funcion que abre el sweetAlert de confirmacion.

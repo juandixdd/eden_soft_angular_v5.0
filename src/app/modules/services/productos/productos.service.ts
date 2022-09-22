@@ -26,4 +26,13 @@ export class ProductosService {
   getProductInObject(id) {
     return this.http.get(`${this.API_URL}/productos/object/${id}`)
   }
+
+  updateData(id:number,body:any){
+    return this.http.put(`${this.API_URL}/productos/${id}`,body)
+  }
+
+  deleteData(id:number){
+    return this.http.delete(`${this.API_URL}/productos/${id}`)
+}
+
 }

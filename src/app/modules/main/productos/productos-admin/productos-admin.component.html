@@ -112,13 +112,13 @@
                 <button class="btn btn-icon btn-sm">
                   <i
                     class="feather icon-edit text-primary"
-                    (click)="modalOpen(modalEdit)"
+                    (click)="modalOpen(modalEdit); getRowData(row) "
                   ></i>
                 </button>
                 <button class="btn btn-icon btn-sm">
                   <i
                     class="feather icon-trash-2 text-danger"
-                    (click)="confirmAlert()"
+                    (click)="deleteProducto(row.id)"
                   ></i>
                 </button>
               </div>

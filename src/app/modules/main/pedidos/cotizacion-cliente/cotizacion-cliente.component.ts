@@ -9,12 +9,12 @@ import { of } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-cotizacion',
-  templateUrl: './cotizacion.component.html',
-  styleUrls: ['./cotizacion.component.scss'],
+  selector: 'app-cotizacion-cliente',
+  templateUrl: './cotizacion-cliente.component.html',
+  styleUrls: ['./cotizacion-cliente.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CotizacionComponent implements OnInit {
+export class CotizacionClienteComponent implements OnInit {
 
   public selectedOption = 10; //? Este es el selector de cuantas filas quieres ver en la tabla, en este caso, 10.
   public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
@@ -34,6 +34,9 @@ export class CotizacionComponent implements OnInit {
   detallesData: any = [];
   cotizaciones: any;
   cotizacionInfoUsuario: any;
+  idUser = localStorage.getItem("userId")
+  idPedido : any;
+  estado: any;
 
   constructor(
     private modalService: NgbModal,
@@ -41,34 +44,18 @@ export class CotizacionComponent implements OnInit {
     private categoriasService: CategoriaService,
     private pedidosService: PedidosService,
     private fb: FormBuilder
-  ) {}
-
-  public productForm: FormGroup = this.fb.group({
-    nombre: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
-    ],
-    precio: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
-    ],
-    categoria: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
-    ],
-    imagen: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
-    ],
+  ) { }
+  public anularForm: FormGroup = this.fb.group({
     estado: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
+      [],
     ],
+    
   });
 
   ngOnInit(): void {
     this.getCategorias();
-    this.getCotizaciones();
+    this.getCotizacionesByUserId(this.idUser)
   }
 
   modalOpen(modal) {
@@ -120,42 +107,14 @@ export class CotizacionComponent implements OnInit {
     )
   }
 
-  createProduct() {
-    this.product = {
-      nombre: this.productForm.value.nombre,
-      precio: this.productForm.value.precio,
-      categoria: this.categoryId,
-      imagen: this.productForm.value.imagen,
-      estado: 1,
-    };
+  cambiarEstado(){
+    this.estado = this.anularForm.value
+    console.log(this.estado)
+    
+  }
 
-    this.productosService.createProduct(this.product).subscribe(
-      (res: any) => {
-        console.log(res);
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Producto creado",
-          text: "El producto se ha creado correctamente",
-          showConfirmButton: false,
-          timer: 1000,
-        });
-
-        this.modalService.dismissAll();
-        this.productForm.reset();
-        this.getProducts();
-      },
-      (err: any) => {
-        console.log("No se pudo guardar");
-        console.log(err);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Ha ocurrido un error, por favor intente nuevamente",
-          confirmButtonText: "Ok",
-        });
-      }
-    );
+  idFunction(id){
+    this.idPedido = id
   }
 
   getCotizaciones(){
@@ -165,6 +124,16 @@ export class CotizacionComponent implements OnInit {
       }
     )
   
+  }
+
+  getCotizacionesByUserId(id){
+    this.pedidosService.getCotizacionesByUserId(id).subscribe(
+      (res: any) =>{
+        this.rows = res
+        console.log(this.rows)
+        this.estado = true;
+      }
+    )
   }
   
   contPrecioTotal: any = 0;

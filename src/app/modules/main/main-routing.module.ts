@@ -20,6 +20,7 @@ import { CotizacionComponent } from './pedidos/cotizacion/cotizacion.component';
 import { CreateInformativeClientComponent } from './ventas/ventas/create-informative-client/create-informative-client.component';
 import { PedidosComponent } from './pedidos/pedidos/pedidos.component';
 import { PagoComponent } from './pedidos/pedidos/pago/pago.component';
+import { CotizacionClienteComponent } from './pedidos/cotizacion-cliente/cotizacion-cliente.component';
 
 const routes: Routes = [
 
@@ -55,6 +56,7 @@ const routes: Routes = [
 
   /**pedidos */
   { path: 'cotizacion', component: CotizacionComponent, canActivate: [AuthGuardGuard] },
+  { path: 'cotizacion/user', component: CotizacionClienteComponent, canActivate: [AuthGuardGuard] },
 
   { path: 'pedidos', component: PedidosComponent, canActivate: [AuthGuardGuard]},
   { path: 'pedidos/pago', component: PagoComponent, canActivate: [AuthGuardGuard]},

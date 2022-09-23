@@ -43,8 +43,24 @@ export class PedidosService {
     return this.http.get(`${this.API_URL}/cotizaciones`)
   }
 
+  getCotizacionesByUserId(id){
+    return this.http.get(`${this.API_URL}/cotizaciones/usuario/${id}`);
+    //? traer cotizacionesbyuserid 
+  }
+  
   getCotizacionesById(id){
     return this.http.get(`${this.API_URL}/cotizaciones/${id}`);
+    //? traer cotizacionesbyid con los productos
+  }
+
+  getCotizacionesByIdInfo(id){
+    return this.http.get(`${this.API_URL}/cotizaciones/info/${id}`);
+    //? traer cotizaciones con la info del usuario
+  }
+
+  anularCotizacion(id, body){
+    return this.http.get(`${this.API_URL}/cotizaciones/anular/${id}`, body);
+    //? anular cotizaciones 
   }
 }
 

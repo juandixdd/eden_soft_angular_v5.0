@@ -242,7 +242,7 @@ export class ProductosComponent implements OnInit {
           });
 
           //? se manda al usuario para las cotizaciones
-          this.router.navigate(["main/cotizacion"]);
+          this.router.navigate(["main/cotizacion/user"]);
         }, 1500);
       });
     } catch (error) {

@@ -60,28 +60,6 @@
 
           <!-- Column -->
           <ngx-datatable-column
-            name="cedula"
-            prop="id_usuario_documento"
-            [width]="20"
-          >
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">{{ id }}</p>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <!-- Column -->
-          <ngx-datatable-column
-            name="usuario"
-            prop="Nombre_usuario"
-            [width]="20"
-          >
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">{{ id }}</p>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <!-- Column -->
-          <ngx-datatable-column
             name="Precio total"
             prop="precio_total"
             [width]="20"
@@ -122,6 +100,12 @@
                 >
                   <i class="feather icon-eye text-primary"></i>
                 </button>
+                <button
+                  class="btn btn-icon btn-sm"
+                  (click)="modalOpen(modalEdit); idFunction(row.id_pedido)"
+                >
+                  <i class="feather icon-x-circle text-danger"></i>
+                </button>
               </div>
             </ng-template>
           </ngx-datatable-column>
@@ -132,75 +116,6 @@
 </div>
 
 <!-- *************************************************** MODALES *************************************************** -->
-
-<!-- ! Modal de agregar -->
-<div>
-  <!-- Login Form -->
-  <div class="login-form">
-    <!-- Modal -->
-    <ng-template #modalForm let-modal>
-      <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel1">Agregar</h4>
-        <button
-          type="button"
-          class="close"
-          (click)="modal.dismiss('Cross click')"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" tabindex="0" ngbAutofocus>
-        <form [formGroup]="productForm">
-          <div class="form-group">
-            <label for="first-name-column">Nombre producto</label>
-            <input
-              formControlName="nombre"
-              type="text"
-              placeholder="Nombre"
-              class="form-control"
-            />
-
-            <label for="first-name-column">Precio</label>
-            <input
-              formControlName="precio"
-              type="number"
-              placeholder="Precio"
-              class="form-control"
-            />
-
-            <label>Categoría </label>
-            <div class="form-group">
-              <ng-select
-                [items]="selectBasic | async"
-                bindLabel="nombre"
-                formControlName="categoria"
-                [ngModel]="selectBasic | async"
-                placeholder="Seleccione una agencia"
-                (change)="onChange($event)"
-              >
-              </ng-select>
-            </div>
-
-            <label for="first-name-column">Imagen</label>
-            <input
-              formControlName="imagen"
-              type="text"
-              placeholder="imagen"
-              class="form-control"
-            />
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="createProduct()">
-          Crear
-        </button>
-      </div>
-    </ng-template>
-    <!-- / Modal -->
-  </div>
-</div>
 
 <!-- ! Modal de info -->
 <div>
@@ -290,13 +205,13 @@
   <!-- / Modal -->
 </div>
 
-<!-- ! Modal de editar -->
+<!-- ! Modal de anular -->
 
 <div class="login-form">
   <!-- Modal -->
   <ng-template #modalEdit let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="myModalLabel1">Editar</h4>
+      <h4 class="modal-title" id="myModalLabel1">Anular</h4>
       <button
         type="button"
         class="close"
@@ -306,60 +221,24 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body" tabindex="0" ngbAutofocus>
-      <form [formGroup]="productForm">
-        <div class="form-group">
-          <div class="col-md-10">
-            <label for="first-name-column">Nombre producto</label>
-            <input
-              type="text"
-              id="first-name-column"
-              class="form-control"
-              name="fname-column"
-            />
-
-            <label for="first-name-column">Precio</label>
-            <input
-              type="text"
-              id="first-name-column"
-              class="form-control"
-              name="fname-column"
-            />
-          </div>
-
-          <div class="">
-            <div class="col-md-10">
-              <label>Seleccionar categoria</label>
-              <div class="form-group">
-                <ng-select [items]="selectBasic" bindLabel="name"> </ng-select>
-              </div>
-            </div>
-          </div>
-          <div class="">
-            <div class="col-md-5">
-              <label for="first-name-column">Ingrese stock</label>
-              <input
-                type="text"
-                id="first-name-column"
-                class="form-control"
-                name="fname-column"
-              />
-            </div>
-            <div class="col-md-4">
-              <label for="first-name-column">Cargar imagen</label>
-              <button class="btn btn-primary">
-                <i class="feather icon-share"></i>
-              </button>
-            </div>
+    <form [formGroup]="anularForm">
+      <div class="form-group">
+        <div class="row justify-content-center">
+          <div class="col-auto">
+            <label class="switch">
+              <input type="checkbox" formControlName="estado" />
+              <span class="slider"></span>
+            </label>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
+    <div class="modal-body" tabindex="0" ngbAutofocus></div>
     <div class="modal-footer">
       <div class="col-12">
         <div class="row justify-content-end">
-          <button type="submit" rippleEffect class="btn btn-primary">
-            Editar
+          <button type="submit" rippleEffect class="btn btn-primary" (click) ="cambiarEstado()">
+            Guardar 
           </button>
         </div>
       </div>

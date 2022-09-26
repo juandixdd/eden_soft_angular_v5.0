@@ -2,7 +2,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
+import { RolesService } from 'app/modules/services/roles/roles.service';
 import { UsersService } from 'app/modules/services/users/users.service';
+import { of } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,12 +17,13 @@ import Swal from 'sweetalert2';
 export class ListaUsuariosComponent implements OnInit {
   public kitchenSinkRows: any;
   public selectedOption = 10; //? Este es el selector de cuantas filas quieres ver en la tabla, en este caso, 10.
-
+  selectBasic: any;
 
   constructor(
     private modalService: NgbModal, //? Aquí se instancia el servicio para abrir la modal.
     private usersService: UsersService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private rolesService:RolesService
   ) { }
 
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
@@ -101,6 +104,10 @@ export class ListaUsuariosComponent implements OnInit {
     phone: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+    ],
+    rol:[
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ]
   })
 
@@ -109,7 +116,7 @@ export class ListaUsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();  //!Cuando vayamos a conectar con base de datos se descomenta esta línea y se borra el resto
-    
+    this.getRoles();
   }
 
   validField(field: string) {
@@ -288,5 +295,11 @@ export class ListaUsuariosComponent implements OnInit {
     this.editUserForm.reset()
   }
 
+ async getRoles() {
+  this.rolesService.getData().subscribe((res:any)=>{
+    this.selectBasic=of(res).pipe();
+    console.log(this.selectBasic);
+  });
+ }
 
 }

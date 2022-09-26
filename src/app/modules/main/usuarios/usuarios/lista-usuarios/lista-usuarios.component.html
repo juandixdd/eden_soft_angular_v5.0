@@ -111,7 +111,11 @@
 
           <!-- Column -->
           <ngx-datatable-column name="Funciones" prop="cancel" [width]="30">
-            <ng-template let-id="value" ngx-datatable-cell-template let-row="row">
+            <ng-template
+              let-id="value"
+              ngx-datatable-cell-template
+              let-row="row"
+            >
               <!-- Icono x rojo -->
 
               <button
@@ -283,6 +287,18 @@
             </div>
           </div>
         </div>
+        <label>Rol </label>
+            <div class="form-group">
+              <ng-select
+                [items]="selectBasic | async"
+                bindLabel="rol"
+                formControlName="rol"
+                [ngModel]="selectBasic | async"
+                placeholder="Seleccione un rol"
+                (change)="onChange($event)"
+              >
+              </ng-select>
+            </div>
       </form>
     </div>
     <div class="modal-footer">
@@ -392,7 +408,7 @@
               </span>
             </div>
           </div>
-         
+
           <div class="col-md-6 col-12">
             <div class="form-group">
               <label for="city-column">Telefono</label>
@@ -424,6 +440,18 @@
             </div>
           </div>
         </div>
+        <label>Rol </label>
+            <div class="form-group">
+              <ng-select
+                [items]="selectBasic | async"
+                bindLabel="rol"
+                formControlName="rol"
+                [ngModel]="selectBasic | async"
+                placeholder="Seleccione una agencia"
+                (change)="onChange($event)"
+              >
+              </ng-select>
+            </div>
       </form>
     </div>
     <div class="modal-footer">

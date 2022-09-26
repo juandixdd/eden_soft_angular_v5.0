@@ -112,7 +112,7 @@
                 <button class="btn btn-icon btn-sm">
                   <i
                     class="feather icon-edit text-primary"
-                    (click)="modalOpen(modalEdit); getRowData(row) "
+                    (click)="modalOpen(modalEdit); getRowData(row)"
                   ></i>
                 </button>
                 <button class="btn btn-icon btn-sm">
@@ -216,23 +216,23 @@
     </div>
 
     <!-- ?Body de la modal -->
-   
+
     <div *ngIf="productInfo">
       <img
-      [src]="productInfo.imagen"
-      class="card-img-top"
-      [alt]="productInfo.nombre"
-      style="max-height: 400px;"
-    />
-    <div class="p-2 ">
-      <h3 class="mb-1 text-primary">{{ productInfo.nombre }}</h3>
-      <p class="ml-1"><b>Precio: </b>${{ productInfo.precio }} </p>
-      <p class="ml-1"><b>Categoría: </b>{{ productInfo.nombre_categoria }} </p>
-      <p class="ml-1"><b>Estado: </b>{{ productInfo.estado == 1 ? "Activo" : "Inactivo" }} </p>
-    </div> 
+        [src]="productInfo.imagen"
+        class="card-img-top"
+        [alt]="productInfo.nombre"
+        style="max-height: 400px"
+      />
+      <div class="p-2">
+        <h3 class="mb-1 text-primary">{{ productInfo.nombre }}</h3>
+        <p class="ml-1"><b>Precio: </b>${{ productInfo.precio }}</p>
+        <p class="ml-1"><b>Categoría: </b>{{ productInfo.nombre_categoria }}</p>
+        <p class="ml-1">
+          <b>Estado: </b>{{ productInfo.estado == 1 ? "Activo" : "Inactivo" }}
+        </p>
+      </div>
     </div>
-
-    
   </ng-template>
   <!-- / Modal -->
 </div>

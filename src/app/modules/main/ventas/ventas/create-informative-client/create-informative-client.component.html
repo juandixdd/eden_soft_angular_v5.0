@@ -86,25 +86,29 @@
         <div class="card-body">
           <h5 class="card-title text-primary">Productos</h5>
           <form action="#" class="invoice-repeater">
-            <div *ngFor="let item of items; let i = index">
-              <div class="row d-flex align-items-end">
+            <div *ngFor="let item of productos; let i = index">
+              <div class="row d-flex align-productos-end">
                 <div class="col-md-4 col-12">
                   <div class="form-group">
-                    <label for="itemName{{ i }}">Item Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      [(ngModel)]="item.itemName"
-                      name="itemName{{ i }}"
-                      id="itemName{{ i }}"
-                      placeholder="Vuexy Admin Template"
-                    />
+                    <label for="product{{ i }}">Producto</label>
+                    <div class="form-group">
+                      <ng-select
+                        [items]="selectBasic | async"
+                        bindLabel="nombre"
+                        name="product{{ i }}"
+                        id="product{{ i }}"
+                        [(ngModel)]="item.product"
+                        placeholder="Seleccione una agencia"
+                        (change)="eventListener($event)"
+                      >
+                      </ng-select>
+                    </div>
                   </div>
                 </div>
 
                 <div class="col-md-2 col-12">
                   <div class="form-group">
-                    <label for="itemCost">Cost</label>
+                    <label for="itemCost">Precio</label>
                     <input
                       type="number"
                       class="form-control"
@@ -113,13 +117,14 @@
                       name="itemCost{{ i }}"
                       id="itemCost{{ i }}"
                       placeholder="32"
+                      disabled
                     />
                   </div>
                 </div>
 
                 <div class="col-md-2 col-12">
                   <div class="form-group">
-                    <label for="itemQuantity{{ i }}">Quantity</label>
+                    <label for="itemQuantity{{ i }}">Cantidad</label>
                     <input
                       type="number"
                       class="form-control"
@@ -127,19 +132,7 @@
                       name="itemQuantity{{ i }}"
                       [(ngModel)]="item.itemQuantity"
                       placeholder="1"
-                    />
-                  </div>
-                </div>
-
-                <div class="col-md-2 col-12">
-                  <div class="form-group">
-                    <label for="staticPrice">Price</label>
-                    <input
-                      type="text"
-                      readonly
-                      class="form-control-plaintext"
-                      id="staticPrice"
-                      value="$32"
+                      (change)="eventListenerQuantity($event)"
                     />
                   </div>
                 </div>
@@ -169,27 +162,34 @@
                 rippleEffect
               >
                 <i data-feather="plus" class="mr-25"></i>
-                <span>Add New</span>
+                <span>Agregar producto</span>
               </button>
             </div>
           </div>
-          <pre class="p-1 text-white mt-1">
-            <div  *ngFor="let item of items; let i = index">
-          Index: {{ i }}
-          Item Name: {{ item.itemName }}
-          Cost: {{ item.itemCost }}
-          Quantity: {{ item.itemQuantity }}</div>
-          </pre>
         </div>
       </div>
     </section>
+    <div class="card" *ngIf="totalCost">
+      <div class="card-body">
+        <div class="row justify-content-end">
+          <div class="col-auto">
+            <h4>
+              <span class="text-primary">Total: </span
+              >{{ totalCost | currency: "USD":"symbol":"3.0" }}
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center" *ngIf="timer">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+    <button
+      class="btn btn-primary"
+      (click)="createVenta()"
+      [disabled]="!userForm.valid || !totalCost"
+    >
+      Guardar venta
+    </button>
   </div>
 </div>
-
-<button
-  class="btn btn-primary"
-  (click)="createVenta()"
-  [disabled]="!userForm.valid"
->
-  Prueba
-</button>

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ClientesInformativosService } from 'app/modules/services/clientesInformativos/clientes-informativos.service';
 import { ProductosService } from 'app/modules/services/productos/productos.service';
 import { of } from 'rxjs';
 
@@ -15,7 +16,8 @@ export class CreateInformativeClientComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
-    private productosService: ProductosService
+    private productosService: ProductosService,
+    private clientesInformativosService: ClientesInformativosService
   ) { }
 
   cedula: any = this.activatedRoute.snapshot.params.cedula;
@@ -106,7 +108,9 @@ export class CreateInformativeClientComponent implements OnInit {
 
 
   createVenta() {
+
     this.timer = true;
+
     this.clientData = {
       id_cliente_documento: this.userForm.value.id_cliente_documento,
       nombre: this.userForm.value.nombre,
@@ -129,12 +133,16 @@ export class CreateInformativeClientComponent implements OnInit {
       console.log("Cliente", this.clientData);
       console.log("Venta", this.venta_local);
 
+      this.clientesInformativosService.createData(this.clientData).subscribe(
+        (res: any) => {
+          console.log(res);
+        }
+      )
+
+
 
       this.timer = false;
-    }, 500);
-
-
-
+    }, 1000);
   }
 
   // public

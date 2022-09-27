@@ -51,7 +51,7 @@
         </div>
         <!--? Aquí empieza la tabla -->
         <ngx-datatable
-          [rows]="filterRows"
+          [rows]="rows"
           [rowHeight]="50"
           class="bootstrap core-bootstrap"
           [limit]="selectedOption"
@@ -87,14 +87,7 @@
               <p class="font-weight-bold text-dark">{{ id | lowercase }}</p>
             </ng-template>
           </ngx-datatable-column>
-
-          <!-- Column -->
-          <ngx-datatable-column name="Direccion" prop="adress" [width]="20">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
-            </ng-template>
-          </ngx-datatable-column>
-
+       
           <!-- Column -->
           <ngx-datatable-column name="Telefono" prop="phone" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
@@ -103,9 +96,9 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Rol" prop="rol" [width]="20">
+          <ngx-datatable-column name="Rol" prop="nombre_rol" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">{{ id }}</p>
+              <p class="font-weight-bold text-dark">{{ id|titlecase }}</p>
             </ng-template>
           </ngx-datatable-column>
 
@@ -272,22 +265,7 @@
             </div>
           </div>
           <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="city-column">Direccion</label>
-              <input
-                type="text"
-                id="direccion"
-                class="form-control"
-                formControlName="adress"
-              />
-              <span *ngIf="validField('adress')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-        </div>
-        <label>Rol </label>
+            <label>Rol </label>
             <div class="form-group">
               <ng-select
                 [items]="selectBasic | async"
@@ -297,8 +275,16 @@
                 placeholder="Seleccione un rol"
                 (change)="onChange($event)"
               >
+              
               </ng-select>
+              <span *ngIf="validField('rol')" class="text-danger">
+                Este campo es requerido
+                <br />
+              </span>
             </div>
+          </div>
+        </div>
+        
       </form>
     </div>
     <div class="modal-footer">
@@ -425,33 +411,21 @@
             </div>
           </div>
           <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="city-column">Direccion</label>
-              <input
-                type="text"
-                id="direccion"
-                class="form-control"
-                formControlName="adress"
-              />
-              <span *ngIf="editValidField('adress')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-        </div>
-        <label>Rol </label>
+            <label>Rol </label>
             <div class="form-group">
               <ng-select
                 [items]="selectBasic | async"
                 bindLabel="rol"
                 formControlName="rol"
-                [ngModel]="selectBasic | async"
+                [ngModel]="rolData"
                 placeholder="Seleccione una agencia"
                 (change)="onChange($event)"
               >
               </ng-select>
             </div>
+          </div>
+        </div>
+        
       </form>
     </div>
     <div class="modal-footer">

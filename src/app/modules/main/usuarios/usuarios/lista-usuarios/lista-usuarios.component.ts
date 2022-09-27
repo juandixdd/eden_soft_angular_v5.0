@@ -34,6 +34,8 @@ export class ListaUsuariosComponent implements OnInit {
   user: any = {};
   editUser: any = {};
   userUpdate: any = null;
+  idRol:any;
+  rolData:any;
 
   //? Get y Set para el buscador
   get filterRows(): any {
@@ -61,7 +63,7 @@ export class ListaUsuariosComponent implements OnInit {
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.email]
     ],
-    adress: [
+    rol: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
@@ -97,10 +99,7 @@ export class ListaUsuariosComponent implements OnInit {
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.email]
     ],
-    adress: [
-      '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
-    ],
+    
     phone: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
@@ -118,6 +117,11 @@ export class ListaUsuariosComponent implements OnInit {
     this.getUsers();  //!Cuando vayamos a conectar con base de datos se descomenta esta línea y se borra el resto
     this.getRoles();
   }
+  onChange(event){
+    console.log(event.id);
+    this.idRol=event.id;
+    
+  }
 
   validField(field: string) {
     return this.userForm.controls[field].errors &&
@@ -133,7 +137,7 @@ export class ListaUsuariosComponent implements OnInit {
     this.usersService.getData().subscribe(
       (res) => {
         this.rows = res;
-        this._filterRows = res;
+        console.log(this.rows)
       }
     )
   }
@@ -143,8 +147,8 @@ export class ListaUsuariosComponent implements OnInit {
     this.user.last_name = this.userForm.controls['last_name'].value;
     this.user.email = this.userForm.controls['email'].value;
     this.user.password = this.userForm.controls['password'].value;
-    this.user.adress = this.userForm.controls['adress'].value;
     this.user.phone = this.userForm.controls['phone'].value;
+    this.user.rol=this.idRol;
 
     this.usersService.createUser(this.user).subscribe(
       (res: any) => {
@@ -178,9 +182,11 @@ export class ListaUsuariosComponent implements OnInit {
     this.editUserForm.controls['name'].setValue(user.name);
     this.editUserForm.controls['last_name'].setValue(user.last_name);
     this.editUserForm.controls['email'].setValue(user.email);
-    this.editUserForm.controls['adress'].setValue(user.adress);
     this.editUserForm.controls['phone'].setValue(user.phone);
+    this.rolData=user.nombre_rol
+    
   }
+
 
   updateUser() {
 
@@ -188,26 +194,10 @@ export class ListaUsuariosComponent implements OnInit {
     this.editUser.name = this.editUserForm.controls['name'].value;
     this.editUser.last_name = this.editUserForm.controls['last_name'].value;
     this.editUser.email = this.editUserForm.controls['email'].value;
-    this.editUser.adress = this.editUserForm.controls['adress'].value;
     this.editUser.phone = this.editUserForm.controls['phone'].value;
+    this.editUser.rol=this.rolData;
 
-    this.usersService.updateUser(this.editUser.id, this.editUser).subscribe(
-      (res) => {
-        let data: any = res;
-        this.modalService.dismissAll('modalEdit');
-        this.user = res;
-        this.getUsers();
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Usuario actualizado con exito',
-          showConfirmButton: false,
-          timer: 1500
-        })
-        this.editUserForm.reset();
-      },
-      (err) => console.log(err)
-    )
+    console.log(this.editUser.value)
   }
 
   deleteUser(id) {

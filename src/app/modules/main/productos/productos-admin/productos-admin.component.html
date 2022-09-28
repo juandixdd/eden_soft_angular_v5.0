@@ -254,59 +254,56 @@
       </button>
     </div>
     <div class="modal-body" tabindex="0" ngbAutofocus>
-      <form [formGroup]="productForm">
+      <form [formGroup]="productFormEdit">
         <div class="form-group">
-          <div class="col-md-10">
-            <label for="first-name-column">Nombre producto</label>
-            <input
-              type="text"
-              id="first-name-column"
-              class="form-control"
-              name="fname-column"
-            />
+          <label for="first-name-column">Nombre producto</label>
+          <input
+            formControlName="nombre"
+            type="text"
+            placeholder="Nombre"
+            class="form-control"
+          />
 
-            <label for="first-name-column">Precio</label>
-            <input
-              type="text"
-              id="first-name-column"
-              class="form-control"
-              name="fname-column"
-            />
+          <label for="first-name-column">Precio</label>
+          <input
+            formControlName="precio"
+            type="number"
+            placeholder="Precio"
+            class="form-control"
+          />
+
+          <label>Categoría </label>
+          <div class="form-group">
+            <ng-select
+              [items]="selectBasic | async"
+              bindLabel="nombre"
+              formControlName="categoria"
+              [ngModel]="selectBasic | async"
+              placeholder="Seleccione una categoria"
+              (change)="onChange($event)"
+            >
+            </ng-select>
           </div>
 
-          <div class="">
-            <div class="col-md-10">
-              <label>Seleccionar categoria</label>
-              <div class="form-group">
-                <ng-select [items]="selectBasic" bindLabel="name"> </ng-select>
-              </div>
-            </div>
-          </div>
-          <div class="">
-            <div class="col-md-5">
-              <label for="first-name-column">Ingrese stock</label>
-              <input
-                type="text"
-                id="first-name-column"
-                class="form-control"
-                name="fname-column"
-              />
-            </div>
-            <div class="col-md-4">
-              <label for="first-name-column">Cargar imagen</label>
-              <button class="btn btn-primary">
-                <i class="feather icon-share"></i>
-              </button>
-            </div>
-          </div>
+          <label for="first-name-column">Imagen</label>
+          <input
+            formControlName="imagen"
+            type="text"
+            placeholder="imagen"
+            class="form-control"
+          />
         </div>
       </form>
     </div>
     <div class="modal-footer">
       <div class="col-12">
         <div class="row justify-content-end">
-          <button type="submit" rippleEffect class="btn btn-primary">
-            Editar
+          <button  rippleEffect
+          class="btn btn-primary"
+          (click)="updateProducto()"
+          [disabled]="!productFormEdit.valid"
+      >
+            Actualizar
           </button>
         </div>
       </div>

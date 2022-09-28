@@ -33,6 +33,12 @@ export class ProductosAdminComponent implements OnInit {
   imgName: any;
   row: any;
   idEdit: any;
+  productUpdate: any= null;
+  categoriaData: any;
+  productData: any;
+  editProduct: any = {};
+  categoriaId: any;
+  timer: boolean = false;
 
   constructor(
     private modalService: NgbModal,
@@ -171,34 +177,57 @@ export class ProductosAdminComponent implements OnInit {
   }
 
   getRowData(row) {
-    console.log(row, "Este es el evento")
-    this.productFormEdit.controls['nombre'].setValue(row.nombre)
-    this.productFormEdit.controls['precio'].setValue(row.precio)
-    this.productFormEdit.controls['categoria'].setValue(row.categoria)
-    this.productFormEdit.controls['imagen'].setValue(row.imagen)
-    this.productFormEdit.controls['estado'].setValue(row.estado)
-    this.idEdit = row.id
+    this.productUpdate = row;
+    this.productFormEdit.controls['nombre'].setValue(row.nombre);
+    this.productFormEdit.controls['precio'].setValue(row.precio);
+    this.productFormEdit.controls['imagen'].setValue(row.imagen);
+    this.productFormEdit.controls['estado'].setValue(row.estado);
+    this.categoriaData = row.nombre_categoria;
+    this.productData = row;
+    this.categoriaId = row.categoria;
+   
   }
 
-  updatePermiso() {
-   
-    let newPermiso = {
+  updateProducto() {
+   this.timer = true;
+    /*let newProducto = {
       nombre: this.productFormEdit.value.nombre,
-      precio: this.productFormEdit.value.modulo,
-      categoria: this.productFormEdit.value.nombre,
-      imagen: this.productFormEdit.value.modulo,
-      estado: this.productFormEdit.value.nombre,
+      precio: this.productFormEdit.value.precio,
+      categoria: this.productFormEdit.value.nombre_categoria || this.categoriaId,
+      imagen: this.productFormEdit.value.imagen,
       id: this.idEdit
-    }
-    console.log(newPermiso)
-    this.productosService.updateData(this.idEdit,newPermiso).subscribe(
+    }*/
+  
+    this.editProduct.nombre = this.productFormEdit.controls['nombre'].value;
+    this.editProduct.precio = this.productFormEdit.controls['precio'].value;
+    this.editProduct.imagen = this.productFormEdit.controls['imagen'].value;
+    this.editProduct.categoria = this.productFormEdit.controls['categoria'].value.id || this.categoriaId;
+    setTimeout(() => {
+    this.productosService.updateData(this.editProduct.id,this.editProduct).subscribe(
       (res:any)=>{
         console.log(res)
         this.getProducts();
         this.modalService.dismissAll();
-        
+        this.productFormEdit.reset();
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Usuario Actualizado con exito',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      },
+      (err: any) => {
+        this.modalService.dismissAll();
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Ocurrio algo inesperado, intentalo de nuevo...'
+        })
       }
     )
+    this.timer = false;
+  }, 1000);
   }
 
   deleteProducto(id) {

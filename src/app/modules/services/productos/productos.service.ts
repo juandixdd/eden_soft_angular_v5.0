@@ -27,8 +27,8 @@ export class ProductosService {
     return this.http.get(`${this.API_URL}/productos/object/${id}`)
   }
 
-  updateData(id:number,body:any){
-    return this.http.put(`${this.API_URL}/productos/${id}`,body)
+  updateData(id:number,row){
+    return this.http.put(`${this.API_URL}/productos/${id}`,row);
   }
 
   deleteData(id:number){

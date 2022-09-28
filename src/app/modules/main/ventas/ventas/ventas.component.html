@@ -85,7 +85,9 @@
           <!-- Column -->
           <ngx-datatable-column name="Estado" prop="estado" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">{{ id }}</p>
+              <p class="font-weight-bold text-dark">
+                {{ id === 1 ? "Activo" : "Incativo" }}
+              </p>
             </ng-template>
           </ngx-datatable-column>
 
@@ -94,21 +96,11 @@
               <div class="d-flex justify-content-start">
                 <button
                   class="btn btn-icon btn-sm"
-                  (click)="modalOpen(infoModal); defineProductInfo(row.id)"
+                  (click)="
+                    modalOpen(infoModal); defineProductInfo(row.id_venta)
+                  "
                 >
                   <i class="feather icon-eye text-primary"></i>
-                </button>
-                <button class="btn btn-icon btn-sm">
-                  <i
-                    class="feather icon-edit text-primary"
-                    (click)="modalOpen(modalEdit)"
-                  ></i>
-                </button>
-                <button class="btn btn-icon btn-sm">
-                  <i
-                    class="feather icon-trash-2 text-danger"
-                    (click)="confirmAlert()"
-                  ></i>
                 </button>
               </div>
             </ng-template>
@@ -121,7 +113,7 @@
 
 <!-- *************************************************** MODALES *************************************************** -->
 
-<!-- ! Modal de info del usuario -->
+<!-- ! Modal de Creaciond e usuario informativo -->
 <div>
   <ng-template #cedulaModal let-modal>
     <div class="modal-header">
@@ -215,6 +207,86 @@
           Asociar cliente
         </button>
       </form>
+    </div>
+  </ng-template>
+  <!-- / Modal -->
+</div>
+
+<!-- ! Modal de info  -->
+<div>
+  <ng-template #infoModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title text-primary" id="myModalLabel1">
+        Información de la venta
+      </h4>
+      <button
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <!-- ?Body de la modal -->
+    <div class="m-1">
+      <div *ngIf="clientData">
+        <div class="divider divider-primary">
+          <div class="divider-text">Datos del cliente</div>
+        </div>
+        <p>
+          <span class="text-primary"><b>Nombre: </b></span>
+          {{ clientData.nombre }} {{ clientData.apellido }}
+        </p>
+        <p>
+          <span class="text-primary"><b>Cedula: </b></span>
+          {{ clientData.id_cliente_documento }}
+        </p>
+        <p>
+          <span class="text-primary"><b>Telefono: </b></span>
+          {{ clientData.telefono }}
+        </p>
+      </div>
+
+      <div *ngIf="ventaData">
+        <div class="divider divider-primary">
+          <div class="divider-text">Datos de la venta</div>
+        </div>
+        <p>
+          <span class="text-primary"><b>Fecha de registro: </b></span>
+          {{ ventaData.fecha_registro | date }}
+        </p>
+        <p>
+          <span class="text-primary"><b>Precio total: </b></span>
+          {{ ventaData.precio_total | currency: "USD":"symbol":"3.0" }}
+        </p>
+      </div>
+      <div *ngIf="products.length != 0">
+        <div class="divider divider-primary">
+          <div class="divider-text">Productos</div>
+        </div>
+        <div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Producto</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Cantidad</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let product of products">
+              <tr>
+                <td>{{ product.product_name }}</td>
+                <td>
+                  {{ product.product_price | currency: "USD":"symbol":"3.0" }}
+                </td>
+                <td>{{ product.cantidad }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </ng-template>
   <!-- / Modal -->

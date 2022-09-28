@@ -26,6 +26,9 @@ export class VentasComponent implements OnInit {
   validateButton: boolean = true
   loader: boolean = false
   clientCedulaInfo: any;
+  clientData: any;
+  ventaData: any;
+  products: any[] = [];
 
   rows: any = []
 
@@ -99,6 +102,35 @@ export class VentasComponent implements OnInit {
     console.log("Crear cliente informativo con cc: ", this.clientCedulaInfo);
     this.modalService.dismissAll();
     this.router.navigate(['main/ventas/create-client', this.clientCedulaInfo.cedula]);
+  }
+
+  defineProductInfo(id) {
+    this.products = []
+    this.ventaLocalService.getAllDetalleVentaData(id).subscribe(
+      (res: any) => {
+        this.clientData = {
+          nombre: res[0].nombre,
+          apellido: res[0].apellido,
+          id_cliente_documento: res[0].id_cliente_documento,
+          telefono: res[0].telefono
+        }
+        this.ventaData = {
+          fecha_registro: res[0].fecha_registro,
+          precio_total: res[0].precio_total
+        }
+        res.forEach((item) => {
+          this.products.push(item)
+        })
+
+        console.log(this.clientData);
+        console.log(this.ventaData);
+        console.log(this.products);
+
+
+
+      }
+    )
+
   }
 }
 

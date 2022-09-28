@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClientesInformativosService } from 'app/modules/services/clientesInformativos/clientes-informativos.service';
+import { DetalleVentaLocalService } from 'app/modules/services/detalleVentaLocal/detalle-venta-local.service';
 import { ProductosService } from 'app/modules/services/productos/productos.service';
+import { VentaLocalService } from 'app/modules/services/ventaLocal/venta-local.service';
 import { of } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-create-informative-client',
@@ -16,8 +19,11 @@ export class CreateInformativeClientComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
+    private router: Router,
     private productosService: ProductosService,
-    private clientesInformativosService: ClientesInformativosService
+    private clientesInformativosService: ClientesInformativosService,
+    private ventaLocalService: VentaLocalService,
+    private detalleVentaLocalService: DetalleVentaLocalService
   ) { }
 
   cedula: any = this.activatedRoute.snapshot.params.cedula;
@@ -120,29 +126,70 @@ export class CreateInformativeClientComponent implements OnInit {
 
     setTimeout(() => {
       this.venta_local = {
-        id_cliente_document: this.clientData.id_cliente_documento,
+        id_cliente_documento: this.clientData.id_cliente_documento,
         fecha_registro: new Date().toISOString(),
         precio_total: this.totalCost,
         estado: 1
       }
-
-      this.productos.forEach((item, index) => {
-        console.log("Product: ", index, item);
-      });
-
-      console.log("Cliente", this.clientData);
-      console.log("Venta", this.venta_local);
-
-      this.clientesInformativosService.createData(this.clientData).subscribe(
+      this.clientesInformativosService.createData(this.clientData).subscribe( //? Se guarda el cliente informativo
         (res: any) => {
-          console.log(res);
+          if (res.status === 200) {
+            console.log("Cliente creado: ", res);
+
+            this.ventaLocalService.createData(this.venta_local).subscribe( //? Se guarda la venta
+              (res: any) => {
+                console.log("Venta: ", res);
+                let idVenta = res.data.insertId;
+                if (res.status === 200) {
+                  this.productos.forEach((item, index) => { //? Se guardan los productos
+                    let detalleVenta = {
+                      id_producto: item.product.id,
+                      id_venta: idVenta,
+                      cantidad: item.itemQuantity,
+                      precio_unitario: item.itemCost
+                    }
+                    this.detalleVentaLocalService.createData(detalleVenta).subscribe(
+                      (res: any) => {
+                        if (res.status === 200) {
+                          console.log(res, "Producto creado");
+                        }
+                      }
+                    )
+                  });
+                  Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Se ha agregado la venta',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+                  this.router.navigate(['main/ventas']);
+                } else {
+                  console.log("No se guardo la venta");
+
+                }
+
+              },
+              (err) => {
+                console.log("Error");
+
+              }
+            )
+          }
+          else if (res.statusCode === 403) {
+
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Ya hay un cliente registrado con esta cedula'
+            })
+
+          }
         }
       )
 
-
-
       this.timer = false;
-    }, 1000);
+    }, 200);
   }
 
   // public

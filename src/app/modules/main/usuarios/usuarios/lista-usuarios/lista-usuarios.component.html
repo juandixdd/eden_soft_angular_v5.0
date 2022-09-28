@@ -96,7 +96,7 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Rol" prop="nombre_rol" [width]="20">
+          <ngx-datatable-column name="Rol" prop="Nombre_rol" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id|titlecase }}</p>
             </ng-template>
@@ -427,6 +427,10 @@
         </div>
         
       </form>
+    </div>
+    <div class="text-center" *ngIf="timer">
+      <div class="spinner-border" role="status">
+      </div>
     </div>
     <div class="modal-footer">
       <div class="col-12">

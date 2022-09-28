@@ -23,7 +23,7 @@ export class ListaUsuariosComponent implements OnInit {
     private modalService: NgbModal, //? Aquí se instancia el servicio para abrir la modal.
     private usersService: UsersService,
     private fb: FormBuilder,
-    private rolesService:RolesService
+    private rolesService: RolesService
   ) { }
 
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
@@ -34,8 +34,11 @@ export class ListaUsuariosComponent implements OnInit {
   user: any = {};
   editUser: any = {};
   userUpdate: any = null;
-  idRol:any;
-  rolData:any;
+  idRol: any;
+  rolData: any;
+  userData: any;
+  rolId: any;
+  timer: boolean = false;
 
   //? Get y Set para el buscador
   get filterRows(): any {
@@ -99,12 +102,12 @@ export class ListaUsuariosComponent implements OnInit {
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.email]
     ],
-    
+
     phone: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
-    rol:[
+    rol: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ]
@@ -117,10 +120,10 @@ export class ListaUsuariosComponent implements OnInit {
     this.getUsers();  //!Cuando vayamos a conectar con base de datos se descomenta esta línea y se borra el resto
     this.getRoles();
   }
-  onChange(event){
+  onChange(event) {
     console.log(event.id);
-    this.idRol=event.id;
-    
+    this.idRol = event.id;
+
   }
 
   validField(field: string) {
@@ -148,7 +151,7 @@ export class ListaUsuariosComponent implements OnInit {
     this.user.email = this.userForm.controls['email'].value;
     this.user.password = this.userForm.controls['password'].value;
     this.user.phone = this.userForm.controls['phone'].value;
-    this.user.rol=this.idRol;
+    this.user.rol = this.idRol;
 
     this.usersService.createUser(this.user).subscribe(
       (res: any) => {
@@ -183,21 +186,46 @@ export class ListaUsuariosComponent implements OnInit {
     this.editUserForm.controls['last_name'].setValue(user.last_name);
     this.editUserForm.controls['email'].setValue(user.email);
     this.editUserForm.controls['phone'].setValue(user.phone);
-    this.rolData=user.nombre_rol
-    
+    this.rolData = user.Nombre_rol
+    this.userData = user;
+    this.rolId = user.rol;
   }
 
 
   updateUser() {
-
+    this.timer = true;
     this.editUser.id = this.editUserForm.controls['id'].value;
     this.editUser.name = this.editUserForm.controls['name'].value;
     this.editUser.last_name = this.editUserForm.controls['last_name'].value;
     this.editUser.email = this.editUserForm.controls['email'].value;
     this.editUser.phone = this.editUserForm.controls['phone'].value;
-    this.editUser.rol=this.rolData;
+    this.editUser.rol = this.editUserForm.controls['rol'].value.id || this.rolId;
 
-    console.log(this.editUser.value)
+    setTimeout(() => {
+      this.usersService.updateUser(this.editUser.id, this.editUser).subscribe(
+        (res: any) => {
+          this.modalService.dismissAll();
+          this.getUsers();
+          this.editUserForm.reset();
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Usuario Actualizado con exito',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        },
+        (err: any) => {
+          this.modalService.dismissAll();
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ocurrio algo inesperado, intentalo de nuevo...'
+          })
+        }
+      )
+      this.timer = false;
+    }, 1000);
   }
 
   deleteUser(id) {
@@ -285,11 +313,11 @@ export class ListaUsuariosComponent implements OnInit {
     this.editUserForm.reset()
   }
 
- async getRoles() {
-  this.rolesService.getData().subscribe((res:any)=>{
-    this.selectBasic=of(res).pipe();
-    console.log(this.selectBasic);
-  });
- }
+  async getRoles() {
+    this.rolesService.getData().subscribe((res: any) => {
+      this.selectBasic = of(res).pipe();
+      console.log(this.selectBasic);
+    });
+  }
 
 }

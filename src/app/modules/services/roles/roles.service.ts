@@ -13,6 +13,9 @@ export class RolesService {
   getData() {
     return this.http.get(`${this.API_URL}/roles`);
   }
+  getDataById(id) {
+    return this.http.get(`${this.API_URL}/roles/${id}`);
+  }
 
   createData(body) {
     return this.http.post(`${this.API_URL}/roles`,body);

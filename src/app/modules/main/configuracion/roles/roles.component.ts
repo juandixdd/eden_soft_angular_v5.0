@@ -25,6 +25,8 @@ export class RolesComponent implements OnInit {
   rows: any = [];
   rol: any = {};
   permisos: any;
+  rolData: any;
+  permisosList: any;
 
   constructor(
     private modalService: NgbModal,
@@ -144,7 +146,19 @@ export class RolesComponent implements OnInit {
     this.getRoles();
     this.getPermisos();
   }
+  getRolData(id) {
+    this.rolesService.getDataById(id).subscribe(
+      (res: any) => {
 
+        this.rolData = res[0];
+        this.permisosList = this.rolData.permiso.replace(/ /g, '').split(',');
+        console.log(this.permisosList);
+      }
+    )
+  }
+  cerrarModal(){
+    this.modalService.dismissAll();
+  }
 
 }
 

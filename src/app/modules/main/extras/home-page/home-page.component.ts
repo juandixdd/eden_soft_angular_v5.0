@@ -22,7 +22,7 @@ export class HomePageComponent implements OnInit {
           hidden: false
         },
         menu: {
-          hidden: true
+          hidden: false
         },
         footer: {
           hidden: false

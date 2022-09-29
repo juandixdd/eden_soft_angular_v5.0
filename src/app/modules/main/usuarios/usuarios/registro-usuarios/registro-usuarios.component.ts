@@ -158,4 +158,14 @@ export class RegistroUsuariosComponent implements OnInit {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
+
+  validField(field:string){
+    return this.registerForm.controls[field].errors &&
+      this.registerForm.controls[field].touched
+  }
+
+  validPassword(){
+    return this.registerForm.controls['password'].value !==this.registerForm.controls['confirmPassword'].value &&
+      this.registerForm.controls['password'].value !== '';
+  }
 }

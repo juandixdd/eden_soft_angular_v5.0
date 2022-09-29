@@ -93,18 +93,13 @@
 
           <!-- Column -->
           <ngx-datatable-column name="Funciones" prop="cancel" [width]="20">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <!-- Icono x rojo -->
-              <button class="btn btn-icon btn-sm">
+            <ng-template let-id="value" ngx-datatable-cell-template let-row="row">
+              <!-- Icono x rojo -->             
+              <button class="btn btn-icon btn-sm"
+              (click)="modalOpen(modalEdit); getClienteData(row)"
+              >
                 <i
-                  class="feather icon-trash-2 text-danger"
-                  (click)="confirmAlert()"
-                ></i>
-              </button>
-              <button class="btn btn-icon btn-sm">
-                <i
-                  class="feather icon-edit text-primary"
-                  (click)="modalOpen(modalEdit)"
+                  class="feather icon-edit text-primary"       
                 ></i>
               </button>
             </ng-template>
@@ -135,7 +130,7 @@
         </button>
       </div>
       <div class="modal-body" tabindex="0" ngbAutofocus>
-        <form class="form">
+        <form class="form" [formGroup]="clienteForm">
           <div class="row">
             <div class="col-md-6 col-12">
               <div class="form-group">
@@ -144,8 +139,8 @@
                   type="text"
                   id="first-name-column"
                   class="form-control"
-                  name="fname-column"
-                />
+                  formControlName="nombre"
+                />                
               </div>
             </div>
             <div class="col-md-6 col-12">
@@ -155,55 +150,19 @@
                   type="text"
                   id="last-name-column"
                   class="form-control"
-                  name="lname-column"
+                  formControlName="apellido"
                 />
               </div>
             </div>
             <div class="col-md-6 col-12">
               <div class="form-group">
                 <label for="city-column">Documento</label>
-                <input
+                <input 
                   type="number"
-                  id="Telefono"
+                  id="id"
                   class="form-control"
-                  placeholder="minimo 10 caracteres"
-                  name="city-column"
-                />
-              </div>
-            </div>
-            <div class="col-md-6 col-12">
-              <div class="form-group">
-                <label for="country-floating">E-mail</label>
-                <input
-                  type="email"
-                  id="country-floating"
-                  class="form-control"
-                  name="country-floating"
-                  placeholder="ejemplo@gmail.com"
-                />
-              </div>
-            </div>
-            <div class="col-md-6 col-12">
-              <div class="form-group">
-                <label for="company-column">Contraseña</label>
-                <input
-                  type="password"
-                  id="company-column"
-                  class="form-control"
-                  name="company-column"
-                  placeholder="minimo 5 caracteres"
-                />
-              </div>
-            </div>
-            <div class="col-md-6 col-12">
-              <div class="form-group">
-                <label for="email-id-column">Confirmar Contraseña</label>
-                <input
-                  type="password"
-                  id="email-id-column"
-                  class="form-control"
-                  name="contraseña"
-                  placeholder="minimo 5 caracteres"
+                  formControlName="id_cliente_documento"
+                  [ngClass]="cedula"
                 />
               </div>
             </div>
@@ -214,18 +173,7 @@
                   type="number"
                   id="Telefono"
                   class="form-control"
-                  name="telefono"
-                />
-              </div>
-            </div>
-            <div class="col-md-6 col-12">
-              <div class="form-group">
-                <label for="city-column">Direccion</label>
-                <input
-                  type="text"
-                  id="direccion"
-                  class="form-control"
-                  name="direccion"
+                  formControlName="telefono"
                 />
               </div>
             </div>
@@ -242,8 +190,11 @@
             >
               Reset
             </button>
-            <button type="submit" rippleEffect class="btn btn-primary">
-              Registrar
+            <button 
+            type="button" 
+            class="btn btn-primary" (click)="createCliente()"
+            >
+              Crear
             </button>
           </div>
         </div>
@@ -270,7 +221,7 @@
       </button>
     </div>
     <div class="modal-body" tabindex="0" ngbAutofocus>
-      <form class="form">
+      <form class="form" [formGroup]="clienteFormEdit">
         <div class="row">
           <div class="col-md-6 col-12">
             <div class="form-group">
@@ -279,8 +230,8 @@
                 type="text"
                 id="first-name-column"
                 class="form-control"
-                name="fname-column"
-              />
+                formControlName="nombre"
+              />                
             </div>
           </div>
           <div class="col-md-6 col-12">
@@ -290,19 +241,19 @@
                 type="text"
                 id="last-name-column"
                 class="form-control"
-                name="lname-column"
+                formControlName="apellido"
               />
             </div>
           </div>
           <div class="col-md-6 col-12">
             <div class="form-group">
               <label for="city-column">Documento</label>
-              <input
+              <input disabled
                 type="number"
-                id="Telefono"
+                id="id"
                 class="form-control"
-                placeholder="minimo 10 caracteres"
-                name="city-column"
+                formControlName="id_cliente_documento"
+                [ngClass]="cedula"
               />
             </div>
           </div>
@@ -313,18 +264,7 @@
                 type="number"
                 id="Telefono"
                 class="form-control"
-                name="telefono"
-              />
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="city-column">Direccion</label>
-              <input
-                type="text"
-                id="direccion"
-                class="form-control"
-                name="direccion"
+                formControlName="telefono"
               />
             </div>
           </div>
@@ -334,8 +274,13 @@
     <div class="modal-footer">
       <div class="col-12">
         <div class="row justify-content-end">
-          <button type="submit" rippleEffect class="btn btn-primary">
-            Editar
+          <button
+            rippleEffect
+            class="btn btn-primary"
+            (click)="updateCliente()"
+            [disabled]="!clienteFormEdit.valid"
+          >
+            Actualizar
           </button>
         </div>
       </div>

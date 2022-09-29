@@ -18,4 +18,13 @@ export class ClientesInformativosService {
   createData(client: any){
     return this.http.post(`${this.API_URL}/clientes-informativos`, client)
   }
+
+  createCliente(cliente: any) {
+    return this.http.post(`${this.API_URL}/clientes-informativos`, cliente)
+  }
+
+  updateCliente(id:number,row){
+    return this.http.put(`${this.API_URL}/clientes-informativos/${id}`,row)
+  }
+
 }

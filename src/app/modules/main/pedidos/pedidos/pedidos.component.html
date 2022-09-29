@@ -120,15 +120,10 @@
                   >
                     <i class="feather icon-eye text-primary"></i>
                   </button>
+                  
                   <button class="btn btn-icon btn-sm">
                     <i
-                      class="feather icon-edit text-primary"
-                      (click)="modalOpen(modalEdit)"
-                    ></i>
-                  </button>
-                  <button class="btn btn-icon btn-sm">
-                    <i
-                      class="feather icon-trash-2 text-danger"
+                      class="feather icon-x-circle text-danger"
                       (click)="confirmAlert()"
                     ></i>
                   </button>
@@ -242,7 +237,7 @@
             <tr *ngFor="let detalle of detallesData">
               <td>{{ detalle.nombre }}</td>
               <td>{{ detalle.cantidad }}</td>
-              <td>{{ detalle.precio_unitario |currency: 'USD'}}</td>
+              <td>{{ detalle.precio_unitario | currency: "USD":"symbol":"3.0"}}</td>
             </tr>
           </tbody>
         </table>
@@ -278,81 +273,5 @@
     <!-- / Modal -->
   </div>
   
-  <!-- ! Modal de editar -->
   
-  <div class="login-form">
-    <!-- Modal -->
-    <ng-template #modalEdit let-modal>
-      <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel1">Editar</h4>
-        <button
-          type="button"
-          class="close"
-          (click)="modal.dismiss('Cross click')"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" tabindex="0" ngbAutofocus>
-        <form [formGroup]="productForm">
-          <div class="form-group">
-            <div class="col-md-10">
-              <label for="first-name-column">Nombre producto</label>
-              <input
-                type="text"
-                id="first-name-column"
-                class="form-control"
-                name="fname-column"
-              />
-  
-              <label for="first-name-column">Precio</label>
-              <input
-                type="text"
-                id="first-name-column"
-                class="form-control"
-                name="fname-column"
-              />
-            </div>
-  
-            <div class="">
-              <div class="col-md-10">
-                <label>Seleccionar categoria</label>
-                <div class="form-group">
-                  <ng-select [items]="selectBasic" bindLabel="name"> </ng-select>
-                </div>
-              </div>
-            </div>
-            <div class="">
-              <div class="col-md-5">
-                <label for="first-name-column">Ingrese stock</label>
-                <input
-                  type="text"
-                  id="first-name-column"
-                  class="form-control"
-                  name="fname-column"
-                />
-              </div>
-              <div class="col-md-4">
-                <label for="first-name-column">Cargar imagen</label>
-                <button class="btn btn-primary">
-                  <i class="feather icon-share"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <div class="col-12">
-          <div class="row justify-content-end">
-            <button type="submit" rippleEffect class="btn btn-primary">
-              Editar
-            </button>
-          </div>
-        </div>
-      </div>
-    </ng-template>
-    <!-- / Modal -->
-  </div>
   

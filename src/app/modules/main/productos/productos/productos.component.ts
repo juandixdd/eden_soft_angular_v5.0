@@ -103,9 +103,8 @@ export class ProductosComponent implements OnInit {
     localStorage.setItem("wishList", JSON.stringify(this.items));
   }
 
-  saveProductsEvent({ target }) {
+  saveProductsEvent({ target }, name) {
     const value = target.value;
-    const name = target.id;
     let altArray = JSON.parse(localStorage.getItem("wishList"));
     let modItem = altArray.find((item) => item.itemName === name);
     modItem.itemQuantity = value;

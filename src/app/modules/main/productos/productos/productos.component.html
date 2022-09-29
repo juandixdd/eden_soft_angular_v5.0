@@ -175,7 +175,7 @@
                   name="itemQuantity{{ i }}"
                   [(ngModel)]="item.itemQuantity"
                   placeholder="1"
-                  (change)="saveProductsEvent($event)"
+                  (change)="saveProductsEvent($event, item.itemName)"
                 />
               </div>
             </div>

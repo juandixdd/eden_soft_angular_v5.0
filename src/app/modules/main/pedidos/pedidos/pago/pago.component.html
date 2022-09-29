@@ -23,7 +23,7 @@
                   </div>
                 </div>
                 <hr />
-                <div *ngFor="let item of items; let i = index">
+                <div *ngFor="let item of newItems; let i = index">
                   <div class="row d-flex align-items-end">
                     <div class="col-md-4 col-12">
                       <div class="form-group">
@@ -33,7 +33,7 @@
 
                     <div class="col-md-2 col-12">
                       <div class="form-group">
-                        <p>{{ item.itemPrice | currency: "USD" }}</p>
+                        <p>{{ item.itemPrice | currency: "USD":"symbol":"3.0" }}</p>
                       </div>
                     </div>
 
@@ -46,21 +46,17 @@
                           name="itemQuantity{{ i }}"
                           [(ngModel)]="item.itemQuantity"
                           placeholder="1"
+                          (change)="onChange($event,item.itemName)"
                         />
                       </div>
                     </div>
-
+                    
                     <div class="col-md-2 col-12">
                       <div class="form-group">
-                        <input
-                          type="text"
-                          readonly
-                          class="form-control-plaintext"
-                          id="staticPrice"
-                          value="$32"
-                        />
+                        <p>{{ item.subtotal | currency: "USD":"symbol":"3.0" }}</p>
                       </div>
                     </div>
+                    
 
                     <div class="col-md-2 col-12 mb-50">
                       <div class="form-group">
@@ -87,13 +83,12 @@
               
               <form>
                 <div class="form-group">
-
-                    <label class="text-primary">Metodos de pago</label>
+                    <label class="text-primary">Fecha de Entrega</label>
                     <div class="input-group mb-1">
                         <input class="form-control" placeholder="yyyy-mm-dd" name="Basic Date Picker" [(ngModel)]="basicDPdata"
                           ngbDatepicker #basicDP="ngbDatepicker">
                         <div class="input-group-append">
-                          <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicDP.toggle()"
+                          <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicDP.toggle(); dateEvent($event)"
                             type="button" rippleEffect></button>
                         </div>
                       </div>
@@ -144,12 +139,12 @@
                 <div class="col-auto">
                   <h3>
                     <span class="text-primary"> Precio Total: </span>
-                    $100.000
+                    {{precioTotal | currency: "USD":"symbol":"3.0"}}
                   </h3>
                 </div>
               </div>
               <button class="btn btn-primary btn-block mt-2"
-              (click)="generarPedido">
+              (click)="generarPedido()">
               Pagar
             
               </button>

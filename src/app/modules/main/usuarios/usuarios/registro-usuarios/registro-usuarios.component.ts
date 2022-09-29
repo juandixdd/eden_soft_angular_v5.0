@@ -79,10 +79,6 @@ export class RegistroUsuariosComponent implements OnInit {
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
-    adress: [
-      '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
-    ],
     phone: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
@@ -130,7 +126,6 @@ export class RegistroUsuariosComponent implements OnInit {
     this.user.last_name = this.registerForm.controls['last_name'].value;
     this.user.email = this.registerForm.controls['email'].value;
     this.user.password = this.registerForm.controls['password'].value;
-    this.user.adress = this.registerForm.controls['adress'].value;
     this.user.phone = this.registerForm.controls['phone'].value;
 
     this.registerService.registerUser(this.user).subscribe(

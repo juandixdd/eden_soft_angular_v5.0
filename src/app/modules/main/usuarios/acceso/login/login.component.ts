@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   public submitted = false;
   public returnUrl: string;
   public error = '';
-  public passwordTextType: boolean;
+  public contrasenaTextType: boolean;
   user: any = {};
 
   // Private
@@ -66,21 +66,21 @@ export class LoginComponent implements OnInit {
 
 
   public loginForm: FormGroup = this.fb.group({
-    email: [
+    correo: [
       "",
       [Validators.required, Validators.email],
     ],
-    password: [
+    contrasena: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
     ],
   })
 
   /**
-   * Toggle password
+   * Toggle contrasena
    */
-  togglePasswordTextType() {
-    this.passwordTextType = !this.passwordTextType;
+  togglecontrasenaTextType() {
+    this.contrasenaTextType = !this.contrasenaTextType;
   }
 
   onSubmit() {
@@ -93,8 +93,8 @@ export class LoginComponent implements OnInit {
   }
 
   loginUser() {
-    this.user.email = this.loginForm.controls['email'].value;
-    this.user.password = this.loginForm.controls['password'].value;
+    this.user.correo = this.loginForm.controls['correo'].value;
+    this.user.contrasena = this.loginForm.controls['contrasena'].value;
 
     this.loginService.login(this.user).subscribe(
       (res: any) => {

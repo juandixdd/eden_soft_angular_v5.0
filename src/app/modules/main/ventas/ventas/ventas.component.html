@@ -190,7 +190,41 @@
           Validar cliente
         </button>
 
+        <!-- ? Loader spinner -->
         <div class="row justify-content-center">
+          <div class="col-auto">
+            <div
+              class="spinner-border text-primary mr-1"
+              role="status"
+              *ngIf="loader"
+            >
+              <span class="visually-hidden"></span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="createInformativeClientButton">
+          <div class="row justify-content-center">
+            <div class="col-auto">
+              <p>
+                <span class="text-danger text-center"
+                  >El cliente no ha sido registrado aún</span
+                >
+              </p>
+            </div>
+          </div>
+          <button
+            tabindex="5"
+            rippleEffect
+            class="btn btn-success btn-block"
+            (click)="createInformativeClient()"
+          >
+            Crear cliente informativo
+          </button>
+        </div>
+
+
+        <!-- <div class="row justify-content-center">
           <div class="col-auto">
             <div
               class="spinner-border text-primary mr-1"
@@ -237,7 +271,7 @@
           class="btn btn-success btn-block"
         >
           Asociar cliente
-        </button>
+        </button> -->
       </form>
     </div>
   </ng-template>

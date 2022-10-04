@@ -15,6 +15,10 @@ export class ClientesInformativosService {
     return this.http.get(`${this.API_URL}/clientes-informativos`)
   }
 
+  getDataById(id:number){
+    return this.http.get(`${this.API_URL}/clientes-informativos/${id}`)
+  }
+
   createData(client: any){
     return this.http.post(`${this.API_URL}/clientes-informativos`, client)
   }

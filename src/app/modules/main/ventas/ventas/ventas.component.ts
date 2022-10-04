@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
+import { ClientesInformativosService } from 'app/modules/services/clientesInformativos/clientes-informativos.service';
 import { UsersService } from 'app/modules/services/users/users.service';
 import { VentaLocalService } from 'app/modules/services/ventaLocal/venta-local.service';
 import Swal from 'sweetalert2';
@@ -21,14 +22,15 @@ export class VentasComponent implements OnInit {
   private tempData = [];
   public kitchenSinkRows: any;
 
-  clientDontExist: boolean = false
-  clientExist: boolean = false
   validateButton: boolean = true
   loader: boolean = false
   clientCedulaInfo: any;
   clientData: any;
   ventaData: any;
   products: any[] = [];
+  isInformative: boolean = false;
+  isUser: boolean = false;
+  createInformativeClientButton: boolean = false;
 
   rows: any = []
 
@@ -36,6 +38,7 @@ export class VentasComponent implements OnInit {
     private modalService: NgbModal,
     private ventaLocalService: VentaLocalService,
     private usersService: UsersService,
+    private clientesInformativosService: ClientesInformativosService,
     private fb: FormBuilder,
     private router: Router
   ) { }
@@ -83,6 +86,40 @@ export class VentasComponent implements OnInit {
     console.log(this.clientCedulaInfo);
 
     setTimeout(() => {
+      this.loader = false;
+      this.usersService.getDataById(this.clientCedulaInfo.cedula).subscribe(
+        (res: any) => {
+          if (res.status === 400) {
+            console.log("No existe en la tabla de usuarios");
+            this.clientesInformativosService.getDataById(this.clientCedulaInfo.cedula).subscribe(
+              (res: any) => {
+                if (res.length === 0) {
+                  console.log("Tampoco existe en clientes informativos");
+                  this.createInformativeClientButton = true
+                }
+                else {
+                  console.log(res);
+
+
+                }
+              }
+            )
+
+          }
+          else {
+            console.log("Existe en la tabla de usuarios");
+            console.log(res);
+            this.isInformative = false;
+            this.isUser = true
+
+
+          }
+        }
+      )
+
+    }, 500);
+
+    /* setTimeout(() => {
       this.usersService.getDataById(this.clientCedulaInfo.cedula).subscribe(
         (res: any) => {
           if (res.status === 400) {
@@ -103,7 +140,7 @@ export class VentasComponent implements OnInit {
         }
       )
       this.loader = false;
-    }, 1000)
+    }, 1000) */
   }
 
   createInformativeClient() {

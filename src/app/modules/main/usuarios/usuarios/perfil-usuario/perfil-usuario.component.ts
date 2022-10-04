@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'app/modules/services/users/users.service';
+import { UsuarioService } from 'app/modules/services/usuario/usuario.service';
 
 @Component({
   selector: 'app-perfil-usuario',
@@ -9,7 +10,7 @@ import { UsersService } from 'app/modules/services/users/users.service';
 export class PerfilUsuarioComponent implements OnInit {
 
   constructor(
-    private usersService: UsersService
+    private usuarioService: UsuarioService
   ) { }
 
   userData: any = {};
@@ -20,8 +21,10 @@ export class PerfilUsuarioComponent implements OnInit {
   }
 
   getUserData(id) {
-    this.usersService.getDataById(id).subscribe(data => {
-      this.userData = data[0];
+    this.usuarioService.getDataById(id).subscribe((res: any) => {
+      this.userData = res[0];
+      console.log(res);
+
     })
   }
 

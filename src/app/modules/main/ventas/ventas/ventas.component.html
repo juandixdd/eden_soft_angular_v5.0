@@ -85,9 +85,41 @@
           <!-- Column -->
           <ngx-datatable-column name="Estado" prop="estado" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">
-                {{ id === 1 ? "Activo" : "Incativo" }}
+              <p class="font-weight-bold text-success" *ngIf="id === 1">
+                {{ id === 1 ? "Activo" : "Inactivo" }}
               </p>
+
+              <p class="font-weight-bold text-danger" *ngIf="id === 0">
+                {{ id === 1 ? "Activo" : "Inactivo" }}
+              </p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column
+            name="Cambiar estado"
+            prop="estado"
+            [width]="20"
+          >
+            <ng-template
+              let-id="value"
+              ngx-datatable-cell-template
+              let-row="row"
+            >
+              <form [formGroup]="switchForm">
+                <div class="custom-control custom-switch custom-control-inline">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    [id]="row.id_venta"
+                    (change)="switchEvent($event, row)"
+                    [formControl]="row.formcontrol"
+                  />
+                  <label
+                    class="custom-control-label"
+                    [for]="row.id_venta"
+                  ></label>
+                </div>
+              </form>
             </ng-template>
           </ngx-datatable-column>
 
@@ -260,6 +292,18 @@
         <p>
           <span class="text-primary"><b>Precio total: </b></span>
           {{ ventaData.precio_total | currency: "USD":"symbol":"3.0" }}
+        </p>
+        <p *ngIf="ventaData.estado === 0">
+          <span class="text-primary"><b>Estado: </b></span>
+          <span class="text-danger">{{
+            ventaData.estado == 1 ? "Activo" : "Inactivo"
+          }}</span>
+        </p>
+        <p *ngIf="ventaData.estado === 1">
+          <span class="text-primary"><b>Estado: </b></span>
+          <span class="text-success">{{
+            ventaData.estado == 1 ? "Activo" : "Inactivo"
+          }}</span>
         </p>
       </div>
       <div *ngIf="products.length != 0">

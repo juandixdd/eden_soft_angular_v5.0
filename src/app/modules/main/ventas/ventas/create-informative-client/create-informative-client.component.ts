@@ -111,8 +111,6 @@ export class CreateInformativeClientComponent implements OnInit {
   }
 
 
-
-
   createVenta() {
 
     this.timer = true;

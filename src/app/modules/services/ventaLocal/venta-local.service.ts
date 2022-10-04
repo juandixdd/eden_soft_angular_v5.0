@@ -22,4 +22,8 @@ export class VentaLocalService {
   getAllDetalleVentaData(id) {
     return this.http.get(`${this.API_URL}/venta-local-all-data/${id}`)
   }
+
+  anularVentaLocal(id, data) {
+    return this.http.put(`${this.API_URL}/venta-local/${id}`, data)
+  }
 }

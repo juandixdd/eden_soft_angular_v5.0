@@ -35,17 +35,10 @@
                   type="search"
                   placeholder="Buscar"
                   class="form-control ml-25"
-                  (keyup)="filterUpdate($event)"
               /></label>
 
               <!-- ? Botón de crear -->
-              <button
-                class="btn btn-primary ml-2"
-                (click)="modalOpen(modalForm)"
-                rippleEffect
-              >
-                <i class="feather icon-user-plus"></i> Nuevo Usuario
-              </button>
+              <button class="btn btn-primary ml-2" rippleEffect>Crear</button>
             </div>
           </div>
         </div>
@@ -61,67 +54,54 @@
           [scrollbarH]="true"
         >
           <!-- Column -->
-          <ngx-datatable-column name="Cedula" prop="id" [width]="20">
+          <ngx-datatable-column
+            name="Cedula"
+            prop="id_cliente_documento"
+            [width]="20"
+          >
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id }}</p>
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Nombre" prop="name" [width]="20">
+          <ngx-datatable-column
+            name="Nombre"
+            prop="nombre_completo"
+            [width]="20"
+          >
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
+              <p class="font-weight-bold text-dark">{{ id | titlecase }}</p>
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Apellido" prop="last_name" [width]="20">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">{{ id | uppercase }}</p>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <!-- Column -->
-          <ngx-datatable-column name="E-mail" prop="email" [width]="20">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">{{ id | lowercase }}</p>
-            </ng-template>
-          </ngx-datatable-column>
-       
-          <!-- Column -->
-          <ngx-datatable-column name="Telefono" prop="phone" [width]="20">
+          <ngx-datatable-column name="Correo" prop="correo" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id }}</p>
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Rol" prop="Nombre_rol" [width]="20">
+          <ngx-datatable-column name="Teléfono" prop="telefono" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">{{ id|titlecase }}</p>
+              <p class="font-weight-bold text-dark">{{ id }}</p>
             </ng-template>
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Funciones" prop="cancel" [width]="30">
+          <ngx-datatable-column name="Funciones" prop="cancel" [width]="20">
             <ng-template
               let-id="value"
               ngx-datatable-cell-template
               let-row="row"
             >
               <!-- Icono x rojo -->
-
-              <button
-                class="btn btn-icon btn-sm"
-                (click)="modalOpen(modalEdit); getUserData(row)"
-              >
+              <button class="btn btn-icon btn-sm">
                 <i class="feather icon-edit text-primary"></i>
               </button>
               <button class="btn btn-icon btn-sm">
-                <i
-                  class="feather icon-trash-2 text-danger"
-                  (click)="deleteUser(row.id)"
-                ></i>
+                <i class="feather icon-trash-2 text-danger"></i>
               </button>
             </ng-template>
           </ngx-datatable-column>
@@ -129,331 +109,4 @@
       </div>
     </section>
   </div>
-</div>
-
-<!-- *************************************************** MODALS *************************************************** -->
-
-<!-- ! Modal de agregar -->
-<div class="login-form">
-  <!-- Modal -->
-  <ng-template #modalForm let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="myModalLabel1">Agregar</h4>
-      <button
-        type="button"
-        class="close"
-        (click)="modal.dismiss('Cross click')"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" tabindex="0" ngbAutofocus>
-      <form class="form" [formGroup]="userForm">
-        <div class="row">
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="first-name-column">Nombres</label>
-              <input
-                type="text"
-                id="first-name-column"
-                class="form-control"
-                formControlName="name"
-              />
-              <span *ngIf="validField('name')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="last-name-column">Apellidos</label>
-              <input
-                type="text"
-                id="last-name-column"
-                class="form-control"
-                formControlName="last_name"
-              />
-              <span *ngIf="validField('last_name')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="city-column">Documento</label>
-              <input
-                type="number"
-                id="Telefono"
-                class="form-control"
-                placeholder="minimo 10 caracteres"
-                formControlName="id"
-              />
-              <span *ngIf="validField('id')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="country-floating">E-mail</label>
-              <input
-                type="email"
-                id="country-floating"
-                class="form-control"
-                formControlName="email"
-                placeholder="ejemplo@gmail.com"
-              />
-              <span *ngIf="validField('email')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="company-column">Contraseña</label>
-              <input
-                type="password"
-                id="company-column"
-                class="form-control"
-                formControlName="password"
-                placeholder="minimo 5 caracteres"
-              />
-              <span *ngIf="validField('password')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="email-id-column">Confirmar Contraseña</label>
-              <input
-                type="password"
-                id="email-id-column"
-                class="form-control"
-                placeholder="minimo 5 caracteres"
-                formControlName="confirmPassword"
-              />
-              <span *ngIf="validPassword()" class="text-danger">
-                Las contraseñas no son iguales
-                <br />
-              </span>
-              <span *ngIf="validField('confirmPassword')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="city-column">Telefono</label>
-              <input
-                type="number"
-                id="Telefono"
-                class="form-control"
-                formControlName="phone"
-              />
-              <span *ngIf="validField('phone')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <label>Rol </label>
-            <div class="form-group">
-              <ng-select
-                [items]="selectBasic | async"
-                bindLabel="rol"
-                formControlName="rol"
-                [ngModel]="selectBasic | async"
-                placeholder="Seleccione un rol"
-                (change)="onChange($event)"
-              >
-              
-              </ng-select>
-              <span *ngIf="validField('rol')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-        </div>
-        
-      </form>
-    </div>
-    <div class="modal-footer">
-      <div class="col-12">
-        <div class="row justify-content-end">
-          <button
-            type="reset"
-            rippleEffect
-            class="btn btn-outline-secondary mr-1"
-            (click)="resetForm()"
-          >
-            Limpiar campos
-          </button>
-          <button
-            rippleEffect
-            class="btn btn-primary"
-            (click)="createUser()"
-            [disabled]="!userForm.valid"
-          >
-            Registrar
-          </button>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-  <!-- / Modal -->
-</div>
-
-<!-- ! Modal de editar -->
-
-<div class="login-form">
-  <!-- Modal -->
-  <ng-template #modalEdit let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="myModalLabel1">Agregar</h4>
-      <button
-        type="button"
-        class="close"
-        (click)="modal.dismiss('Cross click')"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" tabindex="0" ngbAutofocus>
-      <form class="form" [formGroup]="editUserForm">
-        <div class="row">
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="first-name-column">Nombres</label>
-              <input
-                type="text"
-                id="first-name-column"
-                class="form-control"
-                formControlName="name"
-              />
-              <span *ngIf="editValidField('name')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="last-name-column">Apellidos</label>
-              <input
-                type="text"
-                id="last-name-column"
-                class="form-control"
-                formControlName="last_name"
-              />
-              <span *ngIf="editValidField('last_name')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="city-column">Documento</label>
-              <input
-                type="number"
-                id="Telefono"
-                class="form-control"
-                placeholder="minimo 10 caracteres"
-                formControlName="id"
-              />
-              <span *ngIf="editValidField('id')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="country-floating">E-mail</label>
-              <input
-                type="email"
-                id="country-floating"
-                class="form-control"
-                formControlName="email"
-                placeholder="ejemplo@gmail.com"
-              />
-              <span *ngIf="editValidField('email')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-12">
-            <div class="form-group">
-              <label for="city-column">Telefono</label>
-              <input
-                type="number"
-                id="Telefono"
-                class="form-control"
-                formControlName="phone"
-              />
-              <span *ngIf="editValidField('phone')" class="text-danger">
-                Este campo es requerido
-                <br />
-              </span>
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <label>Rol </label>
-            <div class="form-group">
-              <ng-select
-                [items]="selectBasic | async"
-                bindLabel="rol"
-                formControlName="rol"
-                [ngModel]="rolData"
-                placeholder="Seleccione una agencia"
-                (change)="onChange($event)"
-              >
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        
-      </form>
-    </div>
-    <div class="text-center" *ngIf="timer">
-      <div class="spinner-border" role="status">
-      </div>
-    </div>
-    <div class="modal-footer">
-      <div class="col-12">
-        <div class="row justify-content-end">
-          <button
-            type="reset"
-            rippleEffect
-            class="btn btn-outline-secondary mr-1"
-            (click)="resetForm()"
-          >
-            Limpiar campos
-          </button>
-          <button
-            rippleEffect
-            class="btn btn-primary"
-            (click)="updateUser()"
-            [disabled]="!editUserForm.valid"
-          >
-            Actualizar
-          </button>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-  <!-- / Modal -->
 </div>

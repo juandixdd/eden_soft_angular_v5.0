@@ -14,4 +14,8 @@ export class RegisterService {
   registerUser(users) {
     return this.http.post(`${this.API_URL}/register`, users);
   }
+
+  validateUserExists(email) {
+    return this.http.get(`${this.API_URL}/register/${email}`);
+  }
 }

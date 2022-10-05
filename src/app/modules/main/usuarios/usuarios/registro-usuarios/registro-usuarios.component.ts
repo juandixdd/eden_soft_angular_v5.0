@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { Router, RouterLink } from '@angular/router';
 import { RegisterService } from 'app/modules/services/register/register.service';
+import { ClientesInformativosService } from 'app/modules/services/clientesInformativos/clientes-informativos.service';
 
 @Component({
   selector: 'app-registro-usuarios',
@@ -22,6 +23,8 @@ export class RegistroUsuariosComponent implements OnInit {
   public passwordTextType: boolean;
   public submitted = false;
   user: any = {};
+  emailExists: boolean = false;
+  cedulaExists: boolean = false;
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -36,10 +39,9 @@ export class RegistroUsuariosComponent implements OnInit {
    */
   constructor(
     private _coreConfigService: CoreConfigService,
-    private _formBuilder: FormBuilder,
     private fb: FormBuilder,
-    private modalService: NgbModal,
     private registerService: RegisterService,
+    private clientesInformativosService: ClientesInformativosService,
     private router: Router
   ) {
     this._unsubscribeAll = new Subject();
@@ -63,27 +65,27 @@ export class RegistroUsuariosComponent implements OnInit {
   }
 
   public registerForm: FormGroup = this.fb.group({
-    name: [
+    nombre: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
-    last_name: [
+    apellido: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
-    email: [
+    correo: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.email]
     ],
-    id: [
+    id_cliente_documento: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
-    phone: [
+    telefono: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
-    password: [
+    contrasena: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
@@ -121,37 +123,73 @@ export class RegistroUsuariosComponent implements OnInit {
   }
 
   createUser() {
-    this.user.name = this.registerForm.controls['name'].value;
-    this.user.id = this.registerForm.controls['id'].value;
-    this.user.last_name = this.registerForm.controls['last_name'].value;
-    this.user.email = this.registerForm.controls['email'].value;
-    this.user.password = this.registerForm.controls['password'].value;
-    this.user.phone = this.registerForm.controls['phone'].value;
+    let exists: boolean;
+    this.user.nombre = this.registerForm.controls['nombre'].value;
+    this.user.id_cliente_documento = this.registerForm.controls['id_cliente_documento'].value;
+    this.user.apellido = this.registerForm.controls['apellido'].value;
+    this.user.correo = this.registerForm.controls['correo'].value;
+    this.user.contrasena = this.registerForm.controls['contrasena'].value;
+    this.user.telefono = this.registerForm.controls['telefono'].value;
 
-    this.registerService.registerUser(this.user).subscribe(
+
+    this.registerService.validateUserExists(this.user.correo).subscribe(
       (res: any) => {
-        if (res.statusCode == 403) {
-          this.modalService.dismissAll();
+        if (res.exists === false) {
+          this.clientesInformativosService.getDataById(this.user.id_cliente_documento).subscribe(
+            (res: any) => {
+              if (res.length === 0) {
+                try {
+                  this.clientesInformativosService.createCliente(this.user).subscribe(
+                    (res: any) => {
+                      console.log(res);
+
+                      this.registerService.registerUser(this.user).subscribe(
+                        (res: any) => {
+                          Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Registro exitoso',
+                            showConfirmButton: false,
+                            timer: 1500
+                          });
+                          this.router.navigate(['/main/login']);
+
+                        }
+                      )
+                    }
+                  )
+                } catch (error) {
+                  console.log(error);
+
+                }
+              }
+              else {
+                Swal.fire({
+                  position: 'center',
+                  icon: 'error',
+                  title: 'Opps, el número de cedula ya se encuentra registrado',
+                  showConfirmButton: true,
+                  confirmButtonText: "Ok"
+                })
+              }
+            }
+          )
+
+        } else if (res.exists === true) {
           Swal.fire({
+            position: 'center',
             icon: 'error',
-            title: 'Oops...',
-            text: res.status
+            title: 'Opps, el correo ya se encuentra registrado',
+            showConfirmButton: true,
+            confirmButtonText: "Ok"
           })
-        } else {
-          this.modalService.dismissAll();
-          this.registerForm.reset();
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Usuario creado con exito',
-            showConfirmButton: false,
-            timer: 1500
-          })
-          this.router.navigate(['main/login']);
+
         }
-      }
-    );
+      })
+
   }
+
+
 
   ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
@@ -159,13 +197,13 @@ export class RegistroUsuariosComponent implements OnInit {
     this._unsubscribeAll.complete();
   }
 
-  validField(field:string){
+  validField(field: string) {
     return this.registerForm.controls[field].errors &&
       this.registerForm.controls[field].touched
   }
 
-  validPassword(){
-    return this.registerForm.controls['password'].value !==this.registerForm.controls['confirmPassword'].value &&
-      this.registerForm.controls['password'].value !== '';
+  validPassword() {
+    return this.registerForm.controls['contrasena'].value !== this.registerForm.controls['confirmPassword'].value &&
+      this.registerForm.controls['contrasena'].value !== '';
   }
 }

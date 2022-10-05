@@ -13,67 +13,129 @@
           Completa los siguientes datos para registrarte
         </p>
 
-        <form class="auth-register-form mt-2" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <form
+          class="auth-register-form mt-2"
+          [formGroup]="registerForm"
+          (ngSubmit)="onSubmit()"
+        >
           <div class="row">
             <div class="col-md-6 col-12">
               <div class="form-group">
                 <label for="first-name-column">Nombres</label>
-                <input type="text" id="nombres" class="form-control" formControlName="name" autofocus />
-                <span class="text-danger" *ngIf="validField('name')">Este campo es requerido</span>
+                <input
+                  type="text"
+                  id="nombres"
+                  class="form-control"
+                  formControlName="nombre"
+                  autofocus
+                />
+                <span class="text-danger" *ngIf="validField('nombre')"
+                  >Este campo es requerido</span
+                >
               </div>
             </div>
             <div class="col-md-6 col-12">
               <div class="form-group">
                 <label for="last-name-column">Apellidos</label>
-                <input type="text" id="apellidos" class="form-control" formControlName="last_name" />
-                <span class="text-danger" *ngIf="validField('last_name')">Este campo es requerido</span>
+                <input
+                  type="text"
+                  id="apellidos"
+                  class="form-control"
+                  formControlName="apellido"
+                />
+                <span class="text-danger" *ngIf="validField('apellido')"
+                  >Este campo es requerido</span
+                >
               </div>
             </div>
             <div class="col-md-6 col-12">
               <div class="form-group">
                 <label for="city-column">Documento</label>
-                <input type="number" id="Telefono" class="form-control" placeholder="minimo 10 caracteres"
-                  formControlName="id" />
-                <span class="text-danger" *ngIf="validField('id')">Este campo es requerido</span>
+                <input
+                  type="number"
+                  id="Telefono"
+                  class="form-control"
+                  placeholder="minimo 10 caracteres"
+                  formControlName="id_cliente_documento"
+                />
+                <span class="text-danger" *ngIf="validField('id_cliente_documento')"
+                  >Este campo es requerido</span
+                >
               </div>
             </div>
             <div class="col-md-6 col-12">
               <div class="form-group">
                 <label for="city-column">Telefono</label>
-                <input type="number" id="Telefono" class="form-control" formControlName="phone" />
-                <span class="text-danger" *ngIf="validField('phone')">Este campo es requerido</span>
+                <input
+                  type="number"
+                  id="Telefono"
+                  class="form-control"
+                  formControlName="telefono"
+                />
+                <span class="text-danger" *ngIf="validField('telefono')"
+                  >Este campo es requerido</span
+                >
               </div>
             </div>
             <div class="col-md-12 col-12">
               <div class="form-group">
                 <label for="country-floating">E-mail</label>
-                <input type="email" id="country-floating" class="form-control" formControlName="email"
-                  placeholder="ejemplo@gmail.com" />
-                <span class="text-danger" *ngIf="validField('email')">Este campo es requerido</span>
+                <input
+                  type="email"
+                  id="country-floating"
+                  class="form-control"
+                  formControlName="correo"
+                  placeholder="ejemplo@gmail.com"
+                />
+                <span class="text-danger" *ngIf="validField('correo')"
+                  >Este campo es requerido</span
+                >
               </div>
             </div>
             <div class="col-md-6 col-12">
               <div class="form-group">
                 <label for="company-column">Contraseña</label>
-                <input type="password" id="company-column" class="form-control" formControlName="password"
-                  placeholder="minimo 5 caracteres" />
-                <span class="text-danger" *ngIf="validField('password')">Este campo es requerido</span>
+                <input
+                  type="password"
+                  id="company-column"
+                  class="form-control"
+                  formControlName="contrasena"
+                  placeholder="minimo 5 caracteres"
+                />
+                <span class="text-danger" *ngIf="validField('contrasena')"
+                  >Este campo es requerido</span
+                >
               </div>
             </div>
             <div class="col-md-6 col-12">
               <div class="form-group">
                 <label for="email-id-column">Confirmar Contraseña</label>
-                <input type="password" id="email-id-column" class="form-control" formControlName="confirmPassword"
-                  placeholder="minimo 5 caracteres" />
-                <span class="text-danger" *ngIf="validField('confirmPassword')">Este campo es requerido <br></span>
-                <span class="text-danger" *ngIf="validPassword()">Las Contraseñas no son iguales</span>
+                <input
+                  type="password"
+                  id="email-id-column"
+                  class="form-control"
+                  formControlName="confirmPassword"
+                  placeholder="minimo 5 caracteres"
+                />
+                <span class="text-danger" *ngIf="validField('confirmPassword')"
+                  >Este campo es requerido <br
+                /></span>
+                <span class="text-danger" *ngIf="validPassword()"
+                  >Las Contraseñas no son iguales</span
+                >
               </div>
             </div>
           </div>
           <hr />
-          <button class="btn btn-primary btn-block" tabindex="5" rippleEffect [disabled]="!registerForm.valid"
-            (click)="createUser()">
+          <button
+            class="btn btn-primary btn-block"
+            tabindex="5"
+            rippleEffect
+            
+            (click)="createUser()"
+          >
             Registrarse
+            <!-- [disabled]="!registerForm.valid" -->
           </button>
         </form>
 

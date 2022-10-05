@@ -332,6 +332,7 @@
                   class="form-control"
                   placeholder="minimo 10 caracteres"
                   formControlName="id_cliente_documento"
+                  disabled
                 />
                 <span
                   class="text-danger"
@@ -411,7 +412,7 @@
             tabindex="5"
             rippleEffect
             [disabled]="!editForm.valid"
-            (click)="editUser()"
+            (click)="updateUser()"
           >
             Editar
             <!-- [disabled]="!registerForm.valid" -->

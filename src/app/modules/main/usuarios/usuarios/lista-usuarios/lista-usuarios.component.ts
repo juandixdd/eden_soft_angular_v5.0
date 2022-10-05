@@ -190,11 +190,43 @@ export class ListaUsuariosComponent implements OnInit {
   }
 
   declareEditData(row) {
+
+    this.editUser = {
+      nombre: row.nombre,
+      apellido: row.apellido,
+      id_cliente_documento: row.id_cliente_documento,
+      correo: row.correo,
+      telefono: row.telefono
+    }
+
     this.editForm.controls['nombre'].setValue(row.nombre);
     this.editForm.controls['id_cliente_documento'].setValue(row.id_cliente_documento);
     this.editForm.controls['apellido'].setValue(row.apellido);
     this.editForm.controls['telefono'].setValue(row.telefono);
     this.editForm.controls['correo'].setValue(row.correo);
+  }
+
+  updateUser() {
+    console.log(this.editForm.value);
+
+    try {
+      this.clientesInformativosService.updateCliente(this.editUser.id_cliente_documento, this.editForm.value).subscribe(
+        (res: any) => {
+          console.log(res);
+          this.usuarioService.editData(this.editUser.id_cliente_documento, this.editForm.value).subscribe(
+            (res: any) => {
+              console.log(res);
+            }
+          )
+
+        }
+      )
+
+    } catch (error) {
+      console.log(error);
+
+    }
+
   }
 
   onSubmit() {

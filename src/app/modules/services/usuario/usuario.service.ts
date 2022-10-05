@@ -18,4 +18,8 @@ export class UsuarioService {
   getDataById(id: number) {
     return this.http.get(`${this.API_URL}/usuario/${id}`);
   }
+
+  editData(id: number, data: any) {
+    return this.http.put(`${this.API_URL}/usuario/${id}`, data);
+  }
 }

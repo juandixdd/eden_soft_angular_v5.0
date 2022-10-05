@@ -24,6 +24,7 @@ export class ListaUsuariosComponent implements OnInit {
   public passwordTextType: boolean;
   public submitted = false;
   user: any = {};
+  editUser: any = {};
   emailExists: boolean = false;
   cedulaExists: boolean = false;
   public ColumnMode = ColumnMode;
@@ -72,7 +73,37 @@ export class ListaUsuariosComponent implements OnInit {
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ]
+  })
 
+  public editForm: FormGroup = this.fb.group({
+    nombre: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+    ],
+    apellido: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+    ],
+    correo: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.email]
+    ],
+    id_cliente_documento: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+    ],
+    telefono: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+    ],
+    contrasena: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+    ],
+    confirmPassword: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+    ]
   })
 
   modalOpen(modal) { //? Esta es la funcion que abre las modales.
@@ -156,7 +187,14 @@ export class ListaUsuariosComponent implements OnInit {
 
         }
       })
+  }
 
+  declareEditData(row) {
+    this.editForm.controls['nombre'].setValue(row.nombre);
+    this.editForm.controls['id_cliente_documento'].setValue(row.id_cliente_documento);
+    this.editForm.controls['apellido'].setValue(row.apellido);
+    this.editForm.controls['telefono'].setValue(row.telefono);
+    this.editForm.controls['correo'].setValue(row.correo);
   }
 
   onSubmit() {
@@ -176,6 +214,16 @@ export class ListaUsuariosComponent implements OnInit {
   validPassword() {
     return this.registerForm.controls['contrasena'].value !== this.registerForm.controls['confirmPassword'].value &&
       this.registerForm.controls['contrasena'].value !== '';
+  }
+
+  editValidField(field: string) {
+    return this.editForm.controls[field].errors &&
+      this.editForm.controls[field].touched
+  }
+
+  editValidPassword() {
+    return this.editForm.controls['contrasena'].value !== this.editForm.controls['confirmPassword'].value &&
+      this.editForm.controls['contrasena'].value !== '';
   }
 
 }

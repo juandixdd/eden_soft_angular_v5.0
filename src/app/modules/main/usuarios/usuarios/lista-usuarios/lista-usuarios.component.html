@@ -104,7 +104,10 @@
             >
               <!-- Icono x rojo -->
               <button class="btn btn-icon btn-sm">
-                <i class="feather icon-edit text-primary"></i>
+                <i
+                  class="feather icon-edit text-primary"
+                  (click)="modalOpen(editModal); declareEditData(row)"
+                ></i>
               </button>
             </ng-template>
           </ngx-datatable-column>
@@ -258,6 +261,159 @@
             (click)="createUser()"
           >
             Registrar
+            <!-- [disabled]="!registerForm.valid" -->
+          </button>
+        </form>
+      </div>
+    </ng-template>
+    <!-- / Modal -->
+  </div>
+</div>
+
+<!-- ! Modal de editar -->
+<div>
+  <!-- Login Form -->
+  <div class="login-form">
+    <!-- Modal -->
+    <ng-template #editModal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel1">Editar</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="modal.dismiss('Cross click')"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <form
+          class="auth-register-form mt-2"
+          [formGroup]="editForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="first-name-column">Nombres</label>
+                <input
+                  type="text"
+                  id="nombres"
+                  class="form-control"
+                  formControlName="nombre"
+                  autofocus
+                />
+                <span class="text-danger" *ngIf="editValidField('nombre')"
+                  >Este campo es requerido</span
+                >
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="last-name-column">Apellidos</label>
+                <input
+                  type="text"
+                  id="apellidos"
+                  class="form-control"
+                  formControlName="apellido"
+                />
+                <span class="text-danger" *ngIf="editValidField('apellido')"
+                  >Este campo es requerido</span
+                >
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="city-column">Documento</label>
+                <input
+                  type="number"
+                  id="Telefono"
+                  class="form-control"
+                  placeholder="minimo 10 caracteres"
+                  formControlName="id_cliente_documento"
+                />
+                <span
+                  class="text-danger"
+                  *ngIf="editValidField('id_cliente_documento')"
+                  >Este campo es requerido</span
+                >
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="city-column">Telefono</label>
+                <input
+                  type="number"
+                  id="Telefono"
+                  class="form-control"
+                  formControlName="telefono"
+                />
+                <span class="text-danger" *ngIf="editValidField('telefono')"
+                  >Este campo es requerido</span
+                >
+              </div>
+            </div>
+            <div class="col-md-12 col-12">
+              <div class="form-group">
+                <label for="country-floating">E-mail</label>
+                <input
+                  type="email"
+                  id="country-floating"
+                  class="form-control"
+                  formControlName="correo"
+                  placeholder="ejemplo@gmail.com"
+                />
+                <span class="text-danger" *ngIf="editValidField('correo')"
+                  >Este campo es requerido</span
+                >
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="company-column">Contraseña</label>
+                <input
+                  type="password"
+                  id="company-column"
+                  class="form-control"
+                  formControlName="contrasena"
+                  placeholder="minimo 5 caracteres"
+                />
+                <span class="text-danger" *ngIf="editValidField('contrasena')"
+                  >Este campo es requerido</span
+                >
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="email-id-column">Confirmar Contraseña</label>
+                <input
+                  type="password"
+                  id="email-id-column"
+                  class="form-control"
+                  formControlName="confirmPassword"
+                  placeholder="minimo 5 caracteres"
+                />
+                <span
+                  class="text-danger"
+                  *ngIf="editValidField('confirmPassword')"
+                  >Este campo es requerido <br
+                /></span>
+                <span class="text-danger" *ngIf="editValidPassword()"
+                  >Las Contraseñas no son iguales</span
+                >
+              </div>
+            </div>
+          </div>
+          <hr />
+          <button
+            class="btn btn-primary btn-block"
+            tabindex="5"
+            rippleEffect
+            [disabled]="!editForm.valid"
+            (click)="editUser()"
+          >
+            Editar
             <!-- [disabled]="!registerForm.valid" -->
           </button>
         </form>

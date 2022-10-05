@@ -131,7 +131,7 @@
             class="btn btn-primary btn-block"
             tabindex="5"
             rippleEffect
-            
+            [disabled]="!registerForm.valid"
             (click)="createUser()"
           >
             Registrarse

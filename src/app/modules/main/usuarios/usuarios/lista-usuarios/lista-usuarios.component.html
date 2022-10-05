@@ -38,7 +38,13 @@
               /></label>
 
               <!-- ? Botón de crear -->
-              <button class="btn btn-primary ml-2" rippleEffect>Crear</button>
+              <button
+                class="btn btn-primary ml-2"
+                rippleEffect
+                (click)="modalOpen(addModal)"
+              >
+                Crear
+              </button>
             </div>
           </div>
         </div>
@@ -100,13 +106,163 @@
               <button class="btn btn-icon btn-sm">
                 <i class="feather icon-edit text-primary"></i>
               </button>
-              <button class="btn btn-icon btn-sm">
-                <i class="feather icon-trash-2 text-danger"></i>
-              </button>
             </ng-template>
           </ngx-datatable-column>
         </ngx-datatable>
       </div>
     </section>
+  </div>
+</div>
+
+<!-- *************************************************** MODALES *************************************************** -->
+
+<!-- ! Modal de agregar -->
+<div>
+  <!-- Login Form -->
+  <div class="login-form">
+    <!-- Modal -->
+    <ng-template #addModal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel1">Agregar</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="modal.dismiss('Cross click')"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <form
+          class="auth-register-form mt-2"
+          [formGroup]="registerForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="first-name-column">Nombres</label>
+                <input
+                  type="text"
+                  id="nombres"
+                  class="form-control"
+                  formControlName="nombre"
+                  autofocus
+                />
+                <span class="text-danger" *ngIf="validField('nombre')"
+                  >Este campo es requerido</span
+                >
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="last-name-column">Apellidos</label>
+                <input
+                  type="text"
+                  id="apellidos"
+                  class="form-control"
+                  formControlName="apellido"
+                />
+                <span class="text-danger" *ngIf="validField('apellido')"
+                  >Este campo es requerido</span
+                >
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="city-column">Documento</label>
+                <input
+                  type="number"
+                  id="Telefono"
+                  class="form-control"
+                  placeholder="minimo 10 caracteres"
+                  formControlName="id_cliente_documento"
+                />
+                <span
+                  class="text-danger"
+                  *ngIf="validField('id_cliente_documento')"
+                  >Este campo es requerido</span
+                >
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="city-column">Telefono</label>
+                <input
+                  type="number"
+                  id="Telefono"
+                  class="form-control"
+                  formControlName="telefono"
+                />
+                <span class="text-danger" *ngIf="validField('telefono')"
+                  >Este campo es requerido</span
+                >
+              </div>
+            </div>
+            <div class="col-md-12 col-12">
+              <div class="form-group">
+                <label for="country-floating">E-mail</label>
+                <input
+                  type="email"
+                  id="country-floating"
+                  class="form-control"
+                  formControlName="correo"
+                  placeholder="ejemplo@gmail.com"
+                />
+                <span class="text-danger" *ngIf="validField('correo')"
+                  >Este campo es requerido</span
+                >
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="company-column">Contraseña</label>
+                <input
+                  type="password"
+                  id="company-column"
+                  class="form-control"
+                  formControlName="contrasena"
+                  placeholder="minimo 5 caracteres"
+                />
+                <span class="text-danger" *ngIf="validField('contrasena')"
+                  >Este campo es requerido</span
+                >
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="email-id-column">Confirmar Contraseña</label>
+                <input
+                  type="password"
+                  id="email-id-column"
+                  class="form-control"
+                  formControlName="confirmPassword"
+                  placeholder="minimo 5 caracteres"
+                />
+                <span class="text-danger" *ngIf="validField('confirmPassword')"
+                  >Este campo es requerido <br
+                /></span>
+                <span class="text-danger" *ngIf="validPassword()"
+                  >Las Contraseñas no son iguales</span
+                >
+              </div>
+            </div>
+          </div>
+          <hr />
+          <button
+            class="btn btn-primary btn-block"
+            tabindex="5"
+            rippleEffect
+            [disabled]="!registerForm.valid"
+            (click)="createUser()"
+          >
+            Registrar
+            <!-- [disabled]="!registerForm.valid" -->
+          </button>
+        </form>
+      </div>
+    </ng-template>
+    <!-- / Modal -->
   </div>
 </div>

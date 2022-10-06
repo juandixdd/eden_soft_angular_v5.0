@@ -10,11 +10,7 @@
 <div *ngIf="timer" class="m-3 fixed-bottom">
   <div class="row justify-content-end">
     <button class="btn btn-primary" type="button" style="cursor: default">
-      <span
-        class="spinner-border spinner-border-sm"
-        role="status"
-        aria-hidden="true"
-      ></span>
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
       Guardando la cotización...
     </button>
   </div>
@@ -22,263 +18,161 @@
 
 <!-- ?Productos -->
 
+
 <div style="margin-top: 10rem">
   <div class="container-custom">
+    <div class="row justify-content-center text-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="header">
+          <h1>Nuestros Productos</h1>
+        </div>
+      </div>
+    </div>
     <div class="row justify-content-center">
       <div class="col-md-3" *ngFor="let product of products">
         <div class="card" style="border-radius: 15px">
-          <img [src]="product.imagen" class="card-img-top" alt="product-img" />
-          <div class="card-body">
-            <h3 class="text-primary">{{ product.nombre }}</h3>
-            <hr />
-            <div class="row justify-content-between align-items-center">
-              <div class="col-auto">
-                <h4>{{ product.precio | currency: "USD":"symbol":"3.0" }}</h4>
-              </div>
-              <div class="col-auto">
-                <a
-                  (click)="addItem(product.id, product.nombre, product.precio)"
-                  class="btn btn-outline-primary"
-                  ><i class="fa fa-cart-shopping text-primary"></i
-                ></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODELO DE CARD DOS   CARLOS -->
-
-  <section class="section-products">
-    <div class="container">
-      <div class="row justify-content-center text-center">
-        <div class="col-md-8 col-lg-6">
-          <div class="header">
-            <h2>Nuestros Productos</h2>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-3 col-sm-6" *ngFor="let product of products">
           <div class="product-grid">
             <div class="product-image">
-              <a href="#" class="image">
-                <img
-                  [src]="product.imagen"
-                  style="width: auto; height: 225px"
-                />
-              </a>
-              <ul class="product-links">
-                <li>
-                  <a href="#"><i class="fa fa-search"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-heart"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-random"></i></a>
-                </li>
-              </ul>
-              <a
-                class="add-to-cart"
-                (click)="addItem(product.id, product.nombre)"
-                rippleEffect
-              >
-                <i data-feather="shopping-cart" class="mr-25"></i>
-                Agregar al carrito</a
-              >
-            </div>
-            <div class="product-content">
-              <h3 class="product-title">{{ product.nombre }}</h3>
-              <div h4 class="product-price">
-                {{ product.precio | currency: "USD":"symbol":"3.0" }}
+              <img [src]="product.imagen" class="card-img-top" alt="product-img" />
+              <div class="card-body">
+                <h3 class="text-primary">{{ product.nombre }}</h3>
+                <hr />
+                <div class="row justify-content-center text-center align-items-center">
+                  <div class="col-auto">
+                    <h4>{{ product.precio | currency: "USD":"symbol":"3.0" }}</h4>
+                    <br />
+                  </div>
+                  <a class="add-to-cart" (click)="addItem(product.id, product.nombre, product.precio)" rippleEffect>
+                    <i data-feather="shopping-cart" class="mr-25"></i>
+                    Agregar</a>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- *************************************************** MODALES *************************************************** -->
-
-  <!-- ! Modal de info -->
-  <div>
-    <ng-template #infoModal let-modal>
-      <div class="modal-header">
-        <h4 class="modal-title text-primary" id="myModalLabel1">
-          Carrito de compras
-        </h4>
-        <button
-          type="button"
-          class="close"
-          (click)="modal.dismiss('Cross click')"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <!-- ?Body de la modal -->
-
-      <div class="divider divider-primary">
-        <div class="divider-text">Productos</div>
-      </div>
-
-      <div class="m-1" *ngIf="items.length === 0">
-        <p>Aún no se agregan productos al carrito...</p>
-      </div>
-
-      <form action="#" class="invoice-repeater m-1">
-        <div *ngFor="let item of items; let i = index">
-          <div class="row d-flex align-items-end">
-            <div class="col-md-4 col-12">
-              <div class="form-group">
-                <label for="itemName{{ i }}">Producto</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  [(ngModel)]="item.itemName"
-                  name="itemName{{ i }}"
-                  id="itemName{{ i }}"
-                  placeholder="Vuexy Admin Template"
-                  disabled
-                />
-              </div>
-            </div>
-
-            <div class="col-md-3 col-12">
-              <div class="form-group">
-                <label for="{{ item.itemPrice }}">Precio unitario</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="{{ item.itemPrice }}"
-                  name="itemPrice{{ i }}"
-                  [(ngModel)]="item.itemPrice"
-                  placeholder="1"
-                  (change)="saveProductsEvent($event)"
-                  disabled
-                />
-              </div>
-            </div>
-
-            <div class="col-md-3 col-12">
-              <div class="form-group">
-                <label for="{{ item.itemName }}">Cantidad</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="{{ item.itemName }}"
-                  name="itemQuantity{{ i }}"
-                  [(ngModel)]="item.itemQuantity"
-                  placeholder="1"
-                  (change)="saveProductsEvent($event, item.itemName)"
-                />
-              </div>
-            </div>
-
-            <div class="col-md-2 col-12 mb-50">
-              <div class="form-group">
-                <button
-                  class="btn btn-outline-danger text-nowrap px-1"
-                  (click)="deleteItem(i); saveProducts()"
-                  rippleEffect
-                >
-                  <i data-feather="x" class="mr-25"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <hr />
-        </div>
-      </form>
-
-      <div class="modal-footer" *ngIf="items.length != 0">
-        <button
-          type="button"
-          class="btn btn-outline-primary"
-          rippleEffect
-          (click)="modalOpen(loginModal, 'cotizacion')"
-        >
-          Generar cotización
-        </button>
-        <button type="button" 
-          class="btn btn-primary" 
-          rippleEffect
-          (click)="modalOpen(loginModal, 'pedido')"
-          >
-          Hacer pedido
-        </button>
-      </div>
-    </ng-template>
-    <!-- / Modal -->
-  </div>
-
-  <!-- ! Modal de iniciar sesion -->
-  <div>
-    <ng-template #loginModal let-modal>
-      <div class="modal-header">
-        <h4 class="modal-title text-primary" id="myModalLabel1">
-          Debes inciar sesion para generar la cotizacion
-        </h4>
-        <button
-          type="button"
-          class="close"
-          (click)="modal.dismiss('Cross click')"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <!-- ?Body de la modal -->
-      <div class="m-1">
-        <form class="auth-register-form mt-2" [formGroup]="loginForm">
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label for="country-floating">E-mail</label>
-                <input
-                  type="email"
-                  id="country-floating"
-                  class="form-control"
-                  formControlName="correo"
-                  placeholder="ejemplo@gmail.com"
-                />
-              </div>
-            </div>
-
-            <div class="col-12">
-              <div class="form-group">
-                <label for="company-column">Contraseña</label>
-                <input
-                  type="password"
-                  id="company-column"
-                  class="form-control"
-                  formControlName="contrasena"
-                  placeholder="minimo 5 caracteres"
-                />
-              </div>
-            </div>
-          </div>
-
-          <hr />
-          <button
-            class="btn btn-primary btn-block"
-            tabindex="5"
-            rippleEffect
-            [disabled]="!loginForm.valid"
-            (click)="loginUser()"
-          >
-            Iniciar sesión
-          </button>
-        </form>
-      </div>
-    </ng-template>
-    <!-- / Modal -->
   </div>
 </div>
 
+
+
+<!-- *************************************************** MODALES *************************************************** -->
+
+<!-- ! Modal de info -->
+<div>
+  <ng-template #infoModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title text-primary" id="myModalLabel1">
+        Carrito de compras
+      </h4>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <!-- ?Body de la modal -->
+
+    <div class="divider divider-primary">
+      <div class="divider-text">Productos</div>
+    </div>
+
+    <div class="m-1" *ngIf="items.length === 0">
+      <p>Aún no se agregan productos al carrito...</p>
+    </div>
+
+    <form action="#" class="invoice-repeater m-1">
+      <div *ngFor="let item of items; let i = index">
+        <div class="row d-flex align-items-end">
+          <div class="col-md-4 col-12">
+            <div class="form-group">
+              <label for="itemName{{ i }}">Producto</label>
+              <input type="text" class="form-control" [(ngModel)]="item.itemName" name="itemName{{ i }}"
+                id="itemName{{ i }}" placeholder="Vuexy Admin Template" disabled />
+            </div>
+          </div>
+
+          <div class="col-md-3 col-12">
+            <div class="form-group">
+              <label for="{{ item.itemPrice }}">Precio unitario</label>
+              <input type="number" class="form-control" id="{{ item.itemPrice }}" name="itemPrice{{ i }}"
+                [(ngModel)]="item.itemPrice" placeholder="1" (change)="saveProductsEvent($event)" disabled />
+            </div>
+          </div>
+
+          <div class="col-md-3 col-12">
+            <div class="form-group">
+              <label for="{{ item.itemName }}">Cantidad</label>
+              <input type="number" class="form-control" id="{{ item.itemName }}" name="itemQuantity{{ i }}"
+                [(ngModel)]="item.itemQuantity" placeholder="1" (change)="saveProductsEvent($event, item.itemName)" />
+            </div>
+          </div>
+
+          <div class="col-md-2 col-12 mb-50">
+            <div class="form-group">
+              <button class="btn btn-outline-danger text-nowrap px-1" (click)="deleteItem(i); saveProducts()"
+                rippleEffect>
+                <i data-feather="x" class="mr-25"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
+    </form>
+
+    <div class="modal-footer" *ngIf="items.length != 0">
+      <button type="button" class="btn btn-outline-primary" rippleEffect (click)="modalOpen(loginModal, 'cotizacion')">
+        Generar cotización
+      </button>
+      <button type="button" class="btn btn-primary" rippleEffect (click)="modalOpen(loginModal, 'pedido')">
+        Hacer pedido
+      </button>
+    </div>
+  </ng-template>
+  <!-- / Modal -->
+</div>
+
+<!-- ! Modal de iniciar sesion -->
+<div>
+  <ng-template #loginModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title text-primary" id="myModalLabel1">
+        Debes inciar sesion para generar la cotizacion
+      </h4>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <!-- ?Body de la modal -->
+    <div class="m-1">
+      <form class="auth-register-form mt-2" [formGroup]="loginForm">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label for="country-floating">E-mail</label>
+              <input type="email" id="country-floating" class="form-control" formControlName="correo"
+                placeholder="ejemplo@gmail.com" />
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label for="company-column">Contraseña</label>
+              <input type="password" id="company-column" class="form-control" formControlName="contrasena"
+                placeholder="minimo 5 caracteres" />
+            </div>
+          </div>
+        </div>
+
+        <hr />
+        <button class="btn btn-primary btn-block" tabindex="5" rippleEffect [disabled]="!loginForm.valid"
+          (click)="loginUser()">
+          Iniciar sesión
+        </button>
+      </form>
+    </div>
+  </ng-template>
+  <!-- / Modal -->
+</div>

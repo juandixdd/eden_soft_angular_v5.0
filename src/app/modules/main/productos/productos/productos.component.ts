@@ -3,10 +3,12 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { CoreConfigService } from "@core/services/config.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ClientesInformativosService } from "app/modules/services/clientesInformativos/clientes-informativos.service";
 import { LoginService } from "app/modules/services/login/login.service";
 import { PedidosService } from "app/modules/services/pedidos/pedidos.service";
 import { ProductosService } from "app/modules/services/productos/productos.service";
 import { UsersService } from "app/modules/services/users/users.service";
+import { UsuarioService } from "app/modules/services/usuario/usuario.service";
 import { count } from "console";
 import moment, { parseTwoDigitYear } from "moment";
 import { parse } from "path";
@@ -46,7 +48,9 @@ export class ProductosComponent implements OnInit {
     private loginService: LoginService,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private usuarioService: UsuarioService,
+    private clientesInformativosService: ClientesInformativosService
   ) {
     // Configure the layout
     this._coreConfigService.config = {
@@ -75,8 +79,8 @@ export class ProductosComponent implements OnInit {
   }
 
   public loginForm: FormGroup = this.fb.group({
-    email: ["", [Validators.required, Validators.email]],
-    password: [
+    correo: ["", [Validators.required, Validators.email]],
+    contrasena: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
     ],
@@ -167,83 +171,92 @@ export class ProductosComponent implements OnInit {
   }
 
   generarCotizacion(item) {
+
     try {
+
       this.timer = true;
       let usuario;
       let itemQuantity = [];
       let itemQuantitySum;
       let cont: number = 0;
-      this.usersService.getDataById(item.userId).subscribe((res: any) => {
-        usuario = res[0];
-        console.log(usuario);
+      let producto: any = {};
 
-        //? Aqui se calcula el total del precio de los productos
-        this.items.forEach((item) => {
-          this.productosService
-            .getDataById(item.itemId)
-            .subscribe((res: any) => {
-              cont = res[0].precio * item.itemQuantity;
-              itemQuantity.push(cont);
-              itemQuantitySum = itemQuantity.reduce((a, b) => a + b, 0);
-              console.log(itemQuantitySum, "xd");
-            });
-        });
+      this.clientesInformativosService.getDataById(item.userId).subscribe(
+        (res: any) => {
+          usuario = res[0]
+          console.log(usuario);
 
-        //? Se guarda el nuevo pedido como cotización
-        setTimeout(() => {
-          let newItem = {
-            id_usuario_documento: usuario.id,
-            fecha_registro: moment().format("YYYY-MM-D"),
-            estado: 1,
-            tipo: "cotizacion",
-            precio_total: itemQuantitySum,
-            fecha_entrega: "2022-09-17",
-          };
-
-          this.pedidosService.createPedido(newItem).subscribe((res: any) => {
-            console.log(res);
-            this.newCotizacionId = res.pedidoId;
-          });
-          console.log(this.items);
-          let producto: any = {};
-
-          //? Se guarda el detalle del pedido
+          //? Aqui se calcula el total del precio de los productos
           this.items.forEach((item) => {
-            setTimeout(() => {
-              this.productosService
-                .getDataById(item.itemId)
-                .subscribe((res: any) => {
-                  producto = res;
-                  let detalle_producto = {
-                    id_producto: item.itemId,
-                    cantidad: item.itemQuantity,
-                    precio_unitario: producto[0].precio,
-                    id_pedido: this.newCotizacionId,
-                  };
-                  this.pedidosService
-                    .createDetalle(detalle_producto)
-                    .subscribe((res: any) => {
-                      console.log(res);
-                    });
-                });
-            }, 1000);
-          });
-          this.timer = false;
-
-          //? se confirma el guardado
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Hecho!",
-            text: "Se guardó la cotización",
-            showConfirmButton: false,
-            timer: 1000,
+            this.productosService
+              .getDataById(item.itemId)
+              .subscribe((res: any) => {
+                cont = res[0].precio * item.itemQuantity;
+                itemQuantity.push(cont);
+                itemQuantitySum = itemQuantity.reduce((a, b) => a + b, 0);
+                console.log(itemQuantitySum, "xd");
+              });
           });
 
-          //? se manda al usuario para las cotizaciones
-          this.router.navigate(["main/cotizacion/user"]);
-        }, 1500);
-      });
+          //? Se guarda el nuevo pedido como cotización
+          setTimeout(() => {
+            let newItem = {
+              id_cliente_documento: usuario.id_cliente_documento,
+              fecha_registro: moment().format("YYYY-MM-D"),
+              estado: 1,
+              tipo: "cotizacion",
+              precio_total: itemQuantitySum,
+              fecha_entrega: "2022-09-17",
+            };
+            console.log(newItem);
+
+            this.pedidosService.createPedido(newItem).subscribe((res: any) => {
+              console.log("Respuesta de guardado del pedido: ", res);
+              this.newCotizacionId = res.pedidoId;
+            });
+            console.log(this.items);
+
+            //? Se guarda el detalle del pedido
+            this.items.forEach((item) => {
+              setTimeout(() => {
+                this.productosService
+                  .getDataById(item.itemId)
+                  .subscribe((res: any) => {
+                    producto = res;
+                    let detalle_producto = {
+                      id_producto: item.itemId,
+                      cantidad: item.itemQuantity,
+                      precio_unitario: producto[0].precio,
+                      id_pedido: this.newCotizacionId,
+                    };
+                    this.pedidosService
+                      .createDetalle(detalle_producto)
+                      .subscribe((res: any) => {
+                        console.log(res);
+                      });
+                  });
+              }, 1000);
+            });
+            //? se confirma el guardado
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Hecho!",
+              text: "Se guardó la cotización",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+
+            this.timer = false;
+            this.router.navigate(["main/cotizacion/user"]);
+
+          }, 1500)
+
+        }
+      )
+
+      console.log(item);
+
     } catch (error) {
       Swal.fire({
         position: "top-end",
@@ -251,9 +264,10 @@ export class ProductosComponent implements OnInit {
         title: "Oops...",
         text: "Algo salió mal, intentalo de nuevo",
         showConfirmButton: false,
-        timer: 1000,
+        timer: 1500,
       });
     }
+
   }
 
   togglePasswordTextType() {
@@ -264,8 +278,8 @@ export class ProductosComponent implements OnInit {
   userData: any;
   loginUser() {
     if (this.type === "cotizacion") {
-      this.user.email = this.loginForm.controls["email"].value;
-      this.user.password = this.loginForm.controls["password"].value;
+      this.user.correo = this.loginForm.controls["correo"].value;
+      this.user.contrasena = this.loginForm.controls["contrasena"].value;
 
       this.loginService.login(this.user).subscribe((res: any) => {
         if (res.statusCode == 200) {
@@ -283,8 +297,8 @@ export class ProductosComponent implements OnInit {
         }
       });
     } else if (this.type === "pedido") {
-      this.user.email = this.loginForm.controls["email"].value;
-      this.user.password = this.loginForm.controls["password"].value;
+      this.user.correo = this.loginForm.controls["correo"].value;
+      this.user.contrasena = this.loginForm.controls["contrasena"].value;
 
       this.loginService.login(this.user).subscribe((res: any) => {
         if (res.statusCode == 200) {
@@ -301,7 +315,7 @@ export class ProductosComponent implements OnInit {
           });
         }
       });
-      
+
     }
   }
 }

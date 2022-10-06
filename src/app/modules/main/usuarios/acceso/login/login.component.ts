@@ -131,4 +131,94 @@ export class LoginComponent implements OnInit {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
+
+
+ /*  
+ try {
+    this.timer = true;
+    let usuario;
+    let itemQuantity = [];
+    let itemQuantitySum;
+    let cont: number = 0;
+    this.usersService.getDataById(item.userId).subscribe((res: any) => {
+      usuario = res[0];
+      console.log(usuario);
+
+      //? Aqui se calcula el total del precio de los productos
+      this.items.forEach((item) => {
+        this.productosService
+          .getDataById(item.itemId)
+          .subscribe((res: any) => {
+            cont = res[0].precio * item.itemQuantity;
+            itemQuantity.push(cont);
+            itemQuantitySum = itemQuantity.reduce((a, b) => a + b, 0);
+            console.log(itemQuantitySum, "xd");
+          });
+      });
+
+      //? Se guarda el nuevo pedido como cotización
+      setTimeout(() => {
+        let newItem = {
+          id_usuario_documento: usuario.id,
+          fecha_registro: moment().format("YYYY-MM-D"),
+          estado: 1,
+          tipo: "cotizacion",
+          precio_total: itemQuantitySum,
+          fecha_entrega: "2022-09-17",
+        };
+
+        this.pedidosService.createPedido(newItem).subscribe((res: any) => {
+          console.log(res);
+          this.newCotizacionId = res.pedidoId;
+        });
+        console.log(this.items);
+        let producto: any = {};
+
+        //? Se guarda el detalle del pedido
+        this.items.forEach((item) => {
+          setTimeout(() => {
+            this.productosService
+              .getDataById(item.itemId)
+              .subscribe((res: any) => {
+                producto = res;
+                let detalle_producto = {
+                  id_producto: item.itemId,
+                  cantidad: item.itemQuantity,
+                  precio_unitario: producto[0].precio,
+                  id_pedido: this.newCotizacionId,
+                };
+                this.pedidosService
+                  .createDetalle(detalle_producto)
+                  .subscribe((res: any) => {
+                    console.log(res);
+                  });
+              });
+          }, 1000);
+        });
+        this.timer = false;
+
+        //? se confirma el guardado
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Hecho!",
+          text: "Se guardó la cotización",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+
+        //? se manda al usuario para las cotizaciones
+        this.router.navigate(["main/cotizacion/user"]);
+      }, 1500);
+    });
+  } catch (error) {
+    Swal.fire({
+      position: "top-end",
+      icon: "error",
+      title: "Oops...",
+      text: "Algo salió mal, intentalo de nuevo",
+      showConfirmButton: false,
+      timer: 1000,
+    });
+  } */
 }

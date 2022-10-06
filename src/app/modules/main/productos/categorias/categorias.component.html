@@ -83,6 +83,29 @@
             </ng-template>
           </ngx-datatable-column>
 
+
+          <!-- Column -->
+          <ngx-datatable-column name="cambiar estado" prop="estado" [width]="15">
+            <ng-template let-row="row" let-id="value" ngx-datatable-cell-template>
+              <form [formGroup]="switchForm">
+                <div class="custom-control custom-switch custom-control-inline">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    [id]="row.id"
+                    (change)="switchEvent($event, row)"
+                    [formControl]="row.formcontrol"
+                    [disabled]
+                  />
+                  <label
+                    class="custom-control-label"
+                    [for]="row.id"
+                  ></label>
+                </div>
+              </form>
+            </ng-template>
+          </ngx-datatable-column>
+
           <!-- Column -->
           <ngx-datatable-column name="Funciones" prop="cancel" [width]="20">
             <ng-template 

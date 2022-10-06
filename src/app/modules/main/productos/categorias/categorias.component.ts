@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { CategoriaService } from 'app/modules/services/categoria/categoria.service';
@@ -45,7 +45,9 @@ export class CategoriasComponent implements OnInit {
     ]
   })
 
-  
+  public switchForm: FormGroup = this.fb.group({
+    estado:[]
+  })
 
   ngOnInit(): void {
     this.tempData = this.rows; //? Esto también es del buscador (Que no funciona)
@@ -57,9 +59,15 @@ export class CategoriasComponent implements OnInit {
   getCategorias() {
     this.categoriasService.getData().subscribe(
       (res: any) => {
+        res.forEach((item) => {
+          console.log(item);
+          
+           item.formcontrol = new FormControl(item.estado);
+           this.switchForm.addControl(item.id, item.formcontrol)
+         });
         this.rows = res;
-      }
-    )
+        console.log(this.rows);
+      });
   }
 
   createCategoria() {
@@ -217,6 +225,55 @@ export class CategoriasComponent implements OnInit {
 
     // update the rows
     this.kitchenSinkRows = temp;
+  }
+
+
+  switchEvent({target}, row){
+    let checked = target.checked;
+    let status = {
+      estado: checked
+    }
+    console.log(status);
+    setTimeout(()=>{
+      Swal.fire({
+        title: '¿Estas seguro?',
+        text: "Cambiarás el estado de esta categoria",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Cambiar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.categoriasService.cambiarEstado(row.id, status).subscribe(
+            (res:any) =>{
+              if(res.status === 200){
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: 'Se cambio el estado de la categoria',
+                  showConfirmButton: false,
+                  timer: 1000
+                })
+                this.getCategorias()
+              }
+            }
+          )
+            
+        }
+        else {
+          this.getCategorias();
+          Swal.fire({
+            position: 'top-end',
+            icon: 'warning',
+            title: 'No se cambió el estado de la categoria',
+            showConfirmButton: false,
+            timer: 1000
+          })
+        }
+      })
+    },100)
   }
 
 }

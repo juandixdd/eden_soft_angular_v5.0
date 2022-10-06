@@ -35,4 +35,8 @@ export class ProductosService {
     return this.http.delete(`${this.API_URL}/productos/${id}`)
 }
 
+  cambiarEstado(id, body){
+    return this.http.put(`${this.API_URL}/productos/cambiarEstado/${id}`, body)
+}
+
 }

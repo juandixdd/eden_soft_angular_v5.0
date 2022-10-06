@@ -59,7 +59,7 @@ export class PedidosService {
   }
 
   anularCotizacion(id, body){
-    return this.http.get(`${this.API_URL}/cotizaciones/anular/${id}`, body);
+    return this.http.put(`${this.API_URL}/cotizaciones/anular/${id}`, body);
     //? anular cotizaciones 
   }
 }

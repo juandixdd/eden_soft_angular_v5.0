@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { CategoriaService } from 'app/modules/services/categoria/categoria.service';
@@ -66,9 +66,13 @@ export class CotizacionComponent implements OnInit {
     ],
   });
 
+  public switchForm: FormGroup = this.fb.group({
+    estado:[]
+  })
   ngOnInit(): void {
     this.getCategorias();
     this.getCotizaciones();
+    
   }
 
   modalOpen(modal) {
@@ -161,10 +165,66 @@ export class CotizacionComponent implements OnInit {
   getCotizaciones(){
     this.pedidosService.getCotizaciones().subscribe(
       (res: any) =>{
+         res.forEach((item) => {
+          console.log(item, "xd");
+          
+           item.formcontrol = new FormControl(item.estado);
+           this.switchForm.addControl(item.id_pedido, item.formcontrol)
+         });
         this.rows = res
       }
     )
   
+  }
+
+  switchEvent({target}, row){
+    let checked = target.checked;
+    let status = {
+      estado: checked
+    }
+    console.log(status);
+    setTimeout(()=>{
+      Swal.fire({
+        title: '¿Estas seguro?',
+        text: "Cambiarás el estado de la cotizacion",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Cambiar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          console.log("sipi");
+          this.pedidosService.anularCotizacion(row.id_pedido, status).subscribe(
+            (res:any) =>{
+              if(res.status === 200){
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: 'Se cambio el estado de la cotizacion',
+                  showConfirmButton: false,
+                  timer: 1000
+                })
+                this.getCotizaciones()
+              }
+            }
+          )
+            
+        }
+        else {
+          console.log("nopi");
+          this.getCotizaciones();
+          Swal.fire({
+            position: 'top-end',
+            icon: 'warning',
+            title: 'No se cambió el estado de la venta',
+            showConfirmButton: false,
+            timer: 1000
+          })
+        }
+      })
+    },100)
   }
   
   contPrecioTotal: any = 0;

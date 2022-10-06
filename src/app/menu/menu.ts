@@ -125,7 +125,7 @@ export const menu: CoreMenu[] = [
     title: 'Pedidos',
     translate: 'Pedidos',
     type: 'collapsible',
-    icon: 'shopping-cart',
+    icon: 'shopping-bag',
     children: [
       {
         id: 'Cotizacion',
@@ -138,8 +138,15 @@ export const menu: CoreMenu[] = [
         id: 'Pedidos',
         title: 'Pedidos',
         type: 'item',
-        icon: 'package',
+        icon: 'dollar-sign',
         url: 'main/pedidos'
+      },
+      {
+        id: 'Pedidos-local',
+        title: 'Pedidos locales',
+        type: 'item',
+        icon: 'package',
+        url: 'main/pedidos-local'
       }
     ]
   },

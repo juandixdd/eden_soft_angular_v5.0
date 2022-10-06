@@ -21,6 +21,7 @@ import { CreateInformativeClientComponent } from './ventas/ventas/create-informa
 import { PedidosComponent } from './pedidos/pedidos/pedidos.component';
 import { PagoComponent } from './pedidos/pedidos/pago/pago.component';
 import { CotizacionClienteComponent } from './pedidos/cotizacion-cliente/cotizacion-cliente.component';
+import { PedidosLocalComponent } from './pedidos/pedidos-local/pedidos-local.component';
 
 const routes: Routes = [
 
@@ -60,6 +61,7 @@ const routes: Routes = [
 
   { path: 'pedidos', component: PedidosComponent, canActivate: [AuthGuardGuard]},
   { path: 'pedidos/pago', component: PagoComponent, canActivate: [AuthGuardGuard]},
+  { path: 'pedidos-local', component: PedidosLocalComponent, canActivate: [AuthGuardGuard]},
 
 ];
 

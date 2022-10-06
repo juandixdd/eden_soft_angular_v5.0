@@ -25,6 +25,10 @@ export class PedidosService {
     return this.http.post(`${this.API_URL}/pedidos`, product)
   }
 
+  getPedidoByCedula(cedula: any){
+    return this.http.get(`${this.API_URL}/pedidos/cliente/${cedula}`)
+  }
+
   //? servicios del detalle del pedido
   getDetalles() {
     return this.http.get(`${this.API_URL}/detalle-pedido`)
@@ -62,5 +66,6 @@ export class PedidosService {
     return this.http.put(`${this.API_URL}/cotizaciones/anular/${id}`, body);
     //? anular cotizaciones 
   }
+
 }
 

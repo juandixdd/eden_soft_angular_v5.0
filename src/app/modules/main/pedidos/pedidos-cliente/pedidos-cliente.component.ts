@@ -10,12 +10,12 @@ import { of } from "rxjs";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: "app-pedidos",
-  templateUrl: "./pedidos.component.html",
-  styleUrls: ["./pedidos.component.scss"],
+  selector: 'app-pedidos-cliente',
+  templateUrl: './pedidos-cliente.component.html',
+  styleUrls: ['./pedidos-cliente.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class PedidosComponent implements OnInit {
+export class PedidosClienteComponent implements OnInit {
   public selectedOption = 10; //? Este es el selector de cuantas filas quieres ver en la tabla, en este caso, 10.
   public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
@@ -38,6 +38,7 @@ export class PedidosComponent implements OnInit {
   clientData: any = {};
   todayDate = moment().format('YYYY-MM-DD');
   public dateValidator: boolean = true; 
+  userId= localStorage.getItem('userId');
 
   constructor(
     private modalService: NgbModal,
@@ -75,11 +76,12 @@ export class PedidosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPedidos();
+
     console.log(this.todayDate);
   }
 
   getPedidos() {
-    this.pedidosService.getData().subscribe((res: any) => {
+    this.pedidosService.getPedidoByCedula(this.userId).subscribe((res: any) => {
       res.forEach((item) => {
         console.log(item);
         
@@ -234,4 +236,5 @@ export class PedidosComponent implements OnInit {
       })
     },100)
   }
+
 }

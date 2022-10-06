@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { PedidosService } from "app/modules/services/pedidos/pedidos.service";
 
@@ -18,6 +19,7 @@ export class PagoComponent implements OnInit {
 
   constructor(
     private pedidosService: PedidosService,
+    private fb: FormBuilder,
 
   ) { }
 
@@ -34,6 +36,14 @@ export class PagoComponent implements OnInit {
     });
 
   }
+
+  public pagoForm: FormGroup = this.fb.group({
+    fecha_pago: [
+      "",
+      [Validators.required]
+    ]
+    
+  })
 
   public item = {
     itemName: "",
@@ -116,5 +126,10 @@ export class PagoComponent implements OnInit {
   dateEvent({ target }) {
     console.log(target);
 
+  }
+
+  validField(field: string){
+    return this.pagoForm.controls[field].errors && 
+      this.pagoForm.controls[field].touched
   }
 }

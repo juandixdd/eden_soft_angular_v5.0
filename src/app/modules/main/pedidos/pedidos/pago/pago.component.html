@@ -39,32 +39,21 @@
 
                     <div class="col-md-2 col-12">
                       <div class="form-group">
-                        <input
-                          type="number"
-                          class="form-control"
-                          id="itemQuantity{{ i }}"
-                          name="itemQuantity{{ i }}"
-                          [(ngModel)]="item.itemQuantity"
-                          placeholder="1"
-                          (change)="onChange($event,item.itemName)"
-                        />
+                        <input type="number" class="form-control" id="itemQuantity{{ i }}" name="itemQuantity{{ i }}"
+                          [(ngModel)]="item.itemQuantity" placeholder="1" (change)="onChange($event,item.itemName)" />
                       </div>
                     </div>
-                    
+
                     <div class="col-md-2 col-12">
                       <div class="form-group">
                         <p>{{ item.subtotal | currency: "USD":"symbol":"3.0" }}</p>
                       </div>
                     </div>
-                    
+
 
                     <div class="col-md-2 col-12 mb-50">
                       <div class="form-group">
-                        <button
-                          class="btn btn-outline-danger text-nowrap px-1"
-                          (click)="deleteItem(i)"
-                          rippleEffect
-                        >
+                        <button class="btn btn-outline-danger text-nowrap px-1" (click)="deleteItem(i)" rippleEffect>
                           <i data-feather="x" class="mr-25"></i>
                         </button>
                       </div>
@@ -80,56 +69,42 @@
           <div class="card">
             <div class="card-body">
               <h4 class="card-title text-primary">Concretar Compra</h4>
-              
-              <form>
+
+              <form [formGroup]="pagoForm">
                 <div class="form-group">
-                    <label class="text-primary">Fecha de Entrega</label>
-                    <div class="input-group mb-1">
-                        <input class="form-control" placeholder="yyyy-mm-dd" name="Basic Date Picker" [(ngModel)]="basicDPdata"
-                          ngbDatepicker #basicDP="ngbDatepicker">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicDP.toggle(); dateEvent($event)"
-                            type="button" rippleEffect></button>
-                        </div>
-                      </div>
+                  <label class="text-primary">Fecha de Entrega</label>
+                  <div class="input-group mb-1">
+                    <input formControlName="fecha_pago" class="form-control" placeholder="yyyy-mm-dd"
+                      name="Basic Date Picker" [(ngModel)]="basicDPdata" ngbDatepicker #basicDP="ngbDatepicker">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary feather icon-calendar"
+                        (click)="basicDP.toggle(); dateEvent($event)" type="button" rippleEffect></button>
+                    </div>
+                    <span *ngIf="validField('fecha_pago')" class="text-danger">este campo es requerido</span>
+                  </div>
 
                   <label class="text-primary">Metodos de pago</label>
                   <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault1"
-                    />
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
                     <label class="form-check-label" for="flexRadioDefault1">
-                        <i  class="fa fa-mobile-screen-button"></i>
-                        Nequi
+                      <i class="fa fa-mobile-screen-button"></i>
+                      Nequi
                     </label>
                   </div>
                   <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault2"
-                      checked
-                    />
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                      checked />
                     <label class="form-check-label" for="flexRadioDefault2">
-                        <i  class="fa fa-money-bill-transfer"></i>
-                        Transferencia PSE
+                      <i class="fa fa-money-bill-transfer"></i>
+                      Transferencia PSE
                     </label>
                   </div>
                   <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault3"
-                      checked
-                    />
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3"
+                      checked />
                     <label class="form-check-label" for="flexRadioDefault3">
-                        <i  class="fa fa-credit-card"></i>
-                        Tarjeta de Credito
+                      <i class="fa fa-credit-card"></i>
+                      Tarjeta de Credito
                     </label>
                   </div>
                 </div>
@@ -143,10 +118,9 @@
                   </h3>
                 </div>
               </div>
-              <button class="btn btn-primary btn-block mt-2"
-              (click)="generarPedido()">
-              Pagar
-            
+              <button [disabled]="!pagoForm.valid" class="btn btn-primary btn-block mt-2" (click)="generarPedido()">
+                Pagar
+
               </button>
             </div>
           </div>

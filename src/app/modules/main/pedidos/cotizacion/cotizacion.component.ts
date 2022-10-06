@@ -166,7 +166,7 @@ export class CotizacionComponent implements OnInit {
     this.pedidosService.getCotizaciones().subscribe(
       (res: any) =>{
          res.forEach((item) => {
-          console.log(item, "xd");
+          console.log(item);
           
            item.formcontrol = new FormControl(item.estado);
            this.switchForm.addControl(item.id_pedido, item.formcontrol)

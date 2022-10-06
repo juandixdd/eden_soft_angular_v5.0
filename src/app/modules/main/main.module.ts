@@ -45,6 +45,7 @@ import { CreateInformativeClientComponent } from './ventas/ventas/create-informa
 import { PedidosComponent } from './pedidos/pedidos/pedidos.component';
 import { PagoComponent } from './pedidos/pedidos/pago/pago.component';
 import { CotizacionClienteComponent } from './pedidos/cotizacion-cliente/cotizacion-cliente.component';
+import { PedidosClienteComponent } from './pedidos/pedidos-cliente/pedidos-cliente.component';
 
 
 @NgModule({
@@ -76,7 +77,8 @@ import { CotizacionClienteComponent } from './pedidos/cotizacion-cliente/cotizac
     CreateInformativeClientComponent,
     PedidosComponent,
     PagoComponent,
-    CotizacionClienteComponent
+    CotizacionClienteComponent,
+    PedidosClienteComponent
   ],
   imports: [
     CommonModule,

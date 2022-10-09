@@ -86,61 +86,20 @@ export class VentasComponent implements OnInit {
     console.log(this.clientCedulaInfo);
 
     setTimeout(() => {
-      this.loader = false;
-      this.usersService.getDataById(this.clientCedulaInfo.cedula).subscribe(
+      this.clientesInformativosService.getDataById(this.clientCedulaInfo.cedula).subscribe(
         (res: any) => {
-          if (res.status === 400) {
-            console.log("No existe en la tabla de usuarios");
-            this.clientesInformativosService.getDataById(this.clientCedulaInfo.cedula).subscribe(
-              (res: any) => {
-                if (res.length === 0) {
-                  console.log("Tampoco existe en clientes informativos");
-                  this.createInformativeClientButton = true
-                }
-                else {
-                  console.log(res);
-
-
-                }
-              }
-            )
-
+          if (res.length === 0) {
+            this.router.navigate(['main/ventas/create-client', this.clientCedulaInfo.cedula])
+            this.modalService.dismissAll();
           }
           else {
-            console.log("Existe en la tabla de usuarios");
             console.log(res);
-            this.isInformative = false;
-            this.isUser = true
-
-
           }
-        }
-      )
 
-    }, 500);
-
-    /* setTimeout(() => {
-      this.usersService.getDataById(this.clientCedulaInfo.cedula).subscribe(
-        (res: any) => {
-          if (res.status === 400) {
-            this.clientDontExist = true;
-            this.clientExist = false;
-            this.validateButton = false;
-
-            console.log("No existe");
-
-          } else {
-            this.clientExist = true;
-            this.clientDontExist = false;
-            this.validateButton = false;
-
-            console.log("Existe");
-
-          }
         }
       )
       this.loader = false;
-    }, 1000) */
+    }, 500);
   }
 
   createInformativeClient() {
@@ -177,8 +136,6 @@ export class VentasComponent implements OnInit {
 
   }
 
-  anularVenta(row) {
-  }
 
   switchEvent({ target }, row) {
     let checked = target.checked;

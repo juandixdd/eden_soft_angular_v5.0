@@ -218,18 +218,18 @@ export class ListaUsuariosComponent implements OnInit {
       telefono: row.telefono,
       id_rol: row.id_rol,
     }
-    
+
     this.rolesService.getDataById(row.id_rol).subscribe(
       (res: any) => {
-        this.nombreRol=res[0].rol
+        this.nombreRol = res[0].rol
         this.editForm.controls['nombre'].setValue(row.nombre);
         this.editForm.controls['id_cliente_documento'].setValue(row.id_cliente_documento);
         this.editForm.controls['apellido'].setValue(row.apellido);
         this.editForm.controls['telefono'].setValue(row.telefono);
         this.editForm.controls['correo'].setValue(row.correo);
         this.editForm.controls['id_rol'].setValue(this.nombreRol);
-        
-        
+
+
       }
     )
 
@@ -247,10 +247,19 @@ export class ListaUsuariosComponent implements OnInit {
   }
 
   updateUser() {
-    console.log(this.editForm.value);
+   
 
     try {
-      this.clientesInformativosService.updateCliente(this.editUser.id_cliente_documento, this.editForm.value).subscribe(
+      let edit = {
+        id_cliente_documento:this.editForm.value.id_cliente_documento,
+        nombre:this.editForm.value.nombre,
+        apellido:this.editForm.value.apellido,
+        telefono:this.editForm.value.telefono,
+        correo:this.editForm.value.correo,
+        id_rol:this.rolID || this.editUser.id_rol
+
+      }
+      this.clientesInformativosService.updateCliente(this.editUser.id_cliente_documento, edit).subscribe(
         (res: any) => {
           console.log(res);
           this.usuarioService.editData(this.editUser.id_cliente_documento, this.editForm.value).subscribe(
@@ -270,6 +279,7 @@ export class ListaUsuariosComponent implements OnInit {
 
         }
       )
+      
 
     } catch (error) {
       console.log(error);

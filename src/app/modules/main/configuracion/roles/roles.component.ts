@@ -167,7 +167,7 @@ export class RolesComponent implements OnInit {
     setTimeout(() => {
       Swal.fire({
         title: "¿Estas seguro?",
-        text: "Cambiarás el estado de la venta",
+        text: "Cambiarás el estado del rol",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -183,7 +183,7 @@ export class RolesComponent implements OnInit {
                 Swal.fire({
                   position: "top-end",
                   icon: "success",
-                  title: "Se cambió el estado de la venta",
+                  title: "Se cambió el estado del rol",
                   showConfirmButton: false,
                   timer: 1000,
                 });
@@ -194,7 +194,7 @@ export class RolesComponent implements OnInit {
           Swal.fire({
             position: "top-end",
             icon: "warning",
-            title: "No se cambió el estado de la venta",
+            title: "No se cambió el estado del rol",
             showConfirmButton: false,
             timer: 1000,
           });

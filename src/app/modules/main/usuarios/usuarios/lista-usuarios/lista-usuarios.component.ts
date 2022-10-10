@@ -95,14 +95,6 @@ export class ListaUsuariosComponent implements OnInit {
     telefono: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
-    ],
-    contrasena: [
-      '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
-    ],
-    confirmPassword: [
-      '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ]
   })
 
@@ -216,6 +208,15 @@ export class ListaUsuariosComponent implements OnInit {
           this.usuarioService.editData(this.editUser.id_cliente_documento, this.editForm.value).subscribe(
             (res: any) => {
               console.log(res);
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Actualizacion de Datos Exitosa',
+                showConfirmButton: false,
+                timer: 1500
+              });
+              this.getUsers();
+              this.modalService.dismissAll();
             }
           )
 
@@ -224,7 +225,13 @@ export class ListaUsuariosComponent implements OnInit {
 
     } catch (error) {
       console.log(error);
-
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Opps, Algo Salio mal, intentalo de nuevo',
+        showConfirmButton: true,
+        confirmButtonText: "Ok"
+      })
     }
 
   }

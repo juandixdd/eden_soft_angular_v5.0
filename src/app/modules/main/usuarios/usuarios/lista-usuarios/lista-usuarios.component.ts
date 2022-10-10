@@ -32,7 +32,8 @@ export class ListaUsuariosComponent implements OnInit {
   public selectedOption = 10;
   rows: any;
   selectBasic: any;
-  rolID:any;
+  rolID: any;
+  nombreRol: any;
 
   constructor(
     private modalService: NgbModal,
@@ -105,6 +106,10 @@ export class ListaUsuariosComponent implements OnInit {
     telefono: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+    ],
+    id_rol: [
+      '',
+      [Validators.required]
     ]
   })
 
@@ -142,7 +147,7 @@ export class ListaUsuariosComponent implements OnInit {
     this.user.correo = this.registerForm.controls['correo'].value;
     this.user.contrasena = this.registerForm.controls['contrasena'].value;
     this.user.telefono = this.registerForm.controls['telefono'].value;
-    this.user.id_rol=this.rolID;
+    this.user.id_rol = this.rolID;
 
 
 
@@ -210,14 +215,31 @@ export class ListaUsuariosComponent implements OnInit {
       apellido: row.apellido,
       id_cliente_documento: row.id_cliente_documento,
       correo: row.correo,
-      telefono: row.telefono
+      telefono: row.telefono,
+      id_rol: row.id_rol,
     }
+    
+    this.rolesService.getDataById(row.id_rol).subscribe(
+      (res: any) => {
+        this.nombreRol=res[0].rol
+        this.editForm.controls['nombre'].setValue(row.nombre);
+        this.editForm.controls['id_cliente_documento'].setValue(row.id_cliente_documento);
+        this.editForm.controls['apellido'].setValue(row.apellido);
+        this.editForm.controls['telefono'].setValue(row.telefono);
+        this.editForm.controls['correo'].setValue(row.correo);
+        this.editForm.controls['id_rol'].setValue(this.nombreRol);
+        
+        
+      }
+    )
 
     this.editForm.controls['nombre'].setValue(row.nombre);
     this.editForm.controls['id_cliente_documento'].setValue(row.id_cliente_documento);
     this.editForm.controls['apellido'].setValue(row.apellido);
     this.editForm.controls['telefono'].setValue(row.telefono);
     this.editForm.controls['correo'].setValue(row.correo);
+    this.editForm.controls['id_rol'].setValue(row.id_rol);
+
   }
   onChange(event) {
     this.rolID = event.id;

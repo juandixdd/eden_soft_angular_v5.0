@@ -212,7 +212,7 @@
             </div>
             <div class="col-md-6 col-12">
               <div class="form-group">
-                <label>Categoría </label>
+                <label>Rol </label>
                 <ng-select
                   [items]="selectBasic | async"
                   bindLabel="rol"
@@ -376,8 +376,22 @@
                 >
               </div>
             </div>
-            <div class="col-md-12 col-12">
+            <div class="col-md-6 col-12">
               <div class="form-group">
+                <label>Rol </label>
+                <ng-select
+                  [items]="selectBasic | async"
+                  bindLabel="rol"
+                  formControlName="id_rol"
+                  [ngModel]="nombreRol "
+                  placeholder="Seleccion un rol"
+                  (change)="onChange($event)"
+                >
+                </ng-select>
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="feorm-group">
                 <label for="country-floating">E-mail</label>
                 <input
                   type="email"

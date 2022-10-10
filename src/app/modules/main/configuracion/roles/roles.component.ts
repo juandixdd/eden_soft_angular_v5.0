@@ -1,21 +1,25 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ColumnMode } from '@swimlane/ngx-datatable';
-import Swal from 'sweetalert2';
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ColumnMode } from "@swimlane/ngx-datatable";
+import Swal from "sweetalert2";
 import { PermisosService } from "app/modules/services/permisos/permisos.service";
 import { RolesService } from "app/modules/services/roles/roles.service";
-import { of } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RolPermisoService } from 'app/modules/services/rol_permiso/rol-permiso.service';
+import { of } from "rxjs";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { RolPermisoService } from "app/modules/services/rol_permiso/rol-permiso.service";
 
 @Component({
-  selector: 'app-roles',
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.scss'],
-  encapsulation: ViewEncapsulation.None //! Esto es importante para que se muestren bien los estilos, siempre agregar a los componentes.
+  selector: "app-roles",
+  templateUrl: "./roles.component.html",
+  styleUrls: ["./roles.component.scss"],
+  encapsulation: ViewEncapsulation.None, //! Esto es importante para que se muestren bien los estilos, siempre agregar a los componentes.
 })
 export class RolesComponent implements OnInit {
-
   public selectedOption = 10; //? Este es el selector de cuantas filas quieres ver en la tabla, en este caso, 10.
   public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
@@ -34,17 +38,19 @@ export class RolesComponent implements OnInit {
     private rolesService: RolesService,
     private rol_permisoService: RolPermisoService,
     private fb: FormBuilder
-  ) { }
+  ) {}
 
   public rolForm: FormGroup = this.fb.group({
     nombre: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
     ],
-    categoria: []
+    categoria: [],
   });
 
-
+  public switchForm: FormGroup = this.fb.group({
+    estado: [],
+  });
 
   ngOnInit(): void {
     this.tempData = this.rows; //? Esto también es del buscador (Que no funciona)
@@ -54,28 +60,28 @@ export class RolesComponent implements OnInit {
     this.rolForm.reset();
   }
 
-  modalOpen(modal) { //? Esta es la funcion que abre las modales.
+  modalOpen(modal) {
+    //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {
       centered: true,
     });
   }
 
   getRoles() {
-    this.rolesService.getData().subscribe(
-      (res: any) => {
-        this.rows = res;
-      }
-    )
-
+    this.rolesService.getData().subscribe((res: any) => {
+      res.forEach((item) => {
+        item.formcontrol = new FormControl(item.estado);
+        this.switchForm.addControl(item.id, item.formcontrol);
+      });
+      this.rows = res;
+    });
   }
 
-
   getPermisos() {
-    this.permisosService.getData().subscribe(
-      (res: any) => {
-        this.selectBasic = of(res).pipe();
-        console.log(this.selectBasic);
-      });
+    this.permisosService.getData().subscribe((res: any) => {
+      this.selectBasic = of(res).pipe();
+      console.log(this.selectBasic);
+    });
   }
 
   onChange(event) {
@@ -83,13 +89,11 @@ export class RolesComponent implements OnInit {
     this.permisos = event;
   }
 
-
   addRol() {
     this.rol = {
       nombre: this.rolForm.value.nombre,
-      estado: 1
-    }
-
+      estado: 1,
+    };
 
     this.rolesService.createData(this.rol).subscribe(
       (res: any) => {
@@ -104,7 +108,7 @@ export class RolesComponent implements OnInit {
 
         console.log(this.rol);
 
-        //*? Se agrega el rol al rompimiento con respecto al permiso 
+        //*? Se agrega el rol al rompimiento con respecto al permiso
         this.addRolePermissionRelation(res.idRol);
 
         this.modalService.dismissAll();
@@ -120,25 +124,22 @@ export class RolesComponent implements OnInit {
           confirmButtonText: "Ok",
         });
       }
-    )
+    );
   }
 
   addRolePermissionRelation(idRol) {
     let relation = {};
     console.log(idRol);
-    console.log("Permisos del evento: ", this.permisos)
+    console.log("Permisos del evento: ", this.permisos);
     this.permisos.forEach((item: any) => {
       relation = {
         id_rol: idRol,
-        id_permiso: item.id
-      }
-      this.rol_permisoService.createData(relation).subscribe(
-        (res: any) => {
-          console.log(res);
-        }
-      )
-
-    })
+        id_permiso: item.id,
+      };
+      this.rol_permisoService.createData(relation).subscribe((res: any) => {
+        console.log(res);
+      });
+    });
   }
 
   reload() {
@@ -147,21 +148,62 @@ export class RolesComponent implements OnInit {
     this.getPermisos();
   }
   getRolData(id) {
-    this.rolesService.getDataById(id).subscribe(
-      (res: any) => {
-
-        this.rolData = res[0];
-        this.permisosList = this.rolData.permiso.replace(/ /g, '').split(',');
-        console.log(this.permisosList);
-      }
-    )
+    this.rolesService.getDataById(id).subscribe((res: any) => {
+      this.rolData = res[0];
+      this.permisosList = this.rolData.permiso.replace(/ /g, "").split(",");
+      console.log(this.permisosList);
+    });
   }
-  cerrarModal(){
+  cerrarModal() {
     this.modalService.dismissAll();
   }
 
-}
+  switchEvent({ target }, row) {
+    let checked = target.checked;
+    let status = {
+      estado: checked,
+    };
 
+    setTimeout(() => {
+      Swal.fire({
+        title: "¿Estas seguro?",
+        text: "Cambiarás el estado de la venta",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Cambiar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.rolesService
+            .anularRol(row.id, status)
+            .subscribe((res: any) => {
+              if (res.status === 200) {
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Se cambió el estado de la venta",
+                  showConfirmButton: false,
+                  timer: 1000,
+                });
+                this.getRoles();
+              }
+            });
+        } else {
+          Swal.fire({
+            position: "top-end",
+            icon: "warning",
+            title: "No se cambió el estado de la venta",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+          this.getRoles();
+        }
+      });
+    }, 100);
+  }
+}
 
 /*
 Así se muestran los permisos organizador en una fila descendente en consola, habría que adaptarlo para que se muestre en la modal

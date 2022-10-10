@@ -20,4 +20,8 @@ export class RolesService {
   createData(body) {
     return this.http.post(`${this.API_URL}/roles`,body);
   }
+
+  anularRol(id, body){
+    return this.http.put(`${this.API_URL}/anula-rol/${id}`,body)
+  }
 }

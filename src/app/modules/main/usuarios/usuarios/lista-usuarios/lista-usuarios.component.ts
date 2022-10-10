@@ -11,6 +11,7 @@ import { UsuarioService } from 'app/modules/services/usuario/usuario.service';
 import { of } from 'rxjs';
 import Swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-lista-usuarios',
   templateUrl: './lista-usuarios.component.html',
@@ -30,6 +31,8 @@ export class ListaUsuariosComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public selectedOption = 10;
   rows: any;
+  selectBasic: any;
+  rolID:any;
 
   constructor(
     private modalService: NgbModal,
@@ -38,10 +41,13 @@ export class ListaUsuariosComponent implements OnInit {
     private usuarioService: UsuarioService,
     private registerService: RegisterService,
     private clientesInformativosService: ClientesInformativosService,
+    private rolesService: RolesService,
+
   ) { }
 
   ngOnInit(): void {
     this.getUsers()
+    this.getRoles()
   }
 
   public registerForm: FormGroup = this.fb.group({
@@ -72,6 +78,10 @@ export class ListaUsuariosComponent implements OnInit {
     confirmPassword: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+    ],
+    id_rol: [
+      '',
+      [Validators.required]
     ]
   })
 
@@ -114,6 +124,16 @@ export class ListaUsuariosComponent implements OnInit {
     )
   }
 
+  getRoles() {
+    this.rolesService.getData().subscribe(
+      (res: any) => {
+        console.log(res);
+        this.selectBasic = of(res).pipe();
+
+      }
+    )
+  }
+
   createUser() {
     let exists: boolean;
     this.user.nombre = this.registerForm.controls['nombre'].value;
@@ -122,6 +142,8 @@ export class ListaUsuariosComponent implements OnInit {
     this.user.correo = this.registerForm.controls['correo'].value;
     this.user.contrasena = this.registerForm.controls['contrasena'].value;
     this.user.telefono = this.registerForm.controls['telefono'].value;
+    this.user.id_rol=this.rolID;
+
 
 
     this.registerService.validateUserExists(this.user.correo).subscribe(
@@ -196,6 +218,10 @@ export class ListaUsuariosComponent implements OnInit {
     this.editForm.controls['apellido'].setValue(row.apellido);
     this.editForm.controls['telefono'].setValue(row.telefono);
     this.editForm.controls['correo'].setValue(row.correo);
+  }
+  onChange(event) {
+    this.rolID = event.id;
+    console.log(this.rolID);
   }
 
   updateUser() {

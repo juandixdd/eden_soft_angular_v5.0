@@ -92,7 +92,8 @@ export class RegistroUsuariosComponent implements OnInit {
     confirmPassword: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
-    ]
+    ],
+    
 
   })
 
@@ -130,7 +131,7 @@ export class RegistroUsuariosComponent implements OnInit {
     this.user.correo = this.registerForm.controls['correo'].value;
     this.user.contrasena = this.registerForm.controls['contrasena'].value;
     this.user.telefono = this.registerForm.controls['telefono'].value;
-
+    this.user.id_rol=3;
 
     this.registerService.validateUserExists(this.user.correo).subscribe(
       (res: any) => {

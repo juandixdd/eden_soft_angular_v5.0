@@ -95,6 +95,13 @@
             </ng-template>
           </ngx-datatable-column>
 
+           <!-- Column -->
+           <ngx-datatable-column name="Rol" prop="rol" [width]="20">
+            <ng-template let-id="value" ngx-datatable-cell-template>
+              <p class="font-weight-bold text-dark">{{ id | titlecase }}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
           <!-- Column -->
           <ngx-datatable-column name="Funciones" prop="cancel" [width]="20">
             <ng-template
@@ -364,14 +371,47 @@
                   class="form-control"
                   formControlName="correo"
                   placeholder="ejemplo@gmail.com"
-                  disabled
                 />
                 <span class="text-danger" *ngIf="editValidField('correo')"
                   >Este campo es requerido</span
                 >
               </div>
             </div>
-           
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="company-column">Contraseña</label>
+                <input
+                  type="password"
+                  id="company-column"
+                  class="form-control"
+                  formControlName="contrasena"
+                  placeholder="minimo 5 caracteres"
+                />
+                <span class="text-danger" *ngIf="editValidField('contrasena')"
+                  >Este campo es requerido</span
+                >
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="email-id-column">Confirmar Contraseña</label>
+                <input
+                  type="password"
+                  id="email-id-column"
+                  class="form-control"
+                  formControlName="confirmPassword"
+                  placeholder="minimo 5 caracteres"
+                />
+                <span
+                  class="text-danger"
+                  *ngIf="editValidField('confirmPassword')"
+                  >Este campo es requerido <br
+                /></span>
+                <span class="text-danger" *ngIf="editValidPassword()"
+                  >Las Contraseñas no son iguales</span
+                >
+              </div>
+            </div>
           </div>
           <hr />
           <button

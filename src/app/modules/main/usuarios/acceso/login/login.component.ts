@@ -109,7 +109,7 @@ export class LoginComponent implements OnInit {
           })
           localStorage.setItem('token', res.token);
           localStorage.setItem('userId', res.userId);
-          this.router.navigate(['main/dashboard']);
+          this.router.navigate(['main/home-page']);
         } else {
 
           Swal.fire({

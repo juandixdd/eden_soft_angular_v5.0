@@ -262,9 +262,10 @@ export class ListaUsuariosComponent implements OnInit {
       this.clientesInformativosService.updateCliente(this.editUser.id_cliente_documento, edit).subscribe(
         (res: any) => {
           console.log(res);
-          this.usuarioService.editData(this.editUser.id_cliente_documento, this.editForm.value).subscribe(
+          this.usuarioService.editData(this.editUser.id_cliente_documento, edit).subscribe(
             (res: any) => {
               console.log(res);
+              
               Swal.fire({
                 position: 'center',
                 icon: 'success',

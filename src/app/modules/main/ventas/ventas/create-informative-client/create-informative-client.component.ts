@@ -210,88 +210,46 @@ export class CreateInformativeClientComponent implements OnInit {
       };
       setTimeout(() => {
         this.ventaLocalService
-                .createData(this.venta_local)
-                .subscribe((res: any) => {
-                  if (res.status === 200) {
-                    console.log("Venta creada");
-                    let idVenta = res.data.insertId;
+          .createData(this.venta_local)
+          .subscribe((res: any) => {
+            if (res.status === 200) {
+              console.log("Venta creada");
+              let idVenta = res.data.insertId;
 
-                    this.productos.forEach((item, index) => {
-                      //? Se guardan los productos
-                      let detalleVenta = {
-                        id_producto: item.product.id,
-                        id_venta: idVenta,
-                        cantidad: item.itemQuantity,
-                        precio_unitario: item.itemCost,
-                      };
-                      this.detalleVentaLocalService
-                        .createData(detalleVenta)
-                        .subscribe((res: any) => {
-                          if (res.status === 200) {
-                            console.log(res, "Producto creado");
-                            Swal.fire({
-                              position: "top-end",
-                              icon: "success",
-                              title: "Se ha agregado la venta",
-                              showConfirmButton: false,
-                              timer: 1500,
-                            });
-                            this.router.navigate(["main/ventas"]);
-                          }
-                        });
-                    });
-                  } else {
-                    console.log("No se creo la venta");
-                  }
-                });
-        
+              this.productos.forEach((item, index) => {
+                //? Se guardan los productos
+                let detalleVenta = {
+                  id_producto: item.product.id,
+                  id_venta: idVenta,
+                  cantidad: item.itemQuantity,
+                  precio_unitario: item.itemCost,
+                };
+                this.detalleVentaLocalService
+                  .createData(detalleVenta)
+                  .subscribe((res: any) => {
+                    if (res.status === 200) {
+                      console.log(res, "Producto creado");
+                      Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Se ha agregado la venta",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
+                      this.router.navigate(["main/ventas"]);
+                    }
+                  });
+              });
+            } else {
+              console.log("No se creo la venta");
+            }
+          });
+
         this.timer = false;
       }, 200);
     }
   }
 
-  /* 
-  this.ventaLocalService.createData(this.venta_local).subscribe( //? Se guarda la venta
-              (res: any) => {
-                console.log("Venta: ", res);
-                let idVenta = res.data.insertId;
-                if (res.status === 200) {
-                  this.productos.forEach((item, index) => { //? Se guardan los productos
-                    let detalleVenta = {
-                      id_producto: item.product.id,
-                      id_venta: idVenta,
-                      cantidad: item.itemQuantity,
-                      precio_unitario: item.itemCost
-                    }
-                    this.detalleVentaLocalService.createData(detalleVenta).subscribe(
-                      (res: any) => {
-                        if (res.status === 200) {
-                          console.log(res, "Producto creado");
-                        }
-                      }
-                    )
-                  });
-                  Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Se ha agregado la venta',
-                    showConfirmButton: false,
-                    timer: 1500
-                  })
-                  this.router.navigate(['main/ventas']);
-                } else {
-                  console.log("No se guardo la venta");
-
-                }
-
-              },
-              (err) => {
-                console.log("Error");
-
-              }
-            ) */
-
-  // public
   public productos = [];
 
   public producto = {

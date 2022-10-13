@@ -149,43 +149,52 @@ export class VentasComponent implements OnInit {
       estado: checked,
     };
 
-    setTimeout(() => {
+    if (checked) {
       Swal.fire({
-        title: "¿Estas seguro?",
-        text: "Cambiarás el estado de la venta",
         icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Cambiar",
-        cancelButtonText: "Cancelar",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.ventaLocalService
-            .anularVentaLocal(row.id_venta, status)
-            .subscribe((res: any) => {
-              if (res.status === 200) {
-                Swal.fire({
-                  position: "top-end",
-                  icon: "success",
-                  title: "Se cambió el estado de la venta",
-                  showConfirmButton: false,
-                  timer: 1000,
-                });
-                this.getVentasLocales();
-              }
-            });
-        } else {
-          Swal.fire({
-            position: "top-end",
-            icon: "warning",
-            title: "No se cambió el estado de la venta",
-            showConfirmButton: false,
-            timer: 1000,
-          });
-          this.getVentasLocales();
-        }
+        confirmButtonText: "Ok",
+        title: "Opps, no se puede volver a activar una venta local",
       });
-    }, 100);
+      this.getVentasLocales();
+    } else {
+      setTimeout(() => {
+        Swal.fire({
+          title: "¿Estas seguro?",
+          text: "Esta acción no se puede revertir",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Cambiar",
+          cancelButtonText: "Cancelar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.ventaLocalService
+              .anularVentaLocal(row.id_venta, status)
+              .subscribe((res: any) => {
+                if (res.status === 200) {
+                  Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Se cambió el estado de la venta",
+                    showConfirmButton: false,
+                    timer: 1000,
+                  });
+                  this.getVentasLocales();
+                }
+              });
+          } else {
+            Swal.fire({
+              position: "top-end",
+              icon: "warning",
+              title: "No se cambió el estado de la venta",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+            this.getVentasLocales();
+          }
+        });
+      }, 100);
+    }
   }
 }

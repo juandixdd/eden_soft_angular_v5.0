@@ -1,5 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { CategoriaService } from "app/modules/services/categoria/categoria.service";
@@ -36,8 +41,8 @@ export class PedidosComponent implements OnInit {
   options: any = [];
   productInfo = {};
   clientData: any = {};
-  todayDate = moment().format('YYYY-MM-DD');
-  public dateValidator: boolean = true; 
+  todayDate = moment().format("YYYY-MM-DD");
+  public dateValidator: boolean = true;
 
   constructor(
     private modalService: NgbModal,
@@ -70,8 +75,8 @@ export class PedidosComponent implements OnInit {
   });
 
   public switchForm: FormGroup = this.fb.group({
-    estado:[]
-  })
+    estado: [],
+  });
 
   ngOnInit(): void {
     this.getPedidos();
@@ -82,30 +87,28 @@ export class PedidosComponent implements OnInit {
     this.pedidosService.getData().subscribe((res: any) => {
       res.forEach((item) => {
         console.log(item);
-        
-         item.formcontrol = new FormControl(item.estado);
-         this.switchForm.addControl(item.id_pedido, item.formcontrol)
-       });
+
+        item.formcontrol = new FormControl(item.estado);
+        this.switchForm.addControl(item.id_pedido, item.formcontrol);
+      });
       this.rows = res;
       console.log(this.rows);
     });
   }
-  
-  getPedidosById(id: number){
-    this.pedidosService.getDataById(id).subscribe(
-      (res: any)=>{
-        this.clientData = {
-          cedula: res[0].id_cliente_documento,
-          nombreCliente: res[0].cliente,
-          telefono: res[0].telefono
-        }
-        this.detallesData = res
-        console.log(this.detallesData)
-        if (this.detallesData.length > 0){
-          this.contPrecioTotal = this.detallesData[0].precio_total
-        }
+
+  getPedidosById(id: number) {
+    this.pedidosService.getDataById(id).subscribe((res: any) => {
+      this.clientData = {
+        cedula: res[0].id_cliente_documento,
+        nombreCliente: res[0].cliente,
+        telefono: res[0].telefono,
+      };
+      this.detallesData = res;
+      console.log(this.detallesData);
+      if (this.detallesData.length > 0) {
+        this.contPrecioTotal = this.detallesData[0].precio_total;
       }
-    )
+    });
   }
 
   modalOpen(modal) {
@@ -126,8 +129,6 @@ export class PedidosComponent implements OnInit {
     this.categoryId = event.id;
     console.log(this.categoryId);
   }
-
-
 
   defineProductInfo(id) {
     this.productosService.getDataById(id).subscribe((res: any) => {
@@ -185,53 +186,60 @@ export class PedidosComponent implements OnInit {
     });
   }
 
-  switchEvent({target}, row){
+  switchEvent({ target }, row) {
     let checked = target.checked;
     let status = {
-      estado: checked
-    }
-    console.log(status);
-    setTimeout(()=>{
+      estado: checked,
+    };
+    if (checked) {
       Swal.fire({
-        title: '¿Estas seguro?',
-        text: "Cambiarás el estado del pedido",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Cambiar',
-        cancelButtonText: 'Cancelar'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          console.log("sipi");
-          this.pedidosService.anularCotizacion(row.id_pedido, status).subscribe(
-            (res:any) =>{
-              if(res.status === 200){
-                Swal.fire({
-                  position: 'top-end',
-                  icon: 'success',
-                  title: 'Se cambio el estado del pedido',
-                  showConfirmButton: false,
-                  timer: 1000
-                })
-                this.getPedidos()
-              }
-            }
-          )
-            
-        }
-        else {
-          console.log("nopi");
-          this.getPedidos();
-          Swal.fire({
-            position: 'top-end',
-            icon: 'warning',
-            title: 'No se cambió el estado del pedido',
-            showConfirmButton: false,
-            timer: 1000
-          })
-        }
-      })
-    },100)
+        icon: "warning",
+        confirmButtonText: "Ok",
+        title: "Opps, no se puede volver a activar una venta local",
+      });
+      this.getPedidos();
+    } else {
+      console.log(status);
+      setTimeout(() => {
+        Swal.fire({
+          title: "¿Estas seguro?",
+          text: "Cambiarás el estado del pedido",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Cambiar",
+          cancelButtonText: "Cancelar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            console.log("sipi");
+            this.pedidosService
+              .anularCotizacion(row.id_pedido, status)
+              .subscribe((res: any) => {
+                if (res.status === 200) {
+                  Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Se cambio el estado del pedido",
+                    showConfirmButton: false,
+                    timer: 1000,
+                  });
+                  this.getPedidos();
+                }
+              });
+          } else {
+            console.log("nopi");
+            this.getPedidos();
+            Swal.fire({
+              position: "top-end",
+              icon: "warning",
+              title: "No se cambió el estado del pedido",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+          }
+        });
+      }, 100);
+    }
   }
 }

@@ -11,6 +11,7 @@ import { UsuarioService } from 'app/modules/services/usuario/usuario.service';
 import { of } from 'rxjs';
 import Swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-lista-usuarios',
   templateUrl: './lista-usuarios.component.html',
@@ -30,6 +31,9 @@ export class ListaUsuariosComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public selectedOption = 10;
   rows: any;
+  selectBasic: any;
+  rolID: any;
+  nombreRol: any;
 
   constructor(
     private modalService: NgbModal,
@@ -38,10 +42,13 @@ export class ListaUsuariosComponent implements OnInit {
     private usuarioService: UsuarioService,
     private registerService: RegisterService,
     private clientesInformativosService: ClientesInformativosService,
+    private rolesService: RolesService,
+
   ) { }
 
   ngOnInit(): void {
     this.getUsers()
+    this.getRoles()
   }
 
   public registerForm: FormGroup = this.fb.group({
@@ -72,6 +79,10 @@ export class ListaUsuariosComponent implements OnInit {
     confirmPassword: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+    ],
+    id_rol: [
+      '',
+      [Validators.required]
     ]
   })
 
@@ -95,6 +106,10 @@ export class ListaUsuariosComponent implements OnInit {
     telefono: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+    ],
+    id_rol: [
+      '',
+      [Validators.required]
     ]
   })
 
@@ -114,6 +129,16 @@ export class ListaUsuariosComponent implements OnInit {
     )
   }
 
+  getRoles() {
+    this.rolesService.getData().subscribe(
+      (res: any) => {
+        console.log(res);
+        this.selectBasic = of(res).pipe();
+
+      }
+    )
+  }
+
   createUser() {
     let exists: boolean;
     this.user.nombre = this.registerForm.controls['nombre'].value;
@@ -122,6 +147,8 @@ export class ListaUsuariosComponent implements OnInit {
     this.user.correo = this.registerForm.controls['correo'].value;
     this.user.contrasena = this.registerForm.controls['contrasena'].value;
     this.user.telefono = this.registerForm.controls['telefono'].value;
+    this.user.id_rol = this.rolID;
+
 
 
     this.registerService.validateUserExists(this.user.correo).subscribe(
@@ -188,26 +215,57 @@ export class ListaUsuariosComponent implements OnInit {
       apellido: row.apellido,
       id_cliente_documento: row.id_cliente_documento,
       correo: row.correo,
-      telefono: row.telefono
+      telefono: row.telefono,
+      id_rol: row.id_rol,
     }
+
+    this.rolesService.getDataById(row.id_rol).subscribe(
+      (res: any) => {
+        this.nombreRol = res[0].rol
+        this.editForm.controls['nombre'].setValue(row.nombre);
+        this.editForm.controls['id_cliente_documento'].setValue(row.id_cliente_documento);
+        this.editForm.controls['apellido'].setValue(row.apellido);
+        this.editForm.controls['telefono'].setValue(row.telefono);
+        this.editForm.controls['correo'].setValue(row.correo);
+        this.editForm.controls['id_rol'].setValue(this.nombreRol);
+
+
+      }
+    )
 
     this.editForm.controls['nombre'].setValue(row.nombre);
     this.editForm.controls['id_cliente_documento'].setValue(row.id_cliente_documento);
     this.editForm.controls['apellido'].setValue(row.apellido);
     this.editForm.controls['telefono'].setValue(row.telefono);
     this.editForm.controls['correo'].setValue(row.correo);
+    this.editForm.controls['id_rol'].setValue(row.id_rol);
+
+  }
+  onChange(event) {
+    this.rolID = event.id;
+    console.log(this.rolID);
   }
 
   updateUser() {
-    console.log(this.editForm.value);
+   
 
     try {
-      this.clientesInformativosService.updateCliente(this.editUser.id_cliente_documento, this.editForm.value).subscribe(
+      let edit = {
+        id_cliente_documento:this.editForm.value.id_cliente_documento,
+        nombre:this.editForm.value.nombre,
+        apellido:this.editForm.value.apellido,
+        telefono:this.editForm.value.telefono,
+        correo:this.editForm.value.correo,
+        id_rol:this.rolID || this.editUser.id_rol
+
+      }
+      this.clientesInformativosService.updateCliente(this.editUser.id_cliente_documento, edit).subscribe(
         (res: any) => {
           console.log(res);
-          this.usuarioService.editData(this.editUser.id_cliente_documento, this.editForm.value).subscribe(
+          this.usuarioService.editData(this.editUser.id_cliente_documento, edit).subscribe(
             (res: any) => {
               console.log(res);
+              
               Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -222,6 +280,7 @@ export class ListaUsuariosComponent implements OnInit {
 
         }
       )
+      
 
     } catch (error) {
       console.log(error);

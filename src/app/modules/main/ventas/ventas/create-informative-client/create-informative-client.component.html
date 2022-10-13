@@ -185,9 +185,18 @@
       <div class="spinner-border text-primary" role="status"></div>
     </div>
     <button
+      *ngIf="clientExists === 0"
       class="btn btn-primary"
       (click)="createVenta()"
       [disabled]="!userForm.valid || !totalCost"
+    >
+      Guardar venta
+    </button>
+    <button
+      *ngIf="clientExists === 1"
+      class="btn btn-primary"
+      (click)="createVenta()"
+      [disabled]="!totalCost"
     >
       Guardar venta
     </button>

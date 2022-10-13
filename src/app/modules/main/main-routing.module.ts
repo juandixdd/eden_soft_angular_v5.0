@@ -28,7 +28,7 @@ const routes: Routes = [
   /*Ventas*/
   { path: 'cliente', component: ClienteComponent, canActivate: [AuthGuardGuard] },
   { path: 'ventas', component: VentasComponent, canActivate: [AuthGuardGuard] },
-  { path: 'ventas/create-client/:cedula', component: CreateInformativeClientComponent, canActivate: [AuthGuardGuard] },
+  { path: 'ventas/create-client/:cedula/:exist', component: CreateInformativeClientComponent, canActivate: [AuthGuardGuard] },
 
   /*Usuarios*/
   { path: 'lista-usuarios', component: ListaUsuariosComponent, canActivate: [AuthGuardGuard] },

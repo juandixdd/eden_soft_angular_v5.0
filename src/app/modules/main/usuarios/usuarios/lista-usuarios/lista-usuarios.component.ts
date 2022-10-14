@@ -173,7 +173,7 @@ export class ListaUsuariosComponent implements OnInit {
                           });
                           this.getUsers();
                           this.modalService.dismissAll();
-
+                          this.registerForm.reset();
                         }
                       )
                     }

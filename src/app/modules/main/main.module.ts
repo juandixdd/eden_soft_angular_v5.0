@@ -47,6 +47,7 @@ import { PagoComponent } from './pedidos/pedidos/pago/pago.component';
 import { CotizacionClienteComponent } from './pedidos/cotizacion-cliente/cotizacion-cliente.component';
 import { PedidosClienteComponent } from './pedidos/pedidos-cliente/pedidos-cliente.component';
 import { PedidosLocalComponent } from './pedidos/pedidos-local/pedidos-local.component';
+import { RecuperarClaveComponent } from './usuarios/acceso/recuperar-clave/recuperar-clave.component';
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import { PedidosLocalComponent } from './pedidos/pedidos-local/pedidos-local.com
     PagoComponent,
     CotizacionClienteComponent,
     PedidosClienteComponent,
-    PedidosLocalComponent
+    PedidosLocalComponent,
+    RecuperarClaveComponent
   ],
   imports: [
     CommonModule,

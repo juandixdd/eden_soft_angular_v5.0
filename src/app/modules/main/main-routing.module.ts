@@ -22,6 +22,7 @@ import { PedidosComponent } from './pedidos/pedidos/pedidos.component';
 import { PagoComponent } from './pedidos/pedidos/pago/pago.component';
 import { CotizacionClienteComponent } from './pedidos/cotizacion-cliente/cotizacion-cliente.component';
 import { PedidosLocalComponent } from './pedidos/pedidos-local/pedidos-local.component';
+import { RecuperarClaveComponent } from './usuarios/acceso/recuperar-clave/recuperar-clave.component';
 
 const routes: Routes = [
 
@@ -36,6 +37,7 @@ const routes: Routes = [
   { path: 'restaurar-clave', component: RestaurarClaveComponent },
   { path: 'registro-usuarios', component: RegistroUsuariosComponent },
   { path: 'perfil-usuario', component: PerfilUsuarioComponent, canActivate: [AuthGuardGuard] },
+  {path:'recuperar-clave',component: RecuperarClaveComponent},
 
   /*Productos*/
   { path: 'categorias', component: CategoriasComponent, canActivate: [AuthGuardGuard] },

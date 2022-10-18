@@ -39,8 +39,12 @@ export class CreateInformativeClientComponent implements OnInit {
   selectBasic: any;
   productsDatabaseResponse: any;
   indexOfProduct: any;
-  totalCost: any;
+  totalCost: any = 0;
   timer: boolean = false;
+  hasAbono = false;
+  selectPercent = 50;
+  fullDiscount: number;
+  fullDiscountExists: boolean;
 
   ngOnInit(): void {
     this.userForm.controls["id_cliente_documento"].setValue(this.cedula);
@@ -79,6 +83,14 @@ export class CreateInformativeClientComponent implements OnInit {
     ],
   });
 
+  public switchForm: FormGroup = this.fb.group({
+    estado: [],
+    abono: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+  });
+
   validField(field: string) {
     return (
       this.userForm.controls[field].errors &&
@@ -92,6 +104,19 @@ export class CreateInformativeClientComponent implements OnInit {
       this.productsDatabaseResponse = res;
       console.log("Hola: ", this.selectBasic);
     });
+  }
+
+  switchEvent({ target }) {
+    this.hasAbono = target.checked;
+    this.fullDiscountExists = target.checked;
+    this.fullDiscount = (this.totalCost * this.selectPercent) / 100;
+  }
+
+  selectEvent(event) {
+    const value = event.target.value;
+    const absoluteValue = parseInt(value.substring(0, value.length - 1));
+    this.selectPercent = absoluteValue;
+    this.fullDiscount = (this.totalCost * absoluteValue) / 100;
   }
 
   eventListenerQuantity(event) {

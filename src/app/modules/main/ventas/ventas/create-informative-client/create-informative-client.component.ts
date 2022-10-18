@@ -6,6 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
+import { AbonosService } from "app/modules/services/abonos/abonos.service";
 import { ClientesInformativosService } from "app/modules/services/clientesInformativos/clientes-informativos.service";
 import { DetalleVentaLocalService } from "app/modules/services/detalleVentaLocal/detalle-venta-local.service";
 import { ProductosService } from "app/modules/services/productos/productos.service";
@@ -27,7 +28,8 @@ export class CreateInformativeClientComponent implements OnInit {
     private productosService: ProductosService,
     private clientesInformativosService: ClientesInformativosService,
     private ventaLocalService: VentaLocalService,
-    private detalleVentaLocalService: DetalleVentaLocalService
+    private detalleVentaLocalService: DetalleVentaLocalService,
+    private abonosService: AbonosService
   ) {}
 
   cedula: any = this.activatedRoute.snapshot.params.cedula;
@@ -205,6 +207,21 @@ export class CreateInformativeClientComponent implements OnInit {
                               showConfirmButton: false,
                               timer: 1500,
                             });
+                            //! Se guarda el abono
+                            if (this.hasAbono) {
+                              let abono = {
+                                id_venta_local: detalleVenta.id_venta,
+                                valor: this.fullDiscount,
+                              };
+                              this.abonosService.createData(abono).subscribe(
+                                (res:any)=>{
+                                  console.log(res);
+                                  
+                                }
+                              )
+                            } else {
+                              console.log("Sin abono");
+                            }
                             this.router.navigate(["main/ventas"]);
                           }
                         });
@@ -261,6 +278,21 @@ export class CreateInformativeClientComponent implements OnInit {
                         showConfirmButton: false,
                         timer: 1500,
                       });
+                      //! Se guarda el abono
+                      if (this.hasAbono) {
+                        let abono = {
+                          id_venta_local: detalleVenta.id_venta,
+                          valor: this.fullDiscount,
+                        };
+                        this.abonosService.createData(abono).subscribe(
+                          (res:any)=>{
+                            console.log(res);
+                            
+                          }
+                        )
+                      } else {
+                        console.log("Sin abono");
+                      }
                       this.router.navigate(["main/ventas"]);
                     }
                   });

@@ -209,8 +209,42 @@ export class VentasComponent implements OnInit {
   switchEventPago({ target }, row) {
     let checked = target.checked;
     let status = {
-      estado: checked,
+      pagado: checked ? 1 : 0,
     };
-    console.log(checked, row);
+
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Esta acción no se puede revertir",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Cambiar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ventaLocalService
+          .cambiarEstadoDePago(row.id_venta, status)
+          .subscribe((res: any) => {
+            console.log(res);
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Se cambió el estado de la venta",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+          });
+      } else {
+        Swal.fire({
+          position: "top-end",
+          icon: "warning",
+          title: "No se cambió el estado de la venta",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        this.getVentasLocales();
+      }
+    });
   }
 }

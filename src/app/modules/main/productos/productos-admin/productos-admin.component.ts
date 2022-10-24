@@ -1,3 +1,4 @@
+import { prepareSyntheticPropertyName } from "@angular/compiler/src/render3/util";
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -39,6 +40,10 @@ export class ProductosAdminComponent implements OnInit {
   editProduct: any = {};
   categoriaId: any;
   timer: boolean = false;
+  options: any = [];
+  productInfo = {};
+  editProducto:any = {};
+  nombreCategoria: any;
 
   constructor(
     private modalService: NgbModal,
@@ -46,6 +51,11 @@ export class ProductosAdminComponent implements OnInit {
     private categoriasService: CategoriaService,
     private fb: FormBuilder
   ) {}
+
+  ngOnInit(): void {
+    this.getProducts();
+    this.getCategorias();
+  }
 
   public productForm: FormGroup = this.fb.group({
     nombre: [
@@ -56,15 +66,11 @@ export class ProductosAdminComponent implements OnInit {
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
     ],
-    categoria: [
+    id: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
     ],
     imagen: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
-    ],
-    estado: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
     ],
@@ -79,15 +85,11 @@ export class ProductosAdminComponent implements OnInit {
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
     ],
-    categoria: [
+    id: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
+      [Validators.required],
     ],
     imagen: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
-    ],
-    estado: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
     ],
@@ -96,16 +98,8 @@ export class ProductosAdminComponent implements OnInit {
   public switchForm: FormGroup = this.fb.group({
     estado:[]
   })
-
-
-  ngOnInit(): void {
-    this.getProducts();
-
-    this.getCategorias();
-  }
-
-  modalOpen(modal) {
-    //? Esta es la funcion que abre las modales.
+  
+  modalOpen(modal) { //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {
       centered: true,
     });
@@ -114,25 +108,16 @@ export class ProductosAdminComponent implements OnInit {
   getProducts() {
     this.productosService.getData().subscribe((res: any) => {
       res.forEach((item) => {
-        console.log(item);
-        
+        console.log(item);    
          item.formcontrol = new FormControl(item.estado);
          this.switchForm.addControl(item.id, item.formcontrol)
        });
       this.rows = res;
       console.log(this.rows);
     });
-  
   }
 
-  onChange(event) {
-    this.categoryId = event.id;
-    console.log(this.categoryId);
-  }
-
-  options: any = [];
-
-  async getCategorias() {
+  getCategorias() {
     this.categoriasService.getData().subscribe((res: any) => {
       this.selectBasic = of(res).pipe();
       console.log(this.selectBasic);
@@ -140,8 +125,8 @@ export class ProductosAdminComponent implements OnInit {
     });
   }
 
-  productInfo = {};
-
+  
+  
   defineProductInfo(id) {
     this.productosService.getDataById(id).subscribe(
       (res:any)=>{
@@ -189,58 +174,81 @@ export class ProductosAdminComponent implements OnInit {
   }
 
   getRowData(row) {
-    this.productUpdate = row;
-    this.productFormEdit.controls['nombre'].setValue(row.nombre);
-    this.productFormEdit.controls['precio'].setValue(row.precio);
-    this.productFormEdit.controls['imagen'].setValue(row.imagen);
-    this.productFormEdit.controls['estado'].setValue(row.estado);
-    this.categoriaData = row.nombre_categoria;
-    this.productData = row;
-    this.categoriaId = row.categoria;
-   
+    this.editProducto={
+      nombre : row.nombre,
+      precio: row.precio,
+      id: row.id,
+      imagen: row.imagen,
+    }
+
+    this.productosService.getDataById(row.id).subscribe(
+      (res:any)=>{
+        this.nombreCategoria = res[0].nombre_categoria
+        this.productFormEdit.controls['nombre'].setValue(row.nombre);
+        this.productFormEdit.controls['precio'].setValue(row.precio);
+        this.productFormEdit.controls['id'].setValue(this.nombreCategoria);
+        this.productFormEdit.controls['imagen'].setValue(row.imagen);
+        console.log(res);
+      }
+      
+      
+    )
+      this.productFormEdit.controls['nombre'].setValue(row.nombre);
+      this.productFormEdit.controls['precio'].setValue(row.precio);
+      this.productFormEdit.controls['id'].setValue(row.id);
+      this.productFormEdit.controls['imagen'].setValue(row.imagen);
+  }
+  
+  onChange(event) {
+    this.categoryId = event.id;
+    console.log(this.categoryId);
   }
 
-  updateProducto() {
-   this.timer = true;
-    /*let newProducto = {
-      nombre: this.productFormEdit.value.nombre,
-      precio: this.productFormEdit.value.precio,
-      categoria: this.productFormEdit.value.nombre_categoria || this.categoriaId,
-      imagen: this.productFormEdit.value.imagen,
-      id: this.idEdit
-    }*/
-  
-    this.editProduct.nombre = this.productFormEdit.controls['nombre'].value;
-    this.editProduct.precio = this.productFormEdit.controls['precio'].value;
-    this.editProduct.imagen = this.productFormEdit.controls['imagen'].value;
-    this.editProduct.categoria = this.productFormEdit.controls['categoria'].value.id || this.categoriaId;
-    setTimeout(() => {
-    this.productosService.updateData(this.editProduct.id,this.editProduct).subscribe(
-      (res:any)=>{
-        console.log(res)
-        this.getProducts();
-        this.modalService.dismissAll();
-        this.productFormEdit.reset();
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Usuario Actualizado con exito',
-          showConfirmButton: false,
-          timer: 1500
-        })
-      },
-      (err: any) => {
-        this.modalService.dismissAll();
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Ocurrio algo inesperado, intentalo de nuevo...'
-        })
+  updateData() {
+    try {
+      let edit = {
+        nombre:this.productFormEdit.value.nombre,
+        precio:this.productFormEdit.value.precio,
+        id:this.categoryId || this.editProducto.id,
+        imagen:this.productFormEdit.value.imagen
+
       }
-    )
-    this.timer = false;
-  }, 1000);
+      this.productosService.updateData(this.editProducto.id, edit).subscribe(
+        (res: any) => {
+          console.log(res);
+          this.productosService.updateData(this.editProducto.id, edit).subscribe(
+            (res: any) => {
+              console.log(res);
+              
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Actualizacion de Datos Exitosa',
+                showConfirmButton: false,
+                timer: 1500
+              });
+              this.getProducts();
+              this.modalService.dismissAll();
+            }
+          )
+
+        }
+      )
+      
+
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Opps, Algo Salio mal, intentalo de nuevo',
+        showConfirmButton: true,
+        confirmButtonText: "Ok"
+      })
+    }
+
   }
+
 
   deleteProducto(id) {
     Swal.fire({

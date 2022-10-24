@@ -77,34 +77,43 @@
           <!-- Column -->
           <ngx-datatable-column name="Estado" prop="estado" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">
-                {{ id == 1 ? "Activo" : "Inactivo" }}
+              <p class="font-weight-bold text-success" *ngIf="id === 1">
+                {{ id === 1 ? "Activo" : "Inactivo" }}
+              </p>
+
+              <p class="font-weight-bold text-danger" *ngIf="id === 0">
+                {{ id === 1 ? "Activo" : "Inactivo" }}
               </p>
             </ng-template>
           </ngx-datatable-column>
 
-
-          <!-- Column -->
-          <ngx-datatable-column name="cambiar estado" prop="estado" [width]="15">
-            <ng-template let-row="row" let-id="value" ngx-datatable-cell-template>
-              <form [formGroup]="switchForm">
-                <div class="custom-control custom-switch custom-control-inline">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    [id]="row.id"
-                    (change)="switchEvent($event, row)"
-                    [formControl]="row.formcontrol"
-                    [disabled]
-                  />
-                  <label
-                    class="custom-control-label"
-                    [for]="row.id"
-                  ></label>
-                </div>
-              </form>
-            </ng-template>
-          </ngx-datatable-column>
+          <ngx-datatable-column
+          name="Cambiar estado"
+          prop="estado"
+          [width]="20"
+        >
+          <ng-template
+            let-id="value"
+            ngx-datatable-cell-template
+            let-row="row"
+          >
+            <form [formGroup]="switchForm">
+              <div class="custom-control custom-switch custom-control-inline">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  [id]="row.id"
+                  (change)="switchEvent($event, row)"
+                  [formControl]="row.formcontrol"
+                />
+                <label
+                  class="custom-control-label"
+                  [for]="row.id"
+                ></label>
+              </div>
+            </form>
+          </ng-template>
+        </ngx-datatable-column>
 
           <!-- Column -->
           <ngx-datatable-column name="Funciones" prop="cancel" [width]="20">

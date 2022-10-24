@@ -30,10 +30,9 @@ export class CategoriaService {
 
   deleteData(id:number){
     return this.http.delete(`${this.API_URL}/categoria/${id}`) 
-
-}
+  }
 
   cambiarEstado(id, body){
   return this.http.put(`${this.API_URL}/categoria/cambiarEstado/${id}`, body)
-}
+  }
 }

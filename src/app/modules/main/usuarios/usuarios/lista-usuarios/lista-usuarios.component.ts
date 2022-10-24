@@ -228,8 +228,6 @@ export class ListaUsuariosComponent implements OnInit {
         this.editForm.controls['telefono'].setValue(row.telefono);
         this.editForm.controls['correo'].setValue(row.correo);
         this.editForm.controls['id_rol'].setValue(this.nombreRol);
-
-
       }
     )
 

@@ -234,6 +234,7 @@ export class VentasComponent implements OnInit {
               showConfirmButton: false,
               timer: 1000,
             });
+            this.getVentasLocales();
           });
       } else {
         Swal.fire({

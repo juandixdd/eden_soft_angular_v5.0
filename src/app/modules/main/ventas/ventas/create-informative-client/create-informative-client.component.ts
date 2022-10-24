@@ -180,56 +180,67 @@ export class CreateInformativeClientComponent implements OnInit {
             if (res.status === 200) {
               console.log("Cliente creado: ", res);
               console.log("venta Local: ", this.venta_local);
-              this.ventaLocalService
-                .createData(this.venta_local)
-                .subscribe((res: any) => {
-                  if (res.status === 200) {
-                    console.log("Venta creada");
-                    let idVenta = res.data.insertId;
 
-                    this.productos.forEach((item, index) => {
-                      //? Se guardan los productos
-                      let detalleVenta = {
-                        id_producto: item.product.id,
-                        id_venta: idVenta,
-                        cantidad: item.itemQuantity,
-                        precio_unitario: item.itemCost,
-                      };
-                      this.detalleVentaLocalService
-                        .createData(detalleVenta)
-                        .subscribe((res: any) => {
-                          if (res.status === 200) {
-                            console.log(res, "Producto creado");
-                            Swal.fire({
-                              position: "top-end",
-                              icon: "success",
-                              title: "Se ha agregado la venta",
-                              showConfirmButton: false,
-                              timer: 1500,
-                            });
-                            //! Se guarda el abono
-                            if (this.hasAbono) {
-                              let abono = {
-                                id_venta_local: detalleVenta.id_venta,
-                                valor: this.fullDiscount,
-                              };
-                              this.abonosService.createData(abono).subscribe(
-                                (res:any)=>{
-                                  console.log(res);
-                                  
-                                }
-                              )
-                            } else {
-                              console.log("Sin abono");
-                            }
-                            this.router.navigate(["main/ventas"]);
+              let venta: any;
+              if (!this.hasAbono) {
+                venta = {
+                  ...this.venta_local,
+                  pagado: 1,
+                };
+              } else {
+                venta = {
+                  ...this.venta_local,
+                  pagado: 0,
+                };
+              }
+
+              this.ventaLocalService.createData(venta).subscribe((res: any) => {
+                if (res.status === 200) {
+                  console.log("Venta creada");
+                  let idVenta = res.data.insertId;
+
+                  this.productos.forEach((item, index) => {
+                    //? Se guardan los productos
+                    let detalleVenta = {
+                      id_producto: item.product.id,
+                      id_venta: idVenta,
+                      cantidad: item.itemQuantity,
+                      precio_unitario: item.itemCost,
+                    };
+                    this.detalleVentaLocalService
+                      .createData(detalleVenta)
+                      .subscribe((res: any) => {
+                        if (res.status === 200) {
+                          console.log(res, "Producto creado");
+                          Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Se ha agregado la venta",
+                            showConfirmButton: false,
+                            timer: 1500,
+                          });
+                          //! Se guarda el abono
+                          if (this.hasAbono) {
+                            let abono = {
+                              id_venta_local: detalleVenta.id_venta,
+                              valor: this.fullDiscount,
+                            };
+                            this.abonosService
+                              .createData(abono)
+                              .subscribe((res: any) => {
+                                console.log(res);
+                              });
+                          } else {
+                            console.log("Sin abono");
                           }
-                        });
-                    });
-                  } else {
-                    console.log("No se creo la venta");
-                  }
-                });
+                          this.router.navigate(["main/ventas"]);
+                        }
+                      });
+                  });
+                } else {
+                  console.log("No se creo la venta");
+                }
+              });
             } else if (res.statusCode === 403) {
               Swal.fire({
                 icon: "error",
@@ -284,12 +295,11 @@ export class CreateInformativeClientComponent implements OnInit {
                           id_venta_local: detalleVenta.id_venta,
                           valor: this.fullDiscount,
                         };
-                        this.abonosService.createData(abono).subscribe(
-                          (res:any)=>{
+                        this.abonosService
+                          .createData(abono)
+                          .subscribe((res: any) => {
                             console.log(res);
-                            
-                          }
-                        )
+                          });
                       } else {
                         console.log("Sin abono");
                       }

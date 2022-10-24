@@ -96,7 +96,35 @@
           </ngx-datatable-column>
 
           <ngx-datatable-column
-            name="Cambiar estado"
+            name="Pago"
+            prop="pagado"
+            [width]="20"
+          >
+            <ng-template
+              let-id="value"
+              ngx-datatable-cell-template
+              let-row="row"
+            >
+              <form [formGroup]="switchFormPago">
+                <div class="custom-control custom-switch custom-control-inline">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    [id]="row.id_cliente_documento"
+                    (change)="switchEventPago($event, row)"
+                    [formControl]="row.formcontrol2"
+                  />
+                  <label
+                    class="custom-control-label"
+                    [for]="row.id_cliente_documento"
+                  ></label>
+                </div>
+              </form>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column
+            name="Estado"
             prop="estado"
             [width]="20"
           >

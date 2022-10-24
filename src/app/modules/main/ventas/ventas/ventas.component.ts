@@ -57,6 +57,10 @@ export class VentasComponent implements OnInit {
     estado: [],
   });
 
+  public switchFormPago: FormGroup = this.fb.group({
+    pago: [],
+  });
+
   ngOnInit(): void {
     this.getVentasLocales();
   }
@@ -72,6 +76,10 @@ export class VentasComponent implements OnInit {
       res.forEach((item) => {
         item.formcontrol = new FormControl(item.estado);
         this.switchForm.addControl(item.id_venta, item.formcontrol);
+      });
+      res.forEach((item) => {
+        item.formcontrol2 = new FormControl(item.pagado);
+        this.switchFormPago.addControl(item.id_venta, item.formcontrol2);
       });
       this.rows = res;
     });
@@ -196,5 +204,13 @@ export class VentasComponent implements OnInit {
         });
       }, 100);
     }
+  }
+
+  switchEventPago({ target }, row) {
+    let checked = target.checked;
+    let status = {
+      estado: checked,
+    };
+    console.log(checked, row);
   }
 }

@@ -92,36 +92,45 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="estado" prop="estado" [width]="15">
+          <ngx-datatable-column name="Estado" prop="estado" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">
-                {{ id == 1 ? "Activo" : "Inactivo" }}
+              <p class="font-weight-bold text-success" *ngIf="id === 1">
+                {{ id === 1 ? "Activo" : "Inactivo" }}
+              </p>
+
+              <p class="font-weight-bold text-danger" *ngIf="id === 0">
+                {{ id === 1 ? "Activo" : "Inactivo" }}
               </p>
             </ng-template>
           </ngx-datatable-column>
 
-
-          <!-- Column -->
-          <ngx-datatable-column name="cambiar estado" prop="estado" [width]="15">
-            <ng-template let-row="row" let-id="value" ngx-datatable-cell-template>
-              <form [formGroup]="switchForm">
-                <div class="custom-control custom-switch custom-control-inline">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    [id]="row.id"
-                    (change)="switchEvent($event, row)"
-                    [formControl]="row.formcontrol"
-                    [disabled]
-                  />
-                  <label
-                    class="custom-control-label"
-                    [for]="row.id"
-                  ></label>
-                </div>
-              </form>
-            </ng-template>
-          </ngx-datatable-column>
+          <ngx-datatable-column
+          name="Cambiar estado"
+          prop="estado"
+          [width]="20"
+        >
+          <ng-template
+            let-id="value"
+            ngx-datatable-cell-template
+            let-row="row"
+          >
+            <form [formGroup]="switchForm">
+              <div class="custom-control custom-switch custom-control-inline">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  [id]="row.id"
+                  (change)="switchEvent($event, row)"
+                  [formControl]="row.formcontrol"
+                />
+                <label
+                  class="custom-control-label"
+                  [for]="row.id"
+                ></label>
+              </div>
+            </form>
+          </ng-template>
+        </ngx-datatable-column>
 
           <ngx-datatable-column name="Acciones" [width]="100">
             <ng-template ngx-datatable-cell-template let-row="row">
@@ -196,9 +205,9 @@
               <label>Categoría </label>
               <ng-select
                 [items]="selectBasic | async"
-                bindLabel="nombre"
-                formControlName="categoria"
-                [ngModel]="selectBasic | async"
+                bindLabel="nombre_categoria"
+                formControlName="id"
+                [ngModel]="nombreCategoria"
                 placeholder="Seleccione una agencia"
                 (change)="onChange($event)"
               >
@@ -300,8 +309,8 @@
           <div class="form-group">
             <ng-select
               [items]="selectBasic | async"
-              bindLabel="nombre"
-              formControlName="categoria"
+              bindLabel="nombre_categoria"
+              formControlName="id"
               [ngModel]="selectBasic | async"
               placeholder="Seleccione una categoria"
               (change)="onChange($event)"
@@ -324,7 +333,7 @@
         <div class="row justify-content-end">
           <button  rippleEffect
           class="btn btn-primary"
-          (click)="updateProducto()"
+          (click)="updateData()"
           [disabled]="!productFormEdit.valid"
       >
             Actualizar

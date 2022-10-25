@@ -21,7 +21,7 @@ export class CategoriasComponent implements OnInit {
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
   public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
 
-  rows: any = []
+  rows: any = [];
   category: any = {};
   idEdit: any;
 
@@ -50,34 +50,31 @@ export class CategoriasComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.tempData = this.rows; //? Esto también es del buscador (Que no funciona)
-    this.kitchenSinkRows = this.rows;
     this.getCategorias();
+  }
+
+  modalOpen(modal) { //? Esta es la funcion que abre las modales.
+    this.modalService.open(modal, {
+      centered: true,
+    });
   }
 
 
   getCategorias() {
-    this.categoriasService.getData().subscribe(
-      (res: any) => {
+    this.categoriasService.getData().subscribe((res: any) => {
         res.forEach((item) => {
-          console.log(item);
-          
            item.formcontrol = new FormControl(item.estado);
            this.switchForm.addControl(item.id, item.formcontrol)
          });
         this.rows = res;
-        console.log(this.rows);
       });
   }
 
   createCategoria() {
-
     this.category = {
       nombre: this.categoriasForm.value.nombre,
       estado: 0
     }
-
-
     this.categoriasService.createData(this.category).subscribe(
       (res: any) => {
         console.log(res)
@@ -106,15 +103,12 @@ export class CategoriasComponent implements OnInit {
     )
   }
 
-
   getRowData(row) {
-    console.log(row, "Este es el evento") 
     this.categoriasFormEdit.controls['nombre'].setValue(row.nombre)
     this.idEdit = row.id
   }
 
   updateCategoria() {
-   
     let newCategoria = {
       nombre: this.categoriasFormEdit.value.nombre,
       id: this.idEdit
@@ -131,8 +125,7 @@ export class CategoriasComponent implements OnInit {
           timer: 1000,
         });
         this.getCategorias();
-        this.modalService.dismissAll();
-        
+        this.modalService.dismissAll();       
       }
     )
   }
@@ -166,12 +159,6 @@ export class CategoriasComponent implements OnInit {
         );
       }
     })
-  }
-
-  modalOpen(modal) { //? Esta es la funcion que abre las modales.
-    this.modalService.open(modal, {
-      centered: true,
-    });
   }
 
   statusAlert() { //? Esta es la funcion que abre el sweetAlert de confirmacion.
@@ -222,11 +209,8 @@ export class CategoriasComponent implements OnInit {
     const temp = this.tempData.filter(function (d) {
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
-
-    // update the rows
     this.kitchenSinkRows = temp;
   }
-
 
   switchEvent({target}, row){
     let checked = target.checked;

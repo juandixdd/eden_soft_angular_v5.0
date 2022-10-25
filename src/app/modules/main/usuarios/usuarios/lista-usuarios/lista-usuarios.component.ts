@@ -218,7 +218,21 @@ export class ListaUsuariosComponent implements OnInit {
       correo: row.correo,
       telefono: row.telefono,
       id_rol: row.id_rol,
-    };
+    }
+
+    this.rolesService.getDataById(row.id_rol).subscribe(
+      (res: any) => {
+        this.nombreRol = res[0].rol
+        this.editForm.controls['nombre'].setValue(row.nombre);
+        this.editForm.controls['id_cliente_documento'].setValue(row.id_cliente_documento);
+        this.editForm.controls['apellido'].setValue(row.apellido);
+        this.editForm.controls['telefono'].setValue(row.telefono);
+        this.editForm.controls['correo'].setValue(row.correo);
+        this.editForm.controls['id_rol'].setValue(this.nombreRol);
+
+
+      }
+    )
 
     this.rolesService.getDataById(row.id_rol).subscribe((res: any) => {
       this.nombreRol = res[0].rol;

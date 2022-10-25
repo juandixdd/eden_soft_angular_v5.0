@@ -45,12 +45,12 @@ export class VentasComponent implements OnInit {
     private clientesInformativosService: ClientesInformativosService,
     private fb: FormBuilder,
     private router: Router
-  ) {}
+  ) { }
 
   public cedulaForm: FormGroup = this.fb.group({
     cedula: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.min(1)],
     ],
   });
 
@@ -259,6 +259,13 @@ export class VentasComponent implements OnInit {
         this.getVentasLocales();
       }
     });
+  }
+
+  validField(field: string) {
+    return (
+      this.cedulaForm.controls[field].errors &&
+      this.cedulaForm.controls[field].touched
+    );
   }
 
   filterUpdate(event) {

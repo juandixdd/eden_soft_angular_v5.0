@@ -34,6 +34,7 @@ export class VentasComponent implements OnInit {
   isInformative: boolean = false;
   isUser: boolean = false;
   createInformativeClientButton: boolean = false;
+  _filterRows: any = [];
 
   rows: any = [];
 
@@ -65,6 +66,15 @@ export class VentasComponent implements OnInit {
     this.getVentasLocales();
   }
 
+  //? Get y Set para el buscador
+  get filterRows(): any {
+    return this._filterRows;
+  }
+
+  set filterRows(value) {
+    this._filterRows = value;
+  }
+
   modalOpen(modal) {
     this.modalService.open(modal, {
       centered: true,
@@ -82,6 +92,8 @@ export class VentasComponent implements OnInit {
         this.switchFormPago.addControl(item.id_venta, item.formcontrol2);
       });
       this.rows = res;
+      this.filterRows = res;
+      console.log(res);
     });
   }
 
@@ -247,5 +259,22 @@ export class VentasComponent implements OnInit {
         this.getVentasLocales();
       }
     });
+  }
+
+  filterUpdate(event) {
+    const val = event.target.value.toLowerCase();
+
+    const filterData = this.rows.filter((item: any) => {
+      const filterData =
+        item.precio_total.toString().toLowerCase().includes(val) ||
+        item.fecha_registro.toString().toLowerCase().includes(val) ||
+        item.estado_data.toString().toLowerCase().includes(val);
+      return filterData;
+    });
+
+    // update the rows
+    this.filterRows = filterData;
+
+    console.log(filterData);
   }
 }

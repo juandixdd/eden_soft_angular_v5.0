@@ -26,9 +26,20 @@
           [formGroup]="recuperarForm"
           (ngSubmit)="onSubmit()"
         >
-          <label for="email" name="email">Correo Electronico</label>
-          <input type="email" name="email"  class="form-control" placeholder="ejemplo@email.com"><br>
-          <button class="btn btn-primary btn-block" tabindex="3" rippleEffect>
+          <label for="email">Correo Electronico</label>
+          <input 
+           type="email" 
+           formControlName="email"
+           name="email"  
+           class="form-control" 
+           placeholder="ejemplo@email.com"><br>
+          <button 
+            class="btn btn-primary btn-block" 
+           tabindex="3" 
+           rippleEffect
+           
+            (click)="enviarCorreo()"
+          >
             Recuperar Contraseña
           </button>
         </form>

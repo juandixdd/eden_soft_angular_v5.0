@@ -33,7 +33,7 @@ export class RestaurarClaveComponent implements OnInit {
    * @param {FormBuilder} _formBuilder
    */
 
-  constructor(private _coreConfigService: CoreConfigService, private _formBuilder: FormBuilder) {
+  constructor(private _coreConfigService: CoreConfigService, private fb: FormBuilder) {
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
@@ -53,7 +53,17 @@ export class RestaurarClaveComponent implements OnInit {
       }
     }
    }
-
+   public recuperarForm: FormGroup = this.fb.group({
+    password: [
+      "",
+      [Validators.required, Validators.email, Validators.minLength(5)],
+    ],
+    confirmPassword: [
+      "",
+      [Validators.required, Validators.email, Validators.minLength(5)],
+    ],
+  });
+   
    get f() {
     return this.resetPasswordForm.controls;
   }
@@ -87,7 +97,7 @@ export class RestaurarClaveComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.resetPasswordForm = this._formBuilder.group({
+    this.resetPasswordForm = this.fb.group({
       newPassword: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]]
     });

@@ -114,11 +114,11 @@ export class ListaUsuariosComponent implements OnInit {
     ],
     id_cliente_documento: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+      [Validators.required, Validators.minLength(6), Validators.maxLength(10)],
     ],
     telefono: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+      [Validators.required, Validators.minLength(7), Validators.maxLength(15)],
     ],
     id_rol: ["", [Validators.required]],
   });

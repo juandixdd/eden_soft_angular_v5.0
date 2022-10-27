@@ -41,7 +41,7 @@ export class RecuperarClaveComponent implements OnInit {
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
-    /* this._coreConfigService.config = {
+    this._coreConfigService.config = {
       layout: {
         navbar: {
           hidden: true
@@ -55,7 +55,7 @@ export class RecuperarClaveComponent implements OnInit {
         customizer: false,
         enableLocalStorage: false
       }
-    };*/
+    };
   }
 
   public recuperarForm: FormGroup = this.fb.group({

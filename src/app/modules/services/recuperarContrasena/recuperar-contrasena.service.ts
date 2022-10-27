@@ -12,5 +12,9 @@ export class RecuperarContrasenaService {
   sendEmail(body) {
     return this.http.post(`${this.API_URL}/send-mail`, body);
   }
+
+  validateEmail(correo){
+    return this.http.get(`${this.API_URL}/buscar-correo/${correo}`)
+  }
   
 }

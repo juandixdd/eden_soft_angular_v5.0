@@ -27,21 +27,31 @@
           (ngSubmit)="onSubmit()"
         >
           <label for="email">Correo Electronico</label>
-          <input 
-           type="email" 
-           formControlName="email"
-           name="email"  
-           class="form-control" 
-           placeholder="ejemplo@email.com"><br>
-          <button 
-            class="btn btn-primary btn-block" 
-           tabindex="3" 
-           rippleEffect
-           
+          <input
+            type="email"
+            formControlName="email"
+            name="email"
+            class="form-control"
+            placeholder="ejemplo@email.com"
+          />
+          <span class="text-danger" *ngIf="validField('email')">
+            Este campo es requerido
+          </span><br />
+          <button
+            class="btn btn-primary btn-block"
+            tabindex="3"
+            rippleEffect
             (click)="enviarCorreo()"
+            [disabled]="!recuperarForm.valid"
           >
             Recuperar Contraseña
           </button>
+          <div class="row mt-1 justify-content-center" *ngIf="timer">
+            <div class="col-auto">
+              <div class="spinner-border text-primary" role="status"></div>
+            </div>
+          </div>
+          
         </form>
         <p class="text-center mt-2">
           <a routerLink="/pages/authentication/login-v2"

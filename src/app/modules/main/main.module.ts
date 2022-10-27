@@ -48,6 +48,7 @@ import { CotizacionClienteComponent } from './pedidos/cotizacion-cliente/cotizac
 import { PedidosClienteComponent } from './pedidos/pedidos-cliente/pedidos-cliente.component';
 import { PedidosLocalComponent } from './pedidos/pedidos-local/pedidos-local.component';
 import { CreateClientComponent } from './pedidos/pedidos-local/create-client/create-client.component';
+import { RecuperarClaveComponent } from './usuarios/acceso/recuperar-clave/recuperar-clave.component';
 
 
 @NgModule({
@@ -82,7 +83,8 @@ import { CreateClientComponent } from './pedidos/pedidos-local/create-client/cre
     CotizacionClienteComponent,
     PedidosClienteComponent,
     PedidosLocalComponent,
-    CreateClientComponent
+    CreateClientComponent,
+    RecuperarClaveComponent
   ],
   imports: [
     CommonModule,

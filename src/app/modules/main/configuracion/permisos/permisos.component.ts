@@ -187,11 +187,15 @@ export class PermisosComponent implements OnInit {
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
 
-    const temp = this.rows.filter(function (d) {
-      return d.name.toLowerCase().indexOf(val) !== -1 || !val;
+    const filterData = this.rows.filter((item: any) => {
+      const filterData =
+        item.nombre.toLowerCase().includes(val);
+      return filterData;
     });
 
     // update the rows
-    this.filterRows = temp;
-  }
+    this.filterRows = filterData;
+
+    console.log(filterData);
+}
 }

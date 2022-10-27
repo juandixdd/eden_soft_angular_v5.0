@@ -1,46 +1,47 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CoreConfigService } from '@core/services/config.service';
-import { RecuperarContrasenaService } from 'app/modules/services/recuperarContrasena/recuperar-contrasena.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import Swal from 'sweetalert2';
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { CoreConfigService } from "@core/services/config.service";
+import { RecuperarContrasenaService } from "app/modules/services/recuperarContrasena/recuperar-contrasena.service";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-recuperar-clave',
-  templateUrl: './recuperar-clave.component.html',
-  styleUrls: ['./recuperar-clave.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  selector: "app-recuperar-clave",
+  templateUrl: "./recuperar-clave.component.html",
+  styleUrls: ["./recuperar-clave.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class RecuperarClaveComponent implements OnInit {
- // Public
- public coreConfig: any;
- public passwordTextType: boolean;
- public confPasswordTextType: boolean;
- public resetPasswordForm: FormGroup;
- public submitted = false;
- body:any={};
- 
+  // Public
+  public coreConfig: any;
+  public passwordTextType: boolean;
+  public confPasswordTextType: boolean;
+  public resetPasswordForm: FormGroup;
+  public submitted = false;
+  body: any = {};
+  timer: boolean = false;
 
- // Private
- private _unsubscribeAll: Subject<any>;
+  // Private
+  private _unsubscribeAll: Subject<any>;
 
- /**
+  /**
    * Constructor
    *
    * @param {CoreConfigService} _coreConfigService
    * @param {FormBuilder} _formBuilder
    */
 
-  constructor
-  (private _coreConfigService: CoreConfigService, 
+  constructor(
+    private _coreConfigService: CoreConfigService,
     private _formBuilder: FormBuilder,
     private fb: FormBuilder,
-    private recuperarContrasenaService:RecuperarContrasenaService,) { 
+    private recuperarContrasenaService: RecuperarContrasenaService
+  ) {
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
-   /* this._coreConfigService.config = {
+    /* this._coreConfigService.config = {
       layout: {
         navbar: {
           hidden: true
@@ -57,13 +58,12 @@ export class RecuperarClaveComponent implements OnInit {
     };*/
   }
 
-
   public recuperarForm: FormGroup = this.fb.group({
     email: [
       "",
-      [Validators.required, Validators.email],
+      [Validators.required, Validators.email, Validators.minLength(1)],
     ],
-  })
+  });
 
   onSubmit() {
     this.submitted = true;
@@ -73,48 +73,71 @@ export class RecuperarClaveComponent implements OnInit {
       return;
     }
   }
-  
+
   ngOnInit(): void {
-    
-
     // Subscribe to config changes
-    this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
-      this.coreConfig = config;
-    });
+    this._coreConfigService.config
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((config) => {
+        this.coreConfig = config;
+      });
   }
+  validField(field: string) {
+    return (
+      this.recuperarForm.controls[field].errors &&
+      this.recuperarForm.controls[field].touched
+    );
+  }
+  enviarCorreo() {
+    this.timer = true;
+    let email = this.recuperarForm.controls["email"].value;
+    this.recuperarContrasenaService
+      .validateEmail(email)
+      .subscribe((res: any) => {
+        console.log(res);
+        if (res.length === 0) {
+          Swal.fire({
+            title: "Este correo no esta registrado",
+            confirmButtonText: "OK",
+            icon: "error",
+            position: "center",
+          });
+          this.timer = false;
+        } else {
+          this.body = {
+            toSend: email,
+          };
+          console.log(this.body);
 
-  enviarCorreo(){
-    this.body = {
-      email: this.recuperarForm.controls['email'].value
-      }
-    console.log(this.body);
-    
-    this.recuperarContrasenaService.sendEmail(this.body).subscribe(
-      (res:any)=>{
-        if(res.statusCode==200){
-          console.log("Correo Enviado exitosamente");
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Correo Enviado exitosamente',
-            showConfirmButton: false,
-            timer: 1500
-          })
-        }else{
-          
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'El correo es incorrecto o no esta registrado en nuesto sistema🤔'
-          })
+          this.recuperarContrasenaService
+            .sendEmail(this.body)
+            .subscribe((res: any) => {
+              console.log(res);
+              if (res.status === 200) {
+                Swal.fire({
+                  title:
+                    "Te enviamos un correo de confirmacion, porfavor revisalo!",
+                  confirmButtonText: "OK",
+                  icon: "success",
+                  position: "center",
+                });
+                this.timer = false;
+              } else {
+                Swal.fire({
+                  title: "Surgio un problema, intentalo de nuevo",
+                  confirmButtonText: "OK",
+                  icon: "error",
+                  position: "center",
+                });
+                this.timer = false;
+              }
+            });
         }
-      }
-    )
+      });
   }
   ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
-
 }

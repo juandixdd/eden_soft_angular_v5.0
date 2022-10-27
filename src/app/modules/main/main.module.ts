@@ -47,7 +47,6 @@ import { PagoComponent } from './pedidos/pedidos/pago/pago.component';
 import { CotizacionClienteComponent } from './pedidos/cotizacion-cliente/cotizacion-cliente.component';
 import { PedidosClienteComponent } from './pedidos/pedidos-cliente/pedidos-cliente.component';
 import { PedidosLocalComponent } from './pedidos/pedidos-local/pedidos-local.component';
-import { CreateClientComponent } from './pedidos/pedidos-local/create-client/create-client.component';
 
 
 @NgModule({
@@ -81,8 +80,7 @@ import { CreateClientComponent } from './pedidos/pedidos-local/create-client/cre
     PagoComponent,
     CotizacionClienteComponent,
     PedidosClienteComponent,
-    PedidosLocalComponent,
-    CreateClientComponent
+    PedidosLocalComponent
   ],
   imports: [
     CommonModule,

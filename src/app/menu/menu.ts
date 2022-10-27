@@ -59,6 +59,13 @@ export const menu: CoreMenu[] = [
             icon: 'meh',
             url: 'main/restaurar-clave'
           },
+          {
+            id: 'Acceso',
+            title: 'Recuperar contraseña',
+            type: 'item',
+            icon: 'meh',
+            url: 'main/recuperar-clave'
+          },
 
         ]
 

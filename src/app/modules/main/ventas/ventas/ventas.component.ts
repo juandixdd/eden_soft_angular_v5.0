@@ -34,6 +34,7 @@ export class VentasComponent implements OnInit {
   isInformative: boolean = false;
   isUser: boolean = false;
   createInformativeClientButton: boolean = false;
+  _filterRows: any = [];
 
   rows: any = [];
 
@@ -44,12 +45,12 @@ export class VentasComponent implements OnInit {
     private clientesInformativosService: ClientesInformativosService,
     private fb: FormBuilder,
     private router: Router
-  ) {}
+  ) { }
 
   public cedulaForm: FormGroup = this.fb.group({
     cedula: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.min(1)],
     ],
   });
 
@@ -57,8 +58,21 @@ export class VentasComponent implements OnInit {
     estado: [],
   });
 
+  public switchFormPago: FormGroup = this.fb.group({
+    pago: [],
+  });
+
   ngOnInit(): void {
     this.getVentasLocales();
+  }
+
+  //? Get y Set para el buscador
+  get filterRows(): any {
+    return this._filterRows;
+  }
+
+  set filterRows(value) {
+    this._filterRows = value;
   }
 
   modalOpen(modal) {
@@ -73,7 +87,13 @@ export class VentasComponent implements OnInit {
         item.formcontrol = new FormControl(item.estado);
         this.switchForm.addControl(item.id_venta, item.formcontrol);
       });
+      res.forEach((item) => {
+        item.formcontrol2 = new FormControl(item.pagado);
+        this.switchFormPago.addControl(item.id_venta, item.formcontrol2);
+      });
       this.rows = res;
+      this.filterRows = res;
+      console.log(res);
     });
   }
 
@@ -196,5 +216,72 @@ export class VentasComponent implements OnInit {
         });
       }, 100);
     }
+  }
+
+  switchEventPago({ target }, row) {
+    let checked = target.checked;
+    let status = {
+      pagado: checked ? 1 : 0,
+    };
+
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Esta acción no se puede revertir",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Cambiar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ventaLocalService
+          .cambiarEstadoDePago(row.id_venta, status)
+          .subscribe((res: any) => {
+            console.log(res);
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Se cambió el estado de la venta",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+            this.getVentasLocales();
+          });
+      } else {
+        Swal.fire({
+          position: "top-end",
+          icon: "warning",
+          title: "No se cambió el estado de la venta",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        this.getVentasLocales();
+      }
+    });
+  }
+
+  validField(field: string) {
+    return (
+      this.cedulaForm.controls[field].errors &&
+      this.cedulaForm.controls[field].touched
+    );
+  }
+
+  filterUpdate(event) {
+    const val = event.target.value.toLowerCase();
+
+    const filterData = this.rows.filter((item: any) => {
+      const filterData =
+        item.precio_total.toString().toLowerCase().includes(val) ||
+        item.fecha_registro.toString().toLowerCase().includes(val) ||
+        item.estado_data.toString().toLowerCase().includes(val);
+      return filterData;
+    });
+
+    // update the rows
+    this.filterRows = filterData;
+
+    console.log(filterData);
   }
 }

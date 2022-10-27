@@ -63,7 +63,7 @@ const routes: Routes = [
   { path: 'pedidos', component: PedidosComponent, canActivate: [AuthGuardGuard]},
   { path: 'pedidos/pago', component: PagoComponent, canActivate: [AuthGuardGuard]},
   { path: 'pedidos-local', component: PedidosLocalComponent, canActivate: [AuthGuardGuard]},
-  { path: 'pedidos-locales/create-client/:cedula/:exist', component: CreateClientComponent, canActivate: [AuthGuardGuard] },
+  { path: 'pedidos-local/create-client/:cedula/:exist', component: CreateClientComponent, canActivate: [AuthGuardGuard] },
 
 
 ];

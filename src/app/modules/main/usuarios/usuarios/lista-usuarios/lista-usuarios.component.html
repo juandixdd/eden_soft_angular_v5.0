@@ -35,7 +35,9 @@
                   type="search"
                   placeholder="Buscar"
                   class="form-control ml-25"
+                  (keyup)="filterUpdate($event)"
               /></label>
+
 
               <!-- ? Botón de crear -->
               <button
@@ -50,7 +52,7 @@
         </div>
         <!--? Aquí empieza la tabla -->
         <ngx-datatable
-          [rows]="rows"
+          [rows]="_filterRows"
           [rowHeight]="50"
           class="bootstrap core-bootstrap"
           [limit]="selectedOption"

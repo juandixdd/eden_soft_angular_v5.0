@@ -35,6 +35,7 @@
                   type="search"
                   placeholder="Buscar"
                   class="form-control ml-25"
+                  (keyup)="filterUpdate($event)"
               /></label>
 
               <!-- ? Botón de crear -->
@@ -50,7 +51,7 @@
         </div>
         <!--? Aquí empieza la tabla -->
         <ngx-datatable
-          [rows]="rows"
+          [rows]="_filterRows"
           [rowHeight]="50"
           class="bootstrap core-bootstrap"
           [limit]="selectedOption"
@@ -82,24 +83,13 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <!-- Column -->
-          <ngx-datatable-column name="Estado" prop="estado" [width]="20">
+          <ngx-datatable-column name="Estado" prop="estado_data" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-success" *ngIf="id === 1">
-                {{ id === 1 ? "Activo" : "Inactivo" }}
-              </p>
-
-              <p class="font-weight-bold text-danger" *ngIf="id === 0">
-                {{ id === 1 ? "Activo" : "Inactivo" }}
-              </p>
+              <p class="font-weight-bold text-dark">{{ id }}</p>
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column
-            name="Cambiar estado"
-            prop="estado"
-            [width]="20"
-          >
+          <ngx-datatable-column name="Estado" prop="estado" [width]="20">
             <ng-template
               let-id="value"
               ngx-datatable-cell-template
@@ -117,6 +107,30 @@
                   <label
                     class="custom-control-label"
                     [for]="row.id_venta"
+                  ></label>
+                </div>
+              </form>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Pago" prop="pagado" [width]="20">
+            <ng-template
+              let-id="value"
+              ngx-datatable-cell-template
+              let-row="row"
+            >
+              <form [formGroup]="switchFormPago">
+                <div class="custom-control custom-switch custom-control-inline">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    [id]="row.id_cliente_documento"
+                    (change)="switchEventPago($event, row)"
+                    [formControl]="row.formcontrol2"
+                  />
+                  <label
+                    class="custom-control-label"
+                    [for]="row.id_cliente_documento"
                   ></label>
                 </div>
               </form>
@@ -177,6 +191,9 @@
                 placeholder="Cédula"
               />
             </div>
+            <span class="text-danger" *ngIf="validField('cedula')"
+              >Este campo es requerido</span
+            >
           </div>
         </div>
 
@@ -184,8 +201,10 @@
         <button
           class="btn btn-primary btn-block mb-2"
           tabindex="5"
+          type="number"
           rippleEffect
           (click)="validateClient()"
+          [disabled]="!cedulaForm.valid"
         >
           Validar cliente
         </button>
@@ -222,7 +241,6 @@
             Crear cliente informativo
           </button>
         </div>
-
       </form>
     </div>
   </ng-template>

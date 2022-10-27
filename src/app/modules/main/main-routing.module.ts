@@ -35,8 +35,8 @@ const routes: Routes = [
   /*Usuarios*/
   { path: 'lista-usuarios', component: ListaUsuariosComponent, canActivate: [AuthGuardGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'restaurar-clave', component: RestaurarClaveComponent },
-  {path:'recuperar-clave', component: RecuperarClaveComponent},
+  { path: 'restaurar-clave/:token', component: RestaurarClaveComponent },
+  { path: 'recuperar-clave', component: RecuperarClaveComponent },
   { path: 'registro-usuarios', component: RegistroUsuariosComponent },
   { path: 'perfil-usuario', component: PerfilUsuarioComponent, canActivate: [AuthGuardGuard] },
 

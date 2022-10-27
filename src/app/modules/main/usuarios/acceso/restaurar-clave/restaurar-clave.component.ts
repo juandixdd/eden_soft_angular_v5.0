@@ -37,7 +37,7 @@ export class RestaurarClaveComponent implements OnInit {
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
-   /* this._coreConfigService.config = {
+    this._coreConfigService.config = {
       layout: {
         navbar: {
           hidden: true
@@ -51,7 +51,7 @@ export class RestaurarClaveComponent implements OnInit {
         customizer: false,
         enableLocalStorage: false
       }
-    };*/
+    }
    }
 
    get f() {

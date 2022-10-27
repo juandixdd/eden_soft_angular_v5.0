@@ -75,6 +75,14 @@ export class CreateClientComponent implements OnInit {
     ],
   });
 
+  public fechaForm: FormGroup = this.fb.group({
+    fecha_entrega: [
+      "",
+      [Validators.required]
+    ]
+    
+  })
+
 
   validField(field: string) {
     return (
@@ -83,13 +91,7 @@ export class CreateClientComponent implements OnInit {
     );
   }
 
-  public fechaForm: FormGroup = this.fb.group({
-    fecha_entrega: [
-      "",
-      [Validators.required]
-    ]
-    
-  })
+  
 
   validFields(field: string){
     return ( this.fechaForm.controls[field].errors && 

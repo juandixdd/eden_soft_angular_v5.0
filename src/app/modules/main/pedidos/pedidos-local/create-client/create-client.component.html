@@ -10,7 +10,12 @@
               <div class="col-md-6 col-12">
                 <div class="form-group">
                   <label for="first-name-column">Nombres</label>
-                  <input type="text" id="first-name-column" class="form-control" formControlName="nombre" />
+                  <input
+                    type="text"
+                    id="first-name-column"
+                    class="form-control"
+                    formControlName="nombre"
+                  />
                   <span *ngIf="validField('nombre')" class="text-danger">
                     Este campo es requerido
                     <br />
@@ -20,7 +25,12 @@
               <div class="col-md-6 col-12">
                 <div class="form-group">
                   <label for="last-name-column">Apellidos</label>
-                  <input type="text" id="last-name-column" class="form-control" formControlName="apellido" />
+                  <input
+                    type="text"
+                    id="last-name-column"
+                    class="form-control"
+                    formControlName="apellido"
+                  />
                   <span *ngIf="validField('apellido')" class="text-danger">
                     Este campo es requerido
                     <br />
@@ -30,9 +40,17 @@
               <div class="col-md-6 col-12">
                 <div class="form-group">
                   <label for="city-column">Documento</label>
-                  <input type="number" id="id" class="form-control" formControlName="id_cliente_documento"
-                    [ngClass]="cedula" />
-                  <span *ngIf="validField('id_cliente_documento')" class="text-danger">
+                  <input
+                    type="number"
+                    id="id"
+                    class="form-control"
+                    formControlName="id_cliente_documento"
+                    [ngClass]="cedula"
+                  />
+                  <span
+                    *ngIf="validField('id_cliente_documento')"
+                    class="text-danger"
+                  >
                     Este campo es requerido
                     <br />
                   </span>
@@ -41,7 +59,12 @@
               <div class="col-md-6 col-12">
                 <div class="form-group">
                   <label for="city-column">Telefono</label>
-                  <input type="number" id="Telefono" class="form-control" formControlName="telefono" />
+                  <input
+                    type="number"
+                    id="Telefono"
+                    class="form-control"
+                    formControlName="telefono"
+                  />
                   <span *ngIf="validField('telefono')" class="text-danger">
                     Este campo es requerido
                     <br />
@@ -60,23 +83,35 @@
   <div class="card-body">
     <div class="col-md-5">
       <form [formGroup]="fechaForm">
-      <div class="form-group">
-        <h5 class=" card-title text-primary">Fecha de Entrega</h5>
-        <div class="input-group mb-1">
-          <input formControlName="fecha_entrega" class="form-control" placeholder="yyyy-mm-dd" name="Basic Date Picker"
-            [(ngModel)]="basicDPdata" ngbDatepicker #basicDP="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary feather icon-calendar"
-              (click)="basicDP.toggle(); dateEvent($event)" type="button" rippleEffect></button>
+        <div class="form-group">
+          <h5 class="card-title text-primary">Fecha de Entrega</h5>
+          <div class="input-group mb-1">
+            <input
+              formControlName="fecha_entrega"
+              class="form-control"
+              placeholder="yyyy-mm-dd"
+              name="Basic Date Picker"
+              [(ngModel)]="basicDPdata"
+              ngbDatepicker
+              #basicDP="ngbDatepicker"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary feather icon-calendar"
+                (click)="basicDP.toggle(); dateEvent($event)"
+                type="button"
+                rippleEffect
+              ></button>
+            </div>
+            <span *ngIf="validFields('fecha_entrega')" class="text-danger"
+              >este campo es requerido</span
+            >
           </div>
-          <span *ngIf="validFields('fecha_entrega')" class="text-danger">este campo es requerido</span>
         </div>
-      </div>
-    </form>
+      </form>
     </div>
   </div>
 </div>
-
 
 <div class="content-wrapper container-xxl p-0">
   <div class="content-body">
@@ -91,9 +126,15 @@
                   <div class="form-group">
                     <label for="product{{ i }}">Producto</label>
                     <div class="form-group">
-                      <ng-select [items]="selectBasic | async" bindLabel="nombre" name="product{{ i }}"
-                        id="product{{ i }}" [(ngModel)]="item.product" placeholder="Seleccione una agencia"
-                        (change)="eventListener($event)">
+                      <ng-select
+                        [items]="selectBasic | async"
+                        bindLabel="nombre"
+                        name="product{{ i }}"
+                        id="product{{ i }}"
+                        [(ngModel)]="item.product"
+                        placeholder="Seleccione una agencia"
+                        (change)="eventListener($event)"
+                      >
                       </ng-select>
                     </div>
                   </div>
@@ -102,22 +143,41 @@
                 <div class="col-md-2 col-12">
                   <div class="form-group">
                     <label for="itemCost">Precio</label>
-                    <input type="number" class="form-control" id="itemcost" [(ngModel)]="item.itemCost"
-                      name="itemCost{{ i }}" id="itemCost{{ i }}" placeholder="32" disabled />
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="itemcost"
+                      [(ngModel)]="item.itemCost"
+                      name="itemCost{{ i }}"
+                      id="itemCost{{ i }}"
+                      placeholder="32"
+                      disabled
+                    />
                   </div>
                 </div>
 
                 <div class="col-md-2 col-12">
                   <div class="form-group">
                     <label for="itemQuantity{{ i }}">Cantidad</label>
-                    <input type="number" class="form-control" id="itemQuantity{{ i }}" name="itemQuantity{{ i }}"
-                      [(ngModel)]="item.itemQuantity" placeholder="1" (change)="eventListenerQuantity($event)" />
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="itemQuantity{{ i }}"
+                      name="itemQuantity{{ i }}"
+                      [(ngModel)]="item.itemQuantity"
+                      placeholder="1"
+                      (change)="eventListenerQuantity($event)"
+                    />
                   </div>
                 </div>
 
                 <div class="col-md-2 col-12 mb-50 d-flex align-items-end">
                   <div class="form-group">
-                    <button class="btn btn-outline-danger text-nowrap px-1" (click)="deleteItem(i)" rippleEffect>
+                    <button
+                      class="btn btn-outline-danger text-nowrap px-1"
+                      (click)="deleteItem(i)"
+                      rippleEffect
+                    >
                       <i data-feather="x" class="mr-25"></i>
                       <span>Delete</span>
                     </button>
@@ -129,7 +189,12 @@
           </form>
           <div class="row">
             <div class="col-12">
-              <button class="btn btn-icon btn-primary" type="button" (click)="addItem()" rippleEffect>
+              <button
+                class="btn btn-icon btn-primary"
+                type="button"
+                (click)="addItem()"
+                rippleEffect
+              >
                 <i data-feather="plus" class="mr-25"></i>
                 <span>Agregar producto</span>
               </button>
@@ -143,7 +208,8 @@
         <div class="row justify-content-end">
           <div class="col-auto">
             <h4>
-              <span class="text-primary">Total: </span>{{ totalCost | currency: "USD":"symbol":"3.0" }}
+              <span class="text-primary">Total: </span
+              >{{ totalCost | currency: "USD":"symbol":"3.0" }}
             </h4>
           </div>
         </div>
@@ -152,13 +218,20 @@
     <div class="d-flex justify-content-center" *ngIf="timer">
       <div class="spinner-border text-primary" role="status"></div>
     </div>
-    <button *ngIf="clientExists === 0" 
-      class="btn btn-primary" (click)="createPedidoLocal()"
-      [disabled]="!userForm.valid || !totalCost">
+    <button
+      *ngIf="clientExists === 0"
+      class="btn btn-primary"
+      (click)="createPedidoLocal()"
+      [disabled]="!userForm.valid || !totalCost"
+    >
       Guardar Pedido Local
     </button>
-    <button *ngIf="clientExists === 1" class="btn btn-primary" 
-    (click)="createPedidoLocal()" [disabled]="!totalCost">
+    <button
+      *ngIf="clientExists === 1"
+      class="btn btn-primary"
+      (click)="createPedidoLocal()"
+      [disabled]="!totalCost"
+    >
       Guardar Pedido Local
     </button>
   </div>

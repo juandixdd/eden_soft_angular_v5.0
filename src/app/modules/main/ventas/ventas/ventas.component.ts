@@ -166,8 +166,11 @@ export class VentasComponent implements OnInit {
   switchEvent({ target }, row) {
     let checked = target.checked;
     let status = {
-      estado: checked,
+      estado: checked ? 1 : 0,
     };
+
+    console.log(checked);
+
 
     if (checked) {
       Swal.fire({
@@ -189,20 +192,25 @@ export class VentasComponent implements OnInit {
           cancelButtonText: "Cancelar",
         }).then((result) => {
           if (result.isConfirmed) {
-            this.ventaLocalService
-              .anularVentaLocal(row.id_venta, status)
-              .subscribe((res: any) => {
-                if (res.status === 200) {
-                  Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Se cambió el estado de la venta",
-                    showConfirmButton: false,
-                    timer: 1000,
-                  });
-                  this.getVentasLocales();
-                }
-              });
+            console.log("Cancelar");
+            console.log(row.id_venta);
+            console.log(status);
+
+
+            // this.ventaLocalService
+            //   .anularVentaLocal(row.id_venta, status)
+            //   .subscribe((res: any) => {
+            //     if (res.status === 200) {
+            //       Swal.fire({
+            //         position: "top-end",
+            //         icon: "success",
+            //         title: "Se cambió el estado de la venta",
+            //         showConfirmButton: false,
+            //         timer: 1000,
+            //       });
+            //       this.getVentasLocales();
+            //     }
+            //   });
           } else {
             Swal.fire({
               position: "top-end",

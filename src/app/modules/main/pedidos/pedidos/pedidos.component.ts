@@ -195,7 +195,7 @@ export class PedidosComponent implements OnInit {
       Swal.fire({
         icon: "warning",
         confirmButtonText: "Ok",
-        title: "Opps, no se puede volver a activar una venta local",
+        title: "Ops, no se puede volver a activar un  pedido",
       });
       this.getPedidos();
     } else {

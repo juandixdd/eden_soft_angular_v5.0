@@ -1,268 +1,237 @@
 <div class="content-wrapper container-xxl p-0">
-    <div class="content-body">
-      <!-- Invoice List -->
-      <section class="invoice-list-wrapper">
-        <div class="card">
-          <!-- Invoice List Header -->
-          <div class="row">
-            <div class="col-md-6 col-12">
-              <h1 class="text-primary mt-1 ml-1">Pedidos</h1>
-              <div class="d-flex justify-content-between align-items-center m-1">
-                <div class="d-flex align-items-center">
-                  <label class="d-flex align-items-center"
-                    >Show
-                    <!-- ? Selector de filas -->
-                    <select
-                      class="form-control mx-25"
-                      [(ngModel)]="selectedOption"
-                    >
-                      <option value="10">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                    </select>
-                  </label>
-                </div>
-              </div>
-            </div>
-  
-            <div class="col-md-6 col-12 d-flex justify-content-md-end">
-              <div
-                class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0"
-              >
-                <!-- ?Buscador -->
-                <label class="d-flex align-items-center"
-                  ><input
-                    type="search"
-                    placeholder="Buscar"
-                    class="form-control ml-25"
-                /></label>
-                
-                <!-- ? Botón de crear -->
-              <button
-              class="btn btn-primary ml-2"
-              (click)="modalOpen(modalForm)"
-              rippleEffect
-            >
-              Crear
-            </button>
+  <div class="content-body">
+    <!-- Invoice List -->
+    <section class="invoice-list-wrapper">
+      <div class="card">
+        <!-- Invoice List Header -->
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <h1 class="text-primary mt-1 ml-1">Pedidos locales</h1>
+            <div class="d-flex justify-content-between align-items-center m-1">
+              <div class="d-flex align-items-center">
+                <label class="d-flex align-items-center">Show
+                  <!-- ? Selector de filas -->
+                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </label>
               </div>
             </div>
           </div>
-          <!--? Aquí empieza la tabla -->
-          <ngx-datatable
-            [rows]="rows"
-            [rowHeight]="50"
-            class="bootstrap core-bootstrap"
-            [limit]="selectedOption"
-            [columnMode]="ColumnMode.force"
-            [headerHeight]="50"
-            [footerHeight]="50"
-            [scrollbarH]="true"
-          >
-            <!-- Column -->
-            <ngx-datatable-column name="#" prop="id_pedido" [width]="20">
-              <ng-template let-id="value" ngx-datatable-cell-template>
-                <p class="font-weight-bold text-dark">#{{ id }}</p>
-              </ng-template>
-            </ngx-datatable-column>
-            
-            <ngx-datatable-column name="Cliente" prop="nombre" [width]="20">
-              <ng-template let-id="value" ngx-datatable-cell-template>
-                <p class="font-weight-bold text-dark">{{ id | titlecase }}</p>
-              </ng-template>
-            </ngx-datatable-column>
-            
-            <!-- Column -->
-            <ngx-datatable-column
-              name="Precio total"
-              prop="precio_total"
-              [width]="20"
-            >
-              <ng-template let-id="value" ngx-datatable-cell-template>
-                <p class="font-weight-bold text-dark">{{ id }}</p>
-              </ng-template>
-            </ngx-datatable-column>
-  
-            <!-- Column -->
-            <ngx-datatable-column
-              name="Fecha de registro"
-              prop="fecha_registro"
-              [width]="20"
-            >
-              <ng-template let-id="value" ngx-datatable-cell-template>
-                <p class="font-weight-bold text-dark">{{ id | date }}</p>
-              </ng-template>
-            </ngx-datatable-column>
-  
-            <!-- Column -->
-            <ngx-datatable-column
-              name="Fecha de entrega"
-              prop="fecha_entrega"
-              [width]="20"
-            >
-              <ng-template let-id="value" ngx-datatable-cell-template>
-                <p class="font-weight-bold text-dark">{{ id | date }}</p>
-              </ng-template>
-            </ngx-datatable-column>
-  
-            <!-- Column -->
-            <ngx-datatable-column name="estado" prop="estado" [width]="15">
-              <ng-template let-id="value" ngx-datatable-cell-template>
-                <p class="font-weight-bold text-dark">
-                  {{ id == 1 ? "Activo" : "Cancelado" }}
-                </p>
-              </ng-template>
-            </ngx-datatable-column>
 
-            <!-- Column -->
-          <ngx-datatable-column name="cambiar estado" prop="estado" [width]="15">
+          <div class="col-md-6 col-12 d-flex justify-content-md-end">
+            <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
+              <!-- ?Buscador -->
+              <label class="d-flex align-items-center"><input type="search" placeholder="Buscar"
+                  class="form-control ml-25" /></label>
+
+              <!-- ? Botón de crear -->
+              <button class="btn btn-primary ml-2" (click)="modalOpen(cedulaModal)" rippleEffect>
+                Crear
+              </button>
+            </div>
+          </div>
+        </div>
+        <!--? Aquí empieza la tabla -->
+        <ngx-datatable [rows]="rows" [rowHeight]="50" class="bootstrap core-bootstrap" [limit]="selectedOption"
+          [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true">
+          <!-- Column -->
+          <ngx-datatable-column name="#" prop="id_pedido_local" [width]="20">
+            <ng-template let-id="value" ngx-datatable-cell-template>
+              <p class="font-weight-bold text-dark">#{{ id }}</p>
+            </ng-template>
+          </ngx-datatable-column>
+          
+          <ngx-datatable-column name="Cliente" prop="nombre" [width]="20">
+            <ng-template let-id="value" ngx-datatable-cell-template>
+              <p class="font-weight-bold text-dark">{{ id | titlecase}}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- Column -->
+          <ngx-datatable-column name="Precio total" prop="precio_total" [width]="20">
+            <ng-template let-id="value" ngx-datatable-cell-template>
+              <p class="font-weight-bold text-dark">
+                {{ id | currency: "USD":"symbol":"3.0"}}
+              </p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- Column -->
+          <ngx-datatable-column name="Fecha de registro" prop="fecha_registro" [width]="20">
+            <ng-template let-id="value" ngx-datatable-cell-template>
+              <p class="font-weight-bold text-dark">{{ id | date }}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- Column -->
+          <ngx-datatable-column name="Fecha de entrega" prop="fecha_entrega" [width]="20">
+            <ng-template let-id="value" ngx-datatable-cell-template>
+              <p class="font-weight-bold text-dark">{{ id | date }}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- Column -->
+          <ngx-datatable-column name="estado" prop="estado" [width]="15">
+            <ng-template let-id="value" ngx-datatable-cell-template>
+              <p class="font-weight-bold text-dark">
+                {{ id == 1 ? "Activo" : "Cancelado" }}
+              </p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- Column -->
+          <ngx-datatable-column name="Anular Pedido" prop="estado" [width]="15">
             <ng-template let-row="row" let-id="value" ngx-datatable-cell-template>
               <form [formGroup]="switchForm">
                 <div class="custom-control custom-switch custom-control-inline">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    [id]="row.id_pedido"
-                    (change)="switchEvent($event, row)"
-                    [formControl]="row.formcontrol"
-                    [disabled]
-                  />
-                  <label
-                    class="custom-control-label"
-                    [for]="row.id_pedido"
-                  ></label>
+                  <input type="checkbox" class="custom-control-input" [id]="row.id_pedido_local"
+                    (change)="switchEvent($event, row)" [formControl]="row.formcontrol" [disabled] />
+                  <label class="custom-control-label" [for]="row.id_pedido_local"></label>
                 </div>
               </form>
             </ng-template>
           </ngx-datatable-column>
-  
-            <ngx-datatable-column name="Acciones" [width]="100">
-              <ng-template ngx-datatable-cell-template let-row="row">
-                <div class="d-flex justify-content-start">
-                  <button
-                    class="btn btn-icon btn-sm"
-                    (click)="
-                      modalOpen(infoModal); getPedidosById(row.id_pedido)
-                    "
-                  >
-                    <i class="feather icon-eye text-primary"></i>
-                  </button>
-                </div>
-              </ng-template>
-            </ngx-datatable-column>
-          </ngx-datatable>
-        </div>
-      </section>
-    </div>
-  </div>
-  
-  <!-- *************************************************** MODALES *************************************************** -->
-  
-  <!-- ! Modal de agregar -->
-<div>
-    <!-- Login Form -->
-    <div class="login-form">
-      <!-- Modal -->
-      <ng-template #modalForm let-modal>
-        <div class="modal-header">
-          <h4 class="modal-title" id="myModalLabel1">Agregar</h4>
-          <button
-            type="button"
-            class="close"
-            (click)="modal.dismiss('Cross click')"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body" tabindex="0" ngbAutofocus>
-          <form [formGroup]="productForm">
-            <div class="form-group">
-              <label for="first-name-column">Nombre producto</label>
-              <input
-                formControlName="nombre"
-                type="text"
-                placeholder="Nombre"
-                class="form-control"
-              />
-  
-              <label for="first-name-column">Precio</label>
-              <input
-                formControlName="precio"
-                type="number"
-                placeholder="Precio"
-                class="form-control"
-              />
-  
-              <label>Categoría </label>
-              <div class="form-group">
-                <ng-select
-                  [items]="selectBasic | async"
-                  bindLabel="nombre"
-                  formControlName="categoria"
-                  [ngModel]="selectBasic | async"
-                  placeholder="Seleccione una agencia"
-                  (change)="onChange($event)"
-                >
-                </ng-select>
+
+          <ngx-datatable-column name="Acciones" [width]="100">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div class="d-flex justify-content-start">
+                <button class="btn btn-icon btn-sm" (click)="
+                      modalOpen(infoModal); defineProductInfo(row.id_pedido_local)
+                    ">
+                  <i class="feather icon-eye text-primary"></i>
+                </button>
               </div>
-  
-              <label for="first-name-column">Imagen</label>
-              <input
-                formControlName="imagen"
-                type="text"
-                placeholder="imagen"
-                class="form-control"
-              />
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="createProduct()">
-            Crear
-          </button>
-        </div>
-      </ng-template>
-      <!-- / Modal -->
-    </div>
-  </div>
-
-
-  <!-- ! Modal de info -->
-  <div>
-    <ng-template #infoModal let-modal>
-      <div class="modal-header">
-        <h5 class="modal-title text-primary">Detalle del pedido</h5>
-        <button
-          type="button"
-          class="close"
-          (click)="modal.dismiss('Cross click')"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
       </div>
-  
-      <!-- ?Body de la modal -->
-  
-      <div *ngIf="detallesData.length > 0">
-        <div class="divider divider-primary">
-          <div class="divider-text">
-            Datos del cliente
+    </section>
+  </div>
+</div>
+
+<!-- *************************************************** MODALES *************************************************** -->
+
+<!-- ! Modal de Creaciond e usuario informativo -->
+<div>
+  <ng-template #cedulaModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title text-primary" id="myModalLabel1">
+        Cédula del cliente
+      </h4>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <!-- ?Body de la modal -->
+    <div class="m-1">
+      <form class="auth-register-form mt-2" [formGroup]="cedulaForm">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label for="country-floating">Cedula</label>
+              <input type="number" id="country-floating" class="form-control" formControlName="cedula"
+                placeholder="Cédula" />
+            </div>
           </div>
         </div>
-        <div class="m-1">
-          <p>
-            <span class="text-primary">Cedula: </span>{{ clientData.cedula }}
-          </p>
-          <p>
-            <span class="text-primary">Nombre: </span>{{ clientData.nombreCliente | titlecase}}
-          </p>
-          <p>
-            <span class="text-primary">Telefono: </span>{{ clientData.telefono }}
-          </p>
+
+        <hr />
+        <button class="btn btn-primary btn-block mb-2" tabindex="5" rippleEffect (click)="validateClient()">
+          Validar cliente
+        </button>
+        <!-- ? Loader spinner -->
+        <div class="row justify-content-center">
+          <div class="col-auto">
+            <div class="spinner-border text-primary mr-1" role="status" *ngIf="loader">
+              <span class="visually-hidden"></span>
+            </div>
+          </div>
         </div>
+
+        <div *ngIf="createInformativeClientButton">
+          <div class="row justify-content-center">
+            <div class="col-auto">
+              <p>
+                <span class="text-danger text-center">El cliente no ha sido registrado aún</span>
+              </p>
+            </div>
+          </div>
+          <button tabindex="5" rippleEffect class="btn btn-success btn-block" (click)="createInformativeClient()">
+            Crear cliente informativo
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </ng-template>
+  <!-- / Modal -->
+</div>
+
+
+
+<!-- ! Modal de info -->
+<div>
+  <ng-template #infoModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title text-primary" id="myModalLabel1">Detalle del pedido local</h5>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <!-- ?Body de la modal -->
+
+    <div *ngIf="clientData">
+      <div class="divider divider-primary">
+        <div class="divider-text">
+          Datos del cliente
+        </div>
+      </div>
+      <div class="m-1">
+        <p>
+          <span class="text-primary">Cedula: </span>{{ clientData.id_cliente_documento }}
+        </p>
+        <p>
+          <span class="text-primary">Nombre: </span>{{ clientData.nombre }} {{ clientData.apellido }}
+        </p>
+        <p>
+          <span class="text-primary">Telefono: </span>{{ clientData.telefono }}
+        </p>
+      </div>
+
+      <div *ngIf="pedidoData">
+        <div class="divider divider-primary">
+          <div class="divider-text">Datos del pedido</div>
+        </div>
+        <p>
+          <span class="text-primary"><b>Fecha de registro: </b></span>
+          {{ pedidoData.fecha_registro | date }}
+        </p>
+        <p>
+          <span class="text-primary"><b>Precio total: </b></span>
+          {{ pedidoData.precio_total | currency: "USD":"symbol":"3.0" }}
+        </p>
+        <p *ngIf="pedidoData.estado === 0">
+          <span class="text-primary"><b>Estado: </b></span>
+          <span class="text-danger">{{
+            pedidoData.estado == 1 ? "Activo" : "Inactivo"
+            }}</span>
+        </p>
+        <p *ngIf="pedidoData.estado === 1">
+          <span class="text-primary"><b>Estado: </b></span>
+          <span class="text-success">{{
+            pedidoData.estado == 1 ? "Activo" : "Inactivo"
+            }}</span>
+        </p>
+      </div>
+
+
+      <div *ngIf="products.length != 0">
         <div class="divider divider-primary">
           <div class="divider-text">
             Productos
@@ -277,14 +246,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let detalle of detallesData">
-              <td>{{ detalle.nombre }}</td>
-              <td>{{ detalle.cantidad }}</td>
-              <td>{{ detalle.precio_unitario | currency: "USD":"symbol":"3.0"}}</td>
+            <tr *ngFor="let product of products">
+              <td>{{ product.product_name }}</td>
+              <td>{{ product.cantidad }}</td>
+              <td>{{ product.product_price | currency: "USD":"symbol":"3.0"}}</td>
             </tr>
           </tbody>
         </table>
-    
+
         <div class="row justify-content-end">
           <div class="col-auto m-1">
             <p>
@@ -293,25 +262,22 @@
           </div>
         </div>
       </div>
-  
-      <div *ngIf="!detallesData.length > 0">
+
+      <div *ngIf="!clientData.length > 0">
         <div class="row justify-content-center">
           <div class="col-auto">
             <p>No se han agregado productos</p>
           </div>
         </div>
       </div>
-  
+
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="modal.close('Accept click')"
-          rippleEffect
-        >
+        <button type="button" class="btn btn-primary" 
+          (click)="modal.close('Accept click')" rippleEffect>
           Ok
         </button>
       </div>
-    </ng-template>
-    <!-- / Modal -->
-  </div>
+    </div>
+  </ng-template>
+  <!-- / Modal -->
+</div>

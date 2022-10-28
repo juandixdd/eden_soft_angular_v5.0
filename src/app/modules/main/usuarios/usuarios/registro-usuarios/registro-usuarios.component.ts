@@ -75,7 +75,7 @@ export class RegistroUsuariosComponent implements OnInit {
     ],
     correo: [
       '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.email]
+      [Validators.required, Validators.email, Validators.minLength(3)]
     ],
     id_cliente_documento: [
       '',

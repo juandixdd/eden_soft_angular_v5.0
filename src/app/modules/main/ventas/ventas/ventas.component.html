@@ -83,59 +83,18 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Estado" prop="estado_data" [width]="20">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">{{ id }}</p>
-            </ng-template>
-          </ngx-datatable-column>
-
+          <!-- Column -->
+          <!-- ?Select -->
           <ngx-datatable-column name="Estado" prop="estado" [width]="20">
-            <ng-template
-              let-id="value"
-              ngx-datatable-cell-template
-              let-row="row"
-            >
-              <form [formGroup]="switchForm">
-                <div class="custom-control custom-switch custom-control-inline">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    [id]="row.id_venta"
-                    (change)="switchEvent($event, row)"
-                    [formControl]="row.formcontrol"
-                  />
-                  <label
-                    class="custom-control-label"
-                    [for]="row.id_venta"
-                  ></label>
-                </div>
-              </form>
+            <ng-template let-id="value" let-row="row" ngx-datatable-cell-template>
+              <select class="custom-select" *ngIf="row.estado === 1 || row.estado === 2" (change)="selectEvent($event, row.id_venta)">
+                <option value="1" [selected]="row.estado === 1" >Pagado</option>
+                <option value="2" [selected]="row.estado === 2" >Abonado</option>
+                <option value="0" [disabled]="row.estado === 0" class="text-danger">Inactivo</option>
+              </select>
+              <p class="text-danger col-auto" *ngIf="row.estado === 0" style="margin: 0px auto">Inactivo</p>
             </ng-template>
           </ngx-datatable-column>
-
-          <!-- <ngx-datatable-column name="Pago" prop="pagado" [width]="20">
-            <ng-template
-              let-id="value"
-              ngx-datatable-cell-template
-              let-row="row"
-            >
-              <form [formGroup]="switchFormPago">
-                <div class="custom-control custom-switch custom-control-inline">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    [id]="row.id_cliente_documento"
-                    (change)="switchEventPago($event, row)"
-                    [formControl]="row.formcontrol2"
-                  />
-                  <label
-                    class="custom-control-label"
-                    [for]="row.id_cliente_documento"
-                  ></label>
-                </div>
-              </form>
-            </ng-template>
-          </ngx-datatable-column> -->
 
           <ngx-datatable-column name="Acciones" [width]="100">
             <ng-template ngx-datatable-cell-template let-row="row">

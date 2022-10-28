@@ -226,47 +226,140 @@ export class VentasComponent implements OnInit {
     }
   }
 
-  switchEventPago({ target }, row) {
-    let checked = target.checked;
-    let status = {
-      pagado: checked ? 1 : 0,
-    };
+  // switchEventPago({ target }, row) {
+  //   let checked = target.checked;
+  //   let status = {
+  //     pagado: checked ? 1 : 0,
+  //   };
 
-    Swal.fire({
-      title: "¿Estas seguro?",
-      text: "Esta acción no se puede revertir",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Cambiar",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.ventaLocalService
-          .cambiarEstadoDePago(row.id_venta, status)
-          .subscribe((res: any) => {
-            console.log(res);
-            Swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "Se cambió el estado de la venta",
-              showConfirmButton: false,
-              timer: 1000,
-            });
-            this.getVentasLocales();
+  //   Swal.fire({
+  //     title: "¿Estas seguro?",
+  //     text: "Esta acción no se puede revertir",
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "Cambiar",
+  //     cancelButtonText: "Cancelar",
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       this.ventaLocalService
+  //         .cambiarEstadoDePago(row.id_venta, status)
+  //         .subscribe((res: any) => {
+  //           console.log(res);
+  //           Swal.fire({
+  //             position: "top-end",
+  //             icon: "success",
+  //             title: "Se cambió el estado de la venta",
+  //             showConfirmButton: false,
+  //             timer: 1000,
+  //           });
+  //           this.getVentasLocales();
+  //         });
+  //     } else {
+  //       Swal.fire({
+  //         position: "top-end",
+  //         icon: "warning",
+  //         title: "No se cambió el estado de la venta",
+  //         showConfirmButton: false,
+  //         timer: 1000,
+  //       });
+  //       this.getVentasLocales();
+  //     }
+  //   });
+  // }
+
+  reloadPage(){
+    this.router.navigate(['/main/ventas']).then(() => window.location.reload());
+  }
+
+
+  selectEvent({ target }, idVenta) {
+    let status = {
+      estado: target.value
+    }
+
+    console.log(status, idVenta);
+
+    if (target.value == 0) {
+      Swal.fire({
+        title: "¿Estas seguro?",
+        text: "Esta acción no se puede revertir",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Cambiar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+          this.ventaLocalService.cambiarEstadoDePago(idVenta, status).subscribe(
+            (res: any) => {
+              if (res.status === 200) {
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Se inactivó la venta",
+                  showConfirmButton: false,
+                  timer: 1000,
+                });
+                this.reloadPage()
+              }
+            }
+          )
+        } else {
+          Swal.fire({
+            position: "top-end",
+            icon: "warning",
+            title: "No se cambió el estado de la venta",
+            showConfirmButton: false,
+            timer: 1000,
           });
-      } else {
-        Swal.fire({
-          position: "top-end",
-          icon: "warning",
-          title: "No se cambió el estado de la venta",
-          showConfirmButton: false,
-          timer: 1000,
-        });
-        this.getVentasLocales();
-      }
-    });
+          this.reloadPage()
+        }
+      });
+
+    }
+    else {
+      Swal.fire({
+        title: "¿Estas seguro?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Cambiar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.ventaLocalService.cambiarEstadoDePago(idVenta, status).subscribe(
+            (res: any) => {
+              if (res.status === 200) {
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Se cambió el estado de la venta",
+                  showConfirmButton: false,
+                  timer: 1000,
+                });
+              }
+              this.reloadPage()
+            }
+
+          )
+
+        } else {
+          Swal.fire({
+            position: "top-end",
+            icon: "warning",
+            title: "No se cambió el estado de la venta",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+          this.reloadPage()
+        }
+      });
+    }
   }
 
   validField(field: string) {

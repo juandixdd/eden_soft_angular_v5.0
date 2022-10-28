@@ -5,6 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { CoreConfigService } from '@core/services/config.service';
+import { ActivatedRoute } from '@angular/router';
+import { RecuperarContrasenaService } from 'app/modules/services/recuperarContrasena/recuperar-contrasena.service';
 
 @Component({
   selector: 'app-restaurar-clave',
@@ -16,24 +18,12 @@ import { CoreConfigService } from '@core/services/config.service';
 
 
 export class RestaurarClaveComponent implements OnInit {
-  // Public
-  public coreConfig: any;
-  public passwordTextType: boolean;
-  public confPasswordTextType: boolean;
-  public resetPasswordForm: FormGroup;
-  public submitted = false;
-
-  // Private
-  private _unsubscribeAll: Subject<any>;
-
-  /**
-   * Constructor
-   *
-   * @param {CoreConfigService} _coreConfigService
-   * @param {FormBuilder} _formBuilder
-   */
-
-  constructor(private _coreConfigService: CoreConfigService, private fb: FormBuilder) {
+  constructor(
+    private _coreConfigService: CoreConfigService,
+    private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private recuperarService: RecuperarContrasenaService
+  ) {
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
@@ -52,8 +42,30 @@ export class RestaurarClaveComponent implements OnInit {
         enableLocalStorage: false
       }
     }
-   }
-   public recuperarForm: FormGroup = this.fb.group({
+  }
+
+  // Public
+  public coreConfig: any;
+  public passwordTextType: boolean;
+  public confPasswordTextType: boolean;
+  public resetPasswordForm: FormGroup;
+  public submitted = false;
+
+
+  token: any = this.activatedRoute.snapshot.params.token;
+
+  // Private
+  private _unsubscribeAll: Subject<any>;
+
+  /**
+   * Constructor
+   *
+   * @param {CoreConfigService} _coreConfigService
+   * @param {FormBuilder} _formBuilder
+   */
+
+
+  public recuperarForm: FormGroup = this.fb.group({
     password: [
       "",
       [Validators.required, Validators.email, Validators.minLength(5)],
@@ -63,24 +75,12 @@ export class RestaurarClaveComponent implements OnInit {
       [Validators.required, Validators.email, Validators.minLength(5)],
     ],
   });
-   
-   get f() {
+
+  get f() {
     return this.resetPasswordForm.controls;
   }
 
-  /**
-   * Toggle password
-   */
-  togglePasswordTextType() {
-    this.passwordTextType = !this.passwordTextType;
-  }
 
-  /**
-   * Toggle confirm password
-   */
-  toggleConfPasswordTextType() {
-    this.confPasswordTextType = !this.confPasswordTextType;
-  }
 
   /**
    * On Submit
@@ -96,21 +96,23 @@ export class RestaurarClaveComponent implements OnInit {
 
 
 
-  ngOnInit(): void {
-    this.resetPasswordForm = this.fb.group({
-      newPassword: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]]
-    });
-
-    // Subscribe to config changes
-    this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
-      this.coreConfig = config;
-    });
+  ngOnInit() {
+    console.log(this.token);
+    setTimeout(() => {
+      this.validateUser();
+    }, 1000);
   }
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
+
+  validateUser() {
+    let body = {
+      token: this.activatedRoute.snapshot.params.token
+    }
+    this.recuperarService.verificarToken(body).subscribe(
+      (res: any) => {
+        console.log(res);
+
+      }
+    )
   }
 
 }

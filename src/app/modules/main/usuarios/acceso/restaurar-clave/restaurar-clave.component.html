@@ -24,7 +24,7 @@
           Crea una nueva contraseña que puedas recordar
         </p>
 
-        <form action="auth-reset-password-form mt-2">
+        <form [formGroup]="recuperarForm" >
           <div class="form-group">
             <label for="password">Nueva contraseña</label>
             <input

@@ -13,8 +13,16 @@ export class RecuperarContrasenaService {
     return this.http.post(`${this.API_URL}/send-mail`, body);
   }
 
-  validateEmail(correo){
+  validateEmail(correo) {
     return this.http.get(`${this.API_URL}/buscar-correo/${correo}`)
   }
-  
+
+  verificarToken(token) {
+    return this.http.post(`${this.API_URL}/verificar-token`, token);
+  }
+
+  cambiarClave(id, body) {
+    return this.http.put(`${this.API_URL}/editar-clave/${id}`, body)
+  }
+
 }

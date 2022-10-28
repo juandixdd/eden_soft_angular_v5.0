@@ -73,7 +73,7 @@ export class CategoriasComponent implements OnInit {
   createCategoria() {
     this.category = {
       nombre: this.categoriasForm.value.nombre,
-      estado: 0
+      estado: 1
     }
     this.categoriasService.createData(this.category).subscribe(
       (res: any) => {

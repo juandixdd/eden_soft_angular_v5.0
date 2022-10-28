@@ -183,7 +183,7 @@ export class ProductosAdminComponent implements OnInit {
 
     this.productosService.getDataById(row.id).subscribe(
       (res:any)=>{
-        this.nombreCategoria = res[0].nombre_categoria
+        this.nombreCategoria = res[0].nombre
         this.productFormEdit.controls['nombre'].setValue(row.nombre);
         this.productFormEdit.controls['precio'].setValue(row.precio);
         this.productFormEdit.controls['id'].setValue(this.nombreCategoria);
@@ -348,4 +348,22 @@ export class ProductosAdminComponent implements OnInit {
       })
     },100)
   }
+  validField(field: string) {
+    return (
+      this.productForm.controls[field].errors &&
+      this.productForm.controls[field].touched
+    );
+  }
+
+  editValidField(field: string) {
+    return (
+      this.productFormEdit.controls[field].errors &&
+      this.productFormEdit.controls[field].touched
+    );
+  }
+
+
+
+
+
 }

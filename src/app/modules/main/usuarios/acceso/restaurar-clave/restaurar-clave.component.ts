@@ -53,6 +53,7 @@ export class RestaurarClaveComponent implements OnInit {
 
 
   token: any = this.activatedRoute.snapshot.params.token;
+  user:any={};
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -68,11 +69,11 @@ export class RestaurarClaveComponent implements OnInit {
   public recuperarForm: FormGroup = this.fb.group({
     password: [
       "",
-      [Validators.required, Validators.email, Validators.minLength(5)],
+      [Validators.required, Validators.minLength(5), Validators.maxLength(30)],
     ],
     confirmPassword: [
       "",
-      [Validators.required, Validators.email, Validators.minLength(5)],
+      [Validators.required, Validators.minLength(5), Validators.maxLength(30)]
     ],
   });
 
@@ -98,6 +99,8 @@ export class RestaurarClaveComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.token);
+    console.log(this.user);
+    
     setTimeout(() => {
       this.validateUser();
     }, 1000);
@@ -109,10 +112,25 @@ export class RestaurarClaveComponent implements OnInit {
     }
     this.recuperarService.verificarToken(body).subscribe(
       (res: any) => {
+        this.user=res;
+
+
+        
+        
         console.log(res);
 
       }
     )
+  }
+
+  validField(field: string) {
+    return this.recuperarForm.controls[field].errors &&
+      this.recuperarForm.controls[field].touched
+  }
+
+  validPassword() {
+    return this.recuperarForm.controls['password'].value !== this.recuperarForm.controls['confirmPassword'].value &&
+      this.recuperarForm.controls['password'].value !== '';
   }
 
 }

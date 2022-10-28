@@ -1,15 +1,13 @@
 <div class="auth-wrapper auth-v2">
   <div class="auth-inner row m-0">
     <!-- Brand logo--><a class="brand-logo" href="javascript:void(0);">
-      <h2 class="brand-text text-primary ml-1">Eden.soft</h2></a
-    >
+      <h2 class="brand-text text-primary ml-1">Eden.soft</h2>
+    </a>
 
     <!-- /Brand logo-->
     <!-- Left Text-->
     <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
-      <div
-        class="w-100 d-lg-flex align-items-center justify-content-center px-5"
-      >
+      <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
         <img src="../../../../../assets/images/avatars/key.png" alt="" />
       </div>
     </div>
@@ -24,41 +22,29 @@
           Crea una nueva contraseña que puedas recordar
         </p>
 
-        <form [formGroup]="recuperarForm" >
+        <form [formGroup]="recuperarForm">
           <div class="form-group">
             <label for="password">Nueva contraseña</label>
-            <input
-              type="password"
-              formControlName="password"
-              name="password"
-              class="form-control"
-              placeholder="......."
-            />
+            <input type="password" formControlName="password" name="password" class="form-control"
+              placeholder="......." />
+            <span class="text-danger" *ngIf="validField('password')">Este campo es requerido <br /></span>
           </div>
+
           <div class="form-group">
             <label for="confirmPassword">Confirmar contraseña</label>
-            <input
-              type="password"
-              formControlName="confirmPassword"
-              name="confirmPassword"
-              class="form-control"
-              placeholder="......."
-            />
+            <input type="password" formControlName="confirmPassword" name="confirmPassword" class="form-control"
+              placeholder="......." />
+            <span class="text-danger" *ngIf="validField('confirmPassword')">Este campo es requerido <br /></span>
+            <span class="text-danger" *ngIf="validPassword()">Las Contraseñas no son iguales</span>
+
           </div>
-          <button
-            class="btn btn-primary btn-block"
-            tabindex="3"
-            rippleEffect
-            
-            
-          >
-           Registrar Contraseña
+
+          <button class="btn btn-primary btn-block" [disabled]="!recuperarForm.valid">
+            Registrar Contraseña
           </button>
         </form>
         <p class="text-center mt-2">
-          <a routerLink="/main/login"
-            ><i data-feather="chevron-left" class="mb-25"></i> Ir al login</a
-          >
+          <a routerLink="/main/login"><i data-feather="chevron-left" class="mb-25"></i> Ir al login</a>
         </p>
       </div>
     </div>

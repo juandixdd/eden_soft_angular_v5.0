@@ -45,12 +45,17 @@ export class VentasComponent implements OnInit {
     private clientesInformativosService: ClientesInformativosService,
     private fb: FormBuilder,
     private router: Router
-  ) { }
+  ) {}
 
   public cedulaForm: FormGroup = this.fb.group({
     cedula: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.min(1)],
+      [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(30),
+        Validators.min(1),
+      ],
     ],
   });
 
@@ -148,6 +153,8 @@ export class VentasComponent implements OnInit {
         fecha_registro: res[0].fecha_registro,
         precio_total: res[0].precio_total,
         estado: res[0].estado,
+        cantidad_abono: res[0].cantidad_abono,
+        faltante: res[0].precio_total - res[0].cantidad_abono,
       };
       res.forEach((item) => {
         this.products.push(item);
@@ -166,7 +173,6 @@ export class VentasComponent implements OnInit {
     };
 
     console.log(checked);
-
 
     if (checked) {
       Swal.fire({
@@ -191,7 +197,6 @@ export class VentasComponent implements OnInit {
             console.log("Cancelar");
             console.log(row.id_venta);
             console.log(status);
-
 
             // this.ventaLocalService
             //   .anularVentaLocal(row.id_venta, status)
@@ -266,14 +271,13 @@ export class VentasComponent implements OnInit {
   // }
 
   reloadPage() {
-    this.router.navigate(['/main/ventas']).then(() => window.location.reload());
+    this.router.navigate(["/main/ventas"]).then(() => window.location.reload());
   }
-
 
   selectEvent({ target }, idVenta) {
     let status = {
-      estado: target.value
-    }
+      estado: target.value,
+    };
 
     console.log(status, idVenta);
 
@@ -289,10 +293,11 @@ export class VentasComponent implements OnInit {
         cancelButtonText: "Cancelar",
       }).then((result) => {
         if (result.isConfirmed) {
-
-          this.ventaLocalService.cambiarEstadoDePago(idVenta, status).subscribe(
-            (res: any) => {
+          this.ventaLocalService
+            .cambiarEstadoDePago(idVenta, status)
+            .subscribe((res: any) => {
               if (res.status === 200) {
+                console.warn(res);
                 Swal.fire({
                   position: "top-end",
                   icon: "success",
@@ -300,10 +305,9 @@ export class VentasComponent implements OnInit {
                   showConfirmButton: false,
                   timer: 1000,
                 });
-                this.reloadPage()
+                this.reloadPage();
               }
-            }
-          )
+            });
         } else {
           Swal.fire({
             position: "top-end",
@@ -312,12 +316,10 @@ export class VentasComponent implements OnInit {
             showConfirmButton: false,
             timer: 1000,
           });
-          this.reloadPage()
+          this.reloadPage();
         }
       });
-
-    }
-    else {
+    } else {
       Swal.fire({
         title: "¿Estas seguro?",
         icon: "warning",
@@ -328,22 +330,28 @@ export class VentasComponent implements OnInit {
         cancelButtonText: "Cancelar",
       }).then((result) => {
         if (result.isConfirmed) {
-          this.ventaLocalService.cambiarEstadoDePago(idVenta, status).subscribe(
-            (res: any) => {
+          this.ventaLocalService
+            .cambiarEstadoDePago(idVenta, status)
+            .subscribe((res: any) => {
               if (res.status === 200) {
-                Swal.fire({
-                  position: "top-end",
-                  icon: "success",
-                  title: "Se cambió el estado de la venta",
-                  showConfirmButton: false,
-                  timer: 1000,
-                });
+                let abono = {
+                  estado: 0,
+                };
+                this.ventaLocalService
+                  .anularAbono(idVenta, abono)
+                  .subscribe((res: any) => {
+                    Swal.fire({
+                      position: "top-end",
+                      icon: "success",
+                      title: "Se inactivó la venta",
+                      showConfirmButton: false,
+                      timer: 1000,
+                    });
+                    this.reloadPage();
+                  });
               }
-              this.reloadPage()
-            }
-
-          )
-
+              this.reloadPage();
+            });
         } else {
           Swal.fire({
             position: "top-end",
@@ -352,7 +360,7 @@ export class VentasComponent implements OnInit {
             showConfirmButton: false,
             timer: 1000,
           });
-          this.reloadPage()
+          this.reloadPage();
         }
       });
     }

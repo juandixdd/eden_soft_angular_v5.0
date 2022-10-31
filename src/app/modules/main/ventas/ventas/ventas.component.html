@@ -85,15 +85,30 @@
 
           <!-- Column -->
           <ngx-datatable-column name="estado" prop="estado" [width]="20">
-            <ng-template let-id="value" ngx-datatable-cell-template let-row="row">
-              
-              <p class="font-weight-bold text-danger" style="margin: 0px auto" *ngIf="row.estado === 0">
+            <ng-template
+              let-id="value"
+              ngx-datatable-cell-template
+              let-row="row"
+            >
+              <p
+                class="font-weight-bold text-danger"
+                style="margin: 0px auto"
+                *ngIf="row.estado === 0"
+              >
                 <i class="fa fa-circle"></i>
               </p>
-              <p class="font-weight-bold text-success" style="margin: 0px auto" *ngIf="row.estado === 1">
+              <p
+                class="font-weight-bold text-success"
+                style="margin: 0px auto"
+                *ngIf="row.estado === 1"
+              >
                 <i class="fa fa-circle"></i>
               </p>
-              <p class="font-weight-bold text-warning" style="margin: 0px auto" *ngIf="row.estado === 2">
+              <p
+                class="font-weight-bold text-warning"
+                style="margin: 0px auto"
+                *ngIf="row.estado === 2"
+              >
                 <i class="fa fa-circle"></i>
               </p>
             </ng-template>
@@ -101,14 +116,38 @@
 
           <!-- Column -->
           <!-- ?Select -->
-          <ngx-datatable-column name="Cambair estado" prop="estado" [width]="20">
-            <ng-template let-id="value" let-row="row" ngx-datatable-cell-template>
-              <select class="custom-select" *ngIf="row.estado === 1 || row.estado === 2" (change)="selectEvent($event, row.id_venta)">
-                <option value="1" [selected]="row.estado === 1" >Pagado</option>
-                <option value="2" [selected]="row.estado === 2" >Abonado</option>
-                <option value="0" [disabled]="row.estado === 0" class="text-danger">Inactivo</option>
+          <ngx-datatable-column
+            name="Cambair estado"
+            prop="estado"
+            [width]="20"
+          >
+            <ng-template
+              let-id="value"
+              let-row="row"
+              ngx-datatable-cell-template
+            >
+              <select
+                class="custom-select"
+                *ngIf="row.estado === 1 || row.estado === 2"
+                (change)="selectEvent($event, row.id_venta)"
+              >
+                <option value="1" [selected]="row.estado === 1">Pagado</option>
+                <option value="2" [selected]="row.estado === 2">Abonado</option>
+                <option
+                  value="0"
+                  [disabled]="row.estado === 0"
+                  class="text-danger"
+                >
+                  Inactivo
+                </option>
               </select>
-              <p class="text-danger col-auto" *ngIf="row.estado === 0" style="margin: 0px auto">Inactivo</p>
+              <p
+                class="text-danger col-auto"
+                *ngIf="row.estado === 0"
+                style="margin: 0px auto"
+              >
+                Inactivo
+              </p>
             </ng-template>
           </ngx-datatable-column>
 
@@ -271,25 +310,27 @@
           <span class="text-primary"><b>Precio total: </b></span>
           {{ ventaData.precio_total | currency: "USD":"symbol":"3.0" }}
         </p>
+
         <p *ngIf="ventaData.estado === 0">
           <span class="text-primary"><b>Estado: </b></span>
-          <span class="text-danger">
-            Inactivo
-          </span>
+          <span class="text-danger"> Inactivo </span>
         </p>
         <p *ngIf="ventaData.estado === 1">
           <span class="text-primary"><b>Estado: </b></span>
-          <span class="text-success">
-            Pagado
-          </span>
+          <span class="text-success"> Pagado </span>
         </p>
         <p *ngIf="ventaData.estado === 2">
           <span class="text-primary"><b>Estado: </b></span>
-          <span class="text-warning">
-            Abonado
-          </span>
+          <span class="text-warning"> Abonado </span>
         </p>
-       
+        <p *ngIf="ventaData.cantidad_abono != undefined">
+          <span class="text-primary"><b>Cantidad del abono: </b></span>
+          {{ ventaData.cantidad_abono | currency: "USD":"symbol":"3.0" }}
+        </p>
+        <p *ngIf="ventaData.cantidad_abono != undefined">
+          <span class="text-primary"><b>Faltante: </b></span>
+          {{ ventaData.faltante | currency: "USD":"symbol":"3.0" }}
+        </p>
       </div>
       <div *ngIf="products.length != 0">
         <div class="divider divider-primary">

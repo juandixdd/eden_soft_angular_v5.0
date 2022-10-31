@@ -29,4 +29,8 @@ export class VentaLocalService {
   anularVentaLocal(id, data) {
     return this.http.put(`${this.API_URL}/venta-local/${id}`, data);
   }
+
+  anularAbono(id, data) {
+    return this.http.put(`${this.API_URL}/venta-local/abono/${id}`, data);
+  }
 }

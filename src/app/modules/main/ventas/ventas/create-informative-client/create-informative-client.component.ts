@@ -30,7 +30,7 @@ export class CreateInformativeClientComponent implements OnInit {
     private ventaLocalService: VentaLocalService,
     private detalleVentaLocalService: DetalleVentaLocalService,
     private abonosService: AbonosService
-  ) { }
+  ) {}
 
   cedula: any = this.activatedRoute.snapshot.params.cedula;
   clientExists: any = parseInt(this.activatedRoute.snapshot.params.exist);
@@ -275,55 +275,53 @@ export class CreateInformativeClientComponent implements OnInit {
       }
 
       setTimeout(() => {
-        this.ventaLocalService
-          .createData(venta)
-          .subscribe((res: any) => {
-            if (res.status === 200) {
-              console.log("Venta creada");
-              let idVenta = res.data.insertId;
+        this.ventaLocalService.createData(venta).subscribe((res: any) => {
+          if (res.status === 200) {
+            console.log("Venta creada");
+            let idVenta = res.data.insertId;
 
-              this.productos.forEach((item, index) => {
-                //? Se guardan los productos
-                let detalleVenta = {
-                  id_producto: item.product.id,
-                  id_venta: idVenta,
-                  cantidad: item.itemQuantity,
-                  precio_unitario: item.itemCost,
-                };
-                this.detalleVentaLocalService
-                  .createData(detalleVenta)
-                  .subscribe((res: any) => {
-                    if (res.status === 200) {
-                      console.log(res, "Producto creado");
-                      Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Se ha agregado la venta",
-                        showConfirmButton: false,
-                        timer: 1500,
-                      });
-                      //! Se guarda el abono
-                      if (this.hasAbono) {
-                        let abono = {
-                          id_venta_local: detalleVenta.id_venta,
-                          valor: this.fullDiscount,
-                        };
-                        this.abonosService
-                          .createData(abono)
-                          .subscribe((res: any) => {
-                            console.log(res);
-                          });
-                      } else {
-                        console.log("Sin abono");
-                      }
-                      this.router.navigate(["main/ventas"]);
+            this.productos.forEach((item, index) => {
+              //? Se guardan los productos
+              let detalleVenta = {
+                id_producto: item.product.id,
+                id_venta: idVenta,
+                cantidad: item.itemQuantity,
+                precio_unitario: item.itemCost,
+              };
+              this.detalleVentaLocalService
+                .createData(detalleVenta)
+                .subscribe((res: any) => {
+                  if (res.status === 200) {
+                    console.log(res, "Producto creado");
+                    Swal.fire({
+                      position: "top-end",
+                      icon: "success",
+                      title: "Se ha agregado la venta",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                    //! Se guarda el abono
+                    if (this.hasAbono) {
+                      let abono = {
+                        id_venta_local: detalleVenta.id_venta,
+                        valor: this.fullDiscount,
+                      };
+                      this.abonosService
+                        .createData(abono)
+                        .subscribe((res: any) => {
+                          console.log(res);
+                        });
+                    } else {
+                      console.log("Sin abono");
                     }
-                  });
-              });
-            } else {
-              console.log("No se creo la venta");
-            }
-          });
+                    this.router.navigate(["main/ventas"]);
+                  }
+                });
+            });
+          } else {
+            console.log("No se creo la venta");
+          }
+        });
 
         this.timer = false;
       }, 200);

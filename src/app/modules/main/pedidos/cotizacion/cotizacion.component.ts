@@ -34,6 +34,7 @@ export class CotizacionComponent implements OnInit {
   detallesData: any = [];
   cotizaciones: any;
   cotizacionInfoUsuario: any;
+  _filterRows: any;
 
   constructor(
     private modalService: NgbModal,
@@ -74,6 +75,15 @@ export class CotizacionComponent implements OnInit {
     this.getCotizaciones();
     
   }
+
+    //? Get y Set para el buscador
+    get filterRows(): any {
+      return this._filterRows;
+    }
+  
+    set filterRows(value) {
+      this._filterRows = value;
+    }
 
   modalOpen(modal) {
     //? Esta es la funcion que abre las modales.
@@ -171,7 +181,8 @@ export class CotizacionComponent implements OnInit {
            item.formcontrol = new FormControl(item.estado);
            this.switchForm.addControl(item.id_pedido, item.formcontrol)
          });
-        this.rows = res
+        this.rows = res;
+        this._filterRows = res;
       }
     )
   
@@ -245,9 +256,25 @@ export class CotizacionComponent implements OnInit {
     this.pedidosService.getCotizacionesByIdInfo(id).subscribe(
       (res:any) =>{
         this.cotizacionInfoUsuario = res[0];
-        console.log(this.cotizacionInfoUsuario, "xddddd")
+        console.log(this.cotizacionInfoUsuario)
       }
     )
+  }
+
+  filterUpdate(event) {
+    const val = event.target.value.toLowerCase();
+
+    const filterData = this.rows.filter((item: any) => {
+      const filterData =
+      item.id_pedido.toString().toLowerCase().includes(val) ||
+      item.id_cliente_documento.toString().toLowerCase().includes(val); 
+      return filterData;
+    });
+
+    // update the rows
+    this.filterRows = filterData;
+
+    console.log(filterData);
   }
 
 }

@@ -87,10 +87,6 @@ export class VentasComponent implements OnInit {
         item.formcontrol = new FormControl(item.estado);
         this.switchForm.addControl(item.id_venta, item.formcontrol);
       });
-      res.forEach((item) => {
-        item.formcontrol2 = new FormControl(item.pagado);
-        this.switchFormPago.addControl(item.id_venta, item.formcontrol2);
-      });
       this.rows = res;
       this.filterRows = res;
       console.log(res);
@@ -269,7 +265,7 @@ export class VentasComponent implements OnInit {
   //   });
   // }
 
-  reloadPage(){
+  reloadPage() {
     this.router.navigate(['/main/ventas']).then(() => window.location.reload());
   }
 

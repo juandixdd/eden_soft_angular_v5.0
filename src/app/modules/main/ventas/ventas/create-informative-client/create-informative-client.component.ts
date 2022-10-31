@@ -30,7 +30,7 @@ export class CreateInformativeClientComponent implements OnInit {
     private ventaLocalService: VentaLocalService,
     private detalleVentaLocalService: DetalleVentaLocalService,
     private abonosService: AbonosService
-  ) {}
+  ) { }
 
   cedula: any = this.activatedRoute.snapshot.params.cedula;
   clientExists: any = parseInt(this.activatedRoute.snapshot.params.exist);
@@ -171,7 +171,6 @@ export class CreateInformativeClientComponent implements OnInit {
           id_cliente_documento: this.clientData.id_cliente_documento,
           fecha_registro: new Date().toISOString(),
           precio_total: this.totalCost,
-          estado: 1,
         };
 
         this.clientesInformativosService.createData(this.clientData).subscribe(
@@ -180,17 +179,17 @@ export class CreateInformativeClientComponent implements OnInit {
             if (res.status === 200) {
               console.log("Cliente creado: ", res);
               console.log("venta Local: ", this.venta_local);
-
               let venta: any;
+
               if (!this.hasAbono) {
                 venta = {
                   ...this.venta_local,
-                  pagado: 1,
+                  estado: 1,
                 };
               } else {
                 venta = {
                   ...this.venta_local,
-                  pagado: 0,
+                  estado: 2,
                 };
               }
 
@@ -259,11 +258,25 @@ export class CreateInformativeClientComponent implements OnInit {
         id_cliente_documento: this.cedula,
         fecha_registro: new Date().toISOString(),
         precio_total: this.totalCost,
-        estado: 1,
       };
+
+      let venta: any;
+
+      if (!this.hasAbono) {
+        venta = {
+          ...this.venta_local,
+          estado: 1,
+        };
+      } else {
+        venta = {
+          ...this.venta_local,
+          estado: 2,
+        };
+      }
+
       setTimeout(() => {
         this.ventaLocalService
-          .createData(this.venta_local)
+          .createData(venta)
           .subscribe((res: any) => {
             if (res.status === 200) {
               console.log("Venta creada");

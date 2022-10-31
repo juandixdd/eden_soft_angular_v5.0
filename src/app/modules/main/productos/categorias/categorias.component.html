@@ -172,6 +172,9 @@
               class="form-control"
               formControlName="nombre"
             />
+            <span class="text-danger" *ngIf="validField('nombre')"
+                >Este campo es requerido</span
+              >
           </div>
         </form>
       </div>
@@ -183,6 +186,7 @@
               rippleEffect
               class="btn btn-primary"
               (click)="createCategoria()"
+              [disabled]="!categoriasForm.valid"
             >
               Guardar
             </button>
@@ -221,7 +225,10 @@
                 id="first-name-column"
                 class="form-control"
                 formControlName="nombre"
-          />         
+          />     
+          <span class="text-danger" *ngIf="categoriasFormEdit('nombre')"
+            >Este campo es requerido</span
+          >    
             </div>
           </div>
         </div>

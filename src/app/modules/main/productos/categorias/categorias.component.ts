@@ -260,4 +260,18 @@ export class CategoriasComponent implements OnInit {
     },100)
   }
 
+  validField(field: string) {
+    return (
+      this.categoriasForm.controls[field].errors &&
+      this.categoriasForm.controls[field].touched
+    );
+  }
+
+  editValidField(field: string) {
+    return (
+      this.categoriasFormEdit.controls[field].errors &&
+      this.categoriasFormEdit.controls[field].touched
+    );
+  }
+
 }

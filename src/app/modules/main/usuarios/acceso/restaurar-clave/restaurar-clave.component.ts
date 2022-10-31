@@ -125,6 +125,14 @@ export class RestaurarClaveComponent implements OnInit {
             timer: 1500,
           });
           this.router.navigate(['/main/login']);
+        }else{
+          Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "Ha ocurrido un error, vuelve a intentar",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
       });
   }

@@ -17,6 +17,15 @@ export const menu: CoreMenu[] = [
   },
 
   {
+    id: 'Usuarios',
+    title: 'Lista de Usuarios',
+    type: 'item',
+    icon: 'users',
+    url: 'main/lista-usuarios'
+
+  },
+
+  {
     id: 'Ventas',
     title: 'Ventas',
     translate: 'Ventas',
@@ -40,38 +49,7 @@ export const menu: CoreMenu[] = [
     ]
   },
 
-  {
-    id: 'Acceso',
-    title: 'Usuarios',
-    type: 'collapsible',
-    icon: 'user',
-    children: [
-      {
-        id: 'Acceso',
-        title: 'Acceso',
-        type: 'collapsible',
-        icon: 'user',
-        children: [
-          {
-            id: 'Acceso',
-            title: 'Restaurar contraseña',
-            type: 'item',
-            icon: 'meh',
-            url: 'main/restaurar-clave'
-          },
-
-        ]
-
-      },
-      {
-        id: 'userlist',
-        title: 'Lista de Usuarios',
-        type: 'item',
-        icon: 'meh',
-        url: 'main/lista-usuarios'
-      },
-    ]
-  },
+ 
 
   {
     id: 'Configuracion',

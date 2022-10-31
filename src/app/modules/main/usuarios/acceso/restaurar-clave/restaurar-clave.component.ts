@@ -1,28 +1,27 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { takeUntil } from "rxjs/operators";
+import { Subject } from "rxjs";
 
-import { CoreConfigService } from '@core/services/config.service';
-import { ActivatedRoute } from '@angular/router';
-import { RecuperarContrasenaService } from 'app/modules/services/recuperarContrasena/recuperar-contrasena.service';
+import { CoreConfigService } from "@core/services/config.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { RecuperarContrasenaService } from "app/modules/services/recuperarContrasena/recuperar-contrasena.service";
+import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-restaurar-clave',
-  templateUrl: './restaurar-clave.component.html',
-  styleUrls: ['./restaurar-clave.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  selector: "app-restaurar-clave",
+  templateUrl: "./restaurar-clave.component.html",
+  styleUrls: ["./restaurar-clave.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
-
-
-
 export class RestaurarClaveComponent implements OnInit {
   constructor(
     private _coreConfigService: CoreConfigService,
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private recuperarService: RecuperarContrasenaService
+    private recuperarService: RecuperarContrasenaService,
+    private router: Router
   ) {
     this._unsubscribeAll = new Subject();
 
@@ -30,18 +29,18 @@ export class RestaurarClaveComponent implements OnInit {
     this._coreConfigService.config = {
       layout: {
         navbar: {
-          hidden: true
+          hidden: true,
         },
         menu: {
-          hidden: true
+          hidden: true,
         },
         footer: {
-          hidden: true
+          hidden: true,
         },
         customizer: false,
-        enableLocalStorage: false
-      }
-    }
+        enableLocalStorage: false,
+      },
+    };
   }
 
   // Public
@@ -51,9 +50,8 @@ export class RestaurarClaveComponent implements OnInit {
   public resetPasswordForm: FormGroup;
   public submitted = false;
 
-
   token: any = this.activatedRoute.snapshot.params.token;
-  user:any={};
+  user: any = {};
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -65,7 +63,6 @@ export class RestaurarClaveComponent implements OnInit {
    * @param {FormBuilder} _formBuilder
    */
 
-
   public recuperarForm: FormGroup = this.fb.group({
     password: [
       "",
@@ -73,15 +70,13 @@ export class RestaurarClaveComponent implements OnInit {
     ],
     confirmPassword: [
       "",
-      [Validators.required, Validators.minLength(5), Validators.maxLength(30)]
+      [Validators.required, Validators.minLength(5), Validators.maxLength(30)],
     ],
   });
 
   get f() {
     return this.resetPasswordForm.controls;
   }
-
-
 
   /**
    * On Submit
@@ -95,42 +90,57 @@ export class RestaurarClaveComponent implements OnInit {
     }
   }
 
-
-
   ngOnInit() {
     console.log(this.token);
-    console.log(this.user);
-    
+
     setTimeout(() => {
       this.validateUser();
     }, 1000);
   }
-
+  //valido al usuario por medio de token
   validateUser() {
     let body = {
-      token: this.activatedRoute.snapshot.params.token
-    }
-    this.recuperarService.verificarToken(body).subscribe(
-      (res: any) => {
-        this.user=res;
+      token: this.activatedRoute.snapshot.params.token,
+    };
+    this.recuperarService.verificarToken(body).subscribe((res: any) => {
+      this.user = res.data[0].id_cliente_documento;
+      console.warn(this.user);
+    });
+  }
 
-
-        
-        
+  updatePassword() {
+    let body = {
+      contrasena: this.recuperarForm.value.confirmPassword,
+    };
+    this.recuperarService
+      .cambiarClave(this.user, body)
+      .subscribe((res: any) => {
         console.log(res);
-
-      }
-    )
+        if (res.status === 200) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Actualizacion de Contraseña Exitosa",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          this.router.navigate(['/main/login']);
+        }
+      });
   }
 
   validField(field: string) {
-    return this.recuperarForm.controls[field].errors &&
+    return (
+      this.recuperarForm.controls[field].errors &&
       this.recuperarForm.controls[field].touched
+    );
   }
 
   validPassword() {
-    return this.recuperarForm.controls['password'].value !== this.recuperarForm.controls['confirmPassword'].value &&
-      this.recuperarForm.controls['password'].value !== '';
+    return (
+      this.recuperarForm.controls["password"].value !==
+        this.recuperarForm.controls["confirmPassword"].value &&
+      this.recuperarForm.controls["password"].value !== ""
+    );
   }
-
 }

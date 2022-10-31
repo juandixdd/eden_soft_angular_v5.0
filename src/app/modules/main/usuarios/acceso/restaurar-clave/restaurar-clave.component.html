@@ -39,7 +39,7 @@
 
           </div>
 
-          <button class="btn btn-primary btn-block" [disabled]="!recuperarForm.valid">
+          <button class="btn btn-primary btn-block" [disabled]="!recuperarForm.valid" (click)="updatePassword()">
             Registrar Contraseña
           </button>
         </form>

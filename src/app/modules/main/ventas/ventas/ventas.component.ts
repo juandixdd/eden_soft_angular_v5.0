@@ -271,17 +271,40 @@ export class VentasComponent implements OnInit {
   // }
 
   reloadPage() {
-    this.router.navigate(["/main/ventas"]).then(() => window.location.reload());
+    setTimeout(() => {
+      this.router
+        .navigate(["/main/ventas"])
+        .then(() => window.location.reload());
+    }, 1000);
   }
 
   selectEvent({ target }, idVenta) {
-    let status = {
+    const successAlert = (message) => {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: `${message}`,
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    };
+
+    const warningAlert = (message) => {
+      Swal.fire({
+        position: "top-end",
+        icon: "warning",
+        title: `${message}`,
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    };
+
+    let reqBody = {
       estado: target.value,
     };
 
-    console.log(status, idVenta);
-
-    if (target.value == 0) {
+    // ? Se inactiva la venta
+    if (reqBody.estado == 0) {
       Swal.fire({
         title: "¿Estas seguro?",
         text: "Esta acción no se puede revertir",
@@ -294,32 +317,26 @@ export class VentasComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
           this.ventaLocalService
-            .cambiarEstadoDePago(idVenta, status)
+            .anularVentaLocal(idVenta, reqBody)
             .subscribe((res: any) => {
-              if (res.status === 200) {
-                console.warn(res);
-                Swal.fire({
-                  position: "top-end",
-                  icon: "success",
-                  title: "Se inactivó la venta",
-                  showConfirmButton: false,
-                  timer: 1000,
-                });
-                this.reloadPage();
+              if (res.status == 200) {
+                successAlert("Se anuló la venta");
+                this.reloadPage()
+              } else {
+                warningAlert(
+                  "Ops! Hubo un error interno, por favor inténtelo de nuevo"
+                );
+                this.reloadPage()
               }
             });
         } else {
-          Swal.fire({
-            position: "top-end",
-            icon: "warning",
-            title: "No se cambió el estado de la venta",
-            showConfirmButton: false,
-            timer: 1000,
-          });
-          this.reloadPage();
+          warningAlert("No se inactivó la venta");
+          this.reloadPage()
         }
       });
-    } else {
+    }
+    // ? Se cambia a pagado
+    if (reqBody.estado == 1) {
       Swal.fire({
         title: "¿Estas seguro?",
         icon: "warning",
@@ -331,38 +348,45 @@ export class VentasComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
           this.ventaLocalService
-            .cambiarEstadoDePago(idVenta, status)
+            .anularVentaLocal(idVenta, reqBody)
             .subscribe((res: any) => {
-              if (res.status === 200) {
-                let abono = {
+              if (res.status == 200) {
+                let abonoBody = {
                   estado: 0,
                 };
                 this.ventaLocalService
-                  .anularAbono(idVenta, abono)
+                  .anularAbono(idVenta, abonoBody)
                   .subscribe((res: any) => {
-                    Swal.fire({
-                      position: "top-end",
-                      icon: "success",
-                      title: "Se inactivó la venta",
-                      showConfirmButton: false,
-                      timer: 1000,
-                    });
-                    this.reloadPage();
+                    if (res.status == 200) {
+                      successAlert(
+                        "Se actualizó el estado de la venta y se inactivó el abono"
+                      );
+                      this.reloadPage()
+                    } else {
+                      warningAlert(
+                        "Ops! Hubo un error interno, por favor inténtelo de nuevo"
+                      );
+                      this.reloadPage()
+                    }
                   });
+              } else {
+                warningAlert(
+                  "Ops! Hubo un error interno, por favor inténtelo de nuevo"
+                );
+                this.reloadPage()
               }
-              this.reloadPage();
             });
         } else {
-          Swal.fire({
-            position: "top-end",
-            icon: "warning",
-            title: "No se cambió el estado de la venta",
-            showConfirmButton: false,
-            timer: 1000,
-          });
-          this.reloadPage();
+          warningAlert("No se cambió el estado la venta");
+          this.reloadPage()
         }
       });
+    }
+
+    // ? Se restringe el abono
+    if (reqBody.estado == 2) {
+      warningAlert("No se puede abonar a una venta ya paga");
+      this.reloadPage()
     }
   }
 

@@ -80,7 +80,6 @@
         <form
           class="auth-register-form mt-2"
           [formGroup]="editForm"
-          (ngSubmit)="onSubmit()"
         >
           <div class="row">
             <div class="col-md-6 col-12">
@@ -169,7 +168,7 @@
             tabindex="5"
             rippleEffect
             [disabled]="!editForm.valid"
-            (click)="updateUser()"
+            (click)="editProfile() "
           >
             Editar
             <!-- [disabled]="!registerForm.valid" -->

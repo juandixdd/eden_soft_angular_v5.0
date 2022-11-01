@@ -22,4 +22,8 @@ export class UsuarioService {
   editData(id: number, data: any) {
     return this.http.put(`${this.API_URL}/usuario/${id}`, data);
   }
+
+  editProfile(id: number, data:any){
+    return this.http.put(`${this.API_URL}/editProfile/${id}`, data)
+  }
 }

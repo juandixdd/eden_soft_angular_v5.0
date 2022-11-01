@@ -323,11 +323,11 @@
           <span class="text-primary"><b>Estado: </b></span>
           <span class="text-warning"> Abonado </span>
         </p>
-        <p *ngIf="ventaData.cantidad_abono != undefined">
+        <p *ngIf="ventaData.estado_abono == 1">
           <span class="text-primary"><b>Cantidad del abono: </b></span>
           {{ ventaData.cantidad_abono | currency: "USD":"symbol":"3.0" }}
         </p>
-        <p *ngIf="ventaData.cantidad_abono != undefined">
+        <p *ngIf="ventaData.estado_abono == 1">
           <span class="text-primary"><b>Faltante: </b></span>
           {{ ventaData.faltante | currency: "USD":"symbol":"3.0" }}
         </p>

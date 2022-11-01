@@ -155,13 +155,14 @@ export class VentasComponent implements OnInit {
         estado: res[0].estado,
         cantidad_abono: res[0].cantidad_abono,
         faltante: res[0].precio_total - res[0].cantidad_abono,
+        estado_abono: res[0].estado_abono
       };
       res.forEach((item) => {
         this.products.push(item);
       });
 
       console.log(this.clientData);
-      console.log(this.ventaData);
+      console.warn(this.ventaData);
       console.log(this.products);
     });
   }

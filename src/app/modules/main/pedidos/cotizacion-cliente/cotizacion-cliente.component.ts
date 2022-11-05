@@ -159,4 +159,59 @@ export class CotizacionClienteComponent implements OnInit {
     )
   }
 
+  switchEvent(row) {
+    let estado ={
+      status: row.estado
+    } 
+    console.log(row.estado, "amaaa");
+
+    if (estado.status === 0) {
+      Swal.fire({
+        icon: "warning",
+        confirmButtonText: "Ok",
+        title: "Ops, no se puede volver a activar una cotización",
+      });
+    } else if (estado.status === 1) {
+      setTimeout(() => {
+        Swal.fire({
+          title: "¿Estas seguro?",
+          text: "Anularas la cotización",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Cambiar",
+          cancelButtonText: "Cancelar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            console.log("sipi");
+            this.pedidosService
+              .anularCotizacion(row.id_pedido, status)
+              .subscribe((res: any) => {
+                if (res.status === 200) {
+                  Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Se anulo la cotización",
+                    showConfirmButton: false,
+                    timer: 1000,
+                  });
+                  this.getCotizacionesByUserId(row.id_cliente_documento);
+                }
+              });
+          } else {
+            console.log("nopi");
+            this.getCotizacionesByUserId(row.id_cliente_documento);
+            Swal.fire({
+              position: "top-end",
+              icon: "warning",
+              title: "No se anulo la cotización",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+          }
+        });
+      }, 100);
+    }
+  }
 }

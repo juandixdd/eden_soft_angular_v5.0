@@ -267,7 +267,9 @@ export class CotizacionComponent implements OnInit {
     const filterData = this.rows.filter((item: any) => {
       const filterData =
       item.id_pedido.toString().toLowerCase().includes(val) ||
-      item.id_cliente_documento.toString().toLowerCase().includes(val); 
+      item.id_cliente_documento.toString().toLowerCase().includes(val) ||
+      item.fecha_entrega.toLowerCase().includes(val) ||
+      item.precio_total.toString().toLowerCase().includes(val); ; 
       return filterData;
     });
 

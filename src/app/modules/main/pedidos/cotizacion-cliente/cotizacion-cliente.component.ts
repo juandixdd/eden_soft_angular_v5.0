@@ -37,6 +37,7 @@ export class CotizacionClienteComponent implements OnInit {
   idUser = localStorage.getItem("userId")
   idPedido : any;
   estado: any;
+  _filterRows: any;
 
   constructor(
     private modalService: NgbModal,
@@ -56,6 +57,15 @@ export class CotizacionClienteComponent implements OnInit {
   ngOnInit(): void {
     this.getCategorias();
     this.getCotizacionesByUserId(this.idUser)
+  }
+
+  //? Get y Set para el buscador
+  get filterRows(): any {
+    return this._filterRows;
+  }
+
+  set filterRows(value) {
+    this._filterRows = value;
   }
 
   modalOpen(modal) {
@@ -132,6 +142,7 @@ export class CotizacionClienteComponent implements OnInit {
         this.rows = res
         console.log(this.rows)
         this.estado = true;
+        this._filterRows = res;
       }
     )
   }
@@ -214,4 +225,23 @@ export class CotizacionClienteComponent implements OnInit {
       }, 100);
     }
   }
+
+  filterUpdate(event) {
+    const val = event.target.value.toLowerCase();
+
+    const filterData = this.rows.filter((item: any) => {
+      const filterData =
+      item.id_pedido.toString().toLowerCase().includes(val) ||
+      item.fecha_entrega.toLowerCase().includes(val) ||
+      item.precio_total.toString().toLowerCase().includes(val); 
+      return filterData;
+    });
+
+    // update the rows
+    this._filterRows = filterData;
+
+    console.log(filterData);
+  }
+
 }
+

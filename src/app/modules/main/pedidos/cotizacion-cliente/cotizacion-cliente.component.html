@@ -36,13 +36,15 @@
                   type="search"
                   placeholder="Buscar"
                   class="form-control ml-25"
+                  (keyup)="filterUpdate($event)"
               /></label>
             </div>
           </div>
         </div>
+
         <!--? Aquí empieza la tabla -->
         <ngx-datatable
-          [rows]="rows"
+          [rows]="_filterRows"
           [rowHeight]="50"
           class="bootstrap core-bootstrap"
           [limit]="selectedOption"
@@ -103,8 +105,7 @@
                 </button>
                 <button
                   class="btn btn-icon btn-sm"
-                  (click)="
-                  switchEvent(row); getCotizacionesById(row.id_pedido)"
+                  (click)="switchEvent(row); getCotizacionesById(row.id_pedido)"
                 >
                   <i class="feather icon-x-circle text-danger"></i>
                 </button>
@@ -238,8 +239,13 @@
     <div class="modal-footer">
       <div class="col-12">
         <div class="row justify-content-end">
-          <button type="submit" rippleEffect class="btn btn-primary" (click) ="cambiarEstado()">
-            Guardar 
+          <button
+            type="submit"
+            rippleEffect
+            class="btn btn-primary"
+            (click)="cambiarEstado()"
+          >
+            Guardar
           </button>
         </div>
       </div>

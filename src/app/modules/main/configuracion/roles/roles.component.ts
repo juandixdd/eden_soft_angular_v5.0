@@ -31,6 +31,7 @@ export class RolesComponent implements OnInit {
   permisos: any;
   rolData: any;
   permisosList: any;
+  _filterRows: any;
 
   constructor(
     private modalService: NgbModal,
@@ -53,11 +54,17 @@ export class RolesComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.tempData = this.rows; //? Esto también es del buscador (Que no funciona)
-    this.kitchenSinkRows = this.rows;
     this.getPermisos();
     this.getRoles();
     this.rolForm.reset();
+  }
+   //? Get y Set para el buscador
+   get filterRows(): any {
+    return this._filterRows;
+  }
+
+  set filterRows(value) {
+    this._filterRows = value;
   }
 
   modalOpen(modal) {
@@ -74,6 +81,7 @@ export class RolesComponent implements OnInit {
         this.switchForm.addControl(item.id, item.formcontrol);
       });
       this.rows = res;
+      this._filterRows = res;
     });
   }
 
@@ -152,10 +160,27 @@ export class RolesComponent implements OnInit {
       this.rolData = res[0];
       this.permisosList = this.rolData.permiso.replace(/ /g, "").split(",");
       console.log(this.permisosList);
+      
     });
   }
   cerrarModal() {
     this.modalService.dismissAll();
+  }
+
+  filterUpdate(event) {
+    const val = event.target.value.toLowerCase();
+
+    const filterData = this.rows.filter((item: any) => {
+      const filterData =
+      item.id.toString().toLowerCase().includes(val) ||
+      item.rol.toLowerCase().includes(val) ||
+      item.nombre_estado.toLowerCase().includes(val); 
+      return filterData;
+
+    });
+    this.filterRows = filterData;
+
+    console.log(filterData);
   }
 
   switchEvent({ target }, row) {

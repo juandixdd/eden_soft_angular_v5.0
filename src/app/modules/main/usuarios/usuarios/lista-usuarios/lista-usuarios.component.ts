@@ -92,7 +92,11 @@ export class ListaUsuariosComponent implements OnInit {
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
     ],
     id_rol: ["", [Validators.required]],
-  });
+  },
+  {
+    validator:this.ConfirmPasswordValidator("contrasena","confirmPassword")
+  }
+  );
 
   public editForm: FormGroup = this.fb.group({
     nombre: [
@@ -123,6 +127,23 @@ export class ListaUsuariosComponent implements OnInit {
     id_rol: ["", [Validators.required]],
   });
 
+  ConfirmPasswordValidator(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      let control = formGroup.controls[controlName];
+      let matchingControl = formGroup.controls[matchingControlName]
+      if (
+        matchingControl.errors &&
+        !matchingControl.errors.confirmPasswordValidator
+      ) {
+        return;
+      }
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ confirmPasswordValidator: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    };
+  }
   modalOpen(modal) {
     //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {

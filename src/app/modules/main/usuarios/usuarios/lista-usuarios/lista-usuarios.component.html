@@ -53,7 +53,7 @@
         <!--? Aquí empieza la tabla -->
         <ngx-datatable
           [rows]="_filterRows"
-          [rowHeight]="50"
+          [rowHeight]="60"
           class="bootstrap core-bootstrap"
           [limit]="selectedOption"
           [columnMode]="ColumnMode.force"
@@ -84,7 +84,7 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Correo" prop="correo" [width]="20">
+          <ngx-datatable-column name="Correo" prop="correo" [width]="100">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id }}</p>
             </ng-template>
@@ -98,19 +98,48 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Rol" prop="rol" [width]="20">
+          <ngx-datatable-column name="Rol" prop="rol" [width]="1">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id | titlecase }}</p>
             </ng-template>
           </ngx-datatable-column>
 
-          <!-- Column -->
-          <ngx-datatable-column name="Funciones" prop="cancel" [width]="20">
+          <ngx-datatable-column
+            name="Cambiar estado"
+            prop="estado"
+            [width]="20"
+          >
             <ng-template
               let-id="value"
               ngx-datatable-cell-template
               let-row="row"
             >
+              <form [formGroup]="switchForm">
+                <div class="custom-control custom-switch custom-control-inline">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    [id]="row.id_cliente_documento"
+                    (change)="switchEvent($event, row)"
+                    [formControl]="row.formcontrol"
+                  />
+                  <label
+                    class="custom-control-label"
+                    [for]="row.id_cliente_documento"
+                  ></label>
+                </div>
+              </form>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- Column -->
+          <ngx-datatable-column name="Funciones" prop="cancel" [width]="1">
+            <ng-template
+              let-id="value"
+              ngx-datatable-cell-template
+              let-row="row"
+            >
+            
               <!-- Icono x rojo -->
               <button class="btn btn-icon btn-sm">
                 <i
@@ -120,6 +149,8 @@
               </button>
             </ng-template>
           </ngx-datatable-column>
+
+
         </ngx-datatable>
       </div>
     </section>

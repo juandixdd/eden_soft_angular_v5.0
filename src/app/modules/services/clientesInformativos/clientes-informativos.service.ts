@@ -30,5 +30,10 @@ export class ClientesInformativosService {
   updateCliente(id:number,row){
     return this.http.put(`${this.API_URL}/clientes-informativos/${id}`,row)
   }
+  
+  anularUsuario(id, body){
+    return this.http.put(`${this.API_URL}/anula-usuario/${id}`,body)
+  }
+
 
 }

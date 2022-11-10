@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ColumnMode } from "@swimlane/ngx-datatable";
@@ -127,6 +127,10 @@ export class ListaUsuariosComponent implements OnInit {
     id_rol: ["", [Validators.required]],
   });
 
+  public switchForm: FormGroup = this.fb.group({
+    estado: [],
+  });
+
   ConfirmPasswordValidator(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
       let control = formGroup.controls[controlName];
@@ -144,6 +148,58 @@ export class ListaUsuariosComponent implements OnInit {
       }
     };
   }
+
+ 
+
+  switchEvent({ target }, row:any) {
+    let checked = target.checked;
+    let status = {
+      estado: checked===false?0:1
+    };
+    setTimeout(() => {
+      Swal.fire({
+        title: "¿Estas seguro?",
+        text: "Cambiarás el estado del rol",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Cambiar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.clientesInformativosService
+            .anularUsuario(row.id_cliente_documento, status)
+            .subscribe((res: any) => {
+              if (res.status === 200) {
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Se cambió el estado del rol",
+                  showConfirmButton: false,
+                  timer: 1000,
+                });
+                this.getUsers();
+              }
+            });
+        } else {
+          Swal.fire({
+            position: "top-end",
+            icon: "warning",
+            title: "No se cambió el estado del rol",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+          this.getUsers();
+        }
+      });
+    }, 100);
+    
+    
+
+    
+  }
+
   modalOpen(modal) {
     //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {
@@ -154,6 +210,10 @@ export class ListaUsuariosComponent implements OnInit {
   getUsers() {
     this.usuarioService.getData().subscribe((res: any) => {
       console.log(res);
+      res.forEach((item) => {
+        item.formcontrol=new FormControl(item.estado);
+        this.switchForm.addControl(item.id_cliente_documento,item.formcontrol);
+      });
       this.rows = res;
       this._filterRows = res;
     });

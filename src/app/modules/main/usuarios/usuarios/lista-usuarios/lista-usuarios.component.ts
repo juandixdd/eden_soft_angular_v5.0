@@ -1,5 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ColumnMode } from "@swimlane/ngx-datatable";
@@ -57,45 +62,70 @@ export class ListaUsuariosComponent implements OnInit {
     this._filterRows = value;
   }
 
-  public registerForm: FormGroup = this.fb.group({
-    nombre: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    apellido: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    correo: [
-      "",
-      [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(30),
-        Validators.email,
+  public registerForm: FormGroup = this.fb.group(
+    {
+      nombre: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+        ],
       ],
-    ],
-    id_cliente_documento: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    telefono: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    contrasena: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    confirmPassword: [
-      "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    id_rol: ["", [Validators.required]],
-  },
-  {
-    validator:this.ConfirmPasswordValidator("contrasena","confirmPassword")
-  }
+      apellido: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+        ],
+      ],
+      correo: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+          Validators.email,
+        ],
+      ],
+      id_cliente_documento: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+        ],
+      ],
+      telefono: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+        ],
+      ],
+      contrasena: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+        ],
+      ],
+      confirmPassword: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+        ],
+      ],
+      id_rol: ["", [Validators.required]],
+    },
+    {
+      validator: this.ConfirmPasswordValidator("contrasena", "confirmPassword"),
+    }
   );
 
   public editForm: FormGroup = this.fb.group({
@@ -134,7 +164,7 @@ export class ListaUsuariosComponent implements OnInit {
   ConfirmPasswordValidator(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
       let control = formGroup.controls[controlName];
-      let matchingControl = formGroup.controls[matchingControlName]
+      let matchingControl = formGroup.controls[matchingControlName];
       if (
         matchingControl.errors &&
         !matchingControl.errors.confirmPasswordValidator
@@ -149,13 +179,28 @@ export class ListaUsuariosComponent implements OnInit {
     };
   }
 
- 
-
-  switchEvent({ target }, row:any) {
+  switchEvent({ target }, row: any) {
     let checked = target.checked;
     let status = {
-      estado: checked===false?0:1
+      estado: checked === false ? 0 : 1,
     };
+    let haveVenta = [];
+    this.clientesInformativosService
+      .usuariosConVentas(row.id_cliente_documento)
+      .subscribe((res: any) => {
+       if(res.filter(v=> v.estado===2 || v.estado===1).length>0){
+        
+        haveVenta.push(1)
+        console.log(haveVenta);
+        
+       }else{
+        
+        haveVenta.push(0)
+        console.log(haveVenta);
+        
+       }
+
+      });
     setTimeout(() => {
       Swal.fire({
         title: "¿Estas seguro?",
@@ -194,10 +239,6 @@ export class ListaUsuariosComponent implements OnInit {
         }
       });
     }, 100);
-    
-    
-
-    
   }
 
   modalOpen(modal) {
@@ -211,8 +252,8 @@ export class ListaUsuariosComponent implements OnInit {
     this.usuarioService.getData().subscribe((res: any) => {
       console.log(res);
       res.forEach((item) => {
-        item.formcontrol=new FormControl(item.estado);
-        this.switchForm.addControl(item.id_cliente_documento,item.formcontrol);
+        item.formcontrol = new FormControl(item.estado);
+        this.switchForm.addControl(item.id_cliente_documento, item.formcontrol);
       });
       this.rows = res;
       this._filterRows = res;

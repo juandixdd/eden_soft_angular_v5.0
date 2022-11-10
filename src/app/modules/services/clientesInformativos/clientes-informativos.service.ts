@@ -39,5 +39,12 @@ export class ClientesInformativosService {
     return this.http.get(`${this.API_URL}/ventas-usuarios/${id}`)
   }
 
+  usuariosConPedidos(id:number){
+    return this.http.get(`${this.API_URL}/pedidos-usuarios/${id}`)
+  }
+
+  usuariosConPedidosLocales(id:number){
+    return this.http.get(`${this.API_URL}/pedidosLocales-usuarios/${id}`)
+  }
 
 }

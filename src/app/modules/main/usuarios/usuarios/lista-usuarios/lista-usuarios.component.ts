@@ -188,57 +188,89 @@ export class ListaUsuariosComponent implements OnInit {
     this.clientesInformativosService
       .usuariosConVentas(row.id_cliente_documento)
       .subscribe((res: any) => {
-       if(res.filter(v=> v.estado===2 || v.estado===1).length>0){
-        
-        haveVenta.push(1)
-        console.log(haveVenta);
-        
-       }else{
-        
-        haveVenta.push(0)
-        console.log(haveVenta);
-        
-       }
-
-      });
-    setTimeout(() => {
-      Swal.fire({
-        title: "¿Estas seguro?",
-        text: "Cambiarás el estado del rol",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Cambiar",
-        cancelButtonText: "Cancelar",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.clientesInformativosService
-            .anularUsuario(row.id_cliente_documento, status)
-            .subscribe((res: any) => {
-              if (res.status === 200) {
-                Swal.fire({
-                  position: "top-end",
-                  icon: "success",
-                  title: "Se cambió el estado del rol",
-                  showConfirmButton: false,
-                  timer: 1000,
-                });
-                this.getUsers();
-              }
-            });
+        if (res.filter((v) => v.estado === 2 || v.estado === 1).length > 0) {
+          haveVenta.push(1);
         } else {
-          Swal.fire({
-            position: "top-end",
-            icon: "warning",
-            title: "No se cambió el estado del rol",
-            showConfirmButton: false,
-            timer: 1000,
-          });
-          this.getUsers();
+          haveVenta.push(0);
         }
       });
-    }, 100);
+    this.clientesInformativosService
+      .usuariosConPedidos(row.id_cliente_documento)
+      .subscribe((res: any) => {
+        if (res.filter((p) => p.estado === 1).length > 0) {
+          haveVenta.push(1);
+        } else {
+          haveVenta.push(0);
+        }
+      });
+    this.clientesInformativosService
+      .usuariosConPedidosLocales(row.id_cliente_documento)
+      .subscribe((res: any) => {
+        if (res.filter((pl) => pl.estado === 1).length > 0) {
+          haveVenta.push(1);
+          console.log(haveVenta);
+        } else {
+          haveVenta.push(0);
+          console.log(haveVenta);
+        }
+      });
+
+    setTimeout(() => {
+      if(haveVenta.includes(1)){
+        this.getUsers();
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Este usuario no se puede deshabilitar",
+          text:"Tiene algun servicio activo en este momento",
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+          
+        });
+      }else{
+        console.log("si se puede");
+        setTimeout(() => {
+          Swal.fire({
+            title: "¿Estas seguro?",
+            text: "Cambiarás el estado del rol",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Cambiar",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.clientesInformativosService
+                .anularUsuario(row.id_cliente_documento, status)
+                .subscribe((res: any) => {
+                  if (res.status === 200) {
+                    Swal.fire({
+                      position: "top-end",
+                      icon: "success",
+                      title: "Se cambió el estado del rol",
+                      showConfirmButton: false,
+                      timer: 1000,
+                    });
+                    this.getUsers();
+                  }
+                });
+            } else {
+              Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "cancelaste la anulacion del usuario",
+                showConfirmButton: false,
+                timer: 1000,
+              });
+              this.getUsers();
+            }
+          });
+        }, 100);
+      }
+    }, 500);
+
+    
   }
 
   modalOpen(modal) {

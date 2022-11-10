@@ -155,7 +155,7 @@ export class VentasComponent implements OnInit {
         estado: res[0].estado,
         cantidad_abono: res[0].cantidad_abono,
         faltante: res[0].precio_total - res[0].cantidad_abono,
-        estado_abono: res[0].estado_abono
+        estado_abono: res[0].estado_abono,
       };
       res.forEach((item) => {
         this.products.push(item);
@@ -322,17 +322,17 @@ export class VentasComponent implements OnInit {
             .subscribe((res: any) => {
               if (res.status == 200) {
                 successAlert("Se anuló la venta");
-                this.reloadPage()
+                this.reloadPage();
               } else {
                 warningAlert(
                   "Ops! Hubo un error interno, por favor inténtelo de nuevo"
                 );
-                this.reloadPage()
+                this.reloadPage();
               }
             });
         } else {
           warningAlert("No se inactivó la venta");
-          this.reloadPage()
+          this.reloadPage();
         }
       });
     }
@@ -362,24 +362,24 @@ export class VentasComponent implements OnInit {
                       successAlert(
                         "Se actualizó el estado de la venta y se inactivó el abono"
                       );
-                      this.reloadPage()
+                      this.reloadPage();
                     } else {
                       warningAlert(
                         "Ops! Hubo un error interno, por favor inténtelo de nuevo"
                       );
-                      this.reloadPage()
+                      this.reloadPage();
                     }
                   });
               } else {
                 warningAlert(
                   "Ops! Hubo un error interno, por favor inténtelo de nuevo"
                 );
-                this.reloadPage()
+                this.reloadPage();
               }
             });
         } else {
           warningAlert("No se cambió el estado la venta");
-          this.reloadPage()
+          this.reloadPage();
         }
       });
     }
@@ -387,7 +387,7 @@ export class VentasComponent implements OnInit {
     // ? Se restringe el abono
     if (reqBody.estado == 2) {
       warningAlert("No se puede abonar a una venta ya paga");
-      this.reloadPage()
+      this.reloadPage();
     }
   }
 
@@ -405,7 +405,8 @@ export class VentasComponent implements OnInit {
       const filterData =
         item.precio_total.toString().toLowerCase().includes(val) ||
         item.fecha_registro.toString().toLowerCase().includes(val) ||
-        item.estado_data.toString().toLowerCase().includes(val);
+        item.id_cliente_documento.toString().toLowerCase().includes(val) ||
+        item.mes_registro.toString().toLowerCase().includes(val);
       return filterData;
     });
 

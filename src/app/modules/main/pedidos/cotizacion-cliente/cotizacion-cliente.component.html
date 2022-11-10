@@ -54,7 +54,7 @@
           [scrollbarH]="true"
         >
           <!-- Column -->
-          <ngx-datatable-column name="#" prop="id_pedido" [width]="20">
+          <ngx-datatable-column name="#" prop="id_pedido" [width]="15">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">#{{ id }}</p>
             </ng-template>
@@ -64,7 +64,7 @@
           <ngx-datatable-column
             name="Precio total"
             prop="precio_total"
-            [width]="20"
+            [width]="15"
           >
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id }}</p>
@@ -92,7 +92,7 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="Acciones" [width]="20">
+          <ngx-datatable-column name="Acciones" [width]="30">
             <ng-template ngx-datatable-cell-template let-row="row">
               <div class="d-flex justify-content-start">
                 <button
@@ -109,6 +109,7 @@
                 >
                   <i class="feather icon-x-circle text-danger"></i>
                 </button>
+                <button type="button" class="btn btn-success btn-sm">Hacer pedido</button>
               </div>
             </ng-template>
           </ngx-datatable-column>

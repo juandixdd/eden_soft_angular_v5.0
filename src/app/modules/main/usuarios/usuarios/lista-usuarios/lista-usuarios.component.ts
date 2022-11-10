@@ -184,6 +184,8 @@ export class ListaUsuariosComponent implements OnInit {
     let status = {
       estado: checked === false ? 0 : 1,
     };
+
+    // se crea una variable donde iremos validando si el usuario tiene pedidos, ventasLocales y pedidosLocales activos
     let haveVenta = [];
     this.clientesInformativosService
       .usuariosConVentas(row.id_cliente_documento)
@@ -214,7 +216,7 @@ export class ListaUsuariosComponent implements OnInit {
           console.log(haveVenta);
         }
       });
-
+// se necesito un setTimeout para que se puedan leer los valores de las variables, si hay un 1 en la array haveData no se puede cambiar el estado
     setTimeout(() => {
       if(haveVenta.includes(1)){
         this.getUsers();
@@ -222,17 +224,16 @@ export class ListaUsuariosComponent implements OnInit {
           position: "center",
           icon: "error",
           title: "Este usuario no se puede deshabilitar",
-          text:"Tiene algun servicio activo en este momento",
+          text:"Tiene algún servicio activo en este momento",
           showConfirmButton: true,
           confirmButtonText: "Aceptar",
           
         });
       }else{
-        console.log("si se puede");
         setTimeout(() => {
           Swal.fire({
             title: "¿Estas seguro?",
-            text: "Cambiarás el estado del rol",
+            text: "Cambiarás el estado del Usuario",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -248,7 +249,7 @@ export class ListaUsuariosComponent implements OnInit {
                     Swal.fire({
                       position: "top-end",
                       icon: "success",
-                      title: "Se cambió el estado del rol",
+                      title: "Se cambió el estado del Usuario",
                       showConfirmButton: false,
                       timer: 1000,
                     });
@@ -259,7 +260,7 @@ export class ListaUsuariosComponent implements OnInit {
               Swal.fire({
                 position: "top-end",
                 icon: "warning",
-                title: "cancelaste la anulacion del usuario",
+                title: "Cancelaste la deshabilitación del usuario",
                 showConfirmButton: false,
                 timer: 1000,
               });

@@ -104,7 +104,7 @@ export class PerfilUsuarioComponent implements OnInit {
           });
           this.modalService.dismissAll;
           this.reoladPage();
-        }else{
+        } else {
           Swal.fire({
             position: "center",
             icon: "error",
@@ -119,8 +119,10 @@ export class PerfilUsuarioComponent implements OnInit {
   }
 
   reoladPage() {
-    this.router
-      .navigate(["/main/perfil-usuario"])
-      .then(() => window.location.reload());
+    setTimeout(() => {
+      this.router
+        .navigate(["/main/perfil-usuario"])
+        .then(() => window.location.reload());
+    }, 2000);
   }
 }

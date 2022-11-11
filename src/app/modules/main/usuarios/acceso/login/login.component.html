@@ -81,9 +81,9 @@
         <div class="row justify-content-center">
           <div class="col-auto">
             <div class="auth-footer-btn d-flex justify-content-center">
-              <a class="btn btn-google" href="javascript:void(0)"
-                ><i class="fa-brands fa-google"></i
-              ></a>
+              <asl-google-signin-button
+                *ngIf="!googleUser"
+              ></asl-google-signin-button>
             </div>
           </div>
           <div class="col-auto">
@@ -100,8 +100,6 @@
   </div>
 </div>
 
-<p>holis</p>
-<asl-google-signin-button *ngIf="!googleUser"></asl-google-signin-button>
 <div *ngIf="googleUser">
   <img src="{{ googleUser.photoUrl }}" />
   <h4>{{ googleUser.name }}</h4>

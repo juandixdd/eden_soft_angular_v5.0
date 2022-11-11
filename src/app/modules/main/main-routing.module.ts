@@ -24,6 +24,7 @@ import { CotizacionClienteComponent } from './pedidos/cotizacion-cliente/cotizac
 import { PedidosLocalComponent } from './pedidos/pedidos-local/pedidos-local.component';
 import { CreateClientComponent } from './pedidos/pedidos-local/create-client/create-client.component';
 import { RecuperarClaveComponent } from './usuarios/acceso/recuperar-clave/recuperar-clave.component';
+import { RegistrarUsuariosConDataComponent } from './usuarios/acceso/registrar-usuarios-con-data/registrar-usuarios-con-data.component';
 
 const routes: Routes = [
 
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'recuperar-clave', component: RecuperarClaveComponent },
   { path: 'registro-usuarios', component: RegistroUsuariosComponent },
   { path: 'perfil-usuario', component: PerfilUsuarioComponent, canActivate: [AuthGuardGuard] },
+  { path: 'registro-usuario-data', component: RegistrarUsuariosConDataComponent },
 
   /*Productos*/
   { path: 'categorias', component: CategoriasComponent, canActivate: [AuthGuardGuard] },

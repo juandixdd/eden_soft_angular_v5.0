@@ -7,16 +7,13 @@
           <h2 class="brand-text text-primary ml-1">Eden.Soft</h2>
         </a>
 
-        <h4 class="card-title mb-1">La Comelona Comienza aqui 🚀</h4>
+        <h4 class="card-title mb-1">Parece que aún no estas registrado 😱</h4>
         <p class="card-text mb-2">
-          Completa los siguientes datos para registrarte
+          {{ provider | titlecase }} nos brindó tus datos, solo debes completar
+          el formulario 😳
         </p>
 
-        <form
-          class="auth-register-form mt-2"
-          [formGroup]="registerForm"
-          (ngSubmit)="onSubmit()"
-        >
+        <form class="auth-register-form mt-2" [formGroup]="registerForm">
           <div class="row">
             <div class="col-md-6 col-12">
               <div class="form-group">
@@ -57,7 +54,9 @@
                   placeholder="minimo 10 caracteres"
                   formControlName="id_cliente_documento"
                 />
-                <span class="text-danger" *ngIf="validField('id_cliente_documento')"
+                <span
+                  class="text-danger"
+                  *ngIf="validField('id_cliente_documento')"
                   >Este campo es requerido</span
                 >
               </div>
@@ -144,11 +143,8 @@
             <span> Ingresa aqui</span>
           </a>
         </p>
-
-        
-       
       </div>
+      <!-- /Register v1 -->
     </div>
-    <!-- /Register v1 -->
   </div>
 </div>

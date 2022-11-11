@@ -9,6 +9,7 @@ import { CoreConfigService } from '@core/services/config.service';
 import Swal from 'sweetalert2';
 import { LoginService } from 'app/modules/services/login/login.service';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { UsuarioService } from 'app/modules/services/usuario/usuario.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -37,13 +38,12 @@ export class LoginComponent implements OnInit {
    */
   constructor(
     private _coreConfigService: CoreConfigService,
-    private _formBuilder: UntypedFormBuilder,
-    private _route: ActivatedRoute,
     private _router: Router,
     private fb: UntypedFormBuilder,
     private loginService: LoginService,
     private router: Router,
-    private authGoogle: SocialAuthService
+    private authGoogle: SocialAuthService,
+    private usuariosService: UsuarioService
 
   ) {
 
@@ -94,10 +94,33 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.googleLogin();
+  }
+
+  googleLogin() {
     this.authGoogle.authState.subscribe((user) => {
       this.googleUser = user;
       this.loggedIn = (user != null)
       console.log(this.googleUser);
+
+      this.usuariosService.getDataByEmail(this.googleUser.email).subscribe(
+        (res: any) => {
+
+          if (res.length === 0) {
+            console.log("No existe en base de datos");
+            localStorage.setItem("googleUser", JSON.stringify(this.googleUser));
+            this.router.navigate(['main/registro-usuario-data']);
+          }
+          else {
+            console.log("Lo deja pasar");
+            localStorage.setItem("token", this.googleUser.idToken)
+            this.router.navigate(['main/home-page']);
+            localStorage.setItem('userId', res[0].id_cliente_documento);
+
+          }
+
+        }
+      )
 
     })
 

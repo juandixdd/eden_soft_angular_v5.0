@@ -1,48 +1,31 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-
+import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import Swal from 'sweetalert2';
-import { Router, RouterLink } from '@angular/router';
-import { RegisterService } from 'app/modules/services/register/register.service';
 import { ClientesInformativosService } from 'app/modules/services/clientesInformativos/clientes-informativos.service';
+import { RegisterService } from 'app/modules/services/register/register.service';
+import { Subject } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-registro-usuarios',
-  templateUrl: './registro-usuarios.component.html',
-  styleUrls: ['./registro-usuarios.component.scss'],
+  selector: 'app-registrar-usuarios-con-data',
+  templateUrl: './registrar-usuarios-con-data.component.html',
+  styleUrls: ['./registrar-usuarios-con-data.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class RegistroUsuariosComponent implements OnInit {
-  // Public
-  public coreConfig: any;
-  public passwordTextType: boolean;
-  public submitted = false;
-  user: any = {};
-  emailExists: boolean = false;
-  cedulaExists: boolean = false;
+export class RegistrarUsuariosConDataComponent implements OnInit {
 
-  // Private
   private _unsubscribeAll: Subject<any>;
+  googleUser: any = JSON.parse(localStorage.getItem("googleUser"));
+  provider: any;
+  user: any = {};
 
-
-
-  /**
-   * Constructor
-   *
-   * @param {CoreConfigService} _coreConfigService
-   * @param {FormBuilder} _formBuilder
-   */
   constructor(
     private _coreConfigService: CoreConfigService,
     private fb: UntypedFormBuilder,
+    private router: Router,
     private registerService: RegisterService,
     private clientesInformativosService: ClientesInformativosService,
-    private router: Router
   ) {
     this._unsubscribeAll = new Subject();
 
@@ -56,7 +39,7 @@ export class RegistroUsuariosComponent implements OnInit {
           hidden: true
         },
         footer: {
-          hidden: true
+          hidden: false
         },
         customizer: false,
         enableLocalStorage: false
@@ -93,12 +76,12 @@ export class RegistroUsuariosComponent implements OnInit {
       '',
       [Validators.required, Validators.minLength(5), Validators.maxLength(30)]
     ],
-    
+
 
   },
-  {
-    validator:this.ConfirmPasswordValidator("contrasena","confirmPassword")
-  })
+    {
+      validator: this.ConfirmPasswordValidator("contrasena", "confirmPassword")
+    })
 
   ConfirmPasswordValidator(controlName: string, matchingControlName: string) {
     return (formGroup: UntypedFormGroup) => {
@@ -118,29 +101,30 @@ export class RegistroUsuariosComponent implements OnInit {
     };
   }
 
-  get f() {
-    return this.registerForm.controls;
-  }
 
-  /**
-   * Toggle password
-   */
-  togglePasswordTextType() {
-    this.passwordTextType = !this.passwordTextType;
-  }
 
-  /**
-   * On Submit
-   */
-  onSubmit() {
-    this.submitted = true;
 
-    // stop here if form is invalid
-    if (this.registerForm.invalid) {
-      return;
-    }
-  }
   ngOnInit(): void {
+    console.log(this.googleUser);
+    this.setFormData();
+    
+  }
+
+  validField(field: string) {
+    return this.registerForm.controls[field].errors &&
+      this.registerForm.controls[field].touched
+  }
+
+  validPassword() {
+    return this.registerForm.controls['contrasena'].value !== this.registerForm.controls['confirmPassword'].value &&
+      this.registerForm.controls['contrasena'].value !== '';
+  }
+
+  setFormData(){
+    this.provider = this.googleUser.provider
+    this.registerForm.controls['nombre'].setValue(this.googleUser.firstName);
+    this.registerForm.controls['apellido'].setValue(this.googleUser.lastName);
+    this.registerForm.controls['correo'].setValue(this.googleUser.email);
   }
 
   createUser() {
@@ -207,19 +191,7 @@ export class RegistroUsuariosComponent implements OnInit {
 
         }
       })
-
+    
   }
 
-
-
-
-  validField(field: string) {
-    return this.registerForm.controls[field].errors &&
-      this.registerForm.controls[field].touched
-  }
-
-  validPassword() {
-    return this.registerForm.controls['contrasena'].value !== this.registerForm.controls['confirmPassword'].value &&
-      this.registerForm.controls['contrasena'].value !== '';
-  }
 }

@@ -23,7 +23,11 @@ export class UsuarioService {
     return this.http.put(`${this.API_URL}/usuario/${id}`, data);
   }
 
-  editProfile(id: number, data:any){
+  editProfile(id: number, data: any) {
     return this.http.put(`${this.API_URL}/editProfile/${id}`, data)
+  }
+
+  getDataByEmail(email: string) {
+    return this.http.get(`${this.API_URL}/usuario/email/${email}`);
   }
 }

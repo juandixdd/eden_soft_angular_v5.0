@@ -51,6 +51,7 @@ import { CreateClientComponent } from './pedidos/pedidos-local/create-client/cre
 import { RecuperarClaveComponent } from './usuarios/acceso/recuperar-clave/recuperar-clave.component';
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { RegistrarUsuariosConDataComponent } from './usuarios/acceso/registrar-usuarios-con-data/registrar-usuarios-con-data.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
     PedidosClienteComponent,
     PedidosLocalComponent,
     CreateClientComponent,
-    RecuperarClaveComponent
+    RecuperarClaveComponent,
+    RegistrarUsuariosConDataComponent
   ],
   imports: [
     CommonModule,

@@ -39,7 +39,7 @@ export class RolesComponent implements OnInit {
     private rolesService: RolesService,
     private rol_permisoService: RolPermisoService,
     private fb: UntypedFormBuilder
-  ) {}
+  ) { }
 
   public rolForm: UntypedFormGroup = this.fb.group({
     nombre: [
@@ -58,8 +58,8 @@ export class RolesComponent implements OnInit {
     this.getRoles();
     this.rolForm.reset();
   }
-   //? Get y Set para el buscador
-   get filterRows(): any {
+  //? Get y Set para el buscador
+  get filterRows(): any {
     return this._filterRows;
   }
 
@@ -160,7 +160,7 @@ export class RolesComponent implements OnInit {
       this.rolData = res[0];
       this.permisosList = this.rolData.permiso.replace(/ /g, "").split(",");
       console.log(this.permisosList);
-      
+
     });
   }
   cerrarModal() {
@@ -172,9 +172,9 @@ export class RolesComponent implements OnInit {
 
     const filterData = this.rows.filter((item: any) => {
       const filterData =
-      item.id.toString().toLowerCase().includes(val) ||
-      item.rol.toLowerCase().includes(val) ||
-      item.nombre_estado.toLowerCase().includes(val); 
+        item.id.toString().toLowerCase().includes(val) ||
+        item.rol.toLowerCase().includes(val) ||
+        item.nombre_estado.toLowerCase().includes(val);
       return filterData;
 
     });
@@ -189,44 +189,67 @@ export class RolesComponent implements OnInit {
       estado: checked,
     };
 
-    setTimeout(() => {
-      Swal.fire({
-        title: "¿Estas seguro?",
-        text: "Cambiarás el estado del rol",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Cambiar",
-        cancelButtonText: "Cancelar",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.rolesService
-            .anularRol(row.id, status)
-            .subscribe((res: any) => {
-              if (res.status === 200) {
+    let userRol = [];
+
+    this.rolesService.getUserWithRol(row.id).subscribe(
+      (res: any) => {
+        if ((res.length > 0)) {
+          this.getRoles();
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Este Rol no se puede deshabilitar",
+            text: "Tiene usuarios asociados en este momento",
+            showConfirmButton: true,
+            confirmButtonText: "Aceptar",
+          });
+        } else {
+
+          setTimeout(() => {
+            Swal.fire({
+              title: "¿Estas seguro?",
+              text: "Cambiarás el estado del rol",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Cambiar",
+              cancelButtonText: "Cancelar",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.rolesService
+                  .anularRol(row.id, status)
+                  .subscribe((res: any) => {
+                    if (res.status === 200) {
+                      Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Se cambió el estado del rol",
+                        showConfirmButton: false,
+                        timer: 1000,
+                      });
+                      this.getRoles();
+                    }
+                  });
+              } else {
                 Swal.fire({
                   position: "top-end",
-                  icon: "success",
-                  title: "Se cambió el estado del rol",
+                  icon: "warning",
+                  title: "No se cambió el estado del rol",
                   showConfirmButton: false,
                   timer: 1000,
                 });
                 this.getRoles();
               }
             });
-        } else {
-          Swal.fire({
-            position: "top-end",
-            icon: "warning",
-            title: "No se cambió el estado del rol",
-            showConfirmButton: false,
-            timer: 1000,
-          });
-          this.getRoles();
+          }, 100);
+
         }
-      });
-    }, 100);
+
+      }
+    )
+
+
   }
 }
 

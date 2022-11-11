@@ -24,4 +24,8 @@ export class RolesService {
   anularRol(id, body){
     return this.http.put(`${this.API_URL}/anula-rol/${id}`,body)
   }
+
+  getUserWithRol(id) {
+    return this.http.get(`${this.API_URL}/usuarios-rol/${id}`);
+  }
 }

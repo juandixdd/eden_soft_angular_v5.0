@@ -99,3 +99,11 @@
     </div>
   </div>
 </div>
+
+<p>holis</p>
+<asl-google-signin-button *ngIf="!googleUser"></asl-google-signin-button>
+<div *ngIf="googleUser">
+  <img src="{{ googleUser.photoUrl }}" />
+  <h4>{{ googleUser.name }}</h4>
+  <p>{{ googleUser.email }}</p>
+</div>

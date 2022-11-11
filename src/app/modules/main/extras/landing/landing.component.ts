@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
@@ -17,7 +17,7 @@ export class LandingComponent implements OnInit {
 
   //  Public
   public coreConfig: any;
-  public loginForm: FormGroup;
+  public loginForm: UntypedFormGroup;
   public loading = false;
   public submitted = false;
   public returnUrl: string;
@@ -39,7 +39,7 @@ export class LandingComponent implements OnInit {
    */
   constructor(
     private _coreConfigService: CoreConfigService,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
     private modalService: NgbModal,
@@ -89,11 +89,7 @@ export class LandingComponent implements OnInit {
   }
 
 
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
-  }
+
 
 
 

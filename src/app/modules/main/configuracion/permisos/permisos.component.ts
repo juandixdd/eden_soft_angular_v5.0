@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { PermisosService } from "app/modules/services/permisos/permisos.service";
@@ -18,7 +18,7 @@ export class PermisosComponent implements OnInit {
   constructor(
     private modalService: NgbModal, //? Aquí se instancia el servicio para abrir la modal.
     private permisosService: PermisosService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) { }
 
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
@@ -49,7 +49,7 @@ export class PermisosComponent implements OnInit {
       this.filterRows = res;
     });
   }
-  public permisosForm: FormGroup = this.fb.group({
+  public permisosForm: UntypedFormGroup = this.fb.group({
     nombre: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(150)],
@@ -60,7 +60,7 @@ export class PermisosComponent implements OnInit {
     ],
   });
 
-  public permisosFormEdit: FormGroup = this.fb.group({
+  public permisosFormEdit: UntypedFormGroup = this.fb.group({
     nombre: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(150)],

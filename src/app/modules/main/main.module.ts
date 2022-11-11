@@ -49,7 +49,8 @@ import { PedidosClienteComponent } from './pedidos/pedidos-cliente/pedidos-clien
 import { PedidosLocalComponent } from './pedidos/pedidos-local/pedidos-local.component';
 import { CreateClientComponent } from './pedidos/pedidos-local/create-client/create-client.component';
 import { RecuperarClaveComponent } from './usuarios/acceso/recuperar-clave/recuperar-clave.component';
-
+import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,27 @@ import { RecuperarClaveComponent } from './usuarios/acceso/recuperar-clave/recup
     NgApexchartsModule,
     Ng2FlatpickrModule,
     BreadcrumbModule,
+    SocialLoginModule,
 
-  ]
+  ],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '1070378909518-f2fc1k0p0uel24tb3uigrsof089v9t81.apps.googleusercontent.com'
+            )
+          }
+
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    }]
 })
 export class MainModule { }

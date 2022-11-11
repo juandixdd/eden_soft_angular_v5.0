@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { CoreConfigService } from "@core/services/config.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -47,7 +47,7 @@ export class ProductosComponent implements OnInit {
     private usersService: UsersService,
     private loginService: LoginService,
     private modalService: NgbModal,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private usuarioService: UsuarioService,
     private clientesInformativosService: ClientesInformativosService
@@ -78,7 +78,7 @@ export class ProductosComponent implements OnInit {
     this.type = tipo;
   }
 
-  public loginForm: FormGroup = this.fb.group({
+  public loginForm: UntypedFormGroup = this.fb.group({
     correo: ["", [Validators.required, Validators.email]],
     contrasena: [
       "",

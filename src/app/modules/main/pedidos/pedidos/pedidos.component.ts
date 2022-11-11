@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -48,10 +48,10 @@ export class PedidosComponent implements OnInit {
     private modalService: NgbModal,
     private productosService: ProductosService,
     private pedidosService: PedidosService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
-  public productForm: FormGroup = this.fb.group({
+  public productForm: UntypedFormGroup = this.fb.group({
     nombre: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
@@ -74,7 +74,7 @@ export class PedidosComponent implements OnInit {
     ],
   });
 
-  public switchForm: FormGroup = this.fb.group({
+  public switchForm: UntypedFormGroup = this.fb.group({
     estado: [],
   });
 
@@ -88,7 +88,7 @@ export class PedidosComponent implements OnInit {
       res.forEach((item) => {
         console.log(item);
 
-        item.formcontrol = new FormControl(item.estado);
+        item.formcontrol = new UntypedFormControl(item.estado);
         this.switchForm.addControl(item.id_pedido, item.formcontrol);
       });
       this.rows = res;

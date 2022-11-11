@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import {
-  FormBuilder,
+  UntypedFormBuilder,
   FormControl,
-  FormGroup,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -23,7 +23,7 @@ import Swal from "sweetalert2";
 export class CreateInformativeClientComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private productosService: ProductosService,
     private clientesInformativosService: ClientesInformativosService,
@@ -66,7 +66,7 @@ export class CreateInformativeClientComponent implements OnInit {
     }
   }
 
-  public userForm: FormGroup = this.fb.group({
+  public userForm: UntypedFormGroup = this.fb.group({
     id_cliente_documento: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
@@ -85,7 +85,7 @@ export class CreateInformativeClientComponent implements OnInit {
     ],
   });
 
-  public switchForm: FormGroup = this.fb.group({
+  public switchForm: UntypedFormGroup = this.fb.group({
     estado: [],
     abono: [
       "",

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
@@ -32,12 +32,12 @@ export class PedidosLocalComponent implements OnInit {
     private modalService: NgbModal,
     private pedidoLocalService: PedidoLocalService,
     private clientesInformativosService: ClientesInformativosService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router
   ) {}
 
 
-  public cedulaForm: FormGroup = this.fb.group({
+  public cedulaForm: UntypedFormGroup = this.fb.group({
     cedula: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
@@ -45,7 +45,7 @@ export class PedidosLocalComponent implements OnInit {
   });
 
 
-  public switchForm: FormGroup = this.fb.group({
+  public switchForm: UntypedFormGroup = this.fb.group({
     estado: [],
   });
 
@@ -70,7 +70,7 @@ export class PedidosLocalComponent implements OnInit {
       res.forEach((item) => {
         console.log(item);
         
-        item.formcontrol  =  new FormControl(item.estado);
+        item.formcontrol  =  new UntypedFormControl(item.estado);
         this.switchForm.addControl(item.id_pedido_local, item.formcontrol);
       });
       this.rows = res;

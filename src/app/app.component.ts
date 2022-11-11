@@ -24,7 +24,7 @@ import { locale as menuPortuguese } from 'app/menu/i18n/pt';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   coreConfig: any;
   menu: any;
   defaultLanguage: 'en'; // This language will be used as a fallback when a translation isn't found in the current language
@@ -242,11 +242,7 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * On destroy
    */
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
-  }
+ 
 
   // Public methods
   // -----------------------------------------------------------------------------------------------------

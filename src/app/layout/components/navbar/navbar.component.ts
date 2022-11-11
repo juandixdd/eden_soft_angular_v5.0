@@ -23,7 +23,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./navbar.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class NavbarComponent implements OnInit, OnDestroy {
+export class NavbarComponent implements OnInit {
   public horizontalMenu: boolean;
   public hiddenMenu: boolean;
 
@@ -238,9 +238,5 @@ export class NavbarComponent implements OnInit, OnDestroy {
   /**
    * On destroy
    */
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
-  }
+ 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { takeUntil, first } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { CoreConfigService } from '@core/services/config.service';
 import Swal from 'sweetalert2';
 import { LoginService } from 'app/modules/services/login/login.service';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -23,6 +24,8 @@ export class LoginComponent implements OnInit {
   public error = '';
   public contrasenaTextType: boolean;
   user: any = {};
+  googleUser: any;
+  loggedIn: any;
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -34,12 +37,13 @@ export class LoginComponent implements OnInit {
    */
   constructor(
     private _coreConfigService: CoreConfigService,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private authGoogle: SocialAuthService
 
   ) {
 
@@ -65,7 +69,7 @@ export class LoginComponent implements OnInit {
   }
 
 
-  public loginForm: FormGroup = this.fb.group({
+  public loginForm: UntypedFormGroup = this.fb.group({
     correo: [
       "",
       [Validators.required, Validators.email],
@@ -89,6 +93,13 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.authGoogle.authState.subscribe((user) => {
+      this.googleUser = user;
+      this.loggedIn = (user != null)
+      console.log(this.googleUser);
+
+    })
 
   }
 
@@ -123,12 +134,5 @@ export class LoginComponent implements OnInit {
 
   }
 
-  /**
-     * On destroy
-     */
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
-  }
+
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -40,7 +40,7 @@ export class ListaUsuariosComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private usuarioService: UsuarioService,
     private registerService: RegisterService,
@@ -62,7 +62,7 @@ export class ListaUsuariosComponent implements OnInit {
     this._filterRows = value;
   }
 
-  public registerForm: FormGroup = this.fb.group(
+  public registerForm: UntypedFormGroup = this.fb.group(
     {
       nombre: [
         "",
@@ -128,7 +128,7 @@ export class ListaUsuariosComponent implements OnInit {
     }
   );
 
-  public editForm: FormGroup = this.fb.group({
+  public editForm: UntypedFormGroup = this.fb.group({
     nombre: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
@@ -157,12 +157,12 @@ export class ListaUsuariosComponent implements OnInit {
     id_rol: ["", [Validators.required]],
   });
 
-  public switchForm: FormGroup = this.fb.group({
+  public switchForm: UntypedFormGroup = this.fb.group({
     estado: [],
   });
 
   ConfirmPasswordValidator(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
+    return (formGroup: UntypedFormGroup) => {
       let control = formGroup.controls[controlName];
       let matchingControl = formGroup.controls[matchingControlName];
       if (
@@ -285,7 +285,7 @@ export class ListaUsuariosComponent implements OnInit {
     this.usuarioService.getData().subscribe((res: any) => {
       console.log(res);
       res.forEach((item) => {
-        item.formcontrol = new FormControl(item.estado);
+        item.formcontrol = new UntypedFormControl(item.estado);
         this.switchForm.addControl(item.id_cliente_documento, item.formcontrol);
       });
       this.rows = res;

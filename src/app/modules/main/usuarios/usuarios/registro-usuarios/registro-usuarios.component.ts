@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -39,7 +39,7 @@ export class RegistroUsuariosComponent implements OnInit {
    */
   constructor(
     private _coreConfigService: CoreConfigService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private registerService: RegisterService,
     private clientesInformativosService: ClientesInformativosService,
     private router: Router
@@ -64,7 +64,7 @@ export class RegistroUsuariosComponent implements OnInit {
     };
   }
 
-  public registerForm: FormGroup = this.fb.group({
+  public registerForm: UntypedFormGroup = this.fb.group({
     nombre: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
@@ -101,7 +101,7 @@ export class RegistroUsuariosComponent implements OnInit {
   }
   )
   ConfirmPasswordValidator(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
+    return (formGroup: UntypedFormGroup) => {
       let control = formGroup.controls[controlName];
       let matchingControl = formGroup.controls[matchingControlName]
       if (
@@ -212,11 +212,6 @@ export class RegistroUsuariosComponent implements OnInit {
 
 
 
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
-  }
 
   validField(field: string) {
     return this.registerForm.controls[field].errors &&

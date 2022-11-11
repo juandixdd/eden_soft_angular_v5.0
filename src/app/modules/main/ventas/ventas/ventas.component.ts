@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -43,11 +43,11 @@ export class VentasComponent implements OnInit {
     private ventaLocalService: VentaLocalService,
     private usersService: UsersService,
     private clientesInformativosService: ClientesInformativosService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router
   ) {}
 
-  public cedulaForm: FormGroup = this.fb.group({
+  public cedulaForm: UntypedFormGroup = this.fb.group({
     cedula: [
       "",
       [
@@ -59,11 +59,11 @@ export class VentasComponent implements OnInit {
     ],
   });
 
-  public switchForm: FormGroup = this.fb.group({
+  public switchForm: UntypedFormGroup = this.fb.group({
     estado: [],
   });
 
-  public switchFormPago: FormGroup = this.fb.group({
+  public switchFormPago: UntypedFormGroup = this.fb.group({
     pago: [],
   });
 
@@ -89,7 +89,7 @@ export class VentasComponent implements OnInit {
   getVentasLocales() {
     this.ventaLocalService.getData().subscribe((res: any) => {
       res.forEach((item) => {
-        item.formcontrol = new FormControl(item.estado);
+        item.formcontrol = new UntypedFormControl(item.estado);
         this.switchForm.addControl(item.id_venta, item.formcontrol);
       });
       this.rows = res;

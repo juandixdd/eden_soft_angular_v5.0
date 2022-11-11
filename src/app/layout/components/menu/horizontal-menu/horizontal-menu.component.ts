@@ -13,7 +13,7 @@ import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.s
   styleUrls: ['./horizontal-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HorizontalMenuComponent implements OnInit, OnDestroy {
+export class HorizontalMenuComponent implements OnInit {
   coreConfig: any;
   menu: any;
 
@@ -59,12 +59,5 @@ export class HorizontalMenuComponent implements OnInit, OnDestroy {
       });
   }
 
-  /**
-   * On Destroy
-   */
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
-  }
+
 }

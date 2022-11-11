@@ -9,7 +9,7 @@ import { CoreConfigService } from '@core/services/config.service';
   selector: 'footer',
   templateUrl: './footer.component.html'
 })
-export class FooterComponent implements OnInit, OnDestroy {
+export class FooterComponent implements OnInit {
   public coreConfig: any;
   public year: number = new Date().getFullYear();
 
@@ -42,9 +42,5 @@ export class FooterComponent implements OnInit, OnDestroy {
   /**
    * On destroy
    */
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
-  }
+
 }

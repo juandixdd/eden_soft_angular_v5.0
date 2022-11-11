@@ -15,7 +15,7 @@ import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.s
   styleUrls: ['./vertical-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class VerticalMenuComponent implements OnInit, OnDestroy {
+export class VerticalMenuComponent implements OnInit {
   coreConfig: any;
   menu: any;
   isCollapsed: boolean;
@@ -95,13 +95,7 @@ export class VerticalMenuComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * On Destroy
-   */
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
-  }
+  
 
   // Public Methods
   // -----------------------------------------------------------------------------------------------------

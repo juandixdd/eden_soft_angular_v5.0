@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { CategoriaService } from 'app/modules/services/categoria/categoria.service';
@@ -44,9 +44,9 @@ export class CotizacionClienteComponent implements OnInit {
     private productosService: ProductosService,
     private categoriasService: CategoriaService,
     private pedidosService: PedidosService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) { }
-  public anularForm: FormGroup = this.fb.group({
+  public anularForm: UntypedFormGroup = this.fb.group({
     estado: [
       "",
       [],

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { CoreConfigService } from "@core/services/config.service";
 import { RecuperarContrasenaService } from "app/modules/services/recuperarContrasena/recuperar-contrasena.service";
 import { Subject } from "rxjs";
@@ -17,7 +17,7 @@ export class RecuperarClaveComponent implements OnInit {
   public coreConfig: any;
   public passwordTextType: boolean;
   public confPasswordTextType: boolean;
-  public resetPasswordForm: FormGroup;
+  public resetPasswordForm: UntypedFormGroup;
   public submitted = false;
   body: any = {};
   timer: boolean = false;
@@ -34,8 +34,8 @@ export class RecuperarClaveComponent implements OnInit {
 
   constructor(
     private _coreConfigService: CoreConfigService,
-    private _formBuilder: FormBuilder,
-    private fb: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
+    private fb: UntypedFormBuilder,
     private recuperarContrasenaService: RecuperarContrasenaService
   ) {
     this._unsubscribeAll = new Subject();
@@ -58,7 +58,7 @@ export class RecuperarClaveComponent implements OnInit {
     };
   }
 
-  public recuperarForm: FormGroup = this.fb.group({
+  public recuperarForm: UntypedFormGroup = this.fb.group({
     email: [
       "",
       [Validators.required, Validators.email, Validators.minLength(1)],
@@ -135,9 +135,5 @@ export class RecuperarClaveComponent implements OnInit {
         }
       });
   }
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
-  }
+
 }

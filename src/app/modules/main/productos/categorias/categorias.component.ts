@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { CategoriaService } from 'app/modules/services/categoria/categoria.service';
@@ -28,24 +28,24 @@ export class CategoriasComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private categoriasService: CategoriaService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) { }
 
-  public categoriasForm: FormGroup = this.fb.group({
+  public categoriasForm: UntypedFormGroup = this.fb.group({
     nombre: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)]
     ]
   })
 
-  public categoriasFormEdit: FormGroup = this.fb.group({
+  public categoriasFormEdit: UntypedFormGroup = this.fb.group({
     nombre: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)]
     ]
   })
 
-  public switchForm: FormGroup = this.fb.group({
+  public switchForm: UntypedFormGroup = this.fb.group({
     estado:[]
   })
 
@@ -63,7 +63,7 @@ export class CategoriasComponent implements OnInit {
   getCategorias() {
     this.categoriasService.getData().subscribe((res: any) => {
         res.forEach((item) => {
-           item.formcontrol = new FormControl(item.estado);
+           item.formcontrol = new UntypedFormControl(item.estado);
            this.switchForm.addControl(item.id, item.formcontrol)
          });
         this.rows = res;

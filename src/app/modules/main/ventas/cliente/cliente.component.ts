@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { ClientesInformativosService } from 'app/modules/services/clientesInformativos/clientes-informativos.service';
@@ -25,12 +25,12 @@ export class ClienteComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private clientesInformativosService: ClientesInformativosService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) { }
 
 
 
-  public clienteForm: FormGroup = this.fb.group({
+  public clienteForm: UntypedFormGroup = this.fb.group({
     id_cliente_documento: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
@@ -50,7 +50,7 @@ export class ClienteComponent implements OnInit {
 
   })
 
-  public clienteFormEdit: FormGroup = this.fb.group({
+  public clienteFormEdit: UntypedFormGroup = this.fb.group({
     id_cliente_documento: [
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]

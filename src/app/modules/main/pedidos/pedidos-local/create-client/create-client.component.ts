@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ClientesInformativosService } from 'app/modules/services/clientesInformativos/clientes-informativos.service';
@@ -19,7 +19,7 @@ import Swal from 'sweetalert2';
 export class CreateClientComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private productosService: ProductosService,
     private clientesInformativosService: ClientesInformativosService,
@@ -56,7 +56,7 @@ export class CreateClientComponent implements OnInit {
     }
   }
 
-  public userForm: FormGroup = this.fb.group({
+  public userForm: UntypedFormGroup = this.fb.group({
     id_cliente_documento: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
@@ -75,7 +75,7 @@ export class CreateClientComponent implements OnInit {
     ],
   });
 
-  public fechaForm: FormGroup = this.fb.group({
+  public fechaForm: UntypedFormGroup = this.fb.group({
     fecha_entrega: [
       "",
       [Validators.required]

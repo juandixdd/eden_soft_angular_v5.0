@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 
 import { takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
@@ -18,7 +18,7 @@ import Swal from "sweetalert2";
 export class RestaurarClaveComponent implements OnInit {
   constructor(
     private _coreConfigService: CoreConfigService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private activatedRoute: ActivatedRoute,
     private recuperarService: RecuperarContrasenaService,
     private router: Router
@@ -47,7 +47,7 @@ export class RestaurarClaveComponent implements OnInit {
   public coreConfig: any;
   public passwordTextType: boolean;
   public confPasswordTextType: boolean;
-  public resetPasswordForm: FormGroup;
+  public resetPasswordForm: UntypedFormGroup;
   public submitted = false;
 
   token: any = this.activatedRoute.snapshot.params.token;
@@ -63,7 +63,7 @@ export class RestaurarClaveComponent implements OnInit {
    * @param {FormBuilder} _formBuilder
    */
 
-  public recuperarForm: FormGroup = this.fb.group({
+  public recuperarForm: UntypedFormGroup = this.fb.group({
     password: [
       "",
       [Validators.required, Validators.minLength(5), Validators.maxLength(30)],
@@ -78,7 +78,7 @@ export class RestaurarClaveComponent implements OnInit {
   });
 
   ConfirmPasswordValidator(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
+    return (formGroup: UntypedFormGroup) => {
       let control = formGroup.controls[controlName];
       let matchingControl = formGroup.controls[matchingControlName]
       if (

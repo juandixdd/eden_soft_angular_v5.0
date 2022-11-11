@@ -11,7 +11,7 @@ import { CoreConfigService } from '@core/services/config.service';
   styleUrls: ['./horizontal-layout.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HorizontalLayoutComponent implements OnInit, OnDestroy {
+export class HorizontalLayoutComponent implements OnInit {
   coreConfig: any;
 
   // Private
@@ -40,12 +40,5 @@ export class HorizontalLayoutComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * On destroy
-   */
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
-  }
+
 }

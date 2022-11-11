@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { UsersService } from "app/modules/services/users/users.service";
@@ -18,11 +18,11 @@ export class PerfilUsuarioComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private usuarioService: UsuarioService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router
   ) {}
 
-  public editForm: FormGroup = this.fb.group({
+  public editForm: UntypedFormGroup = this.fb.group({
     nombre: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],

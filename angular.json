@@ -158,7 +158,6 @@
       }
     }
   },
-  "defaultProject": "vuexy",
   "cli": {
     "analytics": false
   }

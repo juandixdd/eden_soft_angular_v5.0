@@ -1,6 +1,6 @@
-import { prepareSyntheticPropertyName } from "@angular/compiler/src/render3/util";
+
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { CategoriaService } from "app/modules/services/categoria/categoria.service";
@@ -49,7 +49,7 @@ export class ProductosAdminComponent implements OnInit {
     private modalService: NgbModal,
     private productosService: ProductosService,
     private categoriasService: CategoriaService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class ProductosAdminComponent implements OnInit {
     this.getCategorias();
   }
 
-  public productForm: FormGroup = this.fb.group({
+  public productForm: UntypedFormGroup = this.fb.group({
     nombre: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
@@ -76,7 +76,7 @@ export class ProductosAdminComponent implements OnInit {
     ],
   });
 
-  public productFormEdit: FormGroup = this.fb.group({
+  public productFormEdit: UntypedFormGroup = this.fb.group({
     nombre: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
@@ -95,7 +95,7 @@ export class ProductosAdminComponent implements OnInit {
     ],
   });
 
-  public switchForm: FormGroup = this.fb.group({
+  public switchForm: UntypedFormGroup = this.fb.group({
     estado:[]
   })
   
@@ -109,7 +109,7 @@ export class ProductosAdminComponent implements OnInit {
     this.productosService.getData().subscribe((res: any) => {
       res.forEach((item) => {
         console.log(item);    
-         item.formcontrol = new FormControl(item.estado);
+         item.formcontrol = new UntypedFormControl(item.estado);
          this.switchForm.addControl(item.id, item.formcontrol)
        });
       this.rows = res;

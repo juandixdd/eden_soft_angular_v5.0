@@ -6,9 +6,9 @@ import { PermisosService } from "app/modules/services/permisos/permisos.service"
 import { RolesService } from "app/modules/services/roles/roles.service";
 import { of } from "rxjs";
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { RolPermisoService } from "app/modules/services/rol_permiso/rol-permiso.service";
@@ -38,10 +38,10 @@ export class RolesComponent implements OnInit {
     private permisosService: PermisosService,
     private rolesService: RolesService,
     private rol_permisoService: RolPermisoService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
-  public rolForm: FormGroup = this.fb.group({
+  public rolForm: UntypedFormGroup = this.fb.group({
     nombre: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
@@ -49,7 +49,7 @@ export class RolesComponent implements OnInit {
     categoria: [],
   });
 
-  public switchForm: FormGroup = this.fb.group({
+  public switchForm: UntypedFormGroup = this.fb.group({
     estado: [],
   });
 
@@ -77,7 +77,7 @@ export class RolesComponent implements OnInit {
   getRoles() {
     this.rolesService.getData().subscribe((res: any) => {
       res.forEach((item) => {
-        item.formcontrol = new FormControl(item.estado);
+        item.formcontrol = new UntypedFormControl(item.estado);
         this.switchForm.addControl(item.id, item.formcontrol);
       });
       this.rows = res;

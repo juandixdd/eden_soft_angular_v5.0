@@ -189,8 +189,6 @@ export class RolesComponent implements OnInit {
       estado: checked,
     };
 
-    let userRol = [];
-
     this.rolesService.getUserWithRol(row.id).subscribe(
       (res: any) => {
         if ((res.length > 0)) {

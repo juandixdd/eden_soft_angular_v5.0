@@ -201,3 +201,42 @@ body{
     display: none;
   }
 }
+
+.img-mine{
+  padding: 1rem;
+  z-index: 0;
+  transition: 1s;
+
+}
+
+.img-mine:hover{
+  scale: (1.1);
+  
+  transition: 2s;
+
+}
+.img-medal{
+  
+  width:100%;
+  left: 52%;
+  z-index: 1;
+  transition: 1s;
+  top: 40%;
+}
+.img-medal:hover{
+rotate: (50%);
+  
+}
+
+.text-mine{
+margin-top: 4rem;
+}
+
+.card-mine{
+  width: 25rem;
+  border-radius: 10px;
+  font-size: large;
+}
+.card-mine:hover{
+  scale: (1.1);
+}

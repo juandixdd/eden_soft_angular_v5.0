@@ -107,7 +107,7 @@ export class RegistrarUsuariosConDataComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.googleUser);
     this.setFormData();
-    
+
   }
 
   validField(field: string) {
@@ -120,7 +120,7 @@ export class RegistrarUsuariosConDataComponent implements OnInit {
       this.registerForm.controls['contrasena'].value !== '';
   }
 
-  setFormData(){
+  setFormData() {
     this.provider = this.googleUser.provider
     this.registerForm.controls['nombre'].setValue(this.googleUser.firstName);
     this.registerForm.controls['apellido'].setValue(this.googleUser.lastName);
@@ -135,7 +135,7 @@ export class RegistrarUsuariosConDataComponent implements OnInit {
     this.user.correo = this.registerForm.controls['correo'].value;
     this.user.contrasena = this.registerForm.controls['contrasena'].value;
     this.user.telefono = this.registerForm.controls['telefono'].value;
-    this.user.id_rol=3;
+    this.user.id_rol = 3;
 
     this.registerService.validateUserExists(this.user.correo).subscribe(
       (res: any) => {
@@ -158,6 +158,8 @@ export class RegistrarUsuariosConDataComponent implements OnInit {
                             timer: 1500
                           });
                           this.router.navigate(['/main/login']);
+                          this.googleUser = "";
+                          localStorage.removeItem("googleUser")
 
                         }
                       )
@@ -191,7 +193,19 @@ export class RegistrarUsuariosConDataComponent implements OnInit {
 
         }
       })
-    
+
+  }
+
+  reloadPage() {
+    setTimeout(() => {
+      this.router
+        .navigate(["main/login"])
+        .then(() => window.location.reload());
+    }, 500);
+  }
+
+  loginRedirect() {
+    this.reloadPage()
   }
 
 }

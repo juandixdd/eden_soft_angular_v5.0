@@ -30,4 +30,6 @@ export class UsuarioService {
   getDataByEmail(email: string) {
     return this.http.get(`${this.API_URL}/usuario/email/${email}`);
   }
+
+  
 }

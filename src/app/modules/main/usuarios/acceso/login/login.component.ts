@@ -93,15 +93,15 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.googleLogin();
   }
 
   googleLogin() {
+    
+    
     this.authGoogle.authState.subscribe((user) => {
+      
       this.googleUser = user;
-      this.loggedIn = (user != null)
-      console.log(this.googleUser);
 
       this.usuariosService.getDataByEmail(this.googleUser.email).subscribe(
         (res: any) => {
@@ -110,19 +110,22 @@ export class LoginComponent implements OnInit {
             console.log("No existe en base de datos");
             localStorage.setItem("googleUser", JSON.stringify(this.googleUser));
             this.router.navigate(['main/registro-usuario-data']);
+            this.googleUser = "";
           }
           else {
             console.log("Lo deja pasar");
             localStorage.setItem("token", this.googleUser.idToken)
             this.router.navigate(['main/home-page']);
             localStorage.setItem('userId', res[0].id_cliente_documento);
-
+            this.googleUser = "";
           }
 
         }
       )
 
     })
+
+    
 
   }
 

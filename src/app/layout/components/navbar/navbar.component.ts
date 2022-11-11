@@ -86,7 +86,8 @@ export class NavbarComponent implements OnInit {
     private _coreSidebarService: CoreSidebarService,
     private _mediaObserver: MediaObserver,
     public _translateService: TranslateService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router
   ) {
     // this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
 
@@ -170,13 +171,20 @@ export class NavbarComponent implements OnInit {
     this._router.navigate(['/main/profile']);
   }
 
+  reloadPage() {
+    setTimeout(() => {
+      this.router
+        .navigate([""])
+        .then(() => window.location.reload());
+    }, 500);
+  }
+
   /**
    * Logout method
    */
   logout() {
-
     localStorage.removeItem("token");
-    this._router.navigate(['']);
+    this.reloadPage();
   }
 
 

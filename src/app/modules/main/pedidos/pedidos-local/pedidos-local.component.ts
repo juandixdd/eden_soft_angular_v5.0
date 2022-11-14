@@ -89,14 +89,14 @@ export class PedidosLocalComponent implements OnInit {
         .subscribe((res: any) => {
           if (res.length === 0) {
             this.router.navigate([
-              "main/pedidos-locales/create-client",
+              "main/pedidos-local/create-client",
               this.clientCedulaInfo.cedula,
               0,
             ]);
             this.modalService.dismissAll();
           } else {
             this.router.navigate([
-              "main/pedidos-locales/create-client",
+              "main/pedidos-local/create-client",
               this.clientCedulaInfo.cedula,
               1,
             ]);
@@ -111,7 +111,7 @@ export class PedidosLocalComponent implements OnInit {
     console.log("Crear cliente informativo con cc: ", this.clientCedulaInfo);
     this.modalService.dismissAll();
     this.router.navigate([
-      "main/pedidos-locales/create-client",
+      "main/pedidos-local/create-client",
       this.clientCedulaInfo.cedula,
     ]);
   }

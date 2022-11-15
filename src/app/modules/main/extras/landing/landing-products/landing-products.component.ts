@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { DashboardService } from "app/modules/services/dashboard/dashboard.service";
 import { ProductosService } from "app/modules/services/productos/productos.service";
+import { table } from "console";
 
 @Component({
   selector: "app-landing-products",
@@ -10,6 +11,7 @@ import { ProductosService } from "app/modules/services/productos/productos.servi
 export class LandingProductsComponent implements OnInit {
   topVentas = [];
   topPedidos = [];
+  topPedidosLocales=[];
   totalesTop = [];
 
   constructor(
@@ -20,6 +22,7 @@ export class LandingProductsComponent implements OnInit {
   ngOnInit(): void {
     this.getTopVentas();
     this.getTopPedidos();
+    this.getTopPedidosLocales()
 
     setTimeout(() => {
       const buñuelos = this.topPedidos.filter(
@@ -33,14 +36,59 @@ export class LandingProductsComponent implements OnInit {
   getTopVentas() {
     this.dashboardService.getTopVentas().subscribe((res: any) => {
       this.topVentas = res;
-      console.table(this.topVentas);
+      console.log("VENTAS",this.topVentas);
     });
   }
 
   getTopPedidos() {
     this.dashboardService.getTopPedidos().subscribe((res: any) => {
       this.topPedidos = res;
-      console.table(this.topPedidos);
+      console.log("PEDIDOS",this.topPedidos);
     });
   }
+getTopPedidosLocales(){
+  this.dashboardService.getTopPedidosLocales().subscribe((res:any)=>{
+    this.topPedidosLocales=res
+    console.log("PEDIDOSLOCALES",this.topPedidosLocales);
+  })
 }
+  
+}
+
+
+//------ Logida del top 3 ------
+
+  // const ventasLocales = [
+  //     { id: 1, Nombre: "buñuelo", Ventas: 30 },
+  //     { id: 2, Nombre: "Empanada", Ventas: 23 },
+  // ]
+  
+  // const Pedidos = [
+  //     { id: 1, Nombre: "buñuelo", Ventas: 32 },
+  //     { id: 3, Nombre: "Leche", Ventas: 44 },
+  //     { id: 2, Nombre: "Empanada", Ventas: 50 }
+  // ]
+  
+  // const array = ventasLocales.concat(Pedidos);
+  
+  
+  // let top3 = array.reduce((acc,valorActual) => {
+  //     let siExiste = acc.find(elemento => elemento.id === valorActual.id
+  //     );
+  
+  //     //si hay objetos
+  //     if (siExiste) {
+  //         return acc.map(elemento => {
+  //             if (elemento.id === valorActual.id) {
+  //                 return {
+  //                     ...elemento,
+  //                     Ventas: elemento.Ventas + valorActual.Ventas,
+  //                 };
+  //             }
+  //             return elemento
+  //         });
+  //     }
+  //     return [...acc, valorActual];
+  // }, []);
+  
+  // console.log(top3);

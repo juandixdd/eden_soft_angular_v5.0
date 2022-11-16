@@ -13,6 +13,7 @@ export class LandingProductsComponent implements OnInit {
   topPedidos = [];
   topPedidosLocales=[];
   totalesTop = [];
+  top3=[];
 
   constructor(
     private productosService: ProductosService,
@@ -22,35 +23,60 @@ export class LandingProductsComponent implements OnInit {
   ngOnInit(): void {
     this.getTopVentas();
     this.getTopPedidos();
-    this.getTopPedidosLocales()
+    this.getTopPedidosLocales();
+    this.getTotalesTop();
 
-    setTimeout(() => {
-      const buñuelos = this.topPedidos.filter(
-        (pedido) => pedido.producto === "Buñuelos"
-      );
-
-      console.log(buñuelos);
-    }, 100);
+   
   }
 
   getTopVentas() {
     this.dashboardService.getTopVentas().subscribe((res: any) => {
       this.topVentas = res;
-      console.log("VENTAS",this.topVentas);
+      console.table(this.topVentas);
     });
   }
 
   getTopPedidos() {
     this.dashboardService.getTopPedidos().subscribe((res: any) => {
       this.topPedidos = res;
-      console.log("PEDIDOS",this.topPedidos);
+      console.table(this.topPedidos);
     });
   }
 getTopPedidosLocales(){
   this.dashboardService.getTopPedidosLocales().subscribe((res:any)=>{
     this.topPedidosLocales=res
-    console.log("PEDIDOSLOCALES",this.topPedidosLocales);
+    console.table(this.topPedidosLocales);
   })
+}
+
+getTotalesTop(){
+  setTimeout(() => {
+    this.totalesTop=this.totalesTop.concat(this.topPedidos,this.topPedidosLocales,this.topVentas);
+
+    console.table(this.totalesTop);
+
+  this.top3 = this.totalesTop.reduce((acc,valorActual) => {
+          let siExiste = acc.find(elemento => elemento.producto === valorActual.producto
+          );
+      
+          //si hay objetos
+          if (siExiste) {
+              return acc.map(elemento => {
+                  if (elemento.producto === valorActual.producto) {
+                      return {
+                          ...elemento,
+                          cantidad_ventas: elemento.cantidad_ventas + valorActual.cantidad_ventas,
+                      };
+                  }
+                  return elemento
+              });
+          }
+          return [...acc, valorActual];
+      }, []);
+      
+      console.table(this.top3);
+
+  }, 100);
 }
   
 }

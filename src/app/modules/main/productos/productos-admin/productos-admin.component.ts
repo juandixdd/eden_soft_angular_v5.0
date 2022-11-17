@@ -44,6 +44,7 @@ export class ProductosAdminComponent implements OnInit {
   productInfo = {};
   editProducto:any = {};
   nombreCategoria: any;
+  _filterRows: any = [];
 
   constructor(
     private modalService: NgbModal,
@@ -95,10 +96,21 @@ export class ProductosAdminComponent implements OnInit {
     ],
   });
 
+  //! ------------- SWITCH DE UN PRODUCTO ------------- 
   public switchForm: UntypedFormGroup = this.fb.group({
     estado:[]
   })
+
+    //! ------------- GET Y SET PARA EL BUSCADOR ------------- 
+    get filterRows(): any {
+      return this._filterRows;
+    }
   
+    set filterRows(value) {
+      this._filterRows = value;
+    }
+  
+  //! ------------- ESTA FUNCION ABRE LAS MODALES ------------- 
   modalOpen(modal) { //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {
       centered: true,
@@ -113,6 +125,7 @@ export class ProductosAdminComponent implements OnInit {
          this.switchForm.addControl(item.id, item.formcontrol)
        });
       this.rows = res;
+      this.filterRows = res;
       console.log(this.rows);
     });
   }
@@ -125,8 +138,6 @@ export class ProductosAdminComponent implements OnInit {
     });
   }
 
-  
-  
   defineProductInfo(id) {
     this.productosService.getDataById(id).subscribe(
       (res:any)=>{
@@ -135,6 +146,7 @@ export class ProductosAdminComponent implements OnInit {
     )
   }
 
+   //! ------------- CREAR UN PRODUCTO ------------- 
   createProduct() {
     this.product = {
       nombre: this.productForm.value.nombre,
@@ -204,6 +216,7 @@ export class ProductosAdminComponent implements OnInit {
     console.log(this.categoryId);
   }
 
+  //! ------------- EDITAR UN PRODUCTO ------------- 
   updateData() {
     try {
       let edit = {
@@ -249,7 +262,7 @@ export class ProductosAdminComponent implements OnInit {
 
   }
 
-
+//! ------------- ELIMINAR UN PRODUCTO ------------- 
   deleteProducto(id) {
     Swal.fire({
       title: '¿Estas seguro?',
@@ -348,6 +361,26 @@ export class ProductosAdminComponent implements OnInit {
       })
     },100)
   }
+
+//! ------------- BUSCADOR DE PRODUCTOS ------------- 
+filterUpdate(event) {
+  const val = event.target.value.toLowerCase();
+
+  const filterData = this.rows.filter((item: any) => {
+    const filterData =
+    item.id.toString().toLowerCase().includes(val) ||
+    item.nombre.toString().toLowerCase().includes(val) ||
+    item.precio.toString().toLowerCase().includes(val); ; 
+    return filterData;
+  });
+
+  // update the rows
+  this.filterRows = filterData;
+
+  console.log(filterData);
+}
+
+  //! ------------- VALIDACIONES DE CAMPOS Y DE BOTONOS ------------- 
   validField(field: string) {
     return (
       this.productForm.controls[field].errors &&

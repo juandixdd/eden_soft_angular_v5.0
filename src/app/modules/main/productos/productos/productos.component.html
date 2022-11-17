@@ -19,6 +19,7 @@
 <!-- ?Productos -->
 
 
+
 <div style="margin-top: 10rem">
   <div class="container-custom">
     <div class="row justify-content-center text-center">
@@ -28,6 +29,22 @@
         </div>
       </div>
     </div>
+
+    <div class="col-md-6 col-12 d-flex justify-content-md-end">
+      <div
+        class="d-flex align-items-center justify-content-md-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0"
+      >
+        <!-- ?Buscador -->
+        <label class="d-flex align-items-center"
+          ><input
+            type="search"
+            placeholder="Buscar"
+            class="form-control ml-25"
+            
+        /></label>
+      </div>
+    </div>
+
     <div class="row justify-content-center">
       <div class="col-md-3" *ngFor="let product of products">
         <div class="card" style="border-radius: 15px">

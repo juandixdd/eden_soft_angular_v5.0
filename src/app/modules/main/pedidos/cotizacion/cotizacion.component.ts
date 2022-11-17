@@ -70,7 +70,7 @@ export class CotizacionComponent implements OnInit {
   public switchForm: UntypedFormGroup = this.fb.group({
     estado:[]
   })
-  ngOnInit(): void {
+  ngOnInit(): void {  
     this.getCategorias();
     this.getCotizaciones();
     

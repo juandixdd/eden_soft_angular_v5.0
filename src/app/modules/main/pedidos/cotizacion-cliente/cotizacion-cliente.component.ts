@@ -94,16 +94,6 @@ export class CotizacionClienteComponent implements OnInit {
     this.categoriasService.getData().subscribe((res: any) => {
       this.selectBasic = of(res).pipe();
       console.log(this.selectBasic);
-
-      /*
-
-        for (let i in this.selectBasic) {
-          console.log(this.selectBasic[i].nombre);
-          this.options.push(this.selectBasic[i].nombre);
-        }
-
-        console.log(this.options)
-        */
     });
   }
 
@@ -165,7 +155,7 @@ export class CotizacionClienteComponent implements OnInit {
     this.pedidosService.getCotizacionesByIdInfo(id).subscribe(
       (res:any) =>{
         this.cotizacionInfoUsuario = res[0];
-        console.log(this.cotizacionInfoUsuario, "xddddd")
+        console.log(this.cotizacionInfoUsuario)
       }
     )
   }

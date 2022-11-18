@@ -113,27 +113,7 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <!-- Column 
-          <ngx-datatable-column name="cambiar estado" prop="estado" [width]="15">
-            <ng-template let-row="row" let-id="value" ngx-datatable-cell-template>
-              <form [formGroup]="switchForm">
-                <div class="custom-control custom-switch custom-control-inline">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    [id]="row.id_pedido"
-                    (change)="switchEvent($event, row)"
-                    [formControl]="row.formcontrol"
-                  />
-                  <label
-                    class="custom-control-label"
-                    [for]="row.id_pedido"
-                  ></label>
-                </div>
-              </form>
-            </ng-template>
-          </ngx-datatable-column> -->
-
+          <!-- Column -->
           <ngx-datatable-column name="Acciones" [width]="20">
             <ng-template ngx-datatable-cell-template let-row="row">
               <div class="d-flex justify-content-start">
@@ -156,74 +136,7 @@
 
 <!-- *************************************************** MODALES *************************************************** -->
 
-<!-- ! Modal de agregar -->
-<div>
-  <!-- Login Form -->
-  <div class="login-form">
-    <!-- Modal -->
-    <ng-template #modalForm let-modal>
-      <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel1">Agregar</h4>
-        <button
-          type="button"
-          class="close"
-          (click)="modal.dismiss('Cross click')"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" tabindex="0" ngbAutofocus>
-        <form [formGroup]="productForm">
-          <div class="form-group">
-            <label for="first-name-column">Nombre producto</label>
-            <input
-              formControlName="nombre"
-              type="text"
-              placeholder="Nombre"
-              class="form-control"
-            />
 
-            <label for="first-name-column">Precio</label>
-            <input
-              formControlName="precio"
-              type="number"
-              placeholder="Precio"
-              class="form-control"
-            />
-
-            <label>Categoría </label>
-            <div class="form-group">
-              <ng-select
-                [items]="selectBasic | async"
-                bindLabel="nombre"
-                formControlName="categoria"
-                [ngModel]="selectBasic | async"
-                placeholder="Seleccione una agencia"
-                (change)="onChange($event)"
-              >
-              </ng-select>
-            </div>
-
-            <label for="first-name-column">Imagen</label>
-            <input
-              formControlName="imagen"
-              type="text"
-              placeholder="imagen"
-              class="form-control"
-            />
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="createProduct()">
-          Crear
-        </button>
-      </div>
-    </ng-template>
-    <!-- / Modal -->
-  </div>
-</div>
 
 <!-- ! Modal de info -->
 <div>
@@ -308,84 +221,6 @@
       >
         Ok
       </button>
-    </div>
-  </ng-template>
-  <!-- / Modal -->
-</div>
-
-<!-- ! Modal de editar -->
-
-<div class="login-form">
-  <!-- Modal -->
-  <ng-template #modalEdit let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="myModalLabel1">Editar</h4>
-      <button
-        type="button"
-        class="close"
-        (click)="modal.dismiss('Cross click')"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" tabindex="0" ngbAutofocus>
-      <form [formGroup]="productForm">
-        <div class="form-group">
-          <div class="col-md-10">
-            <label for="first-name-column">Nombre producto</label>
-            <input
-              type="text"
-              id="first-name-column"
-              class="form-control"
-              name="fname-column"
-            />
-
-            <label for="first-name-column">Precio</label>
-            <input
-              type="text"
-              id="first-name-column"
-              class="form-control"
-              name="fname-column"
-            />
-          </div>
-
-          <div class="">
-            <div class="col-md-10">
-              <label>Seleccionar categoria</label>
-              <div class="form-group">
-                <ng-select [items]="selectBasic" bindLabel="name"> </ng-select>
-              </div>
-            </div>
-          </div>
-          <div class="">
-            <div class="col-md-5">
-              <label for="first-name-column">Ingrese stock</label>
-              <input
-                type="text"
-                id="first-name-column"
-                class="form-control"
-                name="fname-column"
-              />
-            </div>
-            <div class="col-md-4">
-              <label for="first-name-column">Cargar imagen</label>
-              <button class="btn btn-primary">
-                <i class="feather icon-share"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <div class="col-12">
-        <div class="row justify-content-end">
-          <button type="submit" rippleEffect class="btn btn-primary">
-            Editar
-          </button>
-        </div>
-      </div>
     </div>
   </ng-template>
   <!-- / Modal -->

@@ -21,6 +21,7 @@ export class ClienteComponent implements OnInit {
   rows: any = []
   cliente: any = {};
   idEdit: any;
+  _filterRows: any = [];
 
   constructor(
     private modalService: NgbModal,
@@ -77,6 +78,14 @@ export class ClienteComponent implements OnInit {
     this.getClientes();
   }
 
+   //! ------------- GET Y SET PARA EL BUSCADOR ------------- 
+   get filterRows(): any {
+    return this._filterRows;
+  }
+
+  set filterRows(value) {
+    this._filterRows = value;
+  }
 
   modalOpen(modal) {
     this.modalService.open(modal, {
@@ -89,7 +98,7 @@ export class ClienteComponent implements OnInit {
       (res: any) => {
         this.rows = res;
         console.log(res);
-
+        this.filterRows = res;
       }
     )
   }
@@ -107,8 +116,8 @@ export class ClienteComponent implements OnInit {
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "Producto creado",
-          text: "El producto se ha creado correctamente",
+          title: "Cliente creado",
+          text: "El cliente se ha creado correctamente",
           showConfirmButton: false,
           timer: 1000,
         });
@@ -165,7 +174,40 @@ export class ClienteComponent implements OnInit {
     )
   }
 
+  //! ------------- BUSCADOR DE CATEGORIA ------------- 
+filterUpdate(event) {
+  const val = event.target.value.toLowerCase();
 
+  const filterData = this.rows.filter((item: any) => {
+    const filterData =
+    item.id_cliente_documento.toString().toLowerCase().includes(val) ||
+    item.nombre.toString().toLowerCase().includes(val) ||
+    item.apellido.toString().toLowerCase().includes(val) ||
+    item.telefono.toString().toLowerCase().includes(val); ; 
+    return filterData;
+  });
+
+  // update the rows
+  this.filterRows = filterData;
+
+  console.log(filterData);
+}
+
+//! ------------- VALIDACIONES DE CAMPOS Y BOTONES------------- 
+
+validField(field: string) {
+  return (
+    this.clienteForm.controls[field].errors &&
+    this.clienteForm.controls[field].touched
+  );
+}
+
+editValidField(field: string) {
+  return (
+    this.clienteFormEdit.controls[field].errors &&
+    this.clienteFormEdit.controls[field].touched
+  );
+}
 
 
 }

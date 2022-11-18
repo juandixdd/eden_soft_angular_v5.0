@@ -24,6 +24,7 @@ export class CategoriasComponent implements OnInit {
   rows: any = [];
   category: any = {};
   idEdit: any;
+  _filterRows: any = [];
 
   constructor(
     private modalService: NgbModal,
@@ -38,6 +39,7 @@ export class CategoriasComponent implements OnInit {
     ]
   })
 
+  
   public categoriasFormEdit: UntypedFormGroup = this.fb.group({
     nombre: [
       "",
@@ -45,6 +47,7 @@ export class CategoriasComponent implements OnInit {
     ]
   })
 
+   //! ------------- SWITCH DE UNA CATEGORIA ------------- 
   public switchForm: UntypedFormGroup = this.fb.group({
     estado:[]
   })
@@ -53,7 +56,17 @@ export class CategoriasComponent implements OnInit {
     this.getCategorias();
   }
 
-  modalOpen(modal) { //? Esta es la funcion que abre las modales.
+  //! ------------- GET Y SET PARA EL BUSCADOR ------------- 
+  get filterRows(): any {
+    return this._filterRows;
+  }
+
+  set filterRows(value) {
+    this._filterRows = value;
+  }
+
+ //! ------------- ESTA FUNCION ABRE LAS MODALES ------------- 
+  modalOpen(modal) { 
     this.modalService.open(modal, {
       centered: true,
     });
@@ -67,8 +80,10 @@ export class CategoriasComponent implements OnInit {
            this.switchForm.addControl(item.id, item.formcontrol)
          });
         this.rows = res;
+        this.filterRows = res;
       });
   }
+    //! ------------- CREAR UNA CATEGORIA ------------- 
 
   createCategoria() {
     this.category = {
@@ -81,8 +96,8 @@ export class CategoriasComponent implements OnInit {
         Swal.fire({
           position: 'top-end',
           icon: 'success',
-          title: 'Producto creado',
-          text: 'El producto se ha creado correctamente',
+          title: 'Categoría creada',
+          text: 'La categoría se ha creado correctamente',
           showConfirmButton: false,
           timer: 1000
         })
@@ -108,6 +123,8 @@ export class CategoriasComponent implements OnInit {
     this.idEdit = row.id
   }
 
+ //! ------------- EDITAR UNA CATEGORIA ------------- 
+
   updateCategoria() {
     let newCategoria = {
       nombre: this.categoriasFormEdit.value.nombre,
@@ -130,6 +147,8 @@ export class CategoriasComponent implements OnInit {
     )
   }
 
+   //! ------------- ELIMINAR UNA CATEGORIA ------------- 
+
   deleteCategoria(id) {
     Swal.fire({
       title: '¿Estas seguro?',
@@ -151,7 +170,7 @@ export class CategoriasComponent implements OnInit {
             Swal.fire({
               position: 'top-end',
               icon: 'success',
-              title: 'Permiso eliminado con exito',
+              title: 'Categoría eliminada con exito',
               showConfirmButton: false,
               timer: 1000
             });
@@ -161,56 +180,7 @@ export class CategoriasComponent implements OnInit {
     })
   }
 
-  statusAlert() { //? Esta es la funcion que abre el sweetAlert de confirmacion.
-    Swal.fire({
-      title: '¿Estas seguro?',
-      text: "Desactivaras esta categoria.",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, desactivar!',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-        Swal.fire(
-          'Desactivado!',
-          'Esta categoria ha sido desactivado.',
-          'success'
-        )
-      }
-    })
-  }
-
-  confirmAlert() { //? Esta es la funcion que abre el sweetAlert de confirmacion.
-    Swal.fire({
-      title: '¿Estas seguro?',
-      text: "No podras revertir esto!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar!',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-        Swal.fire(
-          'Eliminada!',
-          'El cliente ha sido eliminada.',
-          'success'
-        )
-      }
-    })
-  }
-
-  filterUpdate(event) { //? Buscador, no le pare bolas.
-    const val = event.target.value.toLowerCase();
-
-    const temp = this.tempData.filter(function (d) {
-      return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-    this.kitchenSinkRows = temp;
-  }
+   //! ------------- CAMBIAR ESTADO DE UNA CATEGORIA ------------- 
 
   switchEvent({target}, row){
     let checked = target.checked;
@@ -221,7 +191,7 @@ export class CategoriasComponent implements OnInit {
     setTimeout(()=>{
       Swal.fire({
         title: '¿Estas seguro?',
-        text: "Cambiarás el estado de esta categoria",
+        text: "Cambiarás el estado de esta categoría",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -236,7 +206,7 @@ export class CategoriasComponent implements OnInit {
                 Swal.fire({
                   position: 'top-end',
                   icon: 'success',
-                  title: 'Se cambio el estado de la categoria',
+                  title: 'Se cambio el estado de la categoría',
                   showConfirmButton: false,
                   timer: 1000
                 })
@@ -251,7 +221,7 @@ export class CategoriasComponent implements OnInit {
           Swal.fire({
             position: 'top-end',
             icon: 'warning',
-            title: 'No se cambió el estado de la categoria',
+            title: 'No se cambió el estado de la categoría',
             showConfirmButton: false,
             timer: 1000
           })
@@ -259,6 +229,25 @@ export class CategoriasComponent implements OnInit {
       })
     },100)
   }
+
+//! ------------- BUSCADOR DE CATEGORIA ------------- 
+filterUpdate(event) {
+  const val = event.target.value.toLowerCase();
+
+  const filterData = this.rows.filter((item: any) => {
+    const filterData =
+    item.id.toString().toLowerCase().includes(val) ||
+    item.nombre.toString().toLowerCase().includes(val); ; 
+    return filterData;
+  });
+
+  // update the rows
+  this.filterRows = filterData;
+
+  console.log(filterData);
+}
+
+//! ------------- VALIDACIONES DE CAMPOS Y BOTONES------------- 
 
   validField(field: string) {
     return (

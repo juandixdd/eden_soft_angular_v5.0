@@ -35,6 +35,7 @@
                   type="search"
                   placeholder="Buscar"
                   class="form-control ml-25"
+                  (keyup)="filterUpdate($event)"
               /></label>
 
               <!-- ? Botón de crear -->
@@ -50,7 +51,7 @@
         </div>
         <!--? Aquí empieza la tabla -->
         <ngx-datatable
-          [rows]="rows"
+          [rows]="_filterRows"
           [rowHeight]="50"
           class="bootstrap core-bootstrap"
           [limit]="selectedOption"
@@ -140,7 +141,10 @@
                   id="first-name-column"
                   class="form-control"
                   formControlName="nombre"
-                />                
+                />  
+                <span class="text-danger" *ngIf="validField('nombre')"
+                >Este campo es requerido</span
+              >              
               </div>
             </div>
             <div class="col-md-6 col-12">
@@ -152,6 +156,9 @@
                   class="form-control"
                   formControlName="apellido"
                 />
+                <span class="text-danger" *ngIf="validField('apellido')"
+                >Este campo es requerido</span
+              >
               </div>
             </div>
             <div class="col-md-6 col-12">
@@ -164,6 +171,9 @@
                   formControlName="id_cliente_documento"
                   [ngClass]="cedula"
                 />
+                <span class="text-danger" *ngIf="validField('id_cliente_documento')"
+                >Este campo es requerido</span
+              >
               </div>
             </div>
             <div class="col-md-6 col-12">
@@ -175,6 +185,9 @@
                   class="form-control"
                   formControlName="telefono"
                 />
+                <span class="text-danger" *ngIf="validField('telefono')"
+                >Este campo es requerido</span
+              >
               </div>
             </div>
           </div>
@@ -184,15 +197,11 @@
         <div class="col-12">
           <div class="row justify-content-end">
             <button
-              type="reset"
+              type="submit"
               rippleEffect
-              class="btn btn-outline-secondary mr-1"
-            >
-              Reset
-            </button>
-            <button 
-            type="button" 
-            class="btn btn-primary" (click)="createCliente()"
+              class="btn btn-primary"
+              (click)="createCliente()"
+              [disabled]="!clienteForm.valid"
             >
               Crear
             </button>
@@ -231,7 +240,7 @@
                 id="first-name-column"
                 class="form-control"
                 formControlName="nombre"
-              />                
+              />               
             </div>
           </div>
           <div class="col-md-6 col-12">

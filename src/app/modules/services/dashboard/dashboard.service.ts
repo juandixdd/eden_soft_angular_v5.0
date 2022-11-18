@@ -19,4 +19,8 @@ export class DashboardService {
   getTopPedidos() {
     return this.http.get(`${this.API_URL}/top-productos-pedidos`);
   }
+
+  getTopPedidosLocales(){
+    return this.http.get(`${this.API_URL}/top-productos-pedidos-locales`)
+  }
 }

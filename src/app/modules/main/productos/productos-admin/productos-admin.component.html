@@ -35,6 +35,7 @@
                   type="search"
                   placeholder="Buscar"
                   class="form-control ml-25"
+                  (keyup)="filterUpdate($event)"
               /></label>
 
               <!-- ? Botón de crear -->
@@ -50,7 +51,7 @@
         </div>
         <!--? Aquí empieza la tabla -->
         <ngx-datatable
-          [rows]="rows"
+          [rows]="_filterRows"
           [rowHeight]="50"
           class="bootstrap core-bootstrap"
           [limit]="selectedOption"
@@ -81,7 +82,7 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="categoria" prop="nombre" [width]="20">
+          <ngx-datatable-column name="categoria" prop="nombre_categoria" [width]="20">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id }}</p>
             </ng-template>
@@ -209,7 +210,7 @@
                   [items]="selectBasic | async"
                   bindLabel="nombre"
                   formControlName="id"
-                  [ngModel]="nombreCategoria"
+                  [ngModel]="nombre_categoria"
                   placeholder="Seleccione una Categoria"
                   (change)="onChange($event)"
                 >
@@ -272,7 +273,7 @@
       <div class="p-2">
         <h3 class="mb-1 text-primary">{{ productInfo.nombre }}</h3>
         <p class="ml-1"><b>Precio: </b>${{ productInfo.precio }}</p>
-        <p class="ml-1"><b>Categoría: </b>{{ productInfo.nombre }}</p>
+        <p class="ml-1"><b>Categoría: </b>{{ productInfo.nombre_categoria }}</p>
         <p class="ml-1">
           <b>Estado: </b>{{ productInfo.estado == 1 ? "Activo" : "Inactivo" }}
         </p>
@@ -331,7 +332,7 @@
                   [items]="selectBasic | async"
                   bindLabel="nombre"
                   formControlName="id"
-                  [ngModel]="selectBasic | async"
+                  [ngModel]="nombre_categoria"
                   placeholder="Seleccione una Categoria "
                   (change)="onChange($event)"
                 >

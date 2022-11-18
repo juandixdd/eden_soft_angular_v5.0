@@ -15,17 +15,11 @@ export class PagoComponent implements OnInit {
   newItems: any;
   precioTotal: any = 0;
 
-
-
   constructor(
     private pedidosService: PedidosService,
     private fb: UntypedFormBuilder,
 
   ) { }
-
-
-
-
 
   ngOnInit(): void {
     this.calcularPrecioUnitario();
@@ -122,7 +116,7 @@ export class PagoComponent implements OnInit {
 
   }
 
-
+  
   dateEvent({ target }) {
     console.log(target);
 

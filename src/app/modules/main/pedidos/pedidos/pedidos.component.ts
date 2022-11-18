@@ -43,6 +43,7 @@ export class PedidosComponent implements OnInit {
   clientData: any = {};
   todayDate = moment().format("YYYY-MM-DD");
   public dateValidator: boolean = true;
+  _filterRows: any;
 
   constructor(
     private modalService: NgbModal,
@@ -83,6 +84,14 @@ export class PedidosComponent implements OnInit {
     console.log(this.todayDate);
   }
 
+  get filterRows(): any {
+    return this._filterRows;
+  }
+
+  set filterRows(value) {
+    this._filterRows = value;
+  }
+
   getPedidos() {
     this.pedidosService.getData().subscribe((res: any) => {
       res.forEach((item) => {
@@ -92,7 +101,7 @@ export class PedidosComponent implements OnInit {
         this.switchForm.addControl(item.id_pedido, item.formcontrol);
       });
       this.rows = res;
-      console.log(this.rows);
+      this._filterRows = res;
     });
   }
 
@@ -129,6 +138,27 @@ export class PedidosComponent implements OnInit {
     this.categoryId = event.id;
     console.log(this.categoryId);
   }
+
+  //! ------------- buscador de pedidos ------------- 
+  filterUpdate(event) {
+    const val = event.target.value.toLowerCase();
+  
+    const filterData = this.rows.filter((item: any) => {
+      const filterData =
+      item.id_pedido.toString().toLowerCase().includes(val) ||
+      item.nombre.toString().toLowerCase().includes(val) || 
+      item.precio_total.toString().toLowerCase().includes(val) ||
+      item.fecha_entrega.toLowerCase().includes(val) ||
+      item.fecha_registro.toLowerCase().includes(val); ; 
+      return filterData;
+    });
+
+    // update the rows
+    this.filterRows = filterData;
+  
+    console.log(filterData);
+  }
+
 
   defineProductInfo(id) {
     this.productosService.getDataById(id).subscribe((res: any) => {

@@ -179,6 +179,7 @@ export class ListaUsuariosComponent implements OnInit {
     };
   }
 
+  //Cambiar de estado de un usuario- validaciones para verificar si tiene pedidos, ventas... etc activos 
   switchEvent({ target }, row: any) {
     let checked = target.checked;
     let status = {

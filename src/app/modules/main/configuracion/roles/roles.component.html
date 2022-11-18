@@ -169,7 +169,7 @@
                 />
               </div>
 
-              <label>Categoría </label>
+              <label>Permisos</label>
               <div class="form-group">
                 <ng-select
                   [items]="selectBasic | async"
@@ -180,7 +180,7 @@
                   groupBy="modulo"
                   [ngModel]="selectBasic | async"
                   [(ngModel)]="selectMultiSelected"
-                  placeholder="Seleccione una categoría"
+                  placeholder="Seleccione los Permisos"
                   (change)="onChange($event)"
                 >
                 </ng-select>

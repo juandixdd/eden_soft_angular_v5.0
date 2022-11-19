@@ -113,7 +113,7 @@
                   *ngIf="row.estado === 1"
                   type="button"
                   class="btn btn-success btn-sm"
-                  (click)="modalOpen(pedidoModal); getCotizacionesById(row.id_pedido)"
+                  (click)="modalOpen(pedidoModal); getCotizacionesById(row.id_pedido); newIdPedido=row.id_pedido"
                 >
                   Hacer pedido
                 </button>
@@ -152,7 +152,7 @@
         </div>
         <div class="row m-1">
           <span class="text-primary"><b>Documento:&nbsp;</b></span>
-          {{ cotizacionInfoUsuario.id_usuario_documento }}
+          {{ cotizacionInfoUsuario.id_cliente_documento }}
         </div>
         <div class="row m-1">
           <span class="text-primary"><b>Fecha de registro:&nbsp;</b></span>
@@ -359,7 +359,7 @@
       <button
         [disabled]="!pagoForm.valid"
         class="btn btn-primary btn-block mt-2"
-        (click)="generarPedido()"
+        (click)="generarPedido(); "
       >
         Pagar
       </button>

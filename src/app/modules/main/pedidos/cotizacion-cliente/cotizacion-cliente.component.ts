@@ -9,6 +9,7 @@ import { ColumnMode } from "@swimlane/ngx-datatable";
 import { CategoriaService } from "app/modules/services/categoria/categoria.service";
 import { PedidosService } from "app/modules/services/pedidos/pedidos.service";
 import { ProductosService } from "app/modules/services/productos/productos.service";
+import { userInfo } from "os";
 import { of } from "rxjs";
 import Swal from "sweetalert2";
 
@@ -42,6 +43,9 @@ export class CotizacionClienteComponent implements OnInit {
   estado: any;
   _filterRows: any;
   contPrecioTotal: any;
+  basicDPdata: any;
+  newItems: any;
+  newIdPedido: any;
 
   constructor(
     private modalService: NgbModal,
@@ -134,7 +138,33 @@ export class CotizacionClienteComponent implements OnInit {
   }
 
   generarPedido(){
-    console.log("HOLIIIIIIIIIIIIIIIII")
+    try{
+      let pedido ={
+        tipo: "pedido",
+        fecha_entrega: this.basicDPdata.year + "-" + this.basicDPdata.month + "-" + this.basicDPdata.day.toString() 
+      }
+      this.pedidosService.generarPedido(this.newIdPedido,pedido).subscribe(
+        (res: any) =>{
+          if(res.status === 200){
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Se anulo la cotización",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+            this.modalService.dismissAll();
+            this.getCategorias();
+            this.getCotizacionesByUserId(this.idUser);
+          }
+          
+        }
+      )
+      
+    }catch (error) {
+      console.log(error);
+
+    } 
   }
 
   getCotizacionesById(id) {

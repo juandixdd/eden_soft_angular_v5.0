@@ -67,5 +67,10 @@ export class PedidosService {
     //? anular cotizaciones 
   }
 
+  generarPedido(id, body){
+    return this.http.put(`${this.API_URL}/cotizacion/hacer_pedido/${id}`, body);
+    //? hacer pedido en mis cotizaciones 
+  }
+
 }
 

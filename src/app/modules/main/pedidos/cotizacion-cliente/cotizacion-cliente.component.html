@@ -109,7 +109,14 @@
                 >
                   <i class="feather icon-x-circle text-danger"></i>
                 </button>
-                <button type="button" class="btn btn-success btn-sm">Hacer pedido</button>
+                <button
+                  *ngIf="row.estado === 1"
+                  type="button"
+                  class="btn btn-success btn-sm"
+                  (click)="modalOpen(pedidoModal)"
+                >
+                  Hacer pedido
+                </button>
               </div>
             </ng-template>
           </ngx-datatable-column>
@@ -250,6 +257,112 @@
           </button>
         </div>
       </div>
+    </div>
+  </ng-template>
+  <!-- / Modal -->
+</div>
+
+<!-- ! Modal de hacer pedido -->
+<div>
+  <ng-template #pedidoModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title text-primary">Hacer pedido</h5>
+      <button
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <!-- ?Body de la modal -->
+    <div class="card-body">
+
+      <form [formGroup]="pagoForm">
+        <div class="form-group">
+          <label class="text-primary">Fecha de Entrega</label>
+          <div class="input-group mb-1">
+            <input
+              formControlName="fecha_pago"
+              class="form-control"
+              placeholder="yyyy-mm-dd"
+              name="Basic Date Picker"
+              [(ngModel)]="basicDPdata"
+              ngbDatepicker
+              #basicDP="ngbDatepicker"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary feather icon-calendar"
+                (click)="basicDP.toggle(); dateEvent($event)"
+                type="button"
+                rippleEffect
+              ></button>
+            </div>
+            <span *ngIf="validField('fecha_pago')" class="text-danger"
+              >este campo es requerido</span
+            >
+          </div>
+
+          <label class="text-primary">Métodos de pago</label>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="flexRadioDefault1"
+            />
+            <label class="form-check-label" for="flexRadioDefault1">
+              <i class="fa fa-mobile-screen-button"></i>
+              Nequi
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="flexRadioDefault2"
+              checked
+            />
+            <label class="form-check-label" for="flexRadioDefault2">
+              <i class="fa fa-money-bill-transfer"></i>
+              Transferencia PSE
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="flexRadioDefault3"
+              checked
+            />
+            <label class="form-check-label" for="flexRadioDefault3">
+              <i class="fa fa-credit-card"></i>
+              Tarjeta de Credito
+            </label>
+          </div>
+        </div>
+      </form>
+      <hr />
+      <div class="row justify-content-end">
+        <div class="col-auto">
+          <h3>
+            <span class="text-primary"> Precio Total: </span>
+            {{ contPrecioTotal | currency: "USD":"symbol":"3.0" }}
+          </h3>
+        </div>
+      </div>
+      <button
+        [disabled]="!pagoForm.valid"
+        class="btn btn-primary btn-block mt-2"
+        (click)="generarPedido()"
+      >
+        Pagar
+      </button>
     </div>
   </ng-template>
   <!-- / Modal -->

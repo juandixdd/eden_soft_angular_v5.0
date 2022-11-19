@@ -1,21 +1,24 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ColumnMode } from '@swimlane/ngx-datatable';
-import { CategoriaService } from 'app/modules/services/categoria/categoria.service';
-import { PedidosService } from 'app/modules/services/pedidos/pedidos.service';
-import { ProductosService } from 'app/modules/services/productos/productos.service';
-import { of } from 'rxjs';
-import Swal from 'sweetalert2';
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ColumnMode } from "@swimlane/ngx-datatable";
+import { CategoriaService } from "app/modules/services/categoria/categoria.service";
+import { PedidosService } from "app/modules/services/pedidos/pedidos.service";
+import { ProductosService } from "app/modules/services/productos/productos.service";
+import { of } from "rxjs";
+import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-cotizacion-cliente',
-  templateUrl: './cotizacion-cliente.component.html',
-  styleUrls: ['./cotizacion-cliente.component.scss'],
+  selector: "app-cotizacion-cliente",
+  templateUrl: "./cotizacion-cliente.component.html",
+  styleUrls: ["./cotizacion-cliente.component.scss"],
   encapsulation: ViewEncapsulation.None,
 })
 export class CotizacionClienteComponent implements OnInit {
-
   public selectedOption = 10; //? Este es el selector de cuantas filas quieres ver en la tabla, en este caso, 10.
   public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
   private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
@@ -34,8 +37,8 @@ export class CotizacionClienteComponent implements OnInit {
   detallesData: any = [];
   cotizaciones: any;
   cotizacionInfoUsuario: any;
-  idUser = localStorage.getItem("userId")
-  idPedido : any;
+  idUser = localStorage.getItem("userId");
+  idPedido: any;
   estado: any;
   _filterRows: any;
 
@@ -45,19 +48,26 @@ export class CotizacionClienteComponent implements OnInit {
     private categoriasService: CategoriaService,
     private pedidosService: PedidosService,
     private fb: UntypedFormBuilder
-  ) { }
+  ) {}
   public anularForm: UntypedFormGroup = this.fb.group({
-    estado: [
-      "",
-      [],
-    ],
-    
+    estado: ["", []],
   });
 
   ngOnInit(): void {
     this.getCategorias();
-    this.getCotizacionesByUserId(this.idUser)
+    this.getCotizacionesByUserId(this.idUser);
   }
+
+  //? formulario
+  public pagoForm: UntypedFormGroup = this.fb.group({
+    fecha_pago: ["", [Validators.required]],
+  });
+
+  public item = {
+    itemName: "",
+    itemQuantity: "",
+    itemCost: "",
+  };
 
   //? Get y Set para el buscador
   get filterRows(): any {
@@ -82,7 +92,6 @@ export class CotizacionClienteComponent implements OnInit {
     });
   }
 
-
   onChange(event) {
     this.categoryId = event.id;
     console.log(this.categoryId);
@@ -100,71 +109,59 @@ export class CotizacionClienteComponent implements OnInit {
   productInfo = {};
 
   defineProductInfo(id) {
-    this.productosService.getDataById(id).subscribe(
-      (res:any)=>{
-        this.productInfo=res[0]
-      }
-    )
+    this.productosService.getDataById(id).subscribe((res: any) => {
+      this.productInfo = res[0];
+    });
   }
 
-  cambiarEstado(){
-    this.estado = this.anularForm.value
-    console.log(this.estado)
-    
+  cambiarEstado() {
+    this.estado = this.anularForm.value;
+    console.log(this.estado);
   }
 
-  idFunction(id){
-    this.idPedido = id
+  idFunction(id) {
+    this.idPedido = id;
   }
 
-  getCotizaciones(){
-    this.pedidosService.getCotizaciones().subscribe(
-      (res: any) =>{
-        this.rows = res
-      }
-    )
-  
+  getCotizaciones() {
+    this.pedidosService.getCotizaciones().subscribe((res: any) => {
+      this.rows = res;
+    });
   }
 
-  getCotizacionesByUserId(id){
-    this.pedidosService.getCotizacionesByUserId(id).subscribe(
-      (res: any) =>{
-        this.rows = res
-        console.log(this.rows)
-        this.estado = true;
-        this._filterRows = res;
-      }
-    )
+  getCotizacionesByUserId(id) {
+    this.pedidosService.getCotizacionesByUserId(id).subscribe((res: any) => {
+      this.rows = res;
+      console.log(this.rows);
+      this.estado = true;
+      this._filterRows = res;
+    });
   }
-  
+
   contPrecioTotal: any = 0;
 
-  getCotizacionesById(id){
-    console.log(id)
+  getCotizacionesById(id) {
+    console.log(id);
     //? trae las cotizaciones con los productos
-    this.pedidosService.getCotizacionesById(id).subscribe(
-      (res:any) =>{
-        this.detallesData = res
-        console.log(this.detallesData)
-        if (this.detallesData.length > 0){
-          this.contPrecioTotal = this.detallesData[0].precio_total
-        }
+    this.pedidosService.getCotizacionesById(id).subscribe((res: any) => {
+      this.detallesData = res;
+      console.log(this.detallesData);
+      if (this.detallesData.length > 0) {
+        this.contPrecioTotal = this.detallesData[0].precio_total;
       }
-    )
+    });
     //? trae las contizaciones con la info del usuario
-    this.pedidosService.getCotizacionesByIdInfo(id).subscribe(
-      (res:any) =>{
-        this.cotizacionInfoUsuario = res[0];
-        console.log(this.cotizacionInfoUsuario)
-      }
-    )
+    this.pedidosService.getCotizacionesByIdInfo(id).subscribe((res: any) => {
+      this.cotizacionInfoUsuario = res[0];
+      console.log(this.cotizacionInfoUsuario);
+    });
   }
 
   switchEvent(row) {
-    let estado ={
-      status: row.estado
-    } 
-    console.log(row.estado, "amaaa");
+    let estado = {
+      status: row.estado,
+    };
+    console.log(row.estado);
 
     if (estado.status === 0) {
       Swal.fire({
@@ -221,9 +218,9 @@ export class CotizacionClienteComponent implements OnInit {
 
     const filterData = this.rows.filter((item: any) => {
       const filterData =
-      item.id_pedido.toString().toLowerCase().includes(val) ||
-      item.fecha_entrega.toLowerCase().includes(val) ||
-      item.precio_total.toString().toLowerCase().includes(val); 
+        item.id_pedido.toString().toLowerCase().includes(val) ||
+        item.fecha_entrega.toLowerCase().includes(val) ||
+        item.precio_total.toString().toLowerCase().includes(val);
       return filterData;
     });
 
@@ -233,5 +230,17 @@ export class CotizacionClienteComponent implements OnInit {
     console.log(filterData);
   }
 
-}
 
+  dateEvent({ target }) {
+    console.log(target);
+
+  }
+
+  //? validación del formulario
+  validField(field: string) {
+    return (
+      this.pagoForm.controls[field].errors &&
+      this.pagoForm.controls[field].touched
+    );
+  }
+}

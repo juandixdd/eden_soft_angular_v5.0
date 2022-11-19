@@ -1,49 +1,49 @@
-<form action="">
+
   <div class="row justify-content-center">
     <div class="col-auto">
       <h2>Seleccione periodo para top 3:</h2>
     </div>
     <div class="col-auto">
-      <select class="custom-select">
-        <option value="1" [selected]="">Enero</option>
-        <option value="2" [selected]="">Febrero</option>
-        <option value="3" [selected]="">Marzo</option>
-        <option value="4" [selected]="">Abril</option>
-        <option value="5" [selected]="">Mayo</option>
-        <option value="6" [selected]="">Junio</option>
-        <option value="7" [selected]="">Julio</option>
-        <option value="8" [selected]="">Agosto</option>
-        <option value="9" [selected]="">Septiembre</option>
-        <option value="10" [selected]="">Octubre</option>
-        <option value="11" [selected]="">Noviembre</option>
-        <option value="12" [selected]="">Diciembre</option>
+      <select class="custom-select" (change)="getMonth($event)" [(ngModel)]="mes">
+        <option value="1">enero</option>
+        <option value="2">febrero</option>
+        <option value="3">marzo</option>
+        <option value="4">abril</option>
+        <option value="5">mayo</option>
+        <option value="6">junio</option>
+        <option value="7">julio</option>
+        <option value="8">agosto</option>
+        <option value="9">septiembre</option>
+        <option value="10">octubre</option>
+        <option value="11">noviembre</option>
+        <option value="12">diciembre</option>
       </select>
     </div>
     <div class="col-auto">
-      <select class="custom-select">
-        <option value="2022" [selected]="">2022</option>
-        <option value="2023" [selected]="">2023</option>
-        <option value="2024" [selected]="">2024</option>
-        
+      <select class="custom-select" (change)="getYear($event)" [(ngModel)]="anio">
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+
       </select>
     </div>
     <div class="col-auto">
       <button class="btn btn-primary">Buscar</button>
     </div>
   </div>
-  
-</form>
+
+
 
 <div class="col-auto">
-    
+
   <div class="p-2">
     <form action="">
-     
 
-     
+
+
     </form>
   </div>
- 
+
 
 </div>
 <div class="row justify-content-center">
@@ -51,15 +51,15 @@
   <div class="col-auto">
     <div class="card card-mine justify-content-center text-center">
       <img
-        src="../../../../../../assets/images/landing/empanada-icon.png"
+        src="{{ top3[0].img }}"
         class="img-mine"
         alt="..."
       />
       <div class="card-body">
-        <h1>{{ top3[0].producto }}</h1>
+         <h1>{{ top3[0].nombre }}</h1>
         <div class="row">
           <div class="col-6">
-            <p class="text-mine">Ventas: {{ top3[0].cantidad_ventas }}</p>
+            <p class="text-mine">Ventas: {{ top3[0].cantidad_venta }}</p>
           </div>
           <div class="col-6">
             <img
@@ -75,15 +75,15 @@
   <div class="col-auto">
     <div class="card card-mine justify-content-center text-center">
       <img
-        src="../../../../../../assets/images/landing/empanada-icon.png"
+        src="{{ top3[1].img }}"
         class="img-mine"
         alt="..."
       />
       <div class="card-body">
-        <h1>{{ top3[1].producto }}</h1>
+        <h1>{{ top3[1].nombre }}</h1>
         <div class="row">
           <div class="col-6">
-            <p class="text-mine">Ventas: {{ top3[1].cantidad_ventas }}</p>
+            <p class="text-mine">Ventas: {{ top3[1].cantidad_venta }}</p>
           </div>
           <div class="col-6">
             <img
@@ -99,15 +99,15 @@
   <div class="col-auto">
     <div class="card card-mine justify-content-center text-center">
       <img
-        src="../../../../../../assets/images/landing/empanada-icon.png"
+        src="{{ top3[2].img }}"
         class="img-mine"
         alt="..."
       />
       <div class="card-body">
-        <h1>{{ top3[2].producto }}</h1>
+        <h1>{{ top3[2].nombre }}</h1>
         <div class="row">
           <div class="col-6">
-            <p class="text-mine">Ventas: {{ top3[2].cantidad_ventas }}</p>
+            <p class="text-mine">Ventas: {{ top3[2].cantidad_venta }}</p>
           </div>
           <div class="col-6">
             <img

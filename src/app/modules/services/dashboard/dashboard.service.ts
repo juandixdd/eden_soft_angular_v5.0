@@ -23,4 +23,15 @@ export class DashboardService {
   getTopPedidosLocales(){
     return this.http.get(`${this.API_URL}/top-productos-pedidos-locales`)
   }
+
+  getTopPedidosMEs(body){
+    return this.http.post(`${this.API_URL}/top3-pedidos`,body)
+  }
+
+  getTopPedidosLocalesMEs(body){
+    return this.http.post(`${this.API_URL}/top3-pedidos-locales`,body)
+  }
+  getTopVentasMEs(body){
+    return this.http.post(`${this.API_URL}/top3-ventas-locales`,body)
+  }
 }

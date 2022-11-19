@@ -113,7 +113,7 @@
                   *ngIf="row.estado === 1"
                   type="button"
                   class="btn btn-success btn-sm"
-                  (click)="modalOpen(pedidoModal)"
+                  (click)="modalOpen(pedidoModal); getCotizacionesById(row.id_pedido)"
                 >
                   Hacer pedido
                 </button>

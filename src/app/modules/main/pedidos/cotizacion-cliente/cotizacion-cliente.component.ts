@@ -41,6 +41,7 @@ export class CotizacionClienteComponent implements OnInit {
   idPedido: any;
   estado: any;
   _filterRows: any;
+  contPrecioTotal: any;
 
   constructor(
     private modalService: NgbModal,
@@ -62,12 +63,6 @@ export class CotizacionClienteComponent implements OnInit {
   public pagoForm: UntypedFormGroup = this.fb.group({
     fecha_pago: ["", [Validators.required]],
   });
-
-  public item = {
-    itemName: "",
-    itemQuantity: "",
-    itemCost: "",
-  };
 
   //? Get y Set para el buscador
   get filterRows(): any {
@@ -138,7 +133,9 @@ export class CotizacionClienteComponent implements OnInit {
     });
   }
 
-  contPrecioTotal: any = 0;
+  generarPedido(){
+    console.log("HOLIIIIIIIIIIIIIIIII")
+  }
 
   getCotizacionesById(id) {
     console.log(id);

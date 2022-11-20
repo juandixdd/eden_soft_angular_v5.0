@@ -45,7 +45,12 @@
             </div>
           </div>
           <div class="row justify-content-end mr-3">
-            <button class="btn btn-primary m-1" (click)="modalOpen(editModal); getRowData(userData)">Editar</button>
+            <button
+              class="btn btn-primary m-1"
+              (click)="modalOpen(editModal); getRowData(userData)"
+            >
+              Editar
+            </button>
           </div>
         </div>
       </div>
@@ -58,7 +63,6 @@
     </section>
   </div>
 </div>
-
 
 <div>
   <!-- Login Form -->
@@ -77,10 +81,7 @@
         </button>
       </div>
       <div class="modal-body" tabindex="0" ngbAutofocus>
-        <form
-          class="auth-register-form mt-2"
-          [formGroup]="editForm"
-        >
+        <form class="auth-register-form mt-2" [formGroup]="editForm">
           <div class="row">
             <div class="col-md-6 col-12">
               <div class="form-group">
@@ -143,9 +144,9 @@
                 >
               </div>
             </div>
-            
+
             <div class="col-md-12 col-12">
-              <div class="feorm-group">
+              <div class="form-group">
                 <label for="country-floating">E-mail</label>
                 <input
                   type="email"
@@ -161,6 +162,27 @@
                 >
               </div>
             </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="basicInputFile">Cambiar imagen de perfil</label>
+                <div class="custom-file">
+                  <input
+                    type="file"
+                    class="custom-file-input"
+                    id="customFile"
+                    (change)="captureFile($event)"
+                  />
+                  <label class="custom-file-label" for="customFile"
+                    >Elegir archivo</label
+                  >
+                </div>
+                <div *ngIf="prevImg">
+                  <div class="row">
+                    <img [src]="prevImg" class="imgPrev" alt="imgdata" />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <hr />
           <button
@@ -168,7 +190,7 @@
             tabindex="5"
             rippleEffect
             [disabled]="!editForm.valid"
-            (click)="editProfile() "
+            (click)="editProfile()"
           >
             Editar
             <!-- [disabled]="!registerForm.valid" -->
@@ -179,4 +201,3 @@
     <!-- / Modal -->
   </div>
 </div>
-

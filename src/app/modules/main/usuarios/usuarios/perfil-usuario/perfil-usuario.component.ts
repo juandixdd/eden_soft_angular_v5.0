@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
+import { DomSanitizer } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { UsersService } from "app/modules/services/users/users.service";
@@ -14,12 +19,15 @@ import Swal from "sweetalert2";
 export class PerfilUsuarioComponent implements OnInit {
   rows: any = [];
   userData: any = {};
+  archivos: any = [];
+  prevImg: string;
 
   constructor(
     private modalService: NgbModal,
     private usuarioService: UsuarioService,
     private fb: UntypedFormBuilder,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {}
 
   public editForm: UntypedFormGroup = this.fb.group({
@@ -125,4 +133,36 @@ export class PerfilUsuarioComponent implements OnInit {
         .then(() => window.location.reload());
     }, 2000);
   }
+
+  captureFile(event) {
+    const archivo = event.target.files[0];
+
+    this.jsonToBase64(archivo).then((imagen: any) => {
+      this.prevImg = imagen.base;
+      console.log(imagen);
+      
+    });
+  }
+
+  jsonToBase64 = async ($event: any) =>
+    new Promise((resolve, reject) => {
+      try {
+        const unsafeImg = window.URL.createObjectURL($event);
+        const image = this.sanitizer.bypassSecurityTrustUrl(unsafeImg);
+        const reader = new FileReader();
+        reader.readAsDataURL($event);
+        reader.onload = () => {
+          resolve({
+            base: reader.result,
+          });
+        };
+        reader.onerror = (error) => {
+          resolve({
+            base: null,
+          });
+        };
+      } catch (error) {
+        return null;
+      }
+    });
 }

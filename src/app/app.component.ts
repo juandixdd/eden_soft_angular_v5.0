@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
     private _translateService: TranslateService
   ) {
     // Get the application main menu
-    this.menu = menu;
+    this.menu = menu; //TODO------------------------------------------------- Aquí es donde se instancia el menú, hay que hacer la lógica para meter la data
 
     // Register the menu to the menu service
     this._coreMenuService.register('main', this.menu);

@@ -43,7 +43,7 @@
       <div class="card card-mine justify-content-center text-center">
         <img src="{{ top3[0].img }}" class="img-mine" alt="..." />
         <div class="card-body">
-          <h1>{{ top3[0].nombre }}</h1>
+          <h1>{{ top3[0].nombre | titlecase }}</h1>
           <div class="row">
             <div class="col-6">
               <p class="text-mine">Ventas: {{ top3[0].cantidad_venta }}</p>
@@ -63,7 +63,7 @@
       <div class="card card-mine justify-content-center text-center">
         <img src="{{ top3[1].img }}" class="img-mine" alt="..." />
         <div class="card-body">
-          <h1>{{ top3[1].nombre }}</h1>
+          <h1>{{ top3[1].nombre | titlecase }}</h1>
           <div class="row">
             <div class="col-6">
               <p class="text-mine">Ventas: {{ top3[1].cantidad_venta }}</p>
@@ -83,7 +83,7 @@
       <div class="card card-mine justify-content-center text-center">
         <img src="{{ top3[2].img }}" class="img-mine" alt="..." />
         <div class="card-body">
-          <h1>{{ top3[2].nombre }}</h1>
+          <h1>{{ top3[2].nombre | titlecase }}</h1>
           <div class="row">
             <div class="col-6">
               <p class="text-mine">Ventas: {{ top3[2].cantidad_venta }}</p>

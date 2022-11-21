@@ -149,7 +149,7 @@ export class CotizacionClienteComponent implements OnInit {
             Swal.fire({
               position: "top-end",
               icon: "success",
-              title: "Se anulo la cotización",
+              title: "Se hizo el pedido",
               showConfirmButton: false,
               timer: 1000,
             });

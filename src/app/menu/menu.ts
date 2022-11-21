@@ -1,46 +1,56 @@
 import { CoreMenu } from '@core/types'
 
+
 export const menu: CoreMenu[] = [
   {
-    id: 'home-page',
-    title: 'Home',
-    type: 'item',
+    id: 'home',
+    title: 'home',
+    translate: 'home',
+    type: 'section',
     icon: 'home',
-    url: 'main/home-page'
-  },
-  {
-    id: 'dashboard',
-    title: 'dashboard',
-    type: 'item',
-    icon: 'activity',
-    url: 'main/dashboard'
-  },
+    children: [
+      {
+        id: 'home-page',
+        title: 'Home',
+        type: 'item',
+        icon: 'home',
+        url: 'main/home-page'
+      },
+      {
+        id: '1',
+        title: 'dashboard',
+        type: 'item',
+        icon: 'activity',
+        url: 'main/dashboard'
+      },
 
-  {
-    id: 'Usuarios',
-    title: 'Lista de Usuarios',
-    type: 'item',
-    icon: 'users',
-    url: 'main/lista-usuarios'
+      {
+        id: '2',
+        title: 'Lista de Usuarios',
+        type: 'item',
+        icon: 'users',
+        url: 'main/lista-usuarios'
 
+      },
+    ]
   },
 
   {
     id: 'Ventas',
     title: 'Ventas',
     translate: 'Ventas',
-    type: 'collapsible',
+    type: 'section',
     icon: 'shopping-cart',
     children: [
       {
-        id: 'cliente',
-        title: 'Clientes-informativos',
+        id: '3',
+        title: 'Clientes informativos',
         type: 'item',
         icon: 'users',
         url: 'main/cliente'
       },
       {
-        id: 'ventas',
+        id: '4',
         title: 'Ventas locales',
         type: 'item',
         icon: 'shopping-cart',
@@ -49,24 +59,24 @@ export const menu: CoreMenu[] = [
     ]
   },
 
- 
+
 
   {
     id: 'Configuracion',
     title: 'Configuracion',
     translate: 'Configuracion',
-    type: 'collapsible',
+    type: 'section',
     icon: 'settings',
     children: [
       {
-        id: 'roles',
+        id: '5',
         title: 'Roles',
         type: 'item',
         icon: 'users',
         url: 'main/roles'
       },
       {
-        id: 'permisos',
+        id: '6',
         title: 'Permisos',
         type: 'item',
         icon: 'grid',
@@ -78,18 +88,18 @@ export const menu: CoreMenu[] = [
     id: 'Productos',
     title: 'Productos',
     translate: 'Productos',
-    type: 'collapsible',
+    type: 'section',
     icon: 'coffee',
     children: [
       {
-        id: 'categorias',
+        id: '7',
         title: 'Categorias',
         type: 'item',
         icon: 'list',
         url: 'main/categorias'
       },
       {
-        id: 'productos-admin',
+        id: '8',
         title: 'Productos',
         type: 'item',
         icon: 'coffee',
@@ -102,25 +112,25 @@ export const menu: CoreMenu[] = [
     id: 'Pedidos',
     title: 'Pedidos',
     translate: 'Pedidos',
-    type: 'collapsible',
+    type: 'section',
     icon: 'shopping-bag',
     children: [
       {
-        id: 'Cotizacion',
+        id: '9',
         title: 'Cotizacion',
         type: 'item',
         icon: 'clipboard',
         url: 'main/cotizacion'
       },
       {
-        id: 'Pedidos',
+        id: '10',
         title: 'Pedidos',
         type: 'item',
         icon: 'dollar-sign',
         url: 'main/pedidos'
       },
       {
-        id: 'Pedidos-local',
+        id: '11',
         title: 'Pedidos locales',
         type: 'item',
         icon: 'package',

@@ -31,5 +31,7 @@ export class UsuarioService {
     return this.http.get(`${this.API_URL}/usuario/email/${email}`);
   }
 
-  
+  getUserPermisosById(id: number){
+    return this.http.get(`${this.API_URL}/usuario/permisos/${id}`);
+  }
 }

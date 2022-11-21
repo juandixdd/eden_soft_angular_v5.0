@@ -96,6 +96,14 @@ export class LoginComponent implements OnInit {
     this.googleLogin();
   }
 
+  reloadPage() {
+    setTimeout(() => {
+      this.router
+        .navigate(["/main/home-page"])
+        .then(() => window.location.reload());
+    }, 100);
+  }
+
   googleLogin() {
     
     
@@ -118,6 +126,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['main/home-page']);
             localStorage.setItem('userId', res[0].id_cliente_documento);
             this.googleUser = "";
+            this.reloadPage()
           }
 
         }
@@ -147,6 +156,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', res.token);
           localStorage.setItem('userId', res.userId);
           this.router.navigate(['main/home-page']);
+          this.reloadPage()
         } else {
 
           Swal.fire({

@@ -23,8 +23,8 @@ export class CoreMenuService {
    * @param {Router} _router
    * @param {AuthenticationService} _authenticationService
    */
-  constructor(private _router: Router, ) {
-    
+  constructor(private _router: Router,) {
+
 
     // Set defaults
     this.onItemCollapsed = new Subject();
@@ -74,7 +74,7 @@ export class CoreMenuService {
    * Register the provided menu with the provided key
    *
    * @param key
-   * @param menu
+   * @param menun
    */
   register(key, menu): void {
     // Confirm if the key already used

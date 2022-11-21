@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import * as Waves from 'node-waves';
 
@@ -18,17 +18,151 @@ import { locale as menuEnglish } from 'app/menu/i18n/en';
 import { locale as menuFrench } from 'app/menu/i18n/fr';
 import { locale as menuGerman } from 'app/menu/i18n/de';
 import { locale as menuPortuguese } from 'app/menu/i18n/pt';
+import { UsuarioService } from './modules/services/usuario/usuario.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+
+
+
   coreConfig: any;
   menu: any;
   defaultLanguage: 'en'; // This language will be used as a fallback when a translation isn't found in the current language
   appLanguage: 'en'; // Set application default language i.e fr
+
+  userId = parseInt(localStorage.getItem("userId"))
+
+  menuTitles = [
+    {
+      "id": "home",
+      "title": "home",
+      "translate": "home",
+      "type": "section",
+      "icon": "home",
+      "children": []
+    },
+    {
+      "id": "Ventas",
+      "title": "Ventas",
+      "translate": "Ventas",
+      "type": "section",
+      "icon": "shopping-cart",
+      "children": []
+    },
+    {
+      "id": "Configuracion",
+      "title": "Configuracion",
+      "translate": "Configuracion",
+      "type": "section",
+      "icon": "settings",
+      "children": []
+    },
+    {
+      "id": "Productos",
+      "title": "Productos",
+      "translate": "Productos",
+      "type": "section",
+      "icon": "coffee",
+      "children": []
+    },
+    {
+      "id": "Pedidos",
+      "title": "Pedidos",
+      "translate": "Pedidos",
+      "type": "section",
+      "icon": "shopping-bag",
+      "children": []
+    }
+  ]
+
+  modules = [
+    {
+      "id": "1",
+      "title": "dashboard",
+      "type": "item",
+      "icon": "activity",
+      "url": "main/dashboard"
+    },
+    {
+      "id": "2",
+      "title": "Lista de Usuarios",
+      "type": "item",
+      "icon": "users",
+      "url": "main/lista-usuarios"
+    },
+    {
+      "id": "3",
+      "title": "Clientes informativos",
+      "type": "item",
+      "icon": "users",
+      "url": "main/cliente"
+    },
+    {
+      "id": "4",
+      "title": "Ventas locales",
+      "type": "item",
+      "icon": "shopping-cart",
+      "url": "main/ventas"
+    },
+    {
+      "id": "5",
+      "title": "Roles",
+      "type": "item",
+      "icon": "users",
+      "url": "main/roles"
+    },
+    {
+      "id": "6",
+      "title": "Permisos",
+      "type": "item",
+      "icon": "grid",
+      "url": "main/permisos"
+    },
+    {
+      "id": "7",
+      "title": "Categorias",
+      "type": "item",
+      "icon": "list",
+      "url": "main/categorias"
+    },
+    {
+      "id": "8",
+      "title": "Productos",
+      "type": "item",
+      "icon": "coffee",
+      "url": "main/productos-admin"
+    },
+    {
+      "id": "9",
+      "title": "Cotizacion",
+      "type": "item",
+      "icon": "clipboard",
+      "url": "main/cotizacion"
+    },
+    {
+      "id": "10",
+      "title": "Pedidos",
+      "type": "item",
+      "icon": "dollar-sign",
+      "url": "main/pedidos"
+    },
+    {
+      "id": "11",
+      "title": "Pedidos locales",
+      "type": "item",
+      "icon": "package",
+      "url": "main/pedidos-local"
+    }
+  ]
+
+  newMenuByUser = [];
+  permisos = []
+
+
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -57,39 +191,54 @@ export class AppComponent implements OnInit {
     private _coreLoadingScreenService: CoreLoadingScreenService,
     private _coreMenuService: CoreMenuService,
     private _coreTranslationService: CoreTranslationService,
-    private _translateService: TranslateService
+    private _translateService: TranslateService,
+    private usuariosService: UsuarioService
   ) {
-    // Get the application main menu
-    this.menu = menu; //TODO------------------------------------------------- Aquí es donde se instancia el menú, hay que hacer la lógica para meter la data
 
-    // Register the menu to the menu service
-    this._coreMenuService.register('main', this.menu);
+    
 
-    // Set the main menu as our current menu
-    this._coreMenuService.setCurrentMenu('main');
+    this.usuariosService.getUserPermisosById(this.userId).subscribe(
+      (res: any) => {
+        for (let i in res) {
+          this.permisos.push(res[i].modulo_id)
+        }
 
-    // Add languages to the translation service
-    this._translateService.addLangs(['en', 'fr', 'de', 'pt']);
+        let filteredModules = this.modules.filter(item => this.permisos.includes(parseInt(item.id)))
 
-    // This language will be used as a fallback when a translation isn't found in the current language
-    this._translateService.setDefaultLang('en');
 
-    // Set the translations for the menu
-    this._coreTranslationService.translate(menuEnglish, menuFrench, menuGerman, menuPortuguese);
+      
+        this._coreMenuService.register('main', filteredModules);
+        this._coreMenuService.setCurrentMenu('main');
+        // Add languages to the translation service
+        this._translateService.addLangs(['en', 'fr', 'de', 'pt']);
+
+        // This language will be used as a fallback when a translation isn't found in the current language
+        this._translateService.setDefaultLang('en');
+
+        // Set the translations for the menu
+        this._coreTranslationService.translate(menuEnglish, menuFrench, menuGerman, menuPortuguese);
+        
+      }
+    )
+
+    //TODO------------------------------------------------- Aquí es donde se instancia el menú, hay que hacer la lógica para meter la data
+
+
 
     // Set the private defaults
     this._unsubscribeAll = new Subject();
   }
 
-  // Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
 
-  /**
-   * On init
-   */
   ngOnInit(): void {
+
+
+
+
     // Init wave effect (Ripple effect)
     Waves.init();
+
+
 
     // Subscribe to config changes
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
@@ -242,7 +391,7 @@ export class AppComponent implements OnInit {
   /**
    * On destroy
    */
- 
+
 
   // Public methods
   // -----------------------------------------------------------------------------------------------------
@@ -254,5 +403,12 @@ export class AppComponent implements OnInit {
    */
   toggleSidebar(key): void {
     this._coreSidebarService.getSidebarRegistry(key).toggleOpen();
+  }
+
+  ngOnDestroy(): void {
+    debugger
+    this._coreMenuService.unregister('main');
+    this._coreMenuService.register('main', []);
+    this._coreMenuService.setCurrentMenu('main');
   }
 }

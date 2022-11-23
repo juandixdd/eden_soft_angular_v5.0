@@ -22,6 +22,9 @@ import {
 
 import { colors } from 'app/colors.const';
 import { CoreConfigService } from '@core/services/config.service';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { DashboardService } from "app/modules/services/dashboard/dashboard.service";
+
 
 // interface ChartOptions
 export interface ChartOptions {
@@ -74,9 +77,11 @@ export class VentasTableComponent implements OnInit {
   public apexLineChart: Partial<ChartOptions>;
   public isMenuToggled = false;
   public radioModel = 1;
+  public basicDPdata: NgbDateStruct;
+  public basicDPdata2: NgbDateStruct;
 
-   // ng2-flatpickr options
-   public DateRangeOptions = {
+  // ng2-flatpickr options
+  public DateRangeOptions = {
     altInput: true,
     mode: 'range',
     altInputClass: 'form-control flat-picker bg-transparent border-0 shadow-none flatpickr-input',
@@ -109,8 +114,8 @@ export class VentasTableComponent implements OnInit {
     }
   };
 
-   // Heatmap data generate
-   public generateHeatmapData(count, yrange) {
+  // Heatmap data generate
+  public generateHeatmapData(count, yrange) {
     var i = 0;
     var series = [];
     while (i < count) {
@@ -132,9 +137,13 @@ export class VentasTableComponent implements OnInit {
    * @param {CoreConfigService} _coreConfigService
    */
 
-  constructor(private _coreConfigService: CoreConfigService) {
-     // Apex Line Area Chart
-     this.apexLineChart = {
+  constructor(
+    private _coreConfigService: CoreConfigService,
+    private dashboardService: DashboardService
+
+  ) {
+    // Apex Line Area Chart
+    this.apexLineChart = {
       series: [
         {
           data: [280, 200, 220, 180, 270, 250, 70, 90, 200, 150, 160, 100, 150, 100, 50]
@@ -201,7 +210,7 @@ export class VentasTableComponent implements OnInit {
         }
       }
     };
-   }
+  }
 
   ngOnInit(): void {
     this.contentHeader = {
@@ -227,21 +236,45 @@ export class VentasTableComponent implements OnInit {
         ]
       }
     };
+
+
+  }
+  totalVentasPedidos = [];
+
+  datePicker() {
+
+    console.log(this.basicDPdata);
+    console.log(this.basicDPdata2);
+
+    let inicio =  this.basicDPdata.year + "-" + this.basicDPdata.month + "-" + this.basicDPdata.day 
+    let fin =  this.basicDPdata2.year + "-" + this.basicDPdata2.month + "-" + this.basicDPdata2.day 
+    let body = {
+      inicio: inicio,
+      fin: fin
+    }
+
+    this.dashboardService.getVentasPedidos(body).subscribe((res: any) => {
+      console.log(res);
+      this.totalVentasPedidos = res;
+    });
+
+    
+
   }
 
   /**
    * After View Init
    */
-   ngAfterViewInit() {
+  ngAfterViewInit() {
     // Subscribe to core config changes
     this._coreConfigService.getConfig().subscribe(config => {
       // If Menu Collapsed Changes
       if (config.layout.menu.collapsed === true || config.layout.menu.collapsed === false) {
         setTimeout(() => {
           // Get Dynamic Width for Charts
-          
+
           this.apexLineChart.chart.width = this.apexLineChartRef?.nativeElement.offsetWidth;
-          
+
         }, 900);
       }
     });

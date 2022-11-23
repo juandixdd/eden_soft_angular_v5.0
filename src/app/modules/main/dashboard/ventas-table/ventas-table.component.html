@@ -1,28 +1,65 @@
- <!-- Apex Line Charts -->
- <section id="apex-line-charts">
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div
-            class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
-          >
-            <div>
-              <h4 class="card-title mb-25">Balance</h4>
-              <span class="card-subtitle text-muted">Commercial networks & enterprises</span>
-            </div>
-            <div class="d-flex align-items-center flex-wrap mt-sm-0 mt-1">
-              <h5 class="font-weight-bolder mb-0 mr-1">$ 100,000</h5>
-              <div class="badge badge-light-secondary">
-                <i class="text-danger font-small-3" data-feather="arrow-down"></i>
-                <span class="align-middle">20%</span>
-              </div>
-            </div>
+<!-- Apex Line Charts -->
+<section id="apex-line-charts">
+
+  <div class="row justify-content-center">
+    
+    <div class="col-auto">
+      <h3>Desde:</h3>
+
+      <!-- Basic Date Picker -->
+
+      <div class="form-group">
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd" name="Basic Date Picker" [(ngModel)]="basicDPdata" (change)="datePicker()"
+            ngbDatepicker #basicDP="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicDP.toggle()" type="button"
+              rippleEffect></button>
           </div>
-          <div class="card-body">
-            <div id="line-chart" #apexLineChartRef>
-              <apx-chart
-                [series]="apexLineChart.series"
-                [chart]="{
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="col-auto">
+      <h3>Hasta:</h3>
+      <div class="form-group">
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd" name="Basic Date Picker" [(ngModel)]="basicDPdata2" (change)="datePicker()"
+            ngbDatepicker #basicDP2="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicDP2.toggle()" type="button"
+              rippleEffect></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-auto">
+      
+      <button class="btn btn-primary mt-2" (click)="datePicker()">Buscar</button>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div
+          class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start">
+          <div>
+            <h4 class="card-title mb-25">Balance</h4>
+            <span class="card-subtitle text-muted">Ventas diarias</span>
+          </div>
+         
+        </div>
+        <div class="card-body">
+          <div id="line-chart" #apexLineChartRef>
+            <apx-chart [series]="apexLineChart.series" [chart]="{
                   height: 400,
                   width: isMenuToggled === false ? apexLineChartRef.offsetWidth : apexLineChart.chart.width,
                   type: 'line',
@@ -32,17 +69,12 @@
                   toolbar: {
                     show: false
                   }
-                }"
-                [xaxis]="apexLineChart.xaxis"
-                [stroke]="apexLineChart.stroke"
-                [tooltip]="apexLineChart.tooltip"
-                [colors]="apexLineChart.colors"
-                [dataLabels]="apexLineChart.dataLabels"
-                [grid]="apexLineChart.grid"
-              ></apx-chart>
-            </div>
+                }" [xaxis]="apexLineChart.xaxis" [stroke]="apexLineChart.stroke" [tooltip]="apexLineChart.tooltip"
+              [colors]="apexLineChart.colors" [dataLabels]="apexLineChart.dataLabels" [grid]="apexLineChart.grid">
+            </apx-chart>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>

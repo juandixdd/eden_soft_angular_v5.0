@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DashboardService } from "app/modules/services/dashboard/dashboard.service";
-import { ProductosService } from "app/modules/services/productos/productos.service";
+
 import * as reader from 'xlsx';
 
 @Component({
@@ -28,7 +28,6 @@ export class LandingProductsComponent implements OnInit {
   };
 
   constructor(
-    private productosService: ProductosService,
     private dashboardService: DashboardService
   ) { }
 

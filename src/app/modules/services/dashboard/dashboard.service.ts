@@ -12,17 +12,9 @@ export class DashboardService {
   constructor(private http: HttpClient) { }
 
 
-  getTopVentas() {
-    return this.http.get(`${this.API_URL}/top-productos-ventas`);
-  }
+  
 
-  getTopPedidos() {
-    return this.http.get(`${this.API_URL}/top-productos-pedidos`);
-  }
-
-  getTopPedidosLocales(){
-    return this.http.get(`${this.API_URL}/top-productos-pedidos-locales`)
-  }
+  //------------------ Servicios de la tabla Top3--------------------\\
 
   getTopPedidosMEs(body){
     return this.http.post(`${this.API_URL}/top3-pedidos`,body)
@@ -33,5 +25,19 @@ export class DashboardService {
   }
   getTopVentasMEs(body){
     return this.http.post(`${this.API_URL}/top3-ventas-locales`,body)
+  }
+
+   //------------------ Servicios de la tabla Ventas--------------------\\
+
+   getVentasPedidos(body){
+    return this.http.post(`${this.API_URL}/totales-pedidos`,body)
+  }
+
+  getVentasPedidosLocales(body){
+    return this.http.post(`${this.API_URL}/totales-pedidos-locales`,body)
+  }
+
+  getVentas(body){
+    return this.http.post(`${this.API_URL}/totales-ventas`,body)
   }
 }

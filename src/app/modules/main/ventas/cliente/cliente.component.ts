@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { ClientesInformativosService } from 'app/modules/services/clientesInformativos/clientes-informativos.service';
@@ -71,6 +71,9 @@ export class ClienteComponent implements OnInit {
 
   })
 
+  public switchForm: UntypedFormGroup = this.fb.group({
+    estado:[]
+  })
 
   ngOnInit(): void {
     this.tempData = this.rows;
@@ -94,10 +97,12 @@ export class ClienteComponent implements OnInit {
   }
 
   getClientes() {
-    this.clientesInformativosService.getData().subscribe(
-      (res: any) => {
-        this.rows = res;
-        console.log(res);
+    this.clientesInformativosService.getData().subscribe((res: any) => {
+      res.forEach((item) => {
+        item.formcontrol = new UntypedFormControl(item.estado);
+        this.switchForm.addControl(item.id, item.formcontrol)
+      });  
+      this.rows = res;
         this.filterRows = res;
       }
     )
@@ -172,6 +177,56 @@ export class ClienteComponent implements OnInit {
         this.modalService.dismissAll();       
       }
     )
+  }
+
+  //! ------------- CAMBIAR ESTADO DE UNA CATEGORIA ------------- 
+
+  switchEvent({target}, row){
+    let checked = target.checked;
+    let status = {
+      estado: checked
+    }
+    console.log(status);
+    setTimeout(()=>{
+      Swal.fire({
+        title: '¿Estas seguro?',
+        text: "Cambiarás el estado de esta categoría",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Cambiar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.clientesInformativosService.cambiarEstado(row.id, status).subscribe(
+            (res:any) =>{
+              if(res.status === 200){
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: 'Se cambio el estado de la categoría',
+                  showConfirmButton: false,
+                  timer: 1000
+                })
+                this.getClientes()
+              }
+            }
+          )
+            
+        }
+        else {
+          this.getClientes();
+          Swal.fire({
+            position: 'top-end',
+            icon: 'warning',
+            title: 'No se cambió el estado de la categoría',
+            showConfirmButton: false,
+            timer: 1000
+          })
+        }
+      })
+    },100)
   }
 
   //! ------------- BUSCADOR DE CATEGORIA ------------- 

@@ -29,22 +29,6 @@
         </div>
       </div>
     </div>
-
-    <div class="col-md-6 col-12 d-flex justify-content-md-end">
-      <div
-        class="d-flex align-items-center justify-content-md-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0"
-      >
-        <!-- ?Buscador -->
-        <label class="d-flex align-items-center"
-          ><input
-            type="search"
-            placeholder="Buscar"
-            class="form-control ml-25"
-            
-        /></label>
-      </div>
-    </div>
-
     <div class="row justify-content-center">
       <div class="col-md-3" *ngFor="let product of products">
         <div class="card" style="border-radius: 15px">
@@ -113,8 +97,8 @@
             <div class="form-group">
               <label for="{{ item.itemPrice }}">Precio unitario</label>
               <input type="number" class="form-control" id="{{ item.itemPrice }}" name="itemPrice{{ i }}"
-                [(ngModel)]="item.itemPrice" placeholder="1" (change)="saveProductsEvent($event)" disabled />
-            </div>
+                [(ngModel)]="item.itemPrice" placeholder="1" (change)="saveProductsEvent($event)" disabled />              
+              </div>
           </div>
 
           <div class="col-md-3 col-12">
@@ -122,7 +106,7 @@
               <label for="{{ item.itemName }}">Cantidad</label>
               <input type="number" class="form-control" id="{{ item.itemName }}" name="itemQuantity{{ i }}"
                 [(ngModel)]="item.itemQuantity" placeholder="1" (change)="saveProductsEvent($event, item.itemName)" />
-            </div>
+              </div>
           </div>
 
           <div class="col-md-2 col-12 mb-50">
@@ -155,7 +139,7 @@
   <ng-template #loginModal let-modal>
     <div class="modal-header">
       <h4 class="modal-title text-primary" id="myModalLabel1">
-        Debes inciar sesion para generar la cotizacion
+        Debes inciar sesion
       </h4>
       <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -171,6 +155,9 @@
               <label for="country-floating">E-mail</label>
               <input type="email" id="country-floating" class="form-control" formControlName="correo"
                 placeholder="ejemplo@gmail.com" />
+                <span class="text-danger" *ngIf="validField('correo')"
+                >Este campo es requerido</span
+              >
             </div>
           </div>
 
@@ -179,6 +166,9 @@
               <label for="company-column">Contraseña</label>
               <input type="password" id="company-column" class="form-control" formControlName="contrasena"
                 placeholder="minimo 5 caracteres" />
+                <span class="text-danger" *ngIf="validField('contrasena')"
+                >Este campo es requerido</span
+              >
             </div>
           </div>
         </div>

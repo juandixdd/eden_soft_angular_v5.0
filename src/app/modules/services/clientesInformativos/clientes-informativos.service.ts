@@ -47,4 +47,8 @@ export class ClientesInformativosService {
     return this.http.get(`${this.API_URL}/pedidosLocales-usuarios/${id}`)
   }
 
+  cambiarEstado(id, body){
+    return this.http.put(`${this.API_URL}/clientes-informativos/cambiarEstado/${id}`, body)
+    }
+
 }

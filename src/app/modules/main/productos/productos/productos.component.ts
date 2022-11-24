@@ -318,4 +318,13 @@ export class ProductosComponent implements OnInit {
 
     }
   }
+//! ------------- VALIDACIONES DE CAMPOS Y BOTONES------------- 
+
+validField(field: string) {
+  return (
+    this.loginForm.controls[field].errors &&
+    this.loginForm.controls[field].touched
+  );
+}
+
 }

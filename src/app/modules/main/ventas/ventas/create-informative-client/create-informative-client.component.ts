@@ -165,6 +165,7 @@ export class CreateInformativeClientComponent implements OnInit {
         apellido: this.userForm.value.apellido,
         telefono: this.userForm.value.telefono,
       };
+      
 
       setTimeout(() => {
         this.venta_local = {

@@ -172,83 +172,98 @@
     <div class="content-wrapper container-xxl p-0" *ngIf="totalCost">
       <div class="content-body">
         <section class="invoice-list-wrapper">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title text-primary">Abono</h5>
-              <form [formGroup]="switchForm">
-                <!-- ? Switch del abono -->
-                <div
-                  class="custom-control custom-switch custom-control-inline ml-1 mb-1"
-                >
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    id="abono"
-                    (change)="switchEvent($event)"
-                  />
-                  <label class="custom-control-label" for="abono"></label>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title text-primary">Abono</h5>
+                  <form [formGroup]="switchForm">
+                    <!-- ? Switch del abono -->
+                    <div
+                      class="custom-control custom-switch custom-control-inline ml-1 mb-1"
+                    >
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="abono"
+                        (change)="switchEvent($event)"
+                      />
+                      <label class="custom-control-label" for="abono"></label>
+                    </div>
+    
+                    <!-- ? Para la cantidad del abono -->
+                    <div class="form-group col-auto" *ngIf="hasAbono">
+                      <label for="basicSelect">Porcentaje de abono</label>
+                      <select
+                        class="form-control"
+                        id="basicSelect"
+                        (change)="selectEvent($event)"
+                      >
+                        <option>50%</option>
+                        <option>75%</option>
+                      </select>
+                    </div>
+                  </form>
                 </div>
-
-                <!-- ? Para la cantidad del abono -->
-                <div class="form-group col-md-3" *ngIf="hasAbono">
-                  <label for="basicSelect">Porcentaje de abono</label>
-                  <select
-                    class="form-control"
-                    id="basicSelect"
-                    (change)="selectEvent($event)"
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card" *ngIf="totalCost">
+                <div class="card-body">
+                  <div class="row justify-content-end">
+                    <div class="col-auto">
+                      <h4>
+                        <span class="text-primary">Total: </span
+                        >{{ totalCost | currency: "USD":"symbol":"3.0" }}
+                      </h4>
+                    </div>
+                  </div>
+                  <div
+                    class="row justify-content-end"
+                    *ngIf="fullDiscountExists"
                   >
-                    <option>50%</option>
-                    <option>75%</option>
-                  </select>
+                    <div class="col-auto">
+                      <h4>
+                        <span class="text-primary">Abono del {{ selectPercent }}%: </span
+                        >{{ fullDiscount | currency: "USD":"symbol":"3.0" }}
+                      </h4>
+                    </div>
+                  </div>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </section>
       </div>
     </div>
-    <div class="card" *ngIf="totalCost">
-      <div class="card-body">
-        <div class="row justify-content-end">
-          <div class="col-auto">
-            <h4>
-              <span class="text-primary">Total: </span
-              >{{ totalCost | currency: "USD":"symbol":"3.0" }}
-            </h4>
-          </div>
-        </div>
-        <div
-          class="row justify-content-end"
-          *ngIf="fullDiscountExists"
-        >
-          <div class="col-auto">
-            <h4>
-              <span class="text-primary">Abono del {{ selectPercent }}%: </span
-              >{{ fullDiscount | currency: "USD":"symbol":"3.0" }}
-            </h4>
-          </div>
-        </div>
-      </div>
-    </div>
+    
     <div class="d-flex justify-content-center" *ngIf="timer">
       <div class="spinner-border text-primary" role="status"></div>
     </div>
 
-    <button
-      *ngIf="clientExists === 0"
-      class="btn btn-primary"
-      (click)="createVenta()"
-      [disabled]="!userForm.valid || !totalCost"
-    >
-      Guardar venta
-    </button>
-    <button
-      *ngIf="clientExists === 1"
-      class="btn btn-primary"
-      (click)="createVenta()"
-      [disabled]="!totalCost"
-    >
-      Guardar venta
-    </button>
+  
+
+    <div class="content-wrapper container-xxl p-0 ">
+      <div class="content-body ">
+        <section class="invoice-list-wrapper ">
+          <button
+          *ngIf="clientExists === 0"
+          class="btn btn-primary"
+          (click)="createVenta()"
+          [disabled]="!userForm.valid || !totalCost"
+        >
+          Guardar venta
+        </button>
+        <button
+          *ngIf="clientExists === 1"
+          class="btn btn-primary"
+          (click)="createVenta()"
+          [disabled]="!totalCost"
+        >
+          Guardar venta
+        </button>
+        </section>
+      </div>
+    </div>
   </div>
 </div>

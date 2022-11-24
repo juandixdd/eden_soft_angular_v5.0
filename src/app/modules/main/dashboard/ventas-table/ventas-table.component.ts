@@ -239,12 +239,19 @@ export class VentasTableComponent implements OnInit {
 
 
   }
-  totalVentasPedidos = [];
+  vPedidos = [];
+  vPedidosL=[];
+  ventasL=[];
+  totalVentas=[];
+  arrayVentas=[];
+  fechas=[];
+  montos=[];
 
   datePicker() {
 
     console.log(this.basicDPdata);
-    console.log(this.basicDPdata2);
+    console.log(this.basicDPdata2); 
+
 
     let inicio =  this.basicDPdata.year + "-" + this.basicDPdata.month + "-" + this.basicDPdata.day 
     let fin =  this.basicDPdata2.year + "-" + this.basicDPdata2.month + "-" + this.basicDPdata2.day 
@@ -254,11 +261,49 @@ export class VentasTableComponent implements OnInit {
     }
 
     this.dashboardService.getVentasPedidos(body).subscribe((res: any) => {
-      console.log(res);
-      this.totalVentasPedidos = res;
+      this.vPedidos = res;
+      console.table(this.vPedidos);
     });
 
+    this.dashboardService.getVentasPedidosLocales(body).subscribe((res: any) => {
+      this.vPedidosL = res;
+      console.table(this.vPedidosL);
+    });
+
+    this.dashboardService.getVentas(body).subscribe((res: any) => {
+      this.ventasL = res;
+      console.table(this.ventasL);
+    });
+setTimeout(() => {
+  
+  this.totalVentas = this.totalVentas.concat(this.vPedidos,this.vPedidosL,this.ventasL);
+  
+
+  let ventas = this.totalVentas.reduce((acc,valorActual) => {
+        let siExiste = acc.find(elemento => elemento.fecha === valorActual.fecha
+        );
     
+        //si hay objetos
+        if (siExiste) {
+            return acc.map(elemento => {
+                if (elemento.fecha === valorActual.fecha) {
+                    return {
+                        ...elemento,
+                        valor_ventas: elemento.valor_ventas + valorActual.valor_ventas,
+                    };
+                }
+                return elemento
+            });
+        }
+        return [...acc, valorActual];
+    }, []);
+    ventas.sort((a, b) => a.fecha > b.fecha)
+    this.arrayVentas=ventas
+    console.table(this.arrayVentas);
+
+
+}, 100);
+
 
   }
 

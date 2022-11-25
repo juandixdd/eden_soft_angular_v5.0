@@ -175,9 +175,8 @@
                   [items]="selectBasic | async"
                   [multiple]="true"
                   [closeOnSelect]="false"
-                  bindLabel="nombre"
+                  bindLabel="modulo"
                   formControlName="categoria"
-                  groupBy="modulo"
                   [ngModel]="selectBasic | async"
                   [(ngModel)]="selectMultiSelected"
                   placeholder="Seleccione los Permisos"
@@ -242,7 +241,7 @@
             <div class="divider-text">Permisos</div>
           </div>
           <div *ngFor="let item of permisosList">
-            <p><span class="text-primary">- </span> {{ item }}</p>
+            <p><span class="text-primary">- </span> {{ item | titlecase }}</p>
           </div>
         </div>
       </div>

@@ -151,7 +151,7 @@ export class RegistroUsuariosComponent implements OnInit {
     this.user.correo = this.registerForm.controls['correo'].value;
     this.user.contrasena = this.registerForm.controls['contrasena'].value;
     this.user.telefono = this.registerForm.controls['telefono'].value;
-    this.user.id_rol=3;
+    this.user.id_rol=10;
 
     this.registerService.validateUserExists(this.user.correo).subscribe(
       (res: any) => {
@@ -161,8 +161,10 @@ export class RegistroUsuariosComponent implements OnInit {
               if (res.length === 0) {
                 try {
                   this.clientesInformativosService.createCliente(this.user).subscribe(
+                    
+                    
                     (res: any) => {
-                      console.log(res);
+                      
 
                       this.registerService.registerUser(this.user).subscribe(
                         (res: any) => {

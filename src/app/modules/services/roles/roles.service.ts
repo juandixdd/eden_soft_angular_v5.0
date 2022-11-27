@@ -28,4 +28,8 @@ export class RolesService {
   getUserWithRol(id) {
     return this.http.get(`${this.API_URL}/usuarios-rol/${id}`);
   }
+
+  getAllRolDataById(id){
+    return this.http.get(`${this.API_URL}/roles/permisos/${id}`);
+  }
 }

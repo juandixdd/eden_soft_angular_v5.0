@@ -1,14 +1,36 @@
 <div class="container blur-in">
   <div class="row justify-content-center">
-
     <div class="col-md-10 text-center">
-      <h1>Welcome to Eden</h1>
+      <h1>Bienvenido al Eden</h1>
     </div>
-
-
   </div>
-  <hr>
-  <div class="row justify-content-center">
+  <hr />
+
+  <div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <!-- Invoice List -->
+      <section class="invoice-list-wrapper">
+        <div class="card">
+          <div class="row p-3 justify-content-center">
+            <div class="col-md-2 m-1" *ngFor="let item of menu">
+              <div class="text-center m-1">
+                <a (click)="redirect(item.url)">
+                  <div class="avatar bg-light-primary">
+                    <div class="avatar-content">
+                      <i class="avatar-icon" [data-feather]="item.icon"></i>
+                    </div>
+                  </div>
+                  <h5 class="mt-1">{{ item.title | titlecase }}</h5>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- <div class="row justify-content-center">
     <div class="col-md-10">
       <div class="row">
         <div class="col-md-6">
@@ -33,7 +55,10 @@
                     <a routerLink="/main/ventas">
                       <div class="avatar bg-light-warning">
                         <div class="avatar-content">
-                          <i class="avatar-icon" data-feather="shopping-cart"></i>
+                          <i
+                            class="avatar-icon"
+                            data-feather="shopping-cart"
+                          ></i>
                         </div>
                       </div>
                       <h5 class="mt-1">Ventas Locales</h5>
@@ -65,7 +90,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
     <div class="col-md-10">
@@ -136,7 +160,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
     <div class="col-md-10">
@@ -207,10 +230,7 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
-    
-  </div>
-  
+  </div> -->
 </div>

@@ -197,7 +197,9 @@ export class VentasTableComponent implements OnInit {
         },
       },
     };
-    this.getActualDate(fechaI, fechaF)
+    setTimeout(() => {
+      this.getActualDate(fechaI, fechaF)
+    }, 200);
   }
 
 

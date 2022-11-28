@@ -142,77 +142,11 @@ export class VentasTableComponent implements OnInit {
     private _coreConfigService: CoreConfigService,
     private dashboardService: DashboardService
   ) {
-    // Apex Line Area Chart
-    this.apexLineChart = {
-      series: [
-        {
-          data: [
-            280, 200, 220, 180, 270, 250, 70, 90, 200, 150, 160, 100, 150, 100,
-            300,
-          ],
-        },
-      ],
-      chart: {
-        height: 400,
-        type: "line",
-        zoom: {
-          enabled: false,
-        },
-        toolbar: {
-          show: false,
-        },
-      },
-      grid: {
-        xaxis: {
-          lines: {
-            show: true,
-          },
-        },
-      },
-      markers: {
-        strokeWidth: 7,
-        strokeOpacity: 1,
-        strokeColors: [colors.solid.white],
-        colors: [colors.solid.warning],
-      },
-      colors: [colors.solid.warning],
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "straight",
-      },
-      xaxis: {
-        categories: [
-          "7/12",
-          "8/12",
-          "9/12",
-          "10/12",
-          "11/12",
-          "12/12",
-          "13/12",
-          "14/12",
-          "15/12",
-          "16/12",
-          "17/12",
-          "18/12",
-          "19/12",
-          "20/12",
-          "21/12",
-        ],
-      },
-      tooltip: {
-        custom: function (data) {
-          return (
-            '<div class="px-1 py-50">' +
-            "<span>" +
-            data.series[data.seriesIndex][data.dataPointIndex] +
-            "%</span>" +
-            "</div>"
-          );
-        },
-      },
-    };
+    this.getGraphics([1, 2, 3, 4, 5, 6], ["a", "b", "c", "d", "e", "f"])
+  }
+
+  changeData() {
+    this.getGraphics([2, 3, 5, 6, 4, 1], ["a", "b", "c", "d", "e", "f"])
   }
 
   ngOnInit(): void {
@@ -318,8 +252,65 @@ export class VentasTableComponent implements OnInit {
       });
       console.table(this.fechas);
       console.table(this.montos);
-      
+
+      this.getGraphics(this.fechas, this.montos)
+
     }, 100);
+  }
+
+  getGraphics(x, y) {
+    // Apex Line Area Chart
+    this.apexLineChart = {
+      series: [
+        {
+          data: x,
+        },
+      ],
+      chart: {
+        height: 400,
+        type: "line",
+        zoom: {
+          enabled: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      grid: {
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      markers: {
+        strokeWidth: 7,
+        strokeOpacity: 1,
+        strokeColors: [colors.solid.white],
+        colors: [colors.solid.warning],
+      },
+      colors: [colors.solid.warning],
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: "straight",
+      },
+      xaxis: {
+        categories: y,
+      },
+      tooltip: {
+        custom: function (data) {
+          return (
+            '<div class="px-1 py-50">' +
+            "<span>" +
+            data.series[data.seriesIndex][data.dataPointIndex] +
+            "%</span>" +
+            "</div>"
+          );
+        },
+      },
+    };
   }
 
   /**

@@ -144,14 +144,65 @@ export class VentasTableComponent implements OnInit {
     private _coreConfigService: CoreConfigService,
     private dashboardService: DashboardService
   ) {
-
+    this.apexLineChart = {
+      series: [
+        {
+          data: [1, 2, 3],
+        },
+      ],
+      chart: {
+        height: 400,
+        type: "line",
+        zoom: {
+          enabled: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      grid: {
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      markers: {
+        strokeWidth: 7,
+        strokeOpacity: 1,
+        strokeColors: [colors.solid.white],
+        colors: [colors.solid.warning],
+      },
+      colors: [colors.solid.warning],
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: "straight",
+      },
+      xaxis: {
+        categories: ["a", "b", "c"],
+      },
+      tooltip: {
+        custom: function (data) {
+          return (
+            '<div class="px-1 py-50">' +
+            "<span>$" +
+            data.series[data.seriesIndex][data.dataPointIndex] +
+            "</span>" +
+            "</div>"
+          );
+        },
+      },
+    };
+    this.getActualDate(this.fechaI, this.fechaF)
   }
 
 
 
 
   ngOnInit(): void {
-    this.getActualDate(this.fechaI, this.fechaF)
+
     this.contentHeader = {
       headerTitle: "Apex Charts",
       actionButton: true,

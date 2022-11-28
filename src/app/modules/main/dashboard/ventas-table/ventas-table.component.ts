@@ -144,6 +144,8 @@ export class VentasTableComponent implements OnInit {
     private _coreConfigService: CoreConfigService,
     private dashboardService: DashboardService
   ) {
+    let fechaF = moment().format("YYYY-MM-DD")
+    let fechaI = moment().subtract(30, "days").format("YYYY-MM-DD");
     this.apexLineChart = {
       series: [
         {
@@ -195,7 +197,7 @@ export class VentasTableComponent implements OnInit {
         },
       },
     };
-    this.getActualDate(this.fechaI, this.fechaF)
+    this.getActualDate(fechaI, fechaF)
   }
 
 

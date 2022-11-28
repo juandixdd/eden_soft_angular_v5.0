@@ -24,6 +24,8 @@ import { colors } from "app/colors.const";
 import { CoreConfigService } from "@core/services/config.service";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { DashboardService } from "app/modules/services/dashboard/dashboard.service";
+import moment from "moment";
+import * as reader from 'xlsx';
 
 // interface ChartOptions
 export interface ChartOptions {
@@ -142,14 +144,14 @@ export class VentasTableComponent implements OnInit {
     private _coreConfigService: CoreConfigService,
     private dashboardService: DashboardService
   ) {
-    this.getGraphics([1, 2, 3, 4, 5, 6], ["a", "b", "c", "d", "e", "f"])
+
   }
 
-  changeData() {
-    this.getGraphics([2, 3, 5, 6, 4, 1], ["a", "b", "c", "d", "e", "f"])
-  }
+
+
 
   ngOnInit(): void {
+    this.getActualDate(this.fechaI, this.fechaF)
     this.contentHeader = {
       headerTitle: "Apex Charts",
       actionButton: true,
@@ -181,8 +183,11 @@ export class VentasTableComponent implements OnInit {
   arrayVentas = [];
   fechas = [];
   montos = [];
+  fechaF = moment().format("YYYY-MM-DD")
+  fechaI = moment().subtract(30, "days").format("YYYY-MM-DD");
 
   datePicker() {
+    this.arrayVentas = [];
 
     let inicio =
       this.basicDPdata.year +
@@ -196,6 +201,139 @@ export class VentasTableComponent implements OnInit {
       this.basicDPdata2.month +
       "-" +
       this.basicDPdata2.day;
+    let body = {
+      inicio: inicio,
+      fin: fin,
+    };
+    console.log("inicio: ", inicio);
+    console.log("fin: ", fin);
+
+
+
+    this.dashboardService.getVentasPedidos(body).subscribe((res: any) => {
+      this.vPedidos = res;
+    });
+
+    this.dashboardService
+      .getVentasPedidosLocales(body)
+      .subscribe((res: any) => {
+        this.vPedidosL = res;
+      });
+
+    this.dashboardService.getVentas(body).subscribe((res: any) => {
+      this.ventasL = res;
+    });
+    setTimeout(() => {
+      this.totalVentas = this.totalVentas.concat(
+        this.vPedidos,
+        this.vPedidosL,
+        this.ventasL
+      );
+
+      let ventas = this.totalVentas.reduce((acc, valorActual) => {
+        let siExiste = acc.find(
+          (elemento) => elemento.fecha === valorActual.fecha
+        );
+
+        //si hay objetos
+        if (siExiste) {
+          return acc.map((elemento) => {
+            if (elemento.fecha === valorActual.fecha) {
+              return {
+                ...elemento,
+                valor_ventas: elemento.valor_ventas + valorActual.valor_ventas,
+              };
+            }
+            return elemento;
+          });
+        }
+        return [...acc, valorActual];
+      }, []);
+      ventas.sort((a, b) => a.fecha > b.fecha);
+      this.arrayVentas = ventas;
+      console.table(this.arrayVentas);
+
+      this.arrayVentas.forEach((fechas) => {
+        this.fechas.push(fechas.fecha)
+      });
+      this.arrayVentas.forEach((montos) => {
+        this.montos.push(montos.valor_ventas)
+      });
+      console.log("fechas: ", this.fechas);
+      console.log("plata: ", this.montos);
+
+      this.getGraphics(this.fechas, this.montos)
+
+    }, 100);
+  }
+
+  getGraphics(x, y) {
+    // Apex Line Area Chart
+    this.apexLineChart = {
+      series: [
+        {
+          data: y,
+        },
+      ],
+      chart: {
+        height: 400,
+        type: "line",
+        zoom: {
+          enabled: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      grid: {
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      markers: {
+        strokeWidth: 7,
+        strokeOpacity: 1,
+        strokeColors: [colors.solid.white],
+        colors: [colors.solid.warning],
+      },
+      colors: [colors.solid.warning],
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: "straight",
+      },
+      xaxis: {
+        categories: x,
+      },
+      tooltip: {
+        custom: function (data) {
+          return (
+            '<div class="px-1 py-50">' +
+            "<span>$" +
+            data.series[data.seriesIndex][data.dataPointIndex] +
+            "</span>" +
+            "</div>"
+          );
+        },
+      },
+    };
+  }
+
+  getActualDate(inicial, final) {
+    this.arrayVentas = [];
+    this.fechas = [];
+    this.montos = [];
+
+    let inicio = inicial
+    console.log(inicio);
+
+    let fin = final;
+    console.log(fin);
+
+
     let body = {
       inicio: inicio,
       fin: fin,
@@ -245,73 +383,29 @@ export class VentasTableComponent implements OnInit {
       console.table(this.arrayVentas);
 
       this.arrayVentas.forEach((fechas) => {
-        this.fechas.push([fechas.fecha])
+        this.fechas.push(fechas.fecha)
       });
       this.arrayVentas.forEach((montos) => {
-        this.montos.push([montos.valor_ventas])
+        this.montos.push(montos.valor_ventas)
       });
-      console.table(this.fechas);
-      console.table(this.montos);
+      console.log("fechas: ", this.fechas);
+      console.log("plata: ", this.montos);
 
       this.getGraphics(this.fechas, this.montos)
 
     }, 100);
   }
 
-  getGraphics(x, y) {
-    // Apex Line Area Chart
-    this.apexLineChart = {
-      series: [
-        {
-          data: x,
-        },
-      ],
-      chart: {
-        height: 400,
-        type: "line",
-        zoom: {
-          enabled: false,
-        },
-        toolbar: {
-          show: false,
-        },
-      },
-      grid: {
-        xaxis: {
-          lines: {
-            show: true,
-          },
-        },
-      },
-      markers: {
-        strokeWidth: 7,
-        strokeOpacity: 1,
-        strokeColors: [colors.solid.white],
-        colors: [colors.solid.warning],
-      },
-      colors: [colors.solid.warning],
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "straight",
-      },
-      xaxis: {
-        categories: y,
-      },
-      tooltip: {
-        custom: function (data) {
-          return (
-            '<div class="px-1 py-50">' +
-            "<span>" +
-            data.series[data.seriesIndex][data.dataPointIndex] +
-            "%</span>" +
-            "</div>"
-          );
-        },
-      },
-    };
+
+  exportExcel() {
+    let date = new Date().getMilliseconds()
+    let workBook = reader.utils.book_new()
+    const worksheet = reader.utils.json_to_sheet(this.arrayVentas)
+    reader.utils.book_append_sheet(workBook, worksheet, `informe`)
+    let exportFileName = `InformeVentas-${date}.xlsx`
+    reader.writeFile(workBook, exportFileName)
   }
+
 
   /**
    * After View Init

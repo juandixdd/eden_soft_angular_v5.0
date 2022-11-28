@@ -144,6 +144,16 @@ export class LoginComponent implements OnInit {
 
     this.loginService.login(this.user).subscribe(
       (res: any) => {
+       console.log(res);
+       if(res.estado===0){
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Opps, Tu usuario esta desactivado, por favor comunicate a nuestros canales de atencion.",
+          showConfirmButton: true,
+          confirmButtonText: "Ok",
+        });
+       }else{
         if (res.statusCode == 200) {
           console.log("Login exitoso")
           Swal.fire({
@@ -165,6 +175,8 @@ export class LoginComponent implements OnInit {
             text: 'El usuario o la contraseña son incorrectos'
           })
         }
+       }
+        
       }
     )
 

@@ -1,6 +1,30 @@
-.imgPrev{
-    height: auto;
-    width: 100%;
-    margin: 15px;
-    border-radius: 15px;
+.imgPrev {
+  height: auto;
+  width: 100%;
+  margin: 15px;
+  border-radius: 15px;
+}
+
+.profile-img {
+  width: 200px;
+  height: 200px;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  border-radius: 50%;
+  background-size: 100% auto;
+}
+
+.img-preview {
+  display: flex;
+  justify-content: center;
+}
+
+.img-preview img {
+  width: 150px;
+  height: 150px;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  border-radius: 50%;
+  background-size: 100% auto;
+  margin-top: 1rem;
 }

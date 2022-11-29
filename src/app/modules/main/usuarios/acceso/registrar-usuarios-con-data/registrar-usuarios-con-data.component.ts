@@ -135,6 +135,7 @@ export class RegistrarUsuariosConDataComponent implements OnInit {
     this.user.correo = this.registerForm.controls['correo'].value;
     this.user.contrasena = this.registerForm.controls['contrasena'].value;
     this.user.telefono = this.registerForm.controls['telefono'].value;
+    this.user.img = this.googleUser.photoUrl || null;
     this.user.id_rol = 10;
 
     this.registerService.validateUserExists(this.user.correo).subscribe(
@@ -157,7 +158,7 @@ export class RegistrarUsuariosConDataComponent implements OnInit {
                             showConfirmButton: false,
                             timer: 1500
                           });
-                          this.router.navigate(['/main/login']);
+                          this.router.navigate(['main/login']);
                           this.googleUser = "";
                           localStorage.removeItem("googleUser")
 
@@ -196,16 +197,8 @@ export class RegistrarUsuariosConDataComponent implements OnInit {
 
   }
 
-  reloadPage() {
-    setTimeout(() => {
-      this.router
-        .navigate(["main/login"])
-        .then(() => window.location.reload());
-    }, 500);
-  }
-
   loginRedirect() {
-    this.reloadPage()
+    this.router.navigate(['main/login']);
   }
 
 }

@@ -16,6 +16,7 @@ import { CoreMediaService } from '@core/services/media.service';
 import { coreConfig } from 'app/app-config';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UsuarioService } from 'app/modules/services/usuario/usuario.service';
 
 @Component({
   selector: 'app-navbar',
@@ -43,8 +44,9 @@ export class NavbarComponent implements OnInit {
   @HostBinding('class.navbar-static-style-on-scroll')
   public windowScrolled = false;
 
-  user: any;
-  userID = localStorage.getItem('userID');
+  user;
+  userID = parseInt(localStorage.getItem('userId'));
+  img: any;
 
   // Add .navbar-static-style-on-scroll on scroll using HostListener & HostBinding
   @HostListener('window:scroll', [])
@@ -87,7 +89,8 @@ export class NavbarComponent implements OnInit {
     private _mediaObserver: MediaObserver,
     public _translateService: TranslateService,
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+    private usuariosService: UsuarioService
   ) {
     // this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
 
@@ -195,7 +198,18 @@ export class NavbarComponent implements OnInit {
   /**
    * On init
    */
+   imgurlxd: any;
   ngOnInit(): void {
+    console.log(this.userID);
+    this.usuariosService.getDataById(this.userID).subscribe(
+      (res: any) => {
+        this.user = res[0];
+        console.log("Dataaaa", this.user);
+        this.img = res[0].img || "../../../../assets/images/avatars/usuario.png"
+
+      }
+    )
+
 
 
     // get the currentUser details from localStorage
@@ -246,5 +260,5 @@ export class NavbarComponent implements OnInit {
   /**
    * On destroy
    */
- 
+
 }

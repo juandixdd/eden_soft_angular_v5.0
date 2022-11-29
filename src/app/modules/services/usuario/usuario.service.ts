@@ -34,4 +34,8 @@ export class UsuarioService {
   getUserPermisosById(id: number){
     return this.http.get(`${this.API_URL}/usuario/permisos/${id}`);
   }
+
+  editImage(id: number, body: any){
+    return this.http.put(`${this.API_URL}/usuario/img/${id}`, body)
+  }
 }

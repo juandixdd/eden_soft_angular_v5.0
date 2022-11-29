@@ -21,6 +21,7 @@ export class PerfilUsuarioComponent implements OnInit {
   userData: any = {};
   archivos: any = [];
   prevImg: string;
+  imgUrl: string = "../../../../../assets/images/avatars/usuario.png"
 
   constructor(
     private modalService: NgbModal,
@@ -28,7 +29,7 @@ export class PerfilUsuarioComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private router: Router,
     private sanitizer: DomSanitizer
-  ) {}
+  ) { }
 
   public editForm: UntypedFormGroup = this.fb.group({
     nombre: [
@@ -44,7 +45,7 @@ export class PerfilUsuarioComponent implements OnInit {
       [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(30),
+        Validators.maxLength(100),
         Validators.email,
       ],
     ],
@@ -56,6 +57,10 @@ export class PerfilUsuarioComponent implements OnInit {
       "",
       [Validators.required, Validators.minLength(7), Validators.maxLength(15)],
     ],
+    img: [
+      "",
+      [Validators.required, Validators.pattern(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/)]
+    ]
   });
 
   ngOnInit(): void {
@@ -74,6 +79,7 @@ export class PerfilUsuarioComponent implements OnInit {
     this.editForm.controls["apellido"].setValue(userData.apellido);
     this.editForm.controls["telefono"].setValue(userData.telefono);
     this.editForm.controls["correo"].setValue(userData.correo);
+    this.editForm.controls["img"].setValue(userData.img);
     this.editForm.controls["id_cliente_documento"].setValue(
       userData.id_cliente_documento
     );
@@ -81,6 +87,8 @@ export class PerfilUsuarioComponent implements OnInit {
   getUserData(id) {
     this.usuarioService.getDataById(id).subscribe((res: any) => {
       this.userData = res[0];
+      this.imgUrl = res[0].img || "../../../../../assets/images/avatars/usuario.png"
+      this.imgPreview = res[0].img || null
       console.log(res);
     });
   }
@@ -92,26 +100,53 @@ export class PerfilUsuarioComponent implements OnInit {
     );
   }
 
+  clearUrlData() {
+    this.editForm.controls["img"].setValue("");
+    this.imgPreview=""
+  }
+
+  imgPreview: any;
+
+  declareImg(event) {
+    setTimeout(() => {
+      this.imgPreview = event.target.value
+      console.log(event.target.value);
+    }, 200);
+
+
+  }
+
   editProfile() {
     let body = {
       nombre: this.editForm.value.nombre,
       apellido: this.editForm.value.apellido,
       telefono: this.editForm.value.telefono,
+      img: this.editForm.value.img
     };
 
     this.usuarioService
       .editProfile(this.userData.id_cliente_documento, body)
       .subscribe((res: any) => {
         if (res.status === 200) {
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Actualizacion de Perfil Exitoso",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          this.modalService.dismissAll;
-          this.reoladPage();
+          this.usuarioService.editImage(this.userData.id_cliente_documento, body).subscribe(
+            (res: any) => {
+              if (res.status === 200) {
+                console.log(body.img);
+
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Actualizacion de Perfil Exitoso",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                this.modalService.dismissAll;
+                this.reoladPage();
+              }
+
+            }
+          )
+
         } else {
           Swal.fire({
             position: "center",
@@ -122,8 +157,6 @@ export class PerfilUsuarioComponent implements OnInit {
           });
         }
       });
-    console.log(this.userData.id_cliente_documento);
-    console.log(this.editForm.value);
   }
 
   reoladPage() {
@@ -133,36 +166,4 @@ export class PerfilUsuarioComponent implements OnInit {
         .then(() => window.location.reload());
     }, 2000);
   }
-
-  captureFile(event) {
-    const archivo = event.target.files[0];
-
-    this.jsonToBase64(archivo).then((imagen: any) => {
-      this.prevImg = imagen.base;
-      console.log(imagen);
-      
-    });
-  }
-
-  jsonToBase64 = async ($event: any) =>
-    new Promise((resolve, reject) => {
-      try {
-        const unsafeImg = window.URL.createObjectURL($event);
-        const image = this.sanitizer.bypassSecurityTrustUrl(unsafeImg);
-        const reader = new FileReader();
-        reader.readAsDataURL($event);
-        reader.onload = () => {
-          resolve({
-            base: reader.result,
-          });
-        };
-        reader.onerror = (error) => {
-          resolve({
-            base: null,
-          });
-        };
-      } catch (error) {
-        return null;
-      }
-    });
 }

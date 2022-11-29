@@ -27,19 +27,26 @@
 
     <!-- Toggle skin -->
     <li class="nav-item d-none d-lg-block">
-      <a type="button" class="nav-link nav-link-style btn" (click)="toggleDarkSkin()">
-        <span [ngClass]="currentSkin === 'dark' ? 'icon-sun' : 'icon-moon'" class="ficon font-medium-5 feather"></span>
+      <a
+        type="button"
+        class="nav-link nav-link-style btn"
+        (click)="toggleDarkSkin()"
+      >
+        <span
+          [ngClass]="currentSkin === 'dark' ? 'icon-sun' : 'icon-moon'"
+          class="ficon font-medium-5 feather"
+        ></span>
       </a>
     </li>
     <!--/ Toggle skin -->
   </div>
 
-
   <div class="linea">
     <a ngbDropdownItem type="button" (click)="modalOpen(modalForm)">
-      <span [data-feather]="'help-circle'" [class]="'mr-50'"></span> Ayuda en línea</a>
+      <span [data-feather]="'help-circle'" [class]="'mr-50'"></span> Ayuda en
+      línea</a
+    >
   </div>
-
 
   <ul class="nav navbar-nav align-items-center ml-auto">
     <!-- ? Language selection | Uncomment if needed-->
@@ -56,58 +63,83 @@
     </li> -->
     <!--/ Language selection -->
 
-
     <!-- User Dropdown -->
     <li ngbDropdown class="nav-item dropdown-user">
-      <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" ngbDropdownToggle
-        id="navbarUserDropdown" aria-haspopup="true" aria-expanded="false">
+      <a
+        class="nav-link dropdown-toggle dropdown-user-link"
+        id="dropdown-user"
+        ngbDropdownToggle
+        id="navbarUserDropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
         <div class="user-nav d-sm-flex d-none">
-          <div *ngIf="this.user != null">
+          <div *ngIf="this.user">
             <span class="user-name font-weight-bolder">
-              {{ this.user.name | uppercase }} {{ this.user.lastname | uppercase }}
+              {{ user.nombre | titlecase }} {{ user.apellido | titlecase }}
             </span>
           </div>
         </div>
-        <span class="avatar"><img class="round" src="../../../../assets/images/avatars/usuario.png"
-            alt="avatar" height="40" width="40" /><span class="avatar-status-online"></span></span>
+        <span class="avatar"
+          ><img
+            class="round"
+            [src]="img"
+            *ngIf="this.user"
+            alt="avatar"
+            height="40"
+            width="40" /><span class="avatar-status-online"></span
+        ></span>
       </a>
 
-      <div ngbDropdownMenu aria-labelledby="navbarUserDropdown" class="dropdown-menu dropdown-menu-right">
+      <div
+        ngbDropdownMenu
+        aria-labelledby="navbarUserDropdown"
+        class="dropdown-menu dropdown-menu-right"
+      >
         <a ngbDropdownItem [routerLink]="['/main/perfil-usuario']">
-          <span [data-feather]="'user'" [class]="'mr-50'"></span> Perfil</a>
+          <span [data-feather]="'user'" [class]="'mr-50'"></span> Perfil</a
+        >
         <div class="dropdown-divider"></div>
 
-        <a ngbDropdownItem (click)="logout()"><span [data-feather]="'power'" [class]="'mr-50'"></span> Salir</a>
+        <a ngbDropdownItem (click)="logout()"
+          ><span [data-feather]="'power'" [class]="'mr-50'"></span> Salir</a
+        >
       </div>
     </li>
     <!--/ User Dropdown -->
   </ul>
 </div>
 
-
 <!-- Modal -->
 <div>
-
   <!-- Login Form -->
   <div class="login-form">
     <!-- Modal -->
     <ng-template #modalForm let-modal>
-      <div class="modal-header">
-        Ayuda en línea
-      </div>
+      <div class="modal-header">Ayuda en línea</div>
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
             <h3>Para ayuda en línea por favor ingresa al siguiente link.</h3>
             <p>
-              <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" target="_blank">
-                https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley</a>
-
+              <a
+                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
+                target="_blank"
+              >
+                https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley</a
+              >
+            </p>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Cerrar</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="modal.close('Close click')"
+        >
+          Cerrar
+        </button>
       </div>
     </ng-template>
     <!-- / Modal -->

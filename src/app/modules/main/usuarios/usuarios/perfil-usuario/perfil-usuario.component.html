@@ -11,11 +11,7 @@
             <div class="col-sm-3">
               <div class="card">
                 <div class="card-body">
-                  <img
-                    src="../../../../../assets/images/avatars/usuario.png"
-                    style="width: 200px"
-                    alt=""
-                  />
+                  <img [src]="imgUrl" class="profile-img" alt="" />
                 </div>
               </div>
             </div>
@@ -164,22 +160,34 @@
             </div>
             <div class="col-md-12">
               <div class="form-group">
-                <label for="basicInputFile">Cambiar imagen de perfil</label>
-                <div class="custom-file">
-                  <input
-                    type="file"
-                    class="custom-file-input"
-                    id="customFile"
-                    (change)="captureFile($event)"
-                  />
-                  <label class="custom-file-label" for="customFile"
-                    >Elegir archivo</label
-                  >
-                </div>
-                <div *ngIf="prevImg">
-                  <div class="row">
-                    <img [src]="prevImg" class="imgPrev" alt="imgdata" />
+                <label for="country-floating">Imagen de perfil</label>
+                <div class="row align-items-center">
+                  <div class="col-md-10">
+                    <input
+                      type="link"
+                      id="country-floating"
+                      class="form-control"
+                      formControlName="img"
+                      placeholder="Link"
+                      (paste)="declareImg($event)"
+                    />
                   </div>
+                  <div class="col-auto text-center">
+                    <a (click)="clearUrlData()"
+                      ><i data-feather="x-circle" class="text-danger"></i
+                    ></a>
+                  </div>
+                </div>
+                <span class="text-danger" *ngIf="validFieldEdit('img')"
+                  >Este campo es requerido</span
+                >
+                <div class="img-preview">
+                  <img
+                    [src]="imgPreview"
+                    alt="La imagen no existe"
+                    *ngIf="imgPreview"
+                    class="imgPreview"
+                  />
                 </div>
               </div>
             </div>

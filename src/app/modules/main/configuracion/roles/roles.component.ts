@@ -108,8 +108,8 @@ export class RolesComponent implements OnInit {
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "Producto creado",
-          text: "El producto se ha creado correctamente",
+          title: "Rol creado",
+          text: "El rol se ha creado correctamente",
           showConfirmButton: false,
           timer: 1000,
         });
@@ -121,6 +121,7 @@ export class RolesComponent implements OnInit {
 
         this.modalService.dismissAll();
         this.rolForm.reset();
+        this.getRoles();
       },
       (err: any) => {
         console.log("No se pudo guardar");

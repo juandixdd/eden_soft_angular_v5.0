@@ -46,7 +46,7 @@ export class RolesComponent implements OnInit {
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
     ],
-    categoria: [],
+    categoria: [Validators.required],
   });
 
   public switchForm: UntypedFormGroup = this.fb.group({
@@ -165,6 +165,13 @@ export class RolesComponent implements OnInit {
   }
   cerrarModal() {
     this.modalService.dismissAll();
+  }
+
+  editValidField(field: string) {
+    return (
+      this.rolForm.controls[field].errors &&
+      this.rolForm.controls[field].touched
+    );
   }
 
   filterUpdate(event) {

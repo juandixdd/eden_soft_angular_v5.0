@@ -31,19 +31,20 @@
                 class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0"
               >
                 <!-- ?Buscador -->
-                <label class="d-flex align-items-center"
-                  ><input
-                    type="search"
-                    placeholder="Buscar"
-                    class="form-control ml-25"
-                /></label>
+              <label class="d-flex align-items-center"
+              ><input
+                type="search"
+                placeholder="Buscar"
+                class="form-control ml-25"
+                (keyup)="filterUpdate($event)"
+            /></label>
   
               </div>
             </div>
           </div>
           <!--? Aquí empieza la tabla -->
           <ngx-datatable
-            [rows]="rows"
+            [rows]="_filterRows"
             [rowHeight]="50"
             class="bootstrap core-bootstrap"
             [limit]="selectedOption"
@@ -143,6 +144,8 @@
                 </div>
               </ng-template>
             </ngx-datatable-column>
+
+
           </ngx-datatable>
         </div>
       </section>

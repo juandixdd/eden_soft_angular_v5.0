@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { AbonosService } from 'app/modules/services/abonos/abonos.service';
 import { ClientesInformativosService } from 'app/modules/services/clientesInformativos/clientes-informativos.service';
 import { DetallePedidoLocalService } from 'app/modules/services/detallePedidoLocal/detalle-pedido-local.service';
 import { PedidoLocalService } from 'app/modules/services/pedidoLocal/pedido-local.service';
@@ -24,7 +25,8 @@ export class CreateClientComponent implements OnInit {
     private productosService: ProductosService,
     private clientesInformativosService: ClientesInformativosService,
     private pedidoLocalService: PedidoLocalService,
-    private detallePedidoLocalService: DetallePedidoLocalService
+    private detallePedidoLocalService: DetallePedidoLocalService,
+    private abonosService: AbonosService
   ) { }
   
   public basicDPdata: NgbDateStruct;
@@ -35,6 +37,10 @@ export class CreateClientComponent implements OnInit {
   clientExists: any = parseInt(this.activatedRoute.snapshot.params.exist);
   clientData: any = {};
   indexOfProduct: any;
+  hasAbono = false;
+  selectPercent = 50;
+  fullDiscount: number;
+  fullDiscountExists: boolean;
   productsDatabaseResponse: any;
   selectBasic: any;
 
@@ -79,8 +85,15 @@ export class CreateClientComponent implements OnInit {
     fecha_entrega: [
       "",
       [Validators.required]
-    ]
-    
+    ],
+
+  })
+
+  public switchForm: UntypedFormGroup = this.fb.group({
+    abono: [
+      "", [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+    ],
+    estado: [],
   })
 
 
@@ -104,6 +117,18 @@ export class CreateClientComponent implements OnInit {
       this.productsDatabaseResponse = res;
       console.log("Hola: ", this.selectBasic);
     });
+  }
+  switchEvent({ target }) {
+    this.hasAbono = target.checked;
+    this.fullDiscountExists = target.checked;
+    this.fullDiscount = (this.totalCost * this.selectPercent) / 100;
+  }
+
+  selectEvent(event) {
+    const value = event.target.value;
+    const absoluteValue = parseInt(value.substring(0, value.length - 1));
+    this.selectPercent = absoluteValue;
+    this.fullDiscount = (this.totalCost * absoluteValue) / 100;
   }
 
   eventListenerQuantity(event) {
@@ -157,7 +182,6 @@ export class CreateClientComponent implements OnInit {
           id_cliente_documento: this.clientData.id_cliente_documento,
           fecha_registro: new Date().toISOString(),
           precio_total: this.totalCost,
-          estado: 1,
           fecha_entrega: this.basicDPdata.year + "-" + this.basicDPdata.month + "-" + this.basicDPdata.day.toString()
           
         };
@@ -168,11 +192,25 @@ export class CreateClientComponent implements OnInit {
             if (res.status === 200) {
               console.log("Cliente creado: ", res);
               console.log("Pedido local: ", this.pedido_local);
+              let pedido: any;
+
+              if(!this.hasAbono){
+                pedido = {
+                  ...this.pedido_local,
+                  estado: 1
+                };
+              }else {
+                pedido = {
+                  ...this.pedido_local,
+                  estado: 2
+                };
+              }
+
               this.pedidoLocalService
-                .createData(this.pedido_local)
+                .createData(pedido)
                 .subscribe((res: any) => {
                   if (res.status === 200) {
-                    console.log("Pedido creado 1");
+                    console.log("Pedido creado ");
                     let idPedido = res.data.insertId;
 
                     this.productos.forEach((item, index) => {
@@ -195,6 +233,19 @@ export class CreateClientComponent implements OnInit {
                               showConfirmButton: false,
                               timer: 1500,
                             });
+                            //! Se guarda el abono
+                            if (this.hasAbono) {
+                              let abono = {
+                                id_pedido_local: detallePedidoLocal.id_pedido_local,
+                                valor: this.fullDiscount,
+                              };
+                              this.abonosService
+                              .createData(abono).subscribe((res: any) => {
+                                console.log(res);
+                              })
+                            } else {
+                              console.log("Sin abono");
+                            }
                             this.router.navigate(["main/pedidos-local"]);
                           }
                         });
@@ -221,16 +272,28 @@ export class CreateClientComponent implements OnInit {
         id_cliente_documento: this.cedula,
         fecha_registro: new Date().toISOString(),
         precio_total: this.totalCost,
-        estado: 1,
         fecha_entrega: this.basicDPdata.year + "-" + this.basicDPdata.month + "-" + this.basicDPdata.day.toString()
 
       };
+      let pedido: any;
+      if (!this.hasAbono){
+        pedido = {
+          ...this.pedido_local,
+          estado: 1,
+        };
+      } else {
+        pedido = {
+          ...this.pedido_local, 
+          estado: 2,
+        };
+      }
+
       setTimeout(() => {
         this.pedidoLocalService
-          .createData(this.pedido_local)
+          .createData(pedido)
           .subscribe((res: any) => {
             if (res.status === 200) {
-              console.log("Pedido creado 2");
+              console.log("Pedido creado");
               console.log(this.pedido_local);
               
               let idPedido = res.data.insertId;
@@ -259,6 +322,21 @@ export class CreateClientComponent implements OnInit {
                         showConfirmButton: false,
                         timer: 1500,
                       });
+                      //! Se guarda el abono
+                    if (this.hasAbono) {
+                      let abono = {
+                        id_pedido_local: detallePedidoLocal.id_pedido_local,
+                        valor: this.fullDiscount,
+                      };
+                      this.abonosService
+                        .createData(abono)
+                        .subscribe((res: any) => {
+                          console.log(res);
+                        });
+                    } else {
+                      console.log("Sin abono");
+                    }
+
                       this.router.navigate(["main/pedidos-local"]);
                     }
                   });

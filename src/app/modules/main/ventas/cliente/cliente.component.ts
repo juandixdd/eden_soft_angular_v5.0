@@ -29,7 +29,20 @@ export class ClienteComponent implements OnInit {
     private fb: UntypedFormBuilder
   ) { }
 
+  ngOnInit(): void {
+    this.tempData = this.rows;
+    this.kitchenSinkRows = this.rows;
+    this.getClientes();
+  }
 
+     //! ------------- GET Y SET PARA EL BUSCADOR ------------- 
+     get filterRows(): any {
+      return this._filterRows;
+    }
+  
+    set filterRows(value) {
+      this._filterRows = value;
+    }
 
   public clienteForm: UntypedFormGroup = this.fb.group({
     id_cliente_documento: [
@@ -75,21 +88,6 @@ export class ClienteComponent implements OnInit {
     estado:[]
   })
 
-  ngOnInit(): void {
-    this.tempData = this.rows;
-    this.kitchenSinkRows = this.rows;
-    this.getClientes();
-  }
-
-   //! ------------- GET Y SET PARA EL BUSCADOR ------------- 
-   get filterRows(): any {
-    return this._filterRows;
-  }
-
-  set filterRows(value) {
-    this._filterRows = value;
-  }
-
   modalOpen(modal) {
     this.modalService.open(modal, {
       centered: true,
@@ -100,7 +98,7 @@ export class ClienteComponent implements OnInit {
     this.clientesInformativosService.getData().subscribe((res: any) => {
       res.forEach((item) => {
         item.formcontrol = new UntypedFormControl(item.estado);
-        this.switchForm.addControl(item.id, item.formcontrol)
+        this.switchForm.addControl(item.id_cliente_documento, item.formcontrol)
       });  
       this.rows = res;
         this.filterRows = res;
@@ -199,7 +197,7 @@ export class ClienteComponent implements OnInit {
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.isConfirmed) {
-          this.clientesInformativosService.cambiarEstado(row.id, status).subscribe(
+          this.clientesInformativosService.cambiarEstado(row.id_cliente_documento, status).subscribe(
             (res:any) =>{
               if(res.status === 200){
                 Swal.fire({

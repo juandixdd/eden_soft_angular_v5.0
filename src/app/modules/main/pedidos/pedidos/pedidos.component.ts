@@ -139,27 +139,6 @@ export class PedidosComponent implements OnInit {
     console.log(this.categoryId);
   }
 
-  //! ------------- buscador de pedidos ------------- 
-  filterUpdate(event) {
-    const val = event.target.value.toLowerCase();
-  
-    const filterData = this.rows.filter((item: any) => {
-      const filterData =
-      item.id_pedido.toString().toLowerCase().includes(val) ||
-      item.nombre.toString().toLowerCase().includes(val) || 
-      item.precio_total.toString().toLowerCase().includes(val) ||
-      item.fecha_entrega.toLowerCase().includes(val) ||
-      item.fecha_registro.toLowerCase().includes(val); ; 
-      return filterData;
-    });
-
-    // update the rows
-    this.filterRows = filterData;
-  
-    console.log(filterData);
-  }
-
-
   defineProductInfo(id) {
     this.productosService.getDataById(id).subscribe((res: any) => {
       this.productInfo = res[0];
@@ -272,4 +251,26 @@ export class PedidosComponent implements OnInit {
       }, 100);
     }
   }
+
+  //! ------------- buscador de pedidos ------------- 
+  filterUpdate(event) {
+    const val = event.target.value.toLowerCase();
+  
+    const filterData = this.rows.filter((item: any) => {
+      const filterData =
+      item.id_pedido.toString().toLowerCase().includes(val) ||
+      item.nombre.toString().toLowerCase().includes(val) || 
+      item.precio_total.toString().toLowerCase().includes(val) ||
+      item.fecha_entrega.toLowerCase().includes(val) ||
+      item.fecha_registro.toLowerCase().includes(val);  
+      return filterData;
+    });
+
+    // update the rows
+    this.filterRows = filterData;
+  
+    console.log(filterData);
+  }
+
+
 }

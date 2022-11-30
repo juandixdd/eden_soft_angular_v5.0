@@ -26,4 +26,12 @@ export class PedidoLocalService {
   anularPedidoLocal(id, data) {
     return this.http.put(`${this.API_URL}/pedido-local/${id}`, data)
   }
+
+  cambiarEstadoDePago(id, data) {
+    return this.http.put(`${this.API_URL}/pedido-local/${id}`, data);
+  }
+  anularAbono(id, data) {
+    return this.http.put(`${this.API_URL}/pedido-local/abono/${id}`, data);
+  }
+
 }

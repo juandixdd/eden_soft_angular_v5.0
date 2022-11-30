@@ -26,7 +26,7 @@ export class PedidosLocalComponent implements OnInit {
   pedidoData: any;
   rows: any = [];
   products: any[] = [];
-
+  _filterRows: any = [];
 
   constructor(
     private modalService: NgbModal,
@@ -52,10 +52,16 @@ export class PedidosLocalComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPedidosLocales();
-  
-    
   }
 
+   //! ------------- GET Y SET PARA EL BUSCADOR ------------- 
+   get filterRows(): any {
+    return this._filterRows;
+  }
+
+  set filterRows(value) {
+    this._filterRows = value;
+  }
 
   modalOpen(modal) {
     //? Esta es la funcion que abre las modales.
@@ -68,12 +74,12 @@ export class PedidosLocalComponent implements OnInit {
   getPedidosLocales(){
     this.pedidoLocalService.getData().subscribe((res: any) =>  {
       res.forEach((item) => {
-        console.log(item);
-        
+        console.log(item);    
         item.formcontrol  =  new UntypedFormControl(item.estado);
         this.switchForm.addControl(item.id_pedido_local, item.formcontrol);
       });
       this.rows = res;
+      this.filterRows = res;
     });
   }
 
@@ -144,7 +150,7 @@ export class PedidosLocalComponent implements OnInit {
   switchEvent({ target }, row) {
     let checked = target.checked;
     let status = {
-      estado: checked,
+      estado: checked ? 1 : 0,
     };
 
     if (checked) {
@@ -167,20 +173,24 @@ export class PedidosLocalComponent implements OnInit {
           cancelButtonText: "Cancelar",
         }).then((result) => {
           if (result.isConfirmed) {
-            this.pedidoLocalService
-              .anularPedidoLocal(row.id_venta, status)
-              .subscribe((res: any) => {
-                if (res.status === 200) {
-                  Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Se cambió el estado del pedido",
-                    showConfirmButton: false,
-                    timer: 1000,
-                  });
-                  this.getPedidosLocales();
-                }
-              });
+            console.log("Cancelar");
+            console.log(row.id_pedido_local);
+            console.log(status);
+
+            // this.pedidoLocalService
+            //   .anularPedidoLocal(row.id_venta, status)
+            //   .subscribe((res: any) => {
+            //     if (res.status === 200) {
+            //       Swal.fire({
+            //         position: "top-end",
+            //         icon: "success",
+            //         title: "Se cambió el estado del pedido",
+            //         showConfirmButton: false,
+            //         timer: 1000,
+            //       });
+            //       this.getPedidosLocales();
+            //     }
+            //   });
           } else {
             Swal.fire({
               position: "top-end",
@@ -195,6 +205,156 @@ export class PedidosLocalComponent implements OnInit {
       }, 100);
     }
   }
+  reloadPage() {
+    setTimeout(() => {
+      this.router
+        .navigate(["/main/pedidos-local"])
+        .then(() => window.location.reload());
+    }, 1000);
+  }
+
+  selectEvent({ target }, idPedido) {
+    const successAlert = (message) => {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: `${message}`,
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    };
+
+    const warningAlert = (message) => {
+      Swal.fire({
+        position: "top-end",
+        icon: "warning",
+        title: `${message}`,
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    };
+
+    let reqBody = {
+      estado: target.value,
+    };
+
+    // ? Se inactiva el pedido
+    if (reqBody.estado == 0) {
+      Swal.fire({
+        title: "¿Estas seguro?",
+        text: "Esta acción no se puede revertir",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Cambiar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.pedidoLocalService
+            .anularPedidoLocal(idPedido, reqBody)
+            .subscribe((res: any) => {
+              if (res.status == 200) {
+                successAlert("Se anuló el pedido");
+                this.reloadPage();
+              } else {
+                warningAlert(
+                  "Ops! Hubo un error interno, por favor inténtelo de nuevo"
+                );
+                this.reloadPage();
+              }
+            });
+        } else {
+          warningAlert("No se inactivó el pedido");
+          this.reloadPage();
+        }
+      });
+    }
+    // ? Se cambia a pagado
+    if (reqBody.estado == 1) {
+      Swal.fire({
+        title: "¿Estas seguro?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Cambiar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.pedidoLocalService
+            .anularPedidoLocal(idPedido, reqBody)
+            .subscribe((res: any) => {
+              if (res.status == 200) {
+                let abonoBody = {
+                  estado: 0,
+                };
+                this.pedidoLocalService
+                  .anularAbono(idPedido, abonoBody)
+                  .subscribe((res: any) => {
+                    if (res.status == 200) {
+                      successAlert(
+                        "Se actualizó el estado del pedido y se inactivó el abono"
+                      );
+                      this.reloadPage();
+                    } else {
+                      warningAlert(
+                        "Ops! Hubo un error interno, por favor inténtelo de nuevo"
+                      );
+                      this.reloadPage();
+                    }
+                  });
+              } else {
+                warningAlert(
+                  "Ops! Hubo un error interno, por favor inténtelo de nuevo"
+                );
+                this.reloadPage();
+              }
+            });
+        } else {
+          warningAlert("No se cambió el estado del pedido");
+          this.reloadPage();
+        }
+      });
+    }
+
+    // ? Se restringe el abono
+    if (reqBody.estado == 2) {
+      warningAlert("No se puede abonar a un pedido pagado");
+      this.reloadPage();
+    }
+  }
+
+  validField(field: string) {
+    return (
+      this.cedulaForm.controls[field].errors &&
+      this.cedulaForm.controls[field].touched
+    );
+  }
+
+
+
+
+  //! ------------- BUSCADOR DE PEDIDOS ------------- 
+filterUpdate(event) {
+  const val = event.target.value.toLowerCase();
+
+  const filterData = this.rows.filter((item: any) => {
+    const filterData =
+    item.id_pedido_local.toString().toLowerCase().includes(val) ||
+    item.nombre.toString().toLowerCase().includes(val) || 
+    item.precio_total.toString().toLowerCase().includes(val) ||
+    item.fecha_entrega.toLowerCase().includes(val) ||
+    item.fecha_registro.toLowerCase().includes(val); 
+    return filterData;
+  });
+
+  // update the rows
+  this.filterRows = filterData;
+
+  console.log(filterData);
+}
+
 
 
 }

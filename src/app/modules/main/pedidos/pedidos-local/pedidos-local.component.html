@@ -25,9 +25,13 @@
           <div class="col-md-6 col-12 d-flex justify-content-md-end">
             <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
               <!-- ?Buscador -->
-              <label class="d-flex align-items-center"><input type="search" placeholder="Buscar"
-                  class="form-control ml-25" /></label>
-
+              <label class="d-flex align-items-center"
+                ><input
+                  type="search"
+                  placeholder="Buscar"
+                  class="form-control ml-25"
+                  (keyup)="filterUpdate($event)"
+              /></label>
               <!-- ? Botón de crear -->
               <button class="btn btn-primary ml-2" (click)="modalOpen(cedulaModal)" rippleEffect>
                 Crear
@@ -36,7 +40,7 @@
           </div>
         </div>
         <!--? Aquí empieza la tabla -->
-        <ngx-datatable [rows]="rows" [rowHeight]="50" class="bootstrap core-bootstrap" [limit]="selectedOption"
+        <ngx-datatable [rows]="_filterRows" [rowHeight]="50" class="bootstrap core-bootstrap" [limit]="selectedOption"
           [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true">
           <!-- Column -->
           <ngx-datatable-column name="#" prop="id_pedido_local" [width]="20">
@@ -75,27 +79,69 @@
           </ngx-datatable-column>
 
           <!-- Column -->
-          <ngx-datatable-column name="estado" prop="estado" [width]="15">
-            <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">
-                {{ id == 1 ? "Activo" : "Cancelado" }}
+          <ngx-datatable-column name="estado" prop="estado" [width]="20">
+            <ng-template let-id="value" ngx-datatable-cell-template let-row="row">
+              <p
+                class="font-weight-bold text-danger"
+                style="margin: 0px auto"
+                *ngIf="row.estado === 0"
+              >
+                <i class="fa fa-circle"></i>
+              </p>
+              <p
+                class="font-weight-bold text-success"
+                style="margin: 0px auto"
+                *ngIf="row.estado === 1"
+              >
+                <i class="fa fa-circle"></i>
+              </p>
+              <p
+                class="font-weight-bold text-warning"
+                style="margin: 0px auto"
+                *ngIf="row.estado === 2"
+              >
+                <i class="fa fa-circle"></i>
               </p>
             </ng-template>
           </ngx-datatable-column>
 
-          <!-- Column -->
-          <ngx-datatable-column name="Anular Pedido" prop="estado" [width]="15">
-            <ng-template let-row="row" let-id="value" ngx-datatable-cell-template>
-              <form [formGroup]="switchForm">
-                <div class="custom-control custom-switch custom-control-inline">
-                  <input type="checkbox" class="custom-control-input" [id]="row.id_pedido_local"
-                    (change)="switchEvent($event, row)" [formControl]="row.formcontrol" [disabled] />
-                  <label class="custom-control-label" [for]="row.id_pedido_local"></label>
-                </div>
-              </form>
-            </ng-template>
-          </ngx-datatable-column>
+           <!-- ?Select -->
+           <ngx-datatable-column
+           name="Cambiar estado"
+           prop="estado"
+           [width]="20"
+         >
+           <ng-template
+             let-id="value"
+             let-row="row"
+             ngx-datatable-cell-template
+           >
+             <select
+               class="custom-select"
+               *ngIf="row.estado === 1 || row.estado === 2"
+               (change)="selectEvent($event, row.id_pedido_local)"
+             >
+               <option value="1" [selected]="row.estado === 1">Pagado</option>
+               <option value="2" [selected]="row.estado === 2">Abonado</option>
+               <option
+                 value="0"
+                 [disabled]="row.estado === 0"
+                 class="text-danger"
+               >
+                 Inactivo
+               </option>
+             </select>
+             <p
+               class="text-danger col-auto"
+               *ngIf="row.estado === 0"
+               style="margin: 0px auto"
+             >
+               Inactivo
+             </p>
+           </ng-template>
+         </ngx-datatable-column>
 
+          <!-- Column -->
           <ngx-datatable-column name="Acciones" [width]="100">
             <ng-template ngx-datatable-cell-template let-row="row">
               <div class="d-flex justify-content-start">

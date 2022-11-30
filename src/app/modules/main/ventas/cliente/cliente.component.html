@@ -105,7 +105,7 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column
+        <ngx-datatable-column
           name="Cambiar estado"
           prop="estado"
           [width]="20"
@@ -120,13 +120,13 @@
                 <input
                   type="checkbox"
                   class="custom-control-input"
-                  [id]="row.id"
+                  [id]="row.id_cliente_documento"
                   (change)="switchEvent($event, row)"
                   [formControl]="row.formcontrol"
                 />
                 <label
                   class="custom-control-label"
-                  [for]="row.id"
+                  [for]="row.id_cliente_documento"
                 ></label>
               </div>
             </form>

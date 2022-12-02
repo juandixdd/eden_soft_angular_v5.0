@@ -188,7 +188,7 @@ export class ClienteComponent implements OnInit {
     setTimeout(()=>{
       Swal.fire({
         title: '¿Estas seguro?',
-        text: "Cambiarás el estado de esta categoría",
+        text: "Cambiarás el estado de este cliente",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -203,7 +203,7 @@ export class ClienteComponent implements OnInit {
                 Swal.fire({
                   position: 'top-end',
                   icon: 'success',
-                  title: 'Se cambio el estado de la categoría',
+                  title: 'Se cambio el estado del cliente',
                   showConfirmButton: false,
                   timer: 1000
                 })
@@ -218,7 +218,7 @@ export class ClienteComponent implements OnInit {
           Swal.fire({
             position: 'top-end',
             icon: 'warning',
-            title: 'No se cambió el estado de la categoría',
+            title: 'No se cambió el estado del cliente',
             showConfirmButton: false,
             timer: 1000
           })

@@ -155,34 +155,41 @@ export class ProductosAdminComponent implements OnInit {
       imagen: this.productForm.value.imagen,
       estado: 1,
     };
-
-    this.productosService.createProduct(this.product).subscribe(
+    let exists: boolean;
+    this.productosService.validateProductExists(this.product.nombre).subscribe(
       (res: any) => {
-        console.log(res);
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Producto creado",
-          text: "El producto se ha creado correctamente",
-          showConfirmButton: false,
-          timer: 1000,
-        });
-
-        this.modalService.dismissAll();
-        this.productForm.reset();
-        this.getProducts();
-      },
-      (err: any) => {
-        console.log("No se pudo guardar");
-        console.log(err);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Ha ocurrido un error, por favor intente nuevamente",
-          confirmButtonText: "Ok",
-        });
-      }
-    );
+        console.log("oe");
+        
+        if(res.exists === false){
+        try{
+          this.productosService.createProduct(this.product).subscribe((res: any)=>{
+            console.log("holi");         
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Producto creado",
+              text: "El producto se ha creado correctamente",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+            this.getProducts();
+            this.modalService.dismissAll();
+            this.productForm.reset();
+          });
+        }catch(error){
+          console.log(error);
+        }
+        }else if (res.exists === true) {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Opps, esta producto ya se encuentra registrada",
+            showConfirmButton: true,
+            confirmButtonText: "Ok",
+          });
+          this.productForm.reset();
+        }
+      })
   }
 
   getRowData(row) {
@@ -193,22 +200,20 @@ export class ProductosAdminComponent implements OnInit {
       imagen: row.imagen,
     }
 
-    this.productosService.getDataById(row.id).subscribe(
-      (res:any)=>{
+    this.productosService.getDataById(row.id).subscribe((res:any)=>{
         this.nombreCategoria = res[0].nombre
         this.productFormEdit.controls['nombre'].setValue(row.nombre);
         this.productFormEdit.controls['precio'].setValue(row.precio);
         this.productFormEdit.controls['id'].setValue(this.nombreCategoria);
         this.productFormEdit.controls['imagen'].setValue(row.imagen);
         console.log(res);
-      }
-      
-      
+      }     
     )
       this.productFormEdit.controls['nombre'].setValue(row.nombre);
       this.productFormEdit.controls['precio'].setValue(row.precio);
       this.productFormEdit.controls['id'].setValue(row.id);
       this.productFormEdit.controls['imagen'].setValue(row.imagen);
+
   }
   
   onChange(event) {
@@ -228,10 +233,10 @@ export class ProductosAdminComponent implements OnInit {
       }
       this.productosService.updateData(this.editProducto.id, edit).subscribe(
         (res: any) => {
-          console.log(res);
+          console.log(this.editProducto);
           this.productosService.updateData(this.editProducto.id, edit).subscribe(
             (res: any) => {
-              console.log(res);
+              console.log(this.editProducto);
               
               Swal.fire({
                 position: 'center',
@@ -247,8 +252,6 @@ export class ProductosAdminComponent implements OnInit {
 
         }
       )
-      
-
     } catch (error) {
       console.log(error);
       Swal.fire({
@@ -259,7 +262,6 @@ export class ProductosAdminComponent implements OnInit {
         confirmButtonText: "Ok"
       })
     }
-
   }
 
 //! ------------- ELIMINAR UN PRODUCTO ------------- 

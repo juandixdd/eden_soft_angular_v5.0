@@ -15,6 +15,9 @@ export class ProductosService {
     return this.http.get(`${this.API_URL}/productos`)
   }
 
+  getDataCatalogo() {
+    return this.http.get(`${this.API_URL}/productos/catalogo`)
+  }
   getDataById(id) {
     return this.http.get(`${this.API_URL}/productos/${id}`);
   }
@@ -33,10 +36,14 @@ export class ProductosService {
 
   deleteData(id:number){
     return this.http.delete(`${this.API_URL}/productos/${id}`)
-}
+  }
 
   cambiarEstado(id, body){
     return this.http.put(`${this.API_URL}/productos/cambiarEstado/${id}`, body)
-}
+  }
+
+  validateProductExists(nombre){
+  return this.http.get(`${this.API_URL}/productos/nombre/${nombre}`)
+  }
 
 }

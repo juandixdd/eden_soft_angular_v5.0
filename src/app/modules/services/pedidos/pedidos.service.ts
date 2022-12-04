@@ -28,6 +28,10 @@ export class PedidosService {
   getPedidoByCedula(cedula: any){
     return this.http.get(`${this.API_URL}/pedidos/cliente/${cedula}`)
   }
+  anularPedido(id, body){
+    return this.http.put(`${this.API_URL}/pedidos/anular/${id}`, body);
+    //? anular pedidos
+  }
 
   //? servicios del detalle del pedido
   getDetalles() {

@@ -35,4 +35,9 @@ export class CategoriaService {
   cambiarEstado(id, body){
   return this.http.put(`${this.API_URL}/categoria/cambiarEstado/${id}`, body)
   }
+
+  validateCategoryExists(nombre){
+    return this.http.get(`${this.API_URL}/categoria/nombre/${nombre}`)
+  }
+
 }

@@ -18,7 +18,7 @@ import Swal from "sweetalert2";
 export class PedidosClienteComponent implements OnInit {
   public selectedOption = 10; //? Este es el selector de cuantas filas quieres ver en la tabla, en este caso, 10.
   public ColumnMode = ColumnMode; //? Esto es para que cuando selecciones una fila, se seleccione la fila y no el boton.
-  private tempData = []; //? Estas son cosas del buiscador (Que no funciona)
+  private tempData = []; //? Estas son cosas del buiscador 
   public kitchenSinkRows: any;
 
   categorias: any;
@@ -40,6 +40,7 @@ export class PedidosClienteComponent implements OnInit {
   public dateValidator: boolean = true; 
   userId= localStorage.getItem('userId');
   _filterRows: any = [];
+  estado: any;
 
   constructor(
     private modalService: NgbModal,
@@ -140,7 +141,16 @@ export class PedidosClienteComponent implements OnInit {
     console.log(this.categoryId);
   }
 
+  getPedidoByCedula(cedula){
+    this.pedidosService.getPedidoByCedula(cedula).subscribe((res: any)=>{
+      this.rows = res;
+      console.log(this.rows);
+      this.estado = true;
+      this._filterRows = res;
+      
+    })
 
+  }
 
   defineProductInfo(id) {
     this.productosService.getDataById(id).subscribe((res: any) => {
@@ -198,54 +208,60 @@ export class PedidosClienteComponent implements OnInit {
     });
   }
 
-  switchEvent({target}, row){
-    let checked = target.checked;
-    let status = {
-      estado: checked
-    }
-    console.log(status);
-    setTimeout(()=>{
+  switchEvent(row){
+    let estado = {
+      status: row.estado,
+    };
+    console.log(row.estado);
+
+    if (estado.status === 0) {
       Swal.fire({
-        title: '¿Estas seguro?',
-        text: "Cambiarás el estado del pedido",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Cambiar',
-        cancelButtonText: 'Cancelar'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          console.log("sipi");
-          this.pedidosService.anularCotizacion(row.id_pedido, status).subscribe(
-            (res:any) =>{
-              if(res.status === 200){
-                Swal.fire({
-                  position: 'top-end',
-                  icon: 'success',
-                  title: 'Se cambio el estado del pedido',
-                  showConfirmButton: false,
-                  timer: 1000
-                })
-                this.getPedidos()
-              }
-            }
-          )
-            
-        }
-        else {
-          console.log("nopi");
-          this.getPedidos();
-          Swal.fire({
-            position: 'top-end',
-            icon: 'warning',
-            title: 'No se cambió el estado del pedido',
-            showConfirmButton: false,
-            timer: 1000
-          })
-        }
-      })
-    },100)
+        icon: "warning",
+        confirmButtonText: "Ok",
+        title: "Ops, no se puede volver a activar un pedido",
+      });
+    } else if (estado.status === 1) {
+      setTimeout(() => {
+        Swal.fire({
+          title: "¿Estas seguro?",
+          text: "Anularas el pedido",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Anular",
+          cancelButtonText: "Cancelar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            console.log("sipi");
+            this.pedidosService
+              .anularPedido(row.id_pedido, status)
+              .subscribe((res: any) => {
+                if (res.status === 200) {
+                  Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Se anulo el pedido",
+                    showConfirmButton: false,
+                    timer: 1000,
+                  });
+                  this.getPedidoByCedula(row.id_cliente_documento);
+                }
+              });
+          } else {
+            console.log("nopi");
+            this.getPedidoByCedula(row.id_cliente_documento);
+            Swal.fire({
+              position: "top-end",
+              icon: "warning",
+              title: "No se anulo el pedido",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+          }
+        });
+      }, 100);
+    }
   }
 
   //! ------------- BUSCADOR DE MIS PEDIDOS ------------- 

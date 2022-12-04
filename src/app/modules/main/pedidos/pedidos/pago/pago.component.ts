@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { Router } from "@angular/router";
+import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { PedidosService } from "app/modules/services/pedidos/pedidos.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-pago",
@@ -14,10 +16,14 @@ export class PagoComponent implements OnInit {
   public basicDPdata: NgbDateStruct;
   newItems: any;
   precioTotal: any = 0;
+  timer: boolean = false;
+  type: string = "";
 
   constructor(
     private pedidosService: PedidosService,
     private fb: UntypedFormBuilder,
+    private router: Router,
+    private modalService: NgbModal,
 
   ) { }
 
@@ -90,7 +96,7 @@ export class PagoComponent implements OnInit {
       this.pedidosService.createPedido(pedido).subscribe(
         (res: any) => {
           console.log(res);
-          this.newItems.forEach((item, index) => {
+          this.newItems.forEach((item, index) => { setTimeout(() =>{
             let detalle_pedido = {
               id_producto: item.itemId,
               id_pedido: res.pedidoId,
@@ -102,16 +108,34 @@ export class PagoComponent implements OnInit {
               (res: any) => {
                 console.log(res);
 
-              }
-            )
+              });
+          });
+          }, 1000);
+        });
+         //? se confirma el guardado
+         Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Hecho!",
+          text: "Se guardó el pedido",
+          showConfirmButton: false,
+          timer: 1000,
+        });
 
-          })
+        this.timer = false;
+        this.router.navigate(["main/pedidos/perfil-usuario"]);
+        console.log(this.item);
 
-        }
-      )
     } catch (error) {
       console.log(error);
-
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Oops...",
+        text: "Algo salió mal, intentalo de nuevo",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
 
   }
@@ -125,5 +149,13 @@ export class PagoComponent implements OnInit {
   validField(field: string){
     return this.pagoForm.controls[field].errors && 
       this.pagoForm.controls[field].touched
+  }
+
+  modalOpen(modal, tipo) {
+    //? Esta es la funcion que abre las modales.
+    this.modalService.open(modal, {
+      centered: true,
+    });
+    this.type = tipo;
   }
 }

@@ -92,9 +92,9 @@ export class ProductosComponent implements OnInit {
   }
 
   getProducts() {
-    this.productosService.getData().subscribe((res) => {
+    this.productosService.getDataCatalogo().subscribe((res) => {
       this.products = res;
-      console.log(this.products);
+      console.log(this.products);  
     });
   }
 

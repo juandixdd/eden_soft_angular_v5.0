@@ -136,6 +136,9 @@ export class PedidosLocalComponent implements OnInit {
         fecha_entrega: res[0].fecha_entrega,
         precio_total: res[0].precio_total,
         estado: res[0].estado,
+        cantidad_abono: res[0].cantidad_abono,
+        faltante: res[0].precio_total - res[0].cantidad_abono,
+        estado_abono: res[0].estado_abono,
       };
       res.forEach((item) => {
         this.products.push(item);
@@ -332,9 +335,6 @@ export class PedidosLocalComponent implements OnInit {
     );
   }
 
-
-
-
   //! ------------- BUSCADOR DE PEDIDOS ------------- 
 filterUpdate(event) {
   const val = event.target.value.toLowerCase();
@@ -354,7 +354,4 @@ filterUpdate(event) {
 
   console.log(filterData);
 }
-
-
-
 }

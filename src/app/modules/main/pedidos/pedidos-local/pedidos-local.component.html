@@ -161,7 +161,7 @@
 
 <!-- *************************************************** MODALES *************************************************** -->
 
-<!-- ! Modal de Creaciond e usuario informativo -->
+<!-- ! Modal de Creacion de usuario informativo -->
 <div>
   <ng-template #cedulaModal let-modal>
     <div class="modal-header">
@@ -183,11 +183,14 @@
               <input type="number" id="country-floating" class="form-control" formControlName="cedula"
                 placeholder="Cédula" />
             </div>
+            <span class="text-danger" *ngIf="validField('cedula')"
+              >Este campo es requerido</span
+            >
           </div>
         </div>
 
         <hr />
-        <button class="btn btn-primary btn-block mb-2" tabindex="5" rippleEffect (click)="validateClient()">
+        <button class="btn btn-primary btn-block mb-2" tabindex="5" rippleEffect (click)="validateClient()" [disabled]="!cedulaForm.valid">
           Validar cliente
         </button>
         <!-- ? Loader spinner -->
@@ -220,7 +223,7 @@
 
 
 
-<!-- ! Modal de info -->
+<!-- ! Modal de informacion -->
 <div>
   <ng-template #infoModal let-modal>
     <div class="modal-header">
@@ -240,10 +243,10 @@
       </div>
       <div class="m-1">
         <p>
-          <span class="text-primary">Cedula: </span>{{ clientData.id_cliente_documento }}
+          <span class="text-primary">Nombre: </span>{{ clientData.nombre }} {{ clientData.apellido }}
         </p>
         <p>
-          <span class="text-primary">Nombre: </span>{{ clientData.nombre }} {{ clientData.apellido }}
+          <span class="text-primary">Cedula: </span>{{ clientData.id_cliente_documento }}
         </p>
         <p>
           <span class="text-primary">Telefono: </span>{{ clientData.telefono }}
@@ -263,17 +266,13 @@
             <span class="text-primary"><b>Precio total: </b></span>
             {{ pedidoData.precio_total | currency: "USD":"symbol":"3.0" }}
           </p>
-          <p *ngIf="pedidoData.estado === 0">
-            <span class="text-primary"><b>Estado: </b></span>
-            <span class="text-danger">{{
-              pedidoData.estado == 1 ? "Activo" : "Inactivo"
-              }}</span>
+          <p *ngIf="pedidoData.estado_abono == 1">
+            <span class="text-primary"><b>Cantidad del abono: </b></span>
+            {{ pedidoData.cantidad_abono | currency: "USD":"symbol":"3.0" }}
           </p>
-          <p *ngIf="pedidoData.estado === 1">
-            <span class="text-primary"><b>Estado: </b></span>
-            <span class="text-success">{{
-              pedidoData.estado == 1 ? "Activo" : "Inactivo"
-              }}</span>
+          <p *ngIf="pedidoData.estado_abono == 1">
+            <span class="text-primary"><b>Faltante: </b></span>
+            {{ pedidoData.faltante | currency: "USD":"symbol":"3.0" }}
           </p>
         </div>
       </div>
@@ -301,24 +300,6 @@
             </tr>
           </tbody>
         </table>
-<!--
-        <div class="row justify-content-end">
-          <div class="col-auto m-1">
-            <p>
-              <span class="text-primary">Precio total: </span> {{ contPrecioTotal|currency:"USD":"symbol":"3.0" }}
-            </p>
-          </div>
-        </div>
-       
-      </div>
-
-      <div *ngIf="!clientData.length > 0">
-        <div class="row justify-content-center">
-          <div class="col-auto">
-            <p>No se han agregado productos</p>
-          </div>
-        </div>
-         -->
       </div>
 
       <div class="modal-footer">

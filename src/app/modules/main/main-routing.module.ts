@@ -25,6 +25,7 @@ import { PedidosLocalComponent } from './pedidos/pedidos-local/pedidos-local.com
 import { CreateClientComponent } from './pedidos/pedidos-local/create-client/create-client.component';
 import { RecuperarClaveComponent } from './usuarios/acceso/recuperar-clave/recuperar-clave.component';
 import { RegistrarUsuariosConDataComponent } from './usuarios/acceso/registrar-usuarios-con-data/registrar-usuarios-con-data.component';
+import { PedidosClienteComponent } from './pedidos/pedidos-cliente/pedidos-cliente.component';
 
 const routes: Routes = [
 
@@ -66,6 +67,7 @@ const routes: Routes = [
 
   { path: 'pedidos', component: PedidosComponent, canActivate: [AuthGuardGuard]},
   { path: 'pedidos/pago', component: PagoComponent, canActivate: [AuthGuardGuard]},
+  {path: 'pedidos/perfil-usuario', component: PerfilUsuarioComponent, canActivate: [AuthGuardGuard]},
   { path: 'pedidos-local', component: PedidosLocalComponent, canActivate: [AuthGuardGuard]},
   { path: 'pedidos-local/create-client/:cedula/:exist', component: CreateClientComponent, canActivate: [AuthGuardGuard] },
 

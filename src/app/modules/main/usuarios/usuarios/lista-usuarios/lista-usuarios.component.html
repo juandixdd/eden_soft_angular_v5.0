@@ -248,8 +248,13 @@
             <div class="col-md-6 col-12">
               <div class="form-group">
                 <label>Rol </label>
-                <ng-select [items]="selectBasic | async" bindLabel="rol" formControlName="id_rol" [ngModel]="nombreRol "
-                  placeholder="Seleccion un rol" (change)="onChange($event)">
+                <ng-select 
+                [items]="selectBasic | async" 
+                bindLabel="rol" 
+                formControlName="id_rol" 
+                [ngModel]="nombreRol "
+                placeholder="Seleccion un rol" 
+                (change)="onChange($event)">
                 </ng-select>
               </div>
             </div>

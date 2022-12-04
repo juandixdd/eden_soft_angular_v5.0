@@ -109,27 +109,6 @@
             </ngx-datatable-column>
 
             <!-- Column -->
-          <ngx-datatable-column name="cambiar estado" prop="estado" [width]="15">
-            <ng-template let-row="row" let-id="value" ngx-datatable-cell-template>
-              <form [formGroup]="switchForm">
-                <div class="custom-control custom-switch custom-control-inline">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    [id]="row.id_pedido"
-                    (change)="switchEvent($event, row)"
-                    [formControl]="row.formcontrol"
-                    [disabled]
-                  />
-                  <label
-                    class="custom-control-label"
-                    [for]="row.id_pedido"
-                  ></label>
-                </div>
-              </form>
-            </ng-template>
-          </ngx-datatable-column>
-  
             <ngx-datatable-column name="Acciones" [width]="100">
               <ng-template ngx-datatable-cell-template let-row="row">
                 <div class="d-flex justify-content-start">
@@ -141,6 +120,12 @@
                   >
                     <i class="feather icon-eye text-primary"></i>
                   </button>
+                  <button
+                  class="btn btn-icon btn-sm"
+                  (click)="switchEvent(row); getPedidosById(row.id_pedido)"
+                >
+                  <i class="feather icon-x-circle text-danger"></i>
+                </button>
                 </div>
               </ng-template>
             </ngx-datatable-column>

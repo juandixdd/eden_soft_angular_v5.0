@@ -436,7 +436,7 @@ export class ListaUsuariosComponent implements OnInit {
               Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "Actualizacion de Datos Exitosa",
+                title: "Actualización de Datos Exitosa",
                 showConfirmButton: false,
                 timer: 1500,
               });

@@ -136,7 +136,7 @@ export class PerfilUsuarioComponent implements OnInit {
                 Swal.fire({
                   position: "center",
                   icon: "success",
-                  title: "Actualizacion de Perfil Exitoso",
+                  title: "Actualización de Perfil Exitosa",
                   showConfirmButton: false,
                   timer: 1500,
                 });
@@ -151,7 +151,7 @@ export class PerfilUsuarioComponent implements OnInit {
           Swal.fire({
             position: "center",
             icon: "error",
-            title: "Vueve a intertarlo, paso algo inprevisto",
+            title: "Vuelve a intentarlo, pasó algo imprevisto",
             showConfirmButton: false,
             timer: 1500,
           });

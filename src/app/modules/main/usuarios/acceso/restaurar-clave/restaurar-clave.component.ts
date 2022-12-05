@@ -142,7 +142,7 @@ export class RestaurarClaveComponent implements OnInit {
           Swal.fire({
             position: "center",
             icon: "success",
-            title: "Actualizacion de Contraseña Exitosa",
+            title: "Actualización de Contraseña Exitosa",
             showConfirmButton: false,
             timer: 1500,
           });
@@ -151,7 +151,7 @@ export class RestaurarClaveComponent implements OnInit {
           Swal.fire({
             position: "center",
             icon: "warning",
-            title: "Ha ocurrido un error, vuelve a intentar",
+            title: "Ocurrió un error, vuelve a intentar",
             showConfirmButton: false,
             timer: 1500,
           });

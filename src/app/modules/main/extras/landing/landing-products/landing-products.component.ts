@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { DashboardService } from "app/modules/services/dashboard/dashboard.service";
 
 import * as reader from 'xlsx';
@@ -14,6 +15,8 @@ export class LandingProductsComponent implements OnInit {
   topPedidosLocales = [];
   totalesTop = [];
   top3 = [];
+  link:any=document.location.href;
+  isDashboard:boolean
 
   dia = new Date().getDate();
   mes = new Date().getMonth() + 1;
@@ -28,7 +31,8 @@ export class LandingProductsComponent implements OnInit {
   };
 
   constructor(
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private activatedRoute:ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -38,6 +42,17 @@ export class LandingProductsComponent implements OnInit {
     this.getDataPedidos(this.initialData);
     this.getDataPedidosLocales(this.initialData);
     this.getDataVentas(this.initialData);
+   let newLink= this.link.split('/')
+    
+    console.log('este es el Link jiji',newLink);
+    if(newLink.includes('dashboard')){
+      this.isDashboard=true;
+      
+    }else{
+      this.isDashboard=false;
+      
+    }
+    
   }
 
   getMonth(event) {

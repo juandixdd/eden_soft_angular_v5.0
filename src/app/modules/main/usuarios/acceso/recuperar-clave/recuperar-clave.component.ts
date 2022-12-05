@@ -97,7 +97,7 @@ export class RecuperarClaveComponent implements OnInit {
         console.log(res);
         if (res.length === 0) {
           Swal.fire({
-            title: "Este correo no esta registrado",
+            title: "Este correo no está registrado",
             confirmButtonText: "OK",
             icon: "error",
             position: "center",
@@ -116,7 +116,7 @@ export class RecuperarClaveComponent implements OnInit {
               if (res.status === 200) {
                 Swal.fire({
                   title:
-                    "Te enviamos un correo de confirmacion, porfavor revisalo!",
+                    "Te enviamos un correo de confirmación, por favor revísalo!",
                   confirmButtonText: "OK",
                   icon: "success",
                   position: "center",
@@ -124,7 +124,7 @@ export class RecuperarClaveComponent implements OnInit {
                 this.timer = false;
               } else {
                 Swal.fire({
-                  title: "Surgio un problema, intentalo de nuevo",
+                  title: "Surgió un problema, inténtalo de nuevo",
                   confirmButtonText: "OK",
                   icon: "error",
                   position: "center",

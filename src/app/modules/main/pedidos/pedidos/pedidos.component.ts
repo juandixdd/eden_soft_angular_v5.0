@@ -97,7 +97,7 @@ export class PedidosComponent implements OnInit {
       res.forEach((item) => {
         console.log(item);
 
-        item.formcontrol = new UntypedFormControl(item.estado);
+        item.formcontrol = new UntypedFormControl(item.estado_pedido);
         this.switchForm.addControl(item.id_pedido, item.formcontrol);
       });
       this.rows = res;

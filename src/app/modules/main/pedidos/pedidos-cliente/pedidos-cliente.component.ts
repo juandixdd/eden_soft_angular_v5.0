@@ -78,6 +78,7 @@ export class PedidosClienteComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPedidos();
+ 
 
     console.log(this.todayDate);
   }
@@ -96,7 +97,7 @@ export class PedidosClienteComponent implements OnInit {
       res.forEach((item) => {
         console.log(item);
         
-         item.formcontrol = new UntypedFormControl(item.estado);
+         item.formcontrol = new UntypedFormControl(item.estado_pedido);
          this.switchForm.addControl(item.id_pedido, item.formcontrol)
        });
       this.rows = res;
@@ -122,6 +123,18 @@ export class PedidosClienteComponent implements OnInit {
     )
   }
 
+  contPrecioTotal: any = 0;
+  getCotizacionesById(id) {
+    console.log(id);
+    this.pedidosService.getCotizacionesById(id).subscribe((res: any) => {
+      this.detallesData = res;
+      console.log(this.detallesData);
+      if (this.detallesData.length > 0) {
+        this.contPrecioTotal = this.detallesData[0].precio_total;
+      }
+    });
+  }
+
   modalOpen(modal) {
     //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {
@@ -139,17 +152,6 @@ export class PedidosClienteComponent implements OnInit {
   onChange(event) {
     this.categoryId = event.id;
     console.log(this.categoryId);
-  }
-
-  getPedidoByCedula(cedula){
-    this.pedidosService.getPedidoByCedula(cedula).subscribe((res: any)=>{
-      this.rows = res;
-      console.log(this.rows);
-      this.estado = true;
-      this._filterRows = res;
-      
-    })
-
   }
 
   defineProductInfo(id) {
@@ -196,21 +198,11 @@ export class PedidosClienteComponent implements OnInit {
     );
   }
 
-  contPrecioTotal: any = 0;
-  getCotizacionesById(id) {
-    console.log(id);
-    this.pedidosService.getCotizacionesById(id).subscribe((res: any) => {
-      this.detallesData = res;
-      console.log(this.detallesData);
-      if (this.detallesData.length > 0) {
-        this.contPrecioTotal = this.detallesData[0].precio_total;
-      }
-    });
-  }
+ 
 
   switchEvent(row){
     let estado = {
-      status: row.estado,
+      status: row.estado_pedido,
     };
     console.log(row.estado);
 
@@ -224,7 +216,7 @@ export class PedidosClienteComponent implements OnInit {
       setTimeout(() => {
         Swal.fire({
           title: "¿Estas seguro?",
-          text: "Anularas el pedido",
+          text: "Se anulará el pedido",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
@@ -245,12 +237,12 @@ export class PedidosClienteComponent implements OnInit {
                     showConfirmButton: false,
                     timer: 1000,
                   });
-                  this.getPedidoByCedula(row.id_cliente_documento);
+                  this.getPedidos();
                 }
               });
           } else {
             console.log("nopi");
-            this.getPedidoByCedula(row.id_cliente_documento);
+            this.getPedidos();
             Swal.fire({
               position: "top-end",
               icon: "warning",

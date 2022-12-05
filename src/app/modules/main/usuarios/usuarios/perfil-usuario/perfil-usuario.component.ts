@@ -55,7 +55,7 @@ export class PerfilUsuarioComponent implements OnInit {
     ],
     telefono: [
       "",
-      [Validators.required, Validators.minLength(7), Validators.maxLength(15)],
+      [Validators.required, Validators.minLength(7), Validators.maxLength(30)],
     ],
     img: [
       "",

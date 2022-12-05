@@ -1,5 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { CoreConfigService } from "@core/services/config.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -72,6 +76,15 @@ export class ProductosComponent implements OnInit {
     };
   }
 
+  //! ------------- GET Y SET PARA EL BUSCADOR -------------
+  get filterRows(): any {
+    return this._filterRows;
+  }
+
+  set filterRows(value) {
+    this._filterRows = value;
+  }
+
   modalOpen(modal, tipo) {
     //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {
@@ -93,10 +106,18 @@ export class ProductosComponent implements OnInit {
     console.log(this.items);
   }
 
+  reloadPage() {
+    setTimeout(() => {
+      this.router
+        .navigate(["/main/home-page"])
+        .then(() => window.location.reload());
+    }, 100);
+  }
+
   getProducts() {
     this.productosService.getDataCatalogo().subscribe((res) => {
       this.products = res;
-      console.log(this.products);  
+      console.log(this.products);
     });
   }
 
@@ -173,9 +194,7 @@ export class ProductosComponent implements OnInit {
   }
 
   generarCotizacion(item) {
-
     try {
-
       this.timer = true;
       let usuario;
       let itemQuantity = [];
@@ -183,9 +202,10 @@ export class ProductosComponent implements OnInit {
       let cont: number = 0;
       let producto: any = {};
 
-      this.clientesInformativosService.getDataById(item.userId).subscribe(
-        (res: any) => {
-          usuario = res[0]
+      this.clientesInformativosService
+        .getDataById(item.userId)
+        .subscribe((res: any) => {
+          usuario = res[0];
           console.log(usuario);
 
           //? Aqui se calcula el total del precio de los productos
@@ -251,14 +271,10 @@ export class ProductosComponent implements OnInit {
 
             this.timer = false;
             this.router.navigate(["main/cotizacion/user"]);
-
-          }, 1500)
-
-        }
-      )
+          }, 1500);
+        });
 
       console.log(item);
-
     } catch (error) {
       Swal.fire({
         position: "top-end",
@@ -269,7 +285,6 @@ export class ProductosComponent implements OnInit {
         timer: 1500,
       });
     }
-
   }
 
   //Buscar
@@ -277,10 +292,8 @@ export class ProductosComponent implements OnInit {
     const val = event.target.value.toLowerCase();
 
     const filterData = this.rows.filter((item: any) => {
-      const filterData =
-        item.id_pedido.toString().toLowerCase().includes(val) ||
-        item.fecha_entrega.toLowerCase().includes(val) ||
-        item.precio_total.toString().toLowerCase().includes(val);
+      const filterData = 
+        item.nombre.toString().toLowerCase().includes(val);
       return filterData;
     });
 
@@ -301,21 +314,43 @@ export class ProductosComponent implements OnInit {
       this.user.correo = this.loginForm.controls["correo"].value;
       this.user.contrasena = this.loginForm.controls["contrasena"].value;
 
-      this.loginService.login(this.user).subscribe((res: any) => {
-        if (res.statusCode == 200) {
-          console.log("Login exitoso");
-          this.generarCotizacion(res);
-          this.modalService.dismissAll();
-          localStorage.setItem("token", res.token);
-          localStorage.setItem("userId", res.userId);
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "El usuario o la contraseña son incorrectos",
-          });
+      this.loginService.login(this.user).subscribe(
+        (res: any) => {
+          console.log(res);
+          if (res.estado === 0) {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Opps, Tu usuario esta desactivado, por favor comunicate a nuestros canales de atencion.",
+              showConfirmButton: true,
+              confirmButtonText: "Ok",
+            });
+          } else {
+            if (res.statusCode == 200) {
+              console.log("Login exitoso")
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Login exitoso',
+                showConfirmButton: false,
+                timer: 1500
+              })
+              localStorage.setItem('token', res.token);
+              localStorage.setItem('userId', res.userId);
+              this.router.navigate(['main/home-page']);
+              this.reloadPage()
+            } else {
+  
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'El usuario o la contraseña son incorrectos'
+              })
+            }
+          }
+  
         }
-      });
+      )
     } else if (this.type === "pedido") {
       this.user.correo = this.loginForm.controls["correo"].value;
       this.user.contrasena = this.loginForm.controls["contrasena"].value;
@@ -335,16 +370,14 @@ export class ProductosComponent implements OnInit {
           });
         }
       });
-
     }
   }
-//! ------------- VALIDACIONES DE CAMPOS Y BOTONES------------- 
+  //! ------------- VALIDACIONES DE CAMPOS Y BOTONES-------------
 
-validField(field: string) {
-  return (
-    this.loginForm.controls[field].errors &&
-    this.loginForm.controls[field].touched
-  );
-}
-
+  validField(field: string) {
+    return (
+      this.loginForm.controls[field].errors &&
+      this.loginForm.controls[field].touched
+    );
+  }
 }

@@ -54,7 +54,7 @@
           [scrollbarH]="true"
         >
           <!-- Column -->
-          <ngx-datatable-column name="#" prop="id_pedido" [width]="20">
+          <ngx-datatable-column name="#" prop="id_pedido" [width]="10">
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">#{{ id }}</p>
             </ng-template>
@@ -75,7 +75,7 @@
           <ngx-datatable-column
             name="usuario"
             prop="Nombre_usuario"
-            [width]="20"
+            [width]="150"
           >
             <ng-template let-id="value" ngx-datatable-cell-template>
               <p class="font-weight-bold text-dark">{{ id }}</p>
@@ -107,7 +107,10 @@
           <!-- Column -->
           <ngx-datatable-column name="estado" prop="estado" [width]="15">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">
+              <p class="font-weight-bold text-success" *ngIf="id === 1">
+                {{ id == 1 ? "Activo" : "Cancelado" }}
+              </p>
+              <p class="font-weight-bold  text-danger" *ngIf="id === 0">
                 {{ id == 1 ? "Activo" : "Cancelado" }}
               </p>
             </ng-template>

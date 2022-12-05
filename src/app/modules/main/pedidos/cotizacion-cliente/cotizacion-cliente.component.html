@@ -85,7 +85,10 @@
           <!-- Column -->
           <ngx-datatable-column name="estado" prop="estado" [width]="15">
             <ng-template let-id="value" ngx-datatable-cell-template>
-              <p class="font-weight-bold text-dark">
+              <p class="font-weight-bold text-success" *ngIf="id === 1">
+                {{ id == 1 ? "Activo" : "Cancelado" }}
+              </p>
+              <p class="font-weight-bold  text-danger" *ngIf="id === 0">
                 {{ id == 1 ? "Activo" : "Cancelado" }}
               </p>
             </ng-template>

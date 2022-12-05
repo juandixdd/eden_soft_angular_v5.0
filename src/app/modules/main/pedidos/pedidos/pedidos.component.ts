@@ -221,9 +221,9 @@ export class PedidosComponent implements OnInit {
           cancelButtonText: "Cancelar",
         }).then((result) => {
           if (result.isConfirmed) {
-            console.log("sipi");
+            console.log("si");
             this.pedidosService
-              .anularCotizacion(row.id_pedido, status)
+              .anularPedido(row.id_pedido, status)
               .subscribe((res: any) => {
                 if (res.status === 200) {
                   Swal.fire({

@@ -85,7 +85,7 @@ export class PermisosComponent implements OnInit {
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "El permiso se creo con exito",
+          title: "El permiso se creó con éxito",
           showConfirmButton: false,
           timer: 1000,
         });
@@ -98,7 +98,7 @@ export class PermisosComponent implements OnInit {
           position: "top-end",
           icon: "error",
           title: "Ooops....",
-          text: "Ha ocurrido un error, intentalo de nuevo",
+          text: "Ocurrió un error, intentalo de nuevo",
           showConfirmButton: false,
           timer: 1000,
           confirmButtonText: "Ok",
@@ -134,8 +134,8 @@ export class PermisosComponent implements OnInit {
 
   deletePermiso(id) {
     Swal.fire({
-      title: '¿Estas seguro?',
-      text: "No podras revertir esto!",
+      title: '¿Estás seguro?',
+      text: "No podrás revertir esto!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
@@ -153,7 +153,7 @@ export class PermisosComponent implements OnInit {
             Swal.fire({
               position: 'top-end',
               icon: 'success',
-              title: 'Permiso eliminado con exito',
+              title: 'Permiso eliminado con éxito',
               showConfirmButton: false,
               timer: 1000
             });

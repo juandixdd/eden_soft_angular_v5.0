@@ -158,39 +158,5 @@ export class LandingProductsComponent implements OnInit {
 
 
 
-//------ Logida del top 3 ------
 
-// const ventasLocales = [
-//     { id: 1, Nombre: "buñuelo", Ventas: 30 },
-//     { id: 2, Nombre: "Empanada", Ventas: 23 },
-// ]
-
-// const Pedidos = [
-//     { id: 1, Nombre: "buñuelo", Ventas: 32 },
-//     { id: 3, Nombre: "Leche", Ventas: 44 },
-//     { id: 2, Nombre: "Empanada", Ventas: 50 }
-// ]
-
-// const array = ventasLocales.concat(Pedidos);
-
-// let top3 = array.reduce((acc,valorActual) => {
-//     let siExiste = acc.find(elemento => elemento.id === valorActual.id
-//     );
-
-//     //si hay objetos
-//     if (siExiste) {
-//         return acc.map(elemento => {
-//             if (elemento.id === valorActual.id) {
-//                 return {
-//                     ...elemento,
-//                     Ventas: elemento.Ventas + valorActual.Ventas,
-//                 };
-//             }
-//             return elemento
-//         });
-//     }
-//     return [...acc, valorActual];
-// }, []);
-
-// console.log(top3);
 

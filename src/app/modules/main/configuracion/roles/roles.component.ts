@@ -129,7 +129,7 @@ export class RolesComponent implements OnInit {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Ha ocurrido un error, por favor intente nuevamente",
+          text: "Ocurrió un error, por favor intente nuevamente",
           confirmButtonText: "Ok",
         });
       }

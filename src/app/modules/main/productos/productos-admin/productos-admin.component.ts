@@ -329,7 +329,7 @@ export class ProductosAdminComponent implements OnInit {
             Swal.fire({
               position: 'top-end',
               icon: 'success',
-              title: 'Permiso eliminado con exito',
+              title: 'Producto eliminado con exito',
               showConfirmButton: false,
               timer: 1000
             });
@@ -339,24 +339,6 @@ export class ProductosAdminComponent implements OnInit {
     })
   }
 
-
-  confirmAlert() {
-    //? Esta es la funcion que abre el sweetAlert de confirmacion.
-    Swal.fire({
-      title: "¿Estas seguro?",
-      text: "No podras revertir esto!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, eliminar!",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.value) {
-        Swal.fire("Eliminado!", "El producto ha sido eliminada.", "success");
-      }
-    });
-  }
 
 
   switchEvent({ target }, row) {

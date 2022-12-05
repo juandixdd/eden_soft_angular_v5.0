@@ -192,7 +192,7 @@ export class ProductosAdminComponent implements OnInit {
           Swal.fire({
             position: "center",
             icon: "error",
-            title: "Opps, esta producto ya se encuentra registrada",
+            title: "Opps, este producto ya se encuentra registrado",
             showConfirmButton: true,
             confirmButtonText: "Ok",
           });
@@ -254,30 +254,47 @@ export class ProductosAdminComponent implements OnInit {
         imagen: this.productFormEdit.value.imagen,
         categoria: this.categoryId
       }
+      let exists: boolean;
+      this.productosService.validateProductExists(edit.nombre).subscribe((res: any)=>{
+        
+        
+        if (res.exists === false){
+          try {
+            console.log(edit);
+            this.productosService.updateData(this.editProducto.id, edit).subscribe(
+              (res: any) => {
+                console.log(this.editProducto);
+                this.productosService.updateData(this.editProducto.id, edit).subscribe(
+                  (res: any) => {
+                    console.log(this.editProducto);
+      
+                    Swal.fire({
+                      position: 'center',
+                      icon: 'success',
+                      title: 'Actualizacion de Datos Exitosa',
+                      showConfirmButton: false,
+                      timer: 1500
+                    });
+                    this.getProducts();
+                    this.modalService.dismissAll();
+                  })
+      
+              })
 
-      console.log(edit);
-
-      this.productosService.updateData(this.editProducto.id, edit).subscribe(
-        (res: any) => {
-          console.log(this.editProducto);
-          this.productosService.updateData(this.editProducto.id, edit).subscribe(
-            (res: any) => {
-              console.log(this.editProducto);
-
-              Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Actualizacion de Datos Exitosa',
-                showConfirmButton: false,
-                timer: 1500
-              });
-              this.getProducts();
-              this.modalService.dismissAll();
-            }
-          )
-
+          } catch (error) {
+            console.log(error);
+          }
+        } else if (res.exists === true){
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Opps, este producto ya se encuentra registrado",
+            showConfirmButton: true,
+            confirmButtonText: "Ok",
+          });
+          this.productForm.reset();
         }
-      )
+      })
     } catch (error) {
       console.log(error);
       Swal.fire({

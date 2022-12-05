@@ -30,22 +30,9 @@
               class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0"
             >
               <!-- ?Buscador -->
-              <label class="d-flex align-items-center"
-                ><input
-                  type="search"
-                  placeholder="Buscar"
-                  class="form-control ml-25"
-                  (keyup)="filterUpdate($event)"
-              /></label>
-
-              <!-- ? Botón de crear -->
-              <button
-                class="btn btn-primary ml-2"
-                (click)="modalOpen(modalForm)"
-                rippleEffect
-              >
-                <i class="feather icon-check-circle"></i> Nuevo Permiso
-              </button>
+              
+         
+            
             </div>
           </div>
         </div>
@@ -75,162 +62,9 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <!-- Column -->
-          <ngx-datatable-column name="Funciones" prop="cancel" [width]="30">
-            <ng-template
-              let-id="value"
-              ngx-datatable-cell-template
-              let-row="row"
-            >
-              <!-- Icono x rojo -->
 
-              <button
-                class="btn btn-icon btn-sm"
-                (click)="modalOpen(modalEdit); getRowData(row) "
-              >
-                <i class="feather icon-edit text-primary"></i>
-              </button>
-              <button class="btn btn-icon btn-sm">
-                <i
-                  class="feather icon-trash-2 text-danger"
-                  (click)="deletePermiso(row.id)"
-                ></i>
-              </button>
-            </ng-template>
-          </ngx-datatable-column>
         </ngx-datatable>
       </div>
     </section>
   </div>
-</div>
-
-<!-- *************************************************** MODALS *************************************************** -->
-
-<!-- ! Modal de agregar -->
-<div class="login-form">
-  <!-- Modal -->
-  <ng-template #modalForm let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="myModalLabel1">Agregar</h4>
-      <button
-        type="button"
-        class="close"
-        (click)="modal.dismiss('Cross click')"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" tabindex="0" ngbAutofocus>
-      <form class="form" [formGroup]="permisosForm">
-        <div class="form-group">
-          <label for="first-name-column">Nombres</label>
-          <input type="text" class="form-control" formControlName="nombre" />
-          <span *ngIf="validField('nombre')" class="text-danger">
-            Este campo es requerido
-            <br />
-          </span>
-
-          <label for="first-name-column">Modulo</label><br />
-          <select class="form-control mx-25" formControlName="modulo">
-            <option value="Usuarios">Usuarios</option>
-            <option value="Productos">Productos</option>
-            <option value="Pedidos">Pedidos</option>
-            <option value="Ventas">Ventas</option>
-            <option value="Configuracion">Configuracion</option>
-          </select>
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <div class="col-12">
-        <div class="row justify-content-end">
-          <button
-            type="reset"
-            rippleEffect
-            class="btn btn-outline-secondary mr-1"
-            (click)="resetForm()"
-          >
-            Limpiar campos
-          </button>
-          <button
-            rippleEffect
-            class="btn btn-primary"
-            (click)="createPermisos()"
-            [disabled]="!permisosForm.valid"
-          >
-            Registrar
-          </button>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-  <!-- / Modal -->
-</div>
-
-<!-- ! Modal de editar -->
-
-<div class="login-form">
-  <!-- Modal -->
-  <ng-template #modalEdit let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="myModalLabel1">Editar</h4>
-      <button
-        type="button"
-        class="close"
-        (click)="modal.dismiss('Cross click')"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" tabindex="0" ngbAutofocus>
-      <form class="form" [formGroup]="permisosFormEdit">
-        <div class="form-group">
-          <label for="first-name-column">Nombres</label>
-          <input
-            type="text"
-            id="first-name-column"
-            class="form-control"
-            formControlName="nombre"
-          />
-          <span *ngIf="validFieldEdit('nombre')" class="text-danger">
-            Este campo es requerido
-            <br />
-          </span>
-          <label for="first-name-column">Modulo</label><br />
-          <select class="form-control mx-25" formControlName="modulo">
-            <option value="Usuarios">Usuarios</option>
-            <option value="Productos">Productos</option>
-            <option value="Pedidos">Pedidos</option>
-            <option value="Ventas">Ventas</option>
-            <option value="Configuracion">Configuracion</option>
-          </select>
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <div class="col-12">
-        <div class="row justify-content-end">
-          <button
-            type="reset"
-            rippleEffect
-            class="btn btn-outline-secondary mr-1"
-            (click)="resetForm()"
-          >
-            Limpiar campos
-          </button>
-          <button
-            rippleEffect
-            class="btn btn-primary"
-            (click)="updatePermiso()"
-            [disabled]="!permisosFormEdit.valid"
-          >
-            Actualizar
-          </button>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-  <!-- / Modal -->
 </div>

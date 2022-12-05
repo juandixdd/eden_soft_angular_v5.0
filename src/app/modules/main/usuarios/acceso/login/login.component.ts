@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit {
     ],
     contrasena: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+      [Validators.required, Validators.minLength(5), Validators.maxLength(30)],
     ],
   })
 

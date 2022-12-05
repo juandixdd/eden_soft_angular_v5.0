@@ -1,5 +1,5 @@
-@import '@core/scss/base/bootstrap-extended/include'; // Bootstrap includes
-@import '@core/scss/base/components/include'; // Components includes
+@import "@core/scss/base/bootstrap-extended/include"; // Bootstrap includes
+@import "@core/scss/base/components/include"; // Components includes
 
 // To open dd on right
 .dropdown-menu-right {
@@ -27,7 +27,7 @@ app-navbar-bookmark {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 20px 0px !important;
 }
 
-.linea{
+.linea {
   border-left: 2px solid grey;
   margin-left: 10px;
 }
@@ -47,4 +47,9 @@ app-navbar-bookmark {
       }
     }
   }
+}
+
+.video {
+  width: 100%;
+  height: auto;
 }

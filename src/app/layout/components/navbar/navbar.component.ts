@@ -253,6 +253,7 @@ export class NavbarComponent implements OnInit {
   modalOpen(modal) { //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {
       centered: true,
+      size: 'lg'
     });
   }
 

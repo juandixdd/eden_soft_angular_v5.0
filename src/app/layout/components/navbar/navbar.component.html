@@ -120,15 +120,44 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <h3>Para ayuda en línea por favor ingresa al siguiente link.</h3>
-            <p>
-              <a
-                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
-                target="_blank"
+            <div class="nav-vertical">
+              <ul
+                ngbNav
+                #navVertical="ngbNav"
+                class="nav nav-tabs nav-left flex-column"
               >
-                https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley</a
-              >
-            </p>
+                <!-- ! Este es el elemnto del módulo, es decir el video -->
+                <li ngbNavItem>
+                  <a ngbNavLink>Ventas locales</a>
+                  <ng-template ngbNavContent>
+                    <!-- plyr video -->
+                    <video
+                      controls
+                      autoplay
+                      src="../../../../assets/videos/ayuda_en_linea/ventas_locales.mp4"
+                      class="video"
+                    ></video>
+
+                    <!--/ plyr video -->
+                  </ng-template>
+                </li>
+                <li ngbNavItem>
+                  <a ngbNavLink>Ejemplo</a>
+                  <ng-template ngbNavContent>
+                    <!-- plyr video -->
+                    <video
+                      controls
+                      autoplay
+                      src="../../../../assets/videos/bohemian-rhapsody.mp4"
+                      class="video"
+                    ></video>
+
+                    <!--/ plyr video -->
+                  </ng-template>
+                </li>
+              </ul>
+              <div [ngbNavOutlet]="navVertical"></div>
+            </div>
           </div>
         </div>
       </div>

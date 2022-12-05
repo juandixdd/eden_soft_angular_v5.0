@@ -18,4 +18,8 @@ export class AbonosService {
   createData(data) {
     return this.http.post(`${this.API_URL}/abonos`, data)
   }
+
+  createDataPedido(data) {
+    return this.http.post(`${this.API_URL}/abonos/pedido`, data)
+  }
 }

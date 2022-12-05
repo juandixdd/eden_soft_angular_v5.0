@@ -240,7 +240,7 @@ export class CreateClientComponent implements OnInit {
                                 valor: this.fullDiscount,
                               };
                               this.abonosService
-                              .createData(abono).subscribe((res: any) => {
+                              .createDataPedido(abono).subscribe((res: any) => {
                                 console.log(res);
                               })
                             } else {
@@ -329,7 +329,7 @@ export class CreateClientComponent implements OnInit {
                         valor: this.fullDiscount,
                       };
                       this.abonosService
-                        .createData(abono)
+                        .createDataPedido(abono)
                         .subscribe((res: any) => {
                           console.log(res);
                         });

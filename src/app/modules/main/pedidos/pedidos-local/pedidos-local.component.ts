@@ -80,6 +80,8 @@ export class PedidosLocalComponent implements OnInit {
       });
       this.rows = res;
       this.filterRows = res;
+      console.log(res);
+      
     });
   }
 
@@ -135,7 +137,7 @@ export class PedidosLocalComponent implements OnInit {
         fecha_registro: res[0].fecha_registro,
         fecha_entrega: res[0].fecha_entrega,
         precio_total: res[0].precio_total,
-        estado: res[0].estado,
+        estado: res[0].estado_pedido,
         cantidad_abono: res[0].cantidad_abono,
         faltante: res[0].precio_total - res[0].cantidad_abono,
         estado_abono: res[0].estado_abono,
@@ -180,20 +182,6 @@ export class PedidosLocalComponent implements OnInit {
             console.log(row.id_pedido_local);
             console.log(status);
 
-            // this.pedidoLocalService
-            //   .anularPedidoLocal(row.id_venta, status)
-            //   .subscribe((res: any) => {
-            //     if (res.status === 200) {
-            //       Swal.fire({
-            //         position: "top-end",
-            //         icon: "success",
-            //         title: "Se cambió el estado del pedido",
-            //         showConfirmButton: false,
-            //         timer: 1000,
-            //       });
-            //       this.getPedidosLocales();
-            //     }
-            //   });
           } else {
             Swal.fire({
               position: "top-end",

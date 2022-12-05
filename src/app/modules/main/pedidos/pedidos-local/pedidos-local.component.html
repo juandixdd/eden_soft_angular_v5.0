@@ -84,21 +84,21 @@
               <p
                 class="font-weight-bold text-danger"
                 style="margin: 0px auto"
-                *ngIf="row.estado === 0"
+                *ngIf="row.estado_pedido === 0"
               >
                 <i class="fa fa-circle"></i>
               </p>
               <p
                 class="font-weight-bold text-success"
                 style="margin: 0px auto"
-                *ngIf="row.estado === 1"
+                *ngIf="row.estado_pedido === 1"
               >
                 <i class="fa fa-circle"></i>
               </p>
               <p
                 class="font-weight-bold text-warning"
                 style="margin: 0px auto"
-                *ngIf="row.estado === 2"
+                *ngIf="row.estado_pedido === 2"
               >
                 <i class="fa fa-circle"></i>
               </p>
@@ -118,11 +118,11 @@
            >
              <select
                class="custom-select"
-               *ngIf="row.estado === 1 || row.estado === 2"
+               *ngIf="row.estado_pedido === 1 || row.estado_pedido=== 2"
                (change)="selectEvent($event, row.id_pedido_local)"
              >
-               <option value="1" [selected]="row.estado === 1">Pagado</option>
-               <option value="2" [selected]="row.estado === 2">Abonado</option>
+               <option value="1" [selected]="row.estado_pedido === 1">Pagado</option>
+               <option value="2" [selected]="row.estado_pedido === 2">Abonado</option>
                <option
                  value="0"
                  [disabled]="row.estado === 0"
@@ -133,7 +133,7 @@
              </select>
              <p
                class="text-danger col-auto"
-               *ngIf="row.estado === 0"
+               *ngIf="row.estado_pedido === 0"
                style="margin: 0px auto"
              >
                Inactivo

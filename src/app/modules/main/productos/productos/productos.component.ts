@@ -270,7 +270,7 @@ export class ProductosComponent implements OnInit {
             });
 
             this.timer = false;
-            this.router.navigate(["main/cotizacion/user"]);
+            this.router.navigate(['main/home-page']);
           }, 1500);
         });
 
@@ -321,31 +321,23 @@ export class ProductosComponent implements OnInit {
             Swal.fire({
               position: "center",
               icon: "error",
-              title: "Opps, Tu usuario esta desactivado, por favor comunicate a nuestros canales de atencion.",
+              title: "Opps, Tu usuario esta desactivado, por favor comunicate a nuestros canales de atención.",
               showConfirmButton: true,
               confirmButtonText: "Ok",
             });
           } else {
             if (res.statusCode == 200) {
-              console.log("Login exitoso")
-              Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Login exitoso',
-                showConfirmButton: false,
-                timer: 1500
-              })
-              localStorage.setItem('token', res.token);
-              localStorage.setItem('userId', res.userId);
-              this.router.navigate(['main/home-page']);
-              this.reloadPage()
+              console.log("Login exitoso");
+              this.generarCotizacion(res);
+              this.modalService.dismissAll();
+              localStorage.setItem("token", res.token);
+              localStorage.setItem("userId", res.userId);
             } else {
-  
               Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'El usuario o la contraseña son incorrectos'
-              })
+                icon: "error",
+                title: "Oops...",
+                text: "El usuario o la contraseña son incorrectos",
+              });
             }
           }
   

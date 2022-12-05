@@ -270,7 +270,7 @@ export class ProductosComponent implements OnInit {
             });
 
             this.timer = false;
-            this.router.navigate(['main/home-page']);
+            this.router.navigate(['main/perfil-usuario']);
           }, 1500);
         });
 

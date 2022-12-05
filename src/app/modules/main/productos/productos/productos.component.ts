@@ -23,6 +23,8 @@ import Swal from "sweetalert2";
 })
 export class ProductosComponent implements OnInit {
   products: any;
+  rows: any = [];
+  _filterRows: any;
   carritoProductsIds: any = [];
   arrayProducts: any;
   wishListIds: any = [];
@@ -268,6 +270,24 @@ export class ProductosComponent implements OnInit {
       });
     }
 
+  }
+
+  //Buscar
+  filterUpdate(event) {
+    const val = event.target.value.toLowerCase();
+
+    const filterData = this.rows.filter((item: any) => {
+      const filterData =
+        item.id_pedido.toString().toLowerCase().includes(val) ||
+        item.fecha_entrega.toLowerCase().includes(val) ||
+        item.precio_total.toString().toLowerCase().includes(val);
+      return filterData;
+    });
+
+    // update the rows
+    this._filterRows = filterData;
+
+    console.log(filterData);
   }
 
   togglePasswordTextType() {

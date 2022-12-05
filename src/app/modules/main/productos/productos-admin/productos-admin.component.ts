@@ -34,7 +34,7 @@ export class ProductosAdminComponent implements OnInit {
   imgName: any;
   row: any;
   idEdit: any;
-  productUpdate: any= null;
+  productUpdate: any = null;
   categoriaData: any;
   productData: any;
   editProduct: any = {};
@@ -42,16 +42,18 @@ export class ProductosAdminComponent implements OnInit {
   timer: boolean = false;
   options: any = [];
   productInfo = {};
-  editProducto:any = {};
+  editProducto: any = {};
   nombreCategoria: any;
   _filterRows: any = [];
+  categoriaOfProductId: any;
+  oneCategoria: any;
 
   constructor(
     private modalService: NgbModal,
     private productosService: ProductosService,
     private categoriasService: CategoriaService,
     private fb: UntypedFormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getProducts();
@@ -94,22 +96,26 @@ export class ProductosAdminComponent implements OnInit {
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
     ],
+    categoria: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
+    ],
   });
 
   //! ------------- SWITCH DE UN PRODUCTO ------------- 
   public switchForm: UntypedFormGroup = this.fb.group({
-    estado:[]
+    estado: []
   })
 
-    //! ------------- GET Y SET PARA EL BUSCADOR ------------- 
-    get filterRows(): any {
-      return this._filterRows;
-    }
-  
-    set filterRows(value) {
-      this._filterRows = value;
-    }
-  
+  //! ------------- GET Y SET PARA EL BUSCADOR ------------- 
+  get filterRows(): any {
+    return this._filterRows;
+  }
+
+  set filterRows(value) {
+    this._filterRows = value;
+  }
+
   //! ------------- ESTA FUNCION ABRE LAS MODALES ------------- 
   modalOpen(modal) { //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {
@@ -120,10 +126,10 @@ export class ProductosAdminComponent implements OnInit {
   getProducts() {
     this.productosService.getData().subscribe((res: any) => {
       res.forEach((item) => {
-        console.log(item);    
-         item.formcontrol = new UntypedFormControl(item.estado);
-         this.switchForm.addControl(item.id, item.formcontrol)
-       });
+        console.log(item);
+        item.formcontrol = new UntypedFormControl(item.estado);
+        this.switchForm.addControl(item.id, item.formcontrol)
+      });
       this.rows = res;
       this.filterRows = res;
       console.log(this.rows);
@@ -133,20 +139,22 @@ export class ProductosAdminComponent implements OnInit {
   getCategorias() {
     this.categoriasService.getData().subscribe((res: any) => {
       this.selectBasic = of(res).pipe();
-      console.log(this.selectBasic);
+      console.log("Categorias", res);
 
     });
   }
 
+
+
   defineProductInfo(id) {
     this.productosService.getDataById(id).subscribe(
-      (res:any)=>{
-        this.productInfo=res[0]
+      (res: any) => {
+        this.productInfo = res[0]
       }
     )
   }
 
-   //! ------------- CREAR UN PRODUCTO ------------- 
+  //! ------------- CREAR UN PRODUCTO ------------- 
   createProduct() {
     this.product = {
       nombre: this.productForm.value.nombre,
@@ -155,31 +163,32 @@ export class ProductosAdminComponent implements OnInit {
       imagen: this.productForm.value.imagen,
       estado: 1,
     };
+    
     let exists: boolean;
     this.productosService.validateProductExists(this.product.nombre).subscribe(
       (res: any) => {
         console.log("oe");
-        
-        if(res.exists === false){
-        try{
-          this.productosService.createProduct(this.product).subscribe((res: any)=>{
-            console.log("holi");         
-            Swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "Producto creado",
-              text: "El producto se ha creado correctamente",
-              showConfirmButton: false,
-              timer: 1000,
+
+        if (res.exists === false) {
+          try {
+            this.productosService.createProduct(this.product).subscribe((res: any) => {
+              console.log("holi");
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Producto creado",
+                text: "El producto se ha creado correctamente",
+                showConfirmButton: false,
+                timer: 1000,
+              });
+              this.getProducts();
+              this.modalService.dismissAll();
+              this.productForm.reset();
             });
-            this.getProducts();
-            this.modalService.dismissAll();
-            this.productForm.reset();
-          });
-        }catch(error){
-          console.log(error);
-        }
-        }else if (res.exists === true) {
+          } catch (error) {
+            console.log(error);
+          }
+        } else if (res.exists === true) {
           Swal.fire({
             position: "center",
             icon: "error",
@@ -192,30 +201,44 @@ export class ProductosAdminComponent implements OnInit {
       })
   }
 
+
+
+  getOneCategoria(id) {
+    this.categoriasService.getDataById(id).subscribe((res: any) => {
+      this.oneCategoria = res[0]
+      console.log(res);
+
+    });
+  }
+
   getRowData(row) {
-    this.editProducto={
-      nombre : row.nombre,
+    this.editProducto = {
+      nombre: row.nombre,
       precio: row.precio,
       id: row.id,
       imagen: row.imagen,
+      categoria: row.categoria
     }
 
-    this.productosService.getDataById(row.id).subscribe((res:any)=>{
-        this.nombreCategoria = res[0].nombre
-        this.productFormEdit.controls['nombre'].setValue(row.nombre);
-        this.productFormEdit.controls['precio'].setValue(row.precio);
-        this.productFormEdit.controls['id'].setValue(this.nombreCategoria);
-        this.productFormEdit.controls['imagen'].setValue(row.imagen);
-        console.log(res);
-      }     
-    )
+    this.categoriaOfProductId = this.editProducto.categoria
+    this.getOneCategoria(this.categoriaOfProductId)
+
+
+    this.productosService.getDataById(row.id).subscribe((res: any) => {
+      this.nombreCategoria = res[0].nombre
       this.productFormEdit.controls['nombre'].setValue(row.nombre);
       this.productFormEdit.controls['precio'].setValue(row.precio);
-      this.productFormEdit.controls['id'].setValue(row.id);
+      this.productFormEdit.controls['id'].setValue(this.nombreCategoria);
       this.productFormEdit.controls['imagen'].setValue(row.imagen);
+    }
+    )
+    this.productFormEdit.controls['nombre'].setValue(row.nombre);
+    this.productFormEdit.controls['precio'].setValue(row.precio);
+    this.productFormEdit.controls['id'].setValue(row.id);
+    this.productFormEdit.controls['imagen'].setValue(row.imagen);
 
   }
-  
+
   onChange(event) {
     this.categoryId = event.id;
     console.log(this.categoryId);
@@ -225,19 +248,22 @@ export class ProductosAdminComponent implements OnInit {
   updateData() {
     try {
       let edit = {
-        nombre:this.productFormEdit.value.nombre,
-        precio:this.productFormEdit.value.precio,
-        id:this.categoryId || this.editProducto.id,
-        imagen:this.productFormEdit.value.imagen
-
+        nombre: this.productFormEdit.value.nombre,
+        precio: this.productFormEdit.value.precio,
+        id: this.categoryId || this.editProducto.id,
+        imagen: this.productFormEdit.value.imagen,
+        categoria: this.categoryId
       }
+
+      console.log(edit);
+
       this.productosService.updateData(this.editProducto.id, edit).subscribe(
         (res: any) => {
           console.log(this.editProducto);
           this.productosService.updateData(this.editProducto.id, edit).subscribe(
             (res: any) => {
               console.log(this.editProducto);
-              
+
               Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -264,7 +290,7 @@ export class ProductosAdminComponent implements OnInit {
     }
   }
 
-//! ------------- ELIMINAR UN PRODUCTO ------------- 
+  //! ------------- ELIMINAR UN PRODUCTO ------------- 
   deleteProducto(id) {
     Swal.fire({
       title: '¿Estas seguro?',
@@ -316,13 +342,13 @@ export class ProductosAdminComponent implements OnInit {
   }
 
 
-  switchEvent({target}, row){
+  switchEvent({ target }, row) {
     let checked = target.checked;
     let status = {
       estado: checked
     }
     console.log(status);
-    setTimeout(()=>{
+    setTimeout(() => {
       Swal.fire({
         title: '¿Estas seguro?',
         text: "Cambiarás el estado de este producto",
@@ -335,8 +361,8 @@ export class ProductosAdminComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
           this.productosService.cambiarEstado(row.id, status).subscribe(
-            (res:any) =>{
-              if(res.status === 200){
+            (res: any) => {
+              if (res.status === 200) {
                 Swal.fire({
                   position: 'top-end',
                   icon: 'success',
@@ -348,7 +374,7 @@ export class ProductosAdminComponent implements OnInit {
               }
             }
           )
-            
+
         }
         else {
           this.getProducts();
@@ -361,26 +387,26 @@ export class ProductosAdminComponent implements OnInit {
           })
         }
       })
-    },100)
+    }, 100)
   }
 
-//! ------------- BUSCADOR DE PRODUCTOS ------------- 
-filterUpdate(event) {
-  const val = event.target.value.toLowerCase();
+  //! ------------- BUSCADOR DE PRODUCTOS ------------- 
+  filterUpdate(event) {
+    const val = event.target.value.toLowerCase();
 
-  const filterData = this.rows.filter((item: any) => {
-    const filterData =
-    item.id.toString().toLowerCase().includes(val) ||
-    item.nombre.toString().toLowerCase().includes(val) ||
-    item.precio.toString().toLowerCase().includes(val); ; 
-    return filterData;
-  });
+    const filterData = this.rows.filter((item: any) => {
+      const filterData =
+        item.id.toString().toLowerCase().includes(val) ||
+        item.nombre.toString().toLowerCase().includes(val) ||
+        item.precio.toString().toLowerCase().includes(val);;
+      return filterData;
+    });
 
-  // update the rows
-  this.filterRows = filterData;
+    // update the rows
+    this.filterRows = filterData;
 
-  console.log(filterData);
-}
+    console.log(filterData);
+  }
 
   //! ------------- VALIDACIONES DE CAMPOS Y DE BOTONOS ------------- 
   validField(field: string) {

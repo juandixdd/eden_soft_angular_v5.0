@@ -332,8 +332,8 @@
                 <ng-select
                   [items]="selectBasic | async"
                   bindLabel="nombre"
-                  formControlName="id"
-                  [ngModel]="nombre_categoria"
+                  formControlName="categoria"
+                  [ngModel]="this.oneCategoria"
                   placeholder="Seleccione una Categoria "
                   (change)="onChange($event)"
                 >

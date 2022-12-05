@@ -204,7 +204,6 @@ export class NavbarComponent implements OnInit {
     this.usuariosService.getDataById(this.userID).subscribe(
       (res: any) => {
         this.user = res[0];
-        console.log("Dataaaa", this.user);
         this.img = res[0].img || "../../../../assets/images/avatars/usuario.png"
 
       }

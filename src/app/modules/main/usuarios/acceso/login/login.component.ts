@@ -105,10 +105,8 @@ export class LoginComponent implements OnInit {
   }
 
   googleLogin() {
-    
-    
     this.authGoogle.authState.subscribe((user) => {
-      
+
       this.googleUser = user;
 
       this.usuariosService.getDataByEmail(this.googleUser.email).subscribe(
@@ -121,12 +119,30 @@ export class LoginComponent implements OnInit {
             this.googleUser = "";
           }
           else {
-            console.log("Lo deja pasar");
+            let userType: any;
             localStorage.setItem("token", this.googleUser.idToken)
             this.router.navigate(['main/home-page']);
             localStorage.setItem('userId', res[0].id_cliente_documento);
-            this.googleUser = "";
-            this.reloadPage()
+            console.log("Google user: ", this.googleUser.email);
+            this.usuariosService.getDataByEmail(this.googleUser.email).subscribe(
+              (res: any) => {
+                userType = res[0]
+                console.log(userType);
+
+                if (userType.id_rol == 10) {
+                  this.router
+                    .navigate(["/main/perfil-usuario"])
+                    .then(() => window.location.reload());
+                  this.googleUser = "";
+                } else {
+                  this.router
+                    .navigate(["/main/home-page"])
+                    .then(() => window.location.reload());
+                  this.googleUser = "";
+                }
+              }
+            )
+            // this.reloadPage()
           }
 
         }
@@ -134,7 +150,7 @@ export class LoginComponent implements OnInit {
 
     })
 
-    
+
 
   }
 
@@ -144,39 +160,39 @@ export class LoginComponent implements OnInit {
 
     this.loginService.login(this.user).subscribe(
       (res: any) => {
-       console.log(res);
-       if(res.estado===0){
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Opps, Tu usuario esta desactivado, por favor comunicate a nuestros canales de atencion.",
-          showConfirmButton: true,
-          confirmButtonText: "Ok",
-        });
-       }else{
-        if (res.statusCode == 200) {
-          console.log("Login exitoso")
+        console.log(res);
+        if (res.estado === 0) {
           Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Login exitoso',
-            showConfirmButton: false,
-            timer: 1500
-          })
-          localStorage.setItem('token', res.token);
-          localStorage.setItem('userId', res.userId);
-          this.router.navigate(['main/home-page']);
-          this.reloadPage()
+            position: "center",
+            icon: "error",
+            title: "Opps, Tu usuario esta desactivado, por favor comunicate a nuestros canales de atencion.",
+            showConfirmButton: true,
+            confirmButtonText: "Ok",
+          });
         } else {
+          if (res.statusCode == 200) {
+            console.log("Login exitoso")
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Login exitoso',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            localStorage.setItem('token', res.token);
+            localStorage.setItem('userId', res.userId);
+            this.router.navigate(['main/home-page']);
+            this.reloadPage()
+          } else {
 
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'El usuario o la contraseña son incorrectos'
-          })
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'El usuario o la contraseña son incorrectos'
+            })
+          }
         }
-       }
-        
+
       }
     )
 

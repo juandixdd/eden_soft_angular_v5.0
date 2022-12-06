@@ -291,22 +291,6 @@ export class ProductosComponent implements OnInit {
     }
   }
 
-  //Buscar
-  filterUpdate(event) {
-    const val = event.target.value.toLowerCase();
-
-    const filterData = this.rows.filter((item: any) => {
-      const filterData =
-        item.nombre.toString().toLowerCase().includes(val);
-      return filterData;
-    });
-
-    // update the rows
-    this._filterRows = filterData;
-
-    console.log(filterData);
-  }
-
   togglePasswordTextType() {
     this.passwordTextType = !this.passwordTextType;
   }

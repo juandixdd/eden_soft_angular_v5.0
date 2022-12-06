@@ -44,13 +44,13 @@
             type="search"
             placeholder="Buscar"
             class="form-control ml-25"
-            (keyup)="filterUpdate($event)"
+            (keyup)="searchTerm$.next($event.target.value)"
         /></label>
       </div>
 
     </div>
     <div class="row justify-content-center">
-      <div class="col-md-3" *ngFor="let product of products">
+      <div class="col-md-3" *ngFor="let product of listFiltered">
         <div class="card" style="border-radius: 15px">
           <div class="product-grid">
             <div class="product-image">

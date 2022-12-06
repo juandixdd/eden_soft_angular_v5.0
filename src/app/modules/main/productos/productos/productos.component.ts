@@ -35,6 +35,8 @@ export class ProductosComponent implements OnInit {
   productxd = [];
   timer: boolean = false;
   type: string = "";
+  listFiltered = [];
+  searchTerm$ = new Subject<string>();
 
   public items = JSON.parse(localStorage.getItem("wishList")) || [];
 
@@ -104,6 +106,7 @@ export class ProductosComponent implements OnInit {
   ngOnInit(): void {
     this.getProducts();
     console.log(this.items);
+    this.filterList();
   }
 
   reloadPage() {
@@ -118,6 +121,7 @@ export class ProductosComponent implements OnInit {
     this.productosService.getDataCatalogo().subscribe((res) => {
       this.products = res;
       console.log(this.products);
+      this.listFiltered = this.products;
     });
   }
 
@@ -292,7 +296,7 @@ export class ProductosComponent implements OnInit {
     const val = event.target.value.toLowerCase();
 
     const filterData = this.rows.filter((item: any) => {
-      const filterData = 
+      const filterData =
         item.nombre.toString().toLowerCase().includes(val);
       return filterData;
     });
@@ -340,7 +344,7 @@ export class ProductosComponent implements OnInit {
               });
             }
           }
-  
+
         }
       )
     } else if (this.type === "pedido") {
@@ -371,5 +375,12 @@ export class ProductosComponent implements OnInit {
       this.loginForm.controls[field].errors &&
       this.loginForm.controls[field].touched
     );
+  }
+
+  filterList(): void {
+    this.searchTerm$.subscribe(term => {
+      this.listFiltered = this.products
+        .filter(item => item.nombre.toLowerCase().indexOf(term.toLowerCase()) >= 0);
+    });
   }
 }

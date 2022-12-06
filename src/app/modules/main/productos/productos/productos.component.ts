@@ -351,8 +351,18 @@ export class ProductosComponent implements OnInit {
       this.user.correo = this.loginForm.controls["correo"].value;
       this.user.contrasena = this.loginForm.controls["contrasena"].value;
 
-      this.loginService.login(this.user).subscribe((res: any) => {
-        if (res.statusCode == 200) {
+      this.loginService.login(this.user).subscribe(
+        (res: any) => {
+          console.log(res);
+          if (res.estado === 0) {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Opps, Tu usuario esta desactivado, por favor comunicate a nuestros canales de atención.",
+              showConfirmButton: true,
+              confirmButtonText: "Ok",
+            });
+          } else if (res.statusCode == 200) {
           console.log("Login exitoso");
           this.router.navigate(["main/pedidos/pago"]);
           this.modalService.dismissAll();

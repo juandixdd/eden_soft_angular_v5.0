@@ -1,6 +1,10 @@
-
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { CategoriaService } from "app/modules/services/categoria/categoria.service";
@@ -53,7 +57,7 @@ export class ProductosAdminComponent implements OnInit {
     private productosService: ProductosService,
     private categoriasService: CategoriaService,
     private fb: UntypedFormBuilder
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getProducts();
@@ -88,10 +92,7 @@ export class ProductosAdminComponent implements OnInit {
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
     ],
-    id: [
-      "",
-      [Validators.required],
-    ],
+    id: ["", [Validators.required]],
     imagen: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
@@ -102,12 +103,12 @@ export class ProductosAdminComponent implements OnInit {
     ],
   });
 
-  //! ------------- SWITCH DE UN PRODUCTO ------------- 
+  //! ------------- SWITCH DE UN PRODUCTO -------------
   public switchForm: UntypedFormGroup = this.fb.group({
-    estado: []
-  })
+    estado: [],
+  });
 
-  //! ------------- GET Y SET PARA EL BUSCADOR ------------- 
+  //! ------------- GET Y SET PARA EL BUSCADOR -------------
   get filterRows(): any {
     return this._filterRows;
   }
@@ -116,8 +117,9 @@ export class ProductosAdminComponent implements OnInit {
     this._filterRows = value;
   }
 
-  //! ------------- ESTA FUNCION ABRE LAS MODALES ------------- 
-  modalOpen(modal) { //? Esta es la funcion que abre las modales.
+  //! ------------- ESTA FUNCION ABRE LAS MODALES -------------
+  modalOpen(modal) {
+    //? Esta es la funcion que abre las modales.
     this.modalService.open(modal, {
       centered: true,
     });
@@ -128,7 +130,7 @@ export class ProductosAdminComponent implements OnInit {
       res.forEach((item) => {
         console.log(item);
         item.formcontrol = new UntypedFormControl(item.estado);
-        this.switchForm.addControl(item.id, item.formcontrol)
+        this.switchForm.addControl(item.id, item.formcontrol);
       });
       this.rows = res;
       this.filterRows = res;
@@ -140,21 +142,16 @@ export class ProductosAdminComponent implements OnInit {
     this.categoriasService.getData().subscribe((res: any) => {
       this.selectBasic = of(res).pipe();
       console.log("Categorias", res);
-
     });
   }
 
-
-
   defineProductInfo(id) {
-    this.productosService.getDataById(id).subscribe(
-      (res: any) => {
-        this.productInfo = res[0]
-      }
-    )
+    this.productosService.getDataById(id).subscribe((res: any) => {
+      this.productInfo = res[0];
+    });
   }
 
-  //! ------------- CREAR UN PRODUCTO ------------- 
+  //! ------------- CREAR UN PRODUCTO -------------
   createProduct() {
     this.product = {
       nombre: this.productForm.value.nombre,
@@ -163,28 +160,31 @@ export class ProductosAdminComponent implements OnInit {
       imagen: this.productForm.value.imagen,
       estado: 1,
     };
-    
+
     let exists: boolean;
-    this.productosService.validateProductExists(this.product.nombre).subscribe(
-      (res: any) => {
+    this.productosService
+      .validateProductExists(this.product.nombre)
+      .subscribe((res: any) => {
         console.log("oe");
 
         if (res.exists === false) {
           try {
-            this.productosService.createProduct(this.product).subscribe((res: any) => {
-              console.log("holi");
-              Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Producto creado",
-                text: "El producto se ha creado correctamente",
-                showConfirmButton: false,
-                timer: 1000,
+            this.productosService
+              .createProduct(this.product)
+              .subscribe((res: any) => {
+                console.log("holi");
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Producto creado",
+                  text: "El producto se ha creado correctamente",
+                  showConfirmButton: false,
+                  timer: 1000,
+                });
+                this.getProducts();
+                this.modalService.dismissAll();
+                this.productForm.reset();
               });
-              this.getProducts();
-              this.modalService.dismissAll();
-              this.productForm.reset();
-            });
           } catch (error) {
             console.log(error);
           }
@@ -198,16 +198,13 @@ export class ProductosAdminComponent implements OnInit {
           });
           this.productForm.reset();
         }
-      })
+      });
   }
-
-
 
   getOneCategoria(id) {
     this.categoriasService.getDataById(id).subscribe((res: any) => {
-      this.oneCategoria = res[0]
+      this.oneCategoria = res[0];
       console.log(res);
-
     });
   }
 
@@ -217,26 +214,23 @@ export class ProductosAdminComponent implements OnInit {
       precio: row.precio,
       id: row.id,
       imagen: row.imagen,
-      categoria: row.categoria
-    }
+      categoria: row.categoria,
+    };
 
-    this.categoriaOfProductId = this.editProducto.categoria
-    this.getOneCategoria(this.categoriaOfProductId)
-
+    this.categoriaOfProductId = this.editProducto.categoria;
+    this.getOneCategoria(this.categoriaOfProductId);
 
     this.productosService.getDataById(row.id).subscribe((res: any) => {
-      this.nombreCategoria = res[0].nombre
-      this.productFormEdit.controls['nombre'].setValue(row.nombre);
-      this.productFormEdit.controls['precio'].setValue(row.precio);
-      this.productFormEdit.controls['id'].setValue(this.nombreCategoria);
-      this.productFormEdit.controls['imagen'].setValue(row.imagen);
-    }
-    )
-    this.productFormEdit.controls['nombre'].setValue(row.nombre);
-    this.productFormEdit.controls['precio'].setValue(row.precio);
-    this.productFormEdit.controls['id'].setValue(row.id);
-    this.productFormEdit.controls['imagen'].setValue(row.imagen);
-
+      this.nombreCategoria = res[0].nombre;
+      this.productFormEdit.controls["nombre"].setValue(row.nombre);
+      this.productFormEdit.controls["precio"].setValue(row.precio);
+      this.productFormEdit.controls["id"].setValue(this.nombreCategoria);
+      this.productFormEdit.controls["imagen"].setValue(row.imagen);
+    });
+    this.productFormEdit.controls["nombre"].setValue(row.nombre);
+    this.productFormEdit.controls["precio"].setValue(row.precio);
+    this.productFormEdit.controls["id"].setValue(row.id);
+    this.productFormEdit.controls["imagen"].setValue(row.imagen);
   }
 
   onChange(event) {
@@ -244,7 +238,7 @@ export class ProductosAdminComponent implements OnInit {
     console.log(this.categoryId);
   }
 
-  //! ------------- EDITAR UN PRODUCTO ------------- 
+  //! ------------- EDITAR UN PRODUCTO -------------
   updateData() {
     try {
       let edit = {
@@ -252,144 +246,118 @@ export class ProductosAdminComponent implements OnInit {
         precio: this.productFormEdit.value.precio,
         id: this.categoryId || this.editProducto.id,
         imagen: this.productFormEdit.value.imagen,
-        categoria: this.categoryId
-      }
-      let exists: boolean;
-      this.productosService.validateProductExists(edit.nombre).subscribe((res: any)=>{
-        
-        
-        if (res.exists === false){
-          try {
-            console.log(edit);
-            this.productosService.updateData(this.editProducto.id, edit).subscribe(
-              (res: any) => {
-                console.log(this.editProducto);
-                this.productosService.updateData(this.editProducto.id, edit).subscribe(
-                  (res: any) => {
-                    console.log(this.editProducto);
-      
-                    Swal.fire({
-                      position: 'center',
-                      icon: 'success',
-                      title: 'Actualizacion de Datos Exitosa',
-                      showConfirmButton: false,
-                      timer: 1500
-                    });
-                    this.getProducts();
-                    this.modalService.dismissAll();
-                  })
-      
-              })
+        categoria: this.categoryId,
+      };
+      console.log(edit);
+      this.productosService
+        .updateData(this.editProducto.id, edit)
+        .subscribe((res: any) => {
+          console.log(this.editProducto);
+          this.productosService
+            .updateData(this.editProducto.id, edit)
+            .subscribe((res: any) => {
+              console.log(this.editProducto);
 
-          } catch (error) {
-            console.log(error);
-          }
-        } else if (res.exists === true){
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "Opps, este producto ya se encuentra registrado",
-            showConfirmButton: true,
-            confirmButtonText: "Ok",
-          });
-          this.productForm.reset();
-        }
-      })
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Actualizacion de Datos Exitosa",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              this.getProducts();
+              this.modalService.dismissAll();
+            });
+        });
     } catch (error) {
       console.log(error);
       Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Opps, Algo Salio mal, intentalo de nuevo',
+        position: "center",
+        icon: "error",
+        title: "Opps, Algo Salio mal, intentalo de nuevo",
         showConfirmButton: true,
-        confirmButtonText: "Ok"
-      })
+        confirmButtonText: "Ok",
+      });
     }
   }
 
-  //! ------------- ELIMINAR UN PRODUCTO ------------- 
+  //! ------------- ELIMINAR UN PRODUCTO -------------
   deleteProducto(id) {
     Swal.fire({
-      title: '¿Estas seguro?',
+      title: "¿Estas seguro?",
       text: "No podras revertir esto!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Si, eliminarlo!',
-      cancelButtonText: 'Cancelar',
-      reverseButtons: true
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Si, eliminarlo!",
+      cancelButtonText: "Cancelar",
+      reverseButtons: true,
     }).then((result) => {
       if (result.value) {
-        this.productosService.deleteData(id).subscribe(
-          (res) => {
-            let data: any = res;
-            this.productInfo = res;
-            this.getProducts();
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: 'Producto eliminado con exito',
-              showConfirmButton: false,
-              timer: 1000
-            });
-          }
-        );
+        this.productosService.deleteData(id).subscribe((res) => {
+          let data: any = res;
+          this.productInfo = res;
+          this.getProducts();
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Producto eliminado con exito",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+        });
       }
-    })
+    });
   }
-
-
 
   switchEvent({ target }, row) {
     let checked = target.checked;
     let status = {
-      estado: checked
-    }
+      estado: checked,
+    };
     console.log(status);
     setTimeout(() => {
       Swal.fire({
-        title: '¿Estas seguro?',
+        title: "¿Estas seguro?",
         text: "Cambiarás el estado de este producto",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Cambiar',
-        cancelButtonText: 'Cancelar'
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Cambiar",
+        cancelButtonText: "Cancelar",
       }).then((result) => {
         if (result.isConfirmed) {
-          this.productosService.cambiarEstado(row.id, status).subscribe(
-            (res: any) => {
+          this.productosService
+            .cambiarEstado(row.id, status)
+            .subscribe((res: any) => {
               if (res.status === 200) {
                 Swal.fire({
-                  position: 'top-end',
-                  icon: 'success',
-                  title: 'Se cambio el estado del producto',
+                  position: "top-end",
+                  icon: "success",
+                  title: "Se cambio el estado del producto",
                   showConfirmButton: false,
-                  timer: 1000
-                })
-                this.getProducts()
+                  timer: 1000,
+                });
+                this.getProducts();
               }
-            }
-          )
-
-        }
-        else {
+            });
+        } else {
           this.getProducts();
           Swal.fire({
-            position: 'top-end',
-            icon: 'warning',
-            title: 'No se cambió el estado del producto',
+            position: "top-end",
+            icon: "warning",
+            title: "No se cambió el estado del producto",
             showConfirmButton: false,
-            timer: 1000
-          })
+            timer: 1000,
+          });
         }
-      })
-    }, 100)
+      });
+    }, 100);
   }
 
-  //! ------------- BUSCADOR DE PRODUCTOS ------------- 
+  //! ------------- BUSCADOR DE PRODUCTOS -------------
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
 
@@ -397,7 +365,7 @@ export class ProductosAdminComponent implements OnInit {
       const filterData =
         item.id.toString().toLowerCase().includes(val) ||
         item.nombre.toString().toLowerCase().includes(val) ||
-        item.precio.toString().toLowerCase().includes(val);;
+        item.precio.toString().toLowerCase().includes(val);
       return filterData;
     });
 
@@ -407,7 +375,7 @@ export class ProductosAdminComponent implements OnInit {
     console.log(filterData);
   }
 
-  //! ------------- VALIDACIONES DE CAMPOS Y DE BOTONOS ------------- 
+  //! ------------- VALIDACIONES DE CAMPOS Y DE BOTONOS -------------
   validField(field: string) {
     return (
       this.productForm.controls[field].errors &&
@@ -421,9 +389,4 @@ export class ProductosAdminComponent implements OnInit {
       this.productFormEdit.controls[field].touched
     );
   }
-
-
-
-
-
 }

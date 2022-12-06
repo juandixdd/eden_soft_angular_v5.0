@@ -155,6 +155,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginUser() {
+    let userType:any;
     this.user.correo = this.loginForm.controls['correo'].value;
     this.user.contrasena = this.loginForm.controls['contrasena'].value;
 
@@ -182,7 +183,26 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('token', res.token);
             localStorage.setItem('userId', res.userId);
             this.router.navigate(['main/home-page']);
-            this.reloadPage()
+            this.usuariosService.getDataById(res.userId).subscribe(
+              (res: any) => {
+                userType = res[0]
+                console.log(userType);
+
+                if (userType.id_rol == 10) {
+                  this.router
+                    .navigate(["/main/perfil-usuario"])
+                    .then(() => window.location.reload());
+                  this.googleUser = "";
+                } else {
+                  this.router
+                    .navigate(["/main/home-page"])
+                    .then(() => window.location.reload());
+                  this.googleUser = "";
+                }
+              }
+            )
+            console.log(res);
+            
           } else {
 
             Swal.fire({
